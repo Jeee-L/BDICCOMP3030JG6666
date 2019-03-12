@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 from flask_mysqldb import MySQL
 import yaml
 
+
 app = Flask(__name__)
 
 db = yaml.load(open('C:/Users/TED/Documents/GitHub/MySimplePythonCode/BDICCOMP3030JG6666/Project/HaoyangLI/db.yaml'))
