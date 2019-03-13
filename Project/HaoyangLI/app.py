@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request,redirect
 from flask_mysqldb import MySQL
 import yaml
+
 
 
 app = Flask(__name__)
@@ -25,8 +26,9 @@ def index():
         cur.execute("INSERT INTO users(name, email) VALUES(%s,%s)",(name,email))
         mysql.connection.commit()
         cur.close()
-        return 'success'
+        return redirect('/users')
     return render_template('test.html')
+
 @app.route('/users')
 def users():
     cur = mysql.connection.cursor()
