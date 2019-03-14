@@ -6,12 +6,11 @@ import yaml
 
 app = Flask(__name__)
 
-db = yaml.load(open('C:/Users/TED/Documents/GitHub/MySimplePythonCode/BDICCOMP3030JG6666/Project/HaoyangLI/db.yaml'))
+db = yaml.load(open('HaoyangLI/db.yaml'))
 app.config['MYSQL_HOST'] = db['mysql_host']
 app.config['MYSQL_USER'] = db['mysql_user']
 app.config['MYSQL_PASSWORD'] = db['mysql_password']
 app.config['MYSQL_DB'] = db['mysql_db']
-
 mysql = MySQL(app)
 
 
@@ -23,7 +22,7 @@ def index():
         name = userDetails['name']
         email = userDetails['email']
         cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO users(name, email) VALUES(%s,%s)",(name,email))
+        cur.execute("INSERT INTO users(name, email) VALUES(%s,%s)" , ( name , email ))
         mysql.connection.commit()
         cur.close()
         return redirect('/users')
