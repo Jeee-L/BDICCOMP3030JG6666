@@ -6,7 +6,7 @@ import yaml
 
 app = Flask(__name__)
 
-db = yaml.load(open('HaoyangLI/db.yaml'))
+db = yaml.load(open('/var/Project/HaoyangLI/db.yaml'))
 app.config['MYSQL_HOST'] = db['mysql_host']
 app.config['MYSQL_USER'] = db['mysql_user']
 app.config['MYSQL_PASSWORD'] = db['mysql_password']
@@ -22,7 +22,7 @@ def index():
         name = userDetails['name']
         email = userDetails['email']
         cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO users(name, email) VALUES(%s,%s)" , ( name , email ))
+        cur.execute("INSERT INTO users(namea, email) VALUES(%s,%s)" , ( name , email ))
         mysql.connection.commit()
         cur.close()
         return redirect('/users')
@@ -37,4 +37,4 @@ def users():
         return render_template('users.html', userDetails=userDetails)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0",port=5000,debug=True)
