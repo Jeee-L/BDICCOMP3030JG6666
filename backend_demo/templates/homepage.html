@@ -7,7 +7,12 @@
 <body>
     <h1>This is the home page</h1>
     <p>Information</p>
-    <a href="{{ url_for('login_page') }}">click here to login</a><br>
-    <a href="{{ url_for('register_page') }}">click here to register</a>
+    {% if user %}
+        <a href="{{ url_for('detail_page') }}">click here to details</a><br>
+        <a href="{{ url_for('logout_page') }}">click here to logout</a>
+    {% else %}
+        <a href="{{ url_for('login_page') }}">click here to login</a><br>
+        <a href="{{ url_for('register_page') }}">click here to register</a>
+    {% endif %}
 </body>
 </html>

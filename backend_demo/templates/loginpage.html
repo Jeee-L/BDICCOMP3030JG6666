@@ -8,11 +8,12 @@
     <h1>This is the login page</h1>
     <form method="post">
         Please input your name:
-        <input type="text" name="username"  placeholder="your name"><br>
+        <input type="text" name="username"><br>
         Please enter you password:
-        <input type="password" name="password" placeholder="your password"><br>
+        <input type="password" name="password"><br>
         <input type="submit">
     </form>
     <p>No account? <a href="{{ url_for('register_page') }}">click here to register</a></p>
+    <a href="{{ '/0/' }}">back to home page</a>
 </body>
 </html>
