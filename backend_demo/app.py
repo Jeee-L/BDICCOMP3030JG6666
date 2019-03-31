@@ -1,13 +1,10 @@
 from flask import Flask,render_template,url_for,request,redirect,g,session,jsonify,make_response
-import config
 from werkzeug.utils import secure_filename
 import os
 import cv2
 import time
 from datetime import timedelta
-import smtplib
-from email.mime.text import MIMEText
-from email.header import Header
+from email_verificatoin import email_verify
 
 
 app = Flask(__name__)
@@ -23,7 +20,12 @@ def allowed_file(filename):
 
 @app.route('/')
 def home():
-    return redirect('/0/')
+    user = session.get('username')
+    # user = request.cookies.get('username')
+    if user:
+        return redirect('/1/')
+    else:
+        return redirect('/0/')
 
 @app.route('/<is_login>/')
 def home_page(is_login):
@@ -74,9 +76,9 @@ def failure_page():
 @app.route('/deatil/',methods=['GET','POST'])
 def detail_page():
     if request.method == 'POST':
-        if request.form['alteredname'] != '':
+        if request.form['alteredname'] is not None:
             altered_username = request.form['alteredname']
-        if request.form['alteredpassword'] != '':
+        if request.form['alteredpassword'] is not None:
             altered_password = request.form['alteredpassword']
         if request.form['alteredphone'] != '':
             altered_phone = request.form['alteredphone']
@@ -120,6 +122,7 @@ def claim_page():
         cv2.imwrite(os.path.join(basepath, 'static/luggage_images', 'test.jpg'), img)
 
         description = request.form.get('description')
+        print(description)
 
         return render_template('claimpage_withimage.html', user_icon=luggage_input, val1=time.time())
     else:
@@ -129,36 +132,14 @@ def claim_page():
 def verify_email_page():
     if request.method == 'POST':
         user_email = request.form['email_address']
-        # 第三方 SMTP 服务
-        mail_host = "smtp.163.com"  # 设置服务器
-        mail_user = "jiege2016youxiang@163.com"  # 用户名
-        mail_pass = "ShouQuan2019"  # 口令
-
-        sender = 'HS company'
-        receivers = user_email  # 接收邮件，可设置为你的QQ邮箱或者其他邮箱
-
-        message = MIMEText('这是你的验证码，请妥善保管：123456', 'plain', 'utf-8')
-        message['From'] = mail_user
-        message['To'] = receivers
-
-        subject = '一封验证码邮件'
-        message['Subject'] = Header(subject, 'utf-8')
-
-        try:
-            smtpObj = smtplib.SMTP()
-            smtpObj.connect(mail_host, 25)  # 25 为 SMTP 端口号
-            smtpObj.login(mail_user, mail_pass)
-            smtpObj.sendmail(sender, receivers, message.as_string())
-            print("邮件发送成功")
-        except smtplib.SMTPException as e:
-            print("Error: 无法发送邮件")
-            print(e)
+        verification_code = email_verify(user_email)
         return render_template('successpage.html')
     else:
         return render_template('verify_eamilpage.html')
 
 @app.route('/logout/')
 def logout_page():
+    session.clear()
     return render_template('loginpage.html')
 
 if __name__ == '__main__':
