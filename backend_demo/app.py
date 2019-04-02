@@ -5,7 +5,7 @@ import cv2
 import time
 from datetime import timedelta
 from email_verificatoin import email_verify
-
+from re_verification import *
 
 app = Flask(__name__)
 
@@ -21,7 +21,6 @@ def allowed_file(filename):
 @app.route('/')
 def home():
     user = session.get('username')
-    # user = request.cookies.get('username')
     if user:
         return redirect('/1/')
     else:
@@ -39,12 +38,19 @@ def login_page():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-
-        session['username'] = username
-        session.permanent = True
-
-        # search in the database to check whether this user is valid
-        return redirect('/1/')
+        if verify_root(username):
+            if verify_password(password):
+                return render_template('rootpage.html')
+        elif verify_employeename(username):
+            if verify_password(password):
+                # session['username'] = username
+                # session.permanent = True
+                return render_template('employeepage.html')
+        elif verify_username(username):
+            if verify_password(password):
+                session['username'] = username
+                session.permanent = True
+                return redirect('/1/')
     else:
         return render_template('loginpage.html')
 
@@ -53,6 +59,7 @@ def register_page():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        # passport
         phone = request.form['phonenumber']
         email = request.form['email']
         check_password = request.form['check_password']
@@ -84,6 +91,7 @@ def detail_page():
             altered_phone = request.form['alteredphone']
         if request.form['alteredemail'] != '':
             altered_email = request.form['alteredemail']
+        # passport
 
         user_image = request.files['user_icon']
         if not (user_image and allowed_file(user_image.filename)):
