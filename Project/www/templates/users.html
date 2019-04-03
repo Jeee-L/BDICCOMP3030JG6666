@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="utf-8">
+   <title>划的开心</title>
+   <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+   <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+   <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+	<div class="row clearfix">
+		<div class="col-md-12 column">
+			<nav class="navbar navbar-default" role="navigation">
+				<div class="navbar-header">
+                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="https://github.com/Jeee-L/BDICCOMP3030JG6666">666?</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li class="active">
+                             <a href="https://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000">请你好好学习</a>
+                        </li>
+                        <li>
+                             <a href="http://www.bjut.edu.cn">bjut</a>
+                        </li>
+                        <li>
+                             <a href="http://wlgn.bjut.edu.cn">wlgn</a>
+                        </li>
+                        <li class="dropdown">
+                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">下拉<strong class="caret"></strong></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                     <a href="#">行动</a>
+                                </li>
+                                <li>
+                                     <a href="#">其他行动</a>
+                                </li>
+                                <li>
+                                     <a href="#">写点啥</a>
+                                </li>
+                                <li class="divider">
+                                </li>
+                                <li>
+                                     <a href="#">我是谁</a>
+                                </li>
+                                <li class="divider">
+                                </li>
+                                <li>
+                                     <a href="#">我在哪里</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <form class="navbar-form navbar-left" role="search">
+                        <div class="form-group">
+                            <input type="text" class="form-control" />
+                        </div> <button type="submit" class="btn btn-default">提交（没功能）</button>
+                    </form>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                             <a href="#">连接自己</a>
+                        </li>
+                        <li class="dropdown">
+                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">下拉<strong class="caret"></strong></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                     <a href="#">没啥事干</a>
+                                </li>
+                                <li>
+                                     <a href="#">无事可干</a>
+                                </li>
+                                <li>
+                                     <a href="#">无所事事</a>
+                                </li>
+                                <li class="divider">
+                                </li>
+                                <li>
+                                     <a href="#">强人锁男</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+			</nav>
+			<div class="jumbotron">
+				<h1>
+					我就是个划子
+				</h1>
+				<p>
+					专业划水王
+                </p>
+			</div>
+            <table class="table table-hover table-bordered">
+
+                <thead>
+                    <tr>
+                        <th>我是一个没有什么用的表</th>
+                    </tr>
+                    <tr>
+                        <th>用户名称/username</th>
+                        <th>用户邮箱/useremail</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {%  for user in userDetails %}
+                    <tr>
+                        <td>{{ user[1] }}</td>
+                        <td>{{ user[2] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>
+
+
+
+
