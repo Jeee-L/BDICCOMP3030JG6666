@@ -7,7 +7,8 @@ def search_username(username):
 
 def password_is_right(username, password):
     '参数:username, password'
-    return not not Users.query.filter_by(name=username,password=password).first()
+    user = search_username(username)
+    return user.check_password_hash(password)
 
 
 def insert_user(list):
@@ -33,7 +34,7 @@ def update_password(username, new_password):
     if not search_username(username):
         return 'No such user'
     user = search_username(username)
-    if new_password == user.password:
+    if user.check_password_hash(new_password):
         return False
     user.password = new_password
     return True
@@ -42,9 +43,9 @@ def update_phone_num(username,new_phone_num):
     if not search_username(username):
         return 'No such user'
     user = search_username(username)
-    if new_phone_num == user.password:
+    if user.phone_num == new_phone_num:
         return False
-    user.password = new_phone_num
+    user.phone_num = new_phone_num
     return True
 
 def update_passport_num(username,new_passport_num):
@@ -71,3 +72,8 @@ def delete_user(username):
     db.session.delete(search_username(username))
     db.session.commit()
     return 'Delete successfully'
+
+if __name__ == '__main__':
+    insert_user(['1cfabds','1afsdfff',1213334,1233413,'133f23@1163.com'])
+    print(search_username('1cfabds').password_hash)
+    print(password_is_right('1cfabds', '1afsdfff'))

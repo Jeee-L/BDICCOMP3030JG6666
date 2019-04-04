@@ -1,27 +1,38 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
+from werkzeug.security import generate_password_hash,check_password_hash
+from flask_security import RoleMixin, UserMixin
 import yaml
 
 
 app = Flask(__name__)
 # db = yaml.load(open('/var/Project/www/db.yaml'))
-db = yaml.load(open('www\db.yaml'))
+db = yaml.load(open('C:\\Users\\TED\\Documents\\GitHub\\MySimplePythonCode\\BDICCOMP3030JG6666\\Project\\www\\db.yaml'))
 
 
 app.config['SQLALCHEMY_DATABASE_URI'] = db['sqlalchemy_database_uri_local']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
-class Users(db.Model):
+class Users(db.Model, UserMixin):
     __tablename__ = 'users'
     name = db.Column(db.String(32), nullable=False, unique=True,primary_key=True,  index=True)
-    password = db.Column(db.String(32), nullable=False, unique = True)
+    password_hash = db.Column(db.String(300), nullable=False, unique = True)
     phone_num = db.Column(db.Integer, nullable=False, unique = True,  index=True)
     passport_num = db.Column(db.Integer, nullable=False, unique=True,  index=True)
     email = db.Column(db.String(32), nullable=False, unique=True)
 
-    def __repr__(self):
-        return '<User %r>' % self.name
+    @property
+    def password(self):
+        raise AttributeError("密码不允许读取")
 
+    # 转换密码为hash存入数据库
+    @password.setter
+    def password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    # 检查密码
+    def check_password_hash(self, password):
+        return check_password_hash(self.password_hash, password)
 
 
 class Passport(db.Model):
