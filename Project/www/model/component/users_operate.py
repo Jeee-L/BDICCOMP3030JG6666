@@ -11,10 +11,10 @@ def password_is_right(username, password):
     return user.check_password_hash(password)
 
 
-def insert_user(list):
-    '参数:list name,password,phone_num,passport_num,email, return boolean'
-    if not search_username(list[0]):
-        db.session.add(Users(name=list[0],password=list[1],phone_num=list[2],passport_num=list[3],email=list[4]))
+def insert_user(dict):
+    '参数:dict name,password,phone_num,passport_num,email, return boolean'
+    if not search_username(dict['name']):
+        db.session.add(Users(name=dict['name'],password=dict['password'],phone_num=dict['phone_num'],passport_num=dict['passport_num'],email=dict['email']))
         db.session.commit()
         return 'Create successfully'
     return 'Username already exist'
