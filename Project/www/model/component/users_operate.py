@@ -14,7 +14,7 @@ def password_is_right(username, password):
 def insert_user(dict):
     '参数:dict name,password,phone_num,passport_num,email, return boolean'
     user = search_username(dict['name'])
-    assert (not user), "Username already exist"
+    assert (user is None), "Username already exist"
     db.session.add(Users(name=dict['name'],password=dict['password'],phone_num=dict['phone_num'],passport_num=dict['passport_num'],email=dict['email']))
     db.session.commit()
     return 'Create successfully'
@@ -67,6 +67,6 @@ def delete_user(username):
     return 'Delete successfully'
 
 if __name__ == '__main__':
-    insert_user(['1cfabds','1afsdfff',1213334,1233413,'133f23@1163.com'])
-    print(search_username('1cfabds').password_hash)
+    # insert_user(['1cfabds','1afsdfff',1213334,1233413,'133f23@1163.com'])
+    print(search_username('1cfabdss'))
     print(password_is_right('1cfabds', '1afsdfff'))
