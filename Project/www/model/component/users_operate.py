@@ -13,63 +13,56 @@ def password_is_right(username, password):
 
 def insert_user(dict):
     '参数:dict name,password,phone_num,passport_num,email, return boolean'
-    if not search_username(dict['name']):
-        db.session.add(Users(name=dict['name'],password=dict['password'],phone_num=dict['phone_num'],passport_num=dict['passport_num'],email=dict['email']))
-        db.session.commit()
-        return 'Create successfully'
-    return 'Username already exist'
+    user = search_username(dict['name'])
+    assert (not user), "Username already exist"
+    db.session.add(Users(name=dict['name'],password=dict['password'],phone_num=dict['phone_num'],passport_num=dict['passport_num'],email=dict['email']))
+    db.session.commit()
+    return 'Create successfully'
+
 
 
 def update_username(username, new_name):
-    if not not search_username(username):
-        if not search_username(new_name):
-            user = Users.query.filter_by(name=username).first()
-            user.name = new_name
-            db.session.commit()
-            return True
-    return False
+    user = search_username(username)
+    assert (user is not None), "No such user"
+    assert (not search_username(new_name)), 'This name already exist'
+    user.name = new_name
+    db.session.commit()
+    return "Update successfully"
+
 
 
 def update_password(username, new_password):
-    if not search_username(username):
-        return 'No such user'
     user = search_username(username)
-    if user.check_password_hash(new_password):
-        return False
+    assert (user is not None), "No such user"
+    assert (not user.check_password_hash(new_password)),'Same password'
     user.password = new_password
     return True
 
 def update_phone_num(username,new_phone_num):
-    if not search_username(username):
-        return 'No such user'
     user = search_username(username)
-    if user.phone_num == new_phone_num:
-        return False
+    assert (user is not None), "No such user"
+    assert (user.phone_num is not new_phone_num), 'Same phone num'
     user.phone_num = new_phone_num
     return True
 
 def update_passport_num(username,new_passport_num):
-    if not search_username(username):
-        return 'No such user'
     user = search_username(username)
-    if new_passport_num == user.passport_num:
-        return False
+    assert (user is not None), "No such user"
+    assert (user.passport_num is not new_passport_num), 'Same passport_num'
     user.password = new_passport_num
     return True
 
 def update_email(username, new_email):
-    if not search_username(username):
-        return 'No such user'
     user = search_username(username)
-    if new_email == user.email:
-        return 'Same email'
+    assert (user is not None), "No such user"
+    assert (user.email is not new_email), 'Same email'
     user.password = new_email
     return 'Update email successfully'
 
 def delete_user(username):
-    if not search_username(username):
-        return 'Can\' find user'
-    db.session.delete(search_username(username))
+    user = search_username(username)
+    assert (user is not None), "No such user"
+    db.session.delete(user)
     db.session.commit()
     return 'Delete successfully'
 
