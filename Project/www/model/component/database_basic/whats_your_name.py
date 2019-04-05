@@ -25,14 +25,15 @@ class Users(db.Model, UserMixin):
     def password(self):
         raise AttributeError("密码不允许读取")
 
-    # 转换密码为hash存入数据库
     @password.setter
     def password(self, password):
         self.password_hash = generate_password_hash(password)
 
-    # 检查密码
+
     def check_password_hash(self, password):
         return check_password_hash(self.password_hash, password)
+
+
 
 
 class Passport(db.Model):
@@ -70,13 +71,36 @@ class Claim(db.Model):
 class Employee(db.Model):
     __tablename__='Employee.model'
     id = db.Column(db.Integer, nullable=False, primary_key=True, index=True)
-    password = db.Column(db.String(32), nullable=False, unique=True)
+    password_hash = db.Column(db.String(32), nullable=False, unique=True)
     def __repr__(self):
-        return '<id %r,password id %r>' %(self.id ,self.password)
+        return '<id %r>' %(self.id )
+
+    @property
+    def password(self):
+        raise AttributeError("密码不允许读取")
+
+    @password.setter
+    def password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password_hash(self, password):
+        return check_password_hash(self.password_hash, password)
 
 class Administrator(db.Model):
     __tablename__ = 'Administrator.model'
     id = db.Column(db.Integer, nullable=False, primary_key=True, index=True)
-    password = db.Column(db.String(32), nullable=False, unique=True)
+    password_hash = db.Column(db.String(32), nullable=False, unique=True)
     def __repr__(self):
-        return '<id %r,password id %r>' %(self.id ,self.password)
+        return '<id %r>' %(self.id )
+
+    @property
+    def password(self):
+        raise AttributeError("密码不允许读取")
+
+    @password.setter
+    def password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password_hash(self, password):
+        return check_password_hash(self.password_hash, password)
+

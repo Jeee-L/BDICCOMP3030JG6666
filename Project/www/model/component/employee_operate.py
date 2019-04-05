@@ -2,39 +2,35 @@ from www.model.component.database_basic.whats_your_name import Employee,db
 
 
 def search_id(id):
-    return not not Employee.query.filter_by(id = id).first()
+    return Employee.query.filter_by(id = id).first()
 
 def login(id, password):
-    if not search_id(id):
-        return 'No such id'
-    elif not Employee.query.filter_by(id = id, password=password).first():
-        return 'Password wrong'
-    else:
-        return 'Successful'
+    emp = search_id(id)
+    assert(emp is not None),'No such id'
+    assert(emp.check_password_hash(password)),'Wrong password'
+    return "Login successfully"
+
 
 def create(id, password):
-    if not login(id):
-        db.session.add(Employee(id = id, password = password))
-        db.session.commit()
-        return 'Successful'
-    else:
-        return 'Already exist'
+    emp = search_id(id)
+    assert(emp is not None),'Already exist'
+    db.session.add(Employee(id = id, password = password))
+    db.session.commit()
+    return 'Create employee Successfully'
+
 
 def update_password(id, new_password):
-    if search_id(id):
-        if login(id, new_password) == 'Successful':
-            return 'Same password'
-        else:
-            Employee.query.filter_by(id=id).first().password = new_password
-            return 'successful'
-    else:
-        return 'No such Employee'
+    emp = Employee.query.filter_by(id=id).first()
+    assert (emp is not None), "No such employee"
+    assert (not emp.check_password_hash(new_password)),"New password is same as old Password"
+    emp.password = new_password
+    return 'Update password successfully'
+
 
 
 def delete(id):
-    if search_id(id):
-        db.session.delete(Employee.query.filter_by(id=id).first())
-        db.session.commit()
-        return 'successful'
-    else:
-        return 'No such employee'
+    emp = Employee.query.filter_by(id=id).first()
+    assert (emp is not None), "No such employee"
+    db.session.delete(emp)
+    db.session.commit()
+    return 'successful'
