@@ -22,8 +22,12 @@ def verify_email(email):
         return False
 
 def verify_phone_number(phonenumber):
-    # TODO phone number
-    pass
+    valid_phone_cn = r'^1[34578]\d{9}$'
+    valid_phone_ie = r'^\d{8,9}$'
+    if re.match(valid_phone_cn, phonenumber) or re.match(valid_phone_ie,phonenumber):
+        return True
+    else:
+        return False
 
 def verify_employeename(employeename):
     valid_employeename = r'^[e|E]@[_a-zA-Z0-9\u4E00-\u9FA5]{1,10}$'
@@ -36,6 +40,13 @@ def verify_root(rootname):
     # TODO 是否可以修改root这个名字？
     valid_root = r'[e|E]@[r|R]oot'
     if re.match(valid_root, rootname):
+        return True
+    else:
+        return False
+
+def verify_passport(passport):
+    valid_passport = r'' # TODO 护照号格式？爱尔兰护照？
+    if re.match(valid_passport, passport):
         return True
     else:
         return False

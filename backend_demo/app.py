@@ -6,6 +6,8 @@ import time
 from datetime import timedelta
 from email_verificatoin import email_verify
 from re_verification import *
+from flask_cors import core
+import model.component.users_operate as usr_opr
 
 app = Flask(__name__)
 
@@ -38,39 +40,45 @@ def login_page():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        if verify_root(username):
+        confirm_password = request.form['comfirm_password']
+        if password == confirm_password:
             if verify_password(password):
-                return render_template('rootpage.html')
-        elif verify_employeename(username):
-            if verify_password(password):
-                # session['username'] = username
-                # session.permanent = True
-                return render_template('employeepage.html')
-        elif verify_username(username):
-            if verify_password(password):
-                session['username'] = username
-                session.permanent = True
-                return redirect('/1/')
-    else:
-        return render_template('loginpage.html')
+                if verify_username(username):
+                    if usr_opr.search_username(username):
+                        if usr_opr.password_is_right(password):
+                            return "登陆成功"
+                        else:
+                            "密码不正确"
+                    else:
+                        return "用户不存在"
+                else:
+                    return "用户名不合法"
+            else:
+                return "密码不合法"
+        else:
+            return "两次输入密码不相等"
+
 
 @app.route('/register/',methods=['GET','POST'])
 def register_page():
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        # passport
-        phone = request.form['phonenumber']
-        email = request.form['email']
-        check_password = request.form['check_password']
-        print("username: "+username+" password: "+password)
-        if check_password == password and password != '':
-            # search in database
-            return redirect(url_for('success_page'))
+        register_info = {}
+        register_info['username'] = request.form['username']
+        register_info['password'] = request.form['password']
+        register_info['confirm_password'] = request.form['confirm_password']
+        register_info['passport'] = request.form['passport']
+        register_info['phone'] = request.form['phonenumber']
+        register_info['email'] = request.form['email']
+        verify_result = verify_register_info(register_info)
+        if verify_result:
+            pass
         else:
-            return redirect(url_for('failure_page'))
-    else:
-        return render_template('registerpage.html')
+            return verify_result
+
+
+def verify_register_info(register_info):
+    if verify_username(register_info['username'])
+
 
 @app.route('/success/')
 def success_page():
@@ -149,6 +157,7 @@ def verify_email_page():
 def logout_page():
     session.clear()
     return render_template('loginpage.html')
+
 
 if __name__ == '__main__':
     app.run()
