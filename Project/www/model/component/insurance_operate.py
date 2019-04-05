@@ -5,13 +5,11 @@ import datetime
 def __search_insurance(id):
     return Insurance.query.filter_by(id = id).first()
 
-def add_insurance(list):
+def add_insurance(dict):
     'id,name[0],product_id[1],amount_of_money[2],status,flight_number[3]'
     'status are the one of set (Creating, using, out_date)'
-    if not search_username(list[0]):
-        return 'No such user'
-    f = Insurance(name=list[0], product_id=list[1], amount_of_money=list[2], flight_number=list[3], status='Creating', date =datetime.datetime.now() )
-
+    assert (search_username(dict['name']) is not None), "No such Insurance"
+    f = Insurance(name=dict['name'], product_id=dict['product_id'], amount_of_money=dict['amount_of_money'], flight_number=dict['flight_number'], status=dict['status'], date =datetime.datetime.now() )
     db.session.add(f)
     db.session.commit()
     return f.id
