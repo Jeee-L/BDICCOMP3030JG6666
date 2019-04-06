@@ -1,4 +1,4 @@
-from flask import Flask,render_template,url_for,request,redirect,g,session,jsonify,make_response
+from flask import Flask,render_template,url_for,request,redirect,session,jsonify,make_response
 from werkzeug.utils import secure_filename
 import os
 import cv2
@@ -7,6 +7,7 @@ from datetime import timedelta
 from email_verificatoin import email_verify
 from flask_cors import core
 import user
+import employee
 
 # TODO 所有的状态：0--未处理，1--处理中，2--处理结束
 
@@ -32,13 +33,12 @@ def home_page(is_login):
     else:
         return render_template('homepage.html')
 
-@app.route('/login/',methods=['GET','POST'])
-def login_page():
+@app.route('/user_login/',methods=['GET','POST'])
+def user_login_page():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        confirm_password = request.form['comfirm_password']
-        return user.login(username,password,confirm_password)
+        return user.login(username,password)
 
 
 @app.route('/register/',methods=['GET','POST'])
@@ -54,8 +54,8 @@ def register_page():
         return user.register(register_info)
 
 
-@app.route('/info/',methods=['GET','POST'])
-def info_page():
+@app.route('/user_info/',methods=['GET','POST'])
+def user_info_page():
     if request.method == 'POST':
         update_info = {}
         update_info['old_name'] = request.form['old_name']
@@ -70,7 +70,7 @@ def info_page():
 
         # TODO 所有信息同时更新还是可以分开更新？
         # user.update_name(update_info['old_name'],update_info['new_name'])
-        # user.update_password(update_info['old_name'],update_info['password'],update_info['confirm_password'])
+        # user.update_password(update_info['old_name'],,update_info['password'],update_info['confirm_password'])
         # user.update_passport(update_info['old_name'],update_info['passport_num'])
         # user.update_email(update_info['old_name'],update_info['email'])
         # user.update_phone(update_info['old_name'],update_info['phone_num'])
@@ -113,6 +113,16 @@ def email_verification_page():
 def logout_page():
     session.clear() # TODO 用户登出要清cookie和session
     return None
+
+@app.route('/employee_login/',methods=['GET','POST'])
+def employee_lonin_page():
+    employeeid = request.form['employeeid']
+    password = request.form['password']
+    return employee.login(employeeid, password)
+
+@app.route('/employee_info/',methods=['GET','POST'])
+def employee_info_page():
+    pass
 
 
 if __name__ == '__main__':

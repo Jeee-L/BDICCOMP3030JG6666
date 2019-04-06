@@ -1,5 +1,5 @@
-from www.model.component.database_basic.whats_your_name import Administrator,db
-import www.model.component.employee_operate as emp
+from db_operatoin.database_basic.whats_your_name import Administrator,db
+import db_operatoin.employee_operate as emp
 
 
 def search_id(id):

@@ -1,4 +1,4 @@
-from www.model.component.database_basic.whats_your_name import db
+from db_operatoin.database_basic.whats_your_name import db
 
 def create_tables():
     '建表'

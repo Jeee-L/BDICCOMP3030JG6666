@@ -1,4 +1,4 @@
-from www.model.component.database_basic.whats_your_name import Users,db
+from db_operatoin.database_basic.whats_your_name import Users,db
 
 
 def search_username(username):
@@ -11,12 +11,23 @@ def password_is_right(username, password):
     return user.check_password_hash(password)
 
 def insert_user(dict):
-    '参数:dict name,password,phone_num,passport_num,email, return boolean'
+    '参数:dict username,password,phone_num,passport_num,email'
     user = search_username(dict['name'])
     assert (user is None), "Username already exist"
-    db.session.add(Users(name=dict['name'],password=dict['password'],phone_num=dict['phone_num'],passport_num=dict['passport_num'],email=dict['email'], profile=dict['profile']))
+    db.session.add(Users(name=dict['username'],password=dict['password'],phone_num=dict['phone_num'],passport_num=dict['passport_num'],email=dict['email'], profile=dict['profile']))
     db.session.commit()
     return 'Create successfully'
+
+def get_insurance(username):
+    user = search_username(username)
+    assert (user is not None), "Username already exist"
+    return user.insurance_id.all()
+
+def get_claim(username):
+    user = search_username(username)
+    assert (user is not None), "Username already exist"
+    return user.claim_id.all()
+
 
 def update_profile(username, new_profile):
     user = search_username(username)
@@ -69,6 +80,8 @@ def delete_user(username):
     return 'Delete successfully'
 
 if __name__ == '__main__':
-    # insert_user(['1cfabds','1afsdfff',1213334,1233413,'133f23@1163.com'])
-    print(search_username('1cfabdss'))
+    '参数:dict name,password,phone_num,passport_num,email, return boolean'
+    # insert_user({'name':'1cfabds','password':'1afsdfff','phone_num':1213334,'passport_num':1233413,'email':'133f23@1163.com','profile':1231})
+    print(search_username('1cfabds'))
     print(password_is_right('1cfabds', '1afsdfff'))
+    print(get_insurance('1cfabds'))

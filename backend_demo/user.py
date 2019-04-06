@@ -6,10 +6,8 @@ import os
 import cv2
 from werkzeug.utils import secure_filename
 
-def login(username,password,confirm_password):
-    if not (password == confirm_password):
-        return "两次输入密码不相等"
-    elif not verify_password(password):
+def login(username,password):
+    if not verify_password(password):
         return "密码不合法"
     elif not verify_username(username):
         return "用户名不合法"
@@ -56,10 +54,11 @@ def update_name(old_name,new_name):
         except AssertionError as ae:
             return ae
 
-def update_password(name,new_password,confirme_password):
+def update_password(name,new_password,confirm_password):
+    # TODO 用邮箱验证来改密码？
     if not verify_password(new_password):
         return "新密码不合法"
-    elif not (new_password == confirme_password):
+    elif not (new_password == confirm_password):
         return "两次输入的密码不一样"
     else:
         try:
@@ -181,8 +180,9 @@ def buy_insurance(insurance_info):
         return "购买失败,reason: "+ae
 
 def user_all_insurance(username):
-    # TODO 查找这个用户名下的所有保险
-    pass
+    user_all_insurance = db_ins_opr.user_request(username)
+    # TODO 是否需要改数据结构?
+    return user_all_insurance
 
 def apply_claim(claim_info):
     if not (len(claim_info['reason'])<300):
@@ -193,5 +193,5 @@ def apply_claim(claim_info):
         return "失败, reason: "+ae
 
 def user_all_claim(username):
-    # TODO 用户所有的理赔申请
-    pass
+    # TODO 是否需要改数据结构?
+    return db_ins_opr.search_claim(db_ins_opr.user_request(username))

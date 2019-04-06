@@ -1,5 +1,4 @@
-from www.model.component.database_basic.whats_your_name import Employee,db
-
+from db_operatoin.database_basic.whats_your_name import Employee,db
 
 def search_id(id):
     return Employee.query.filter_by(id = id).first()
