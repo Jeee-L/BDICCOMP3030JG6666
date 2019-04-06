@@ -7,6 +7,8 @@ def add_claim(dict):
     db.session.add(Claim(insurance_id=dict['insurance_id'], employee_id=dict['employee_id'], reason=dict['reason'], status=dict['status']))
     db.session.commit()
     return 'Create Claim successfully'
+def search_claim_use_insurance_id(id):
+    return Claim.query.filter_by(insurance_id = id).all()
 
 def __search_claim(id):
     return Claim.query.filter_by(id=id).first()
@@ -22,3 +24,9 @@ def change_staue(id, state):
     assert claim is not None,'No such Claim'
     claim.status = state
     return 'Change successfully'
+
+def all():
+    return Claim.query.all()
+
+if __name__ == '__main__':
+    print(all())

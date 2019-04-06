@@ -20,5 +20,6 @@ def change_staue(id, state):
     ins.status = state
     return 'Change successfully'
 
+
 if __name__ == '__main__':
     add_insurance({'name':'1cfabds','product_id':123,'amount_of_money':123, 'flight_number':123,'status':'123', 'pic':223})

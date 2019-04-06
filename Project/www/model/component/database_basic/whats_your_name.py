@@ -60,6 +60,7 @@ class Insurance(db.Model):
     date = db.Column(db.DateTime, nullable=False)
 
 
+
     def __repr__(self):
         return '<id %r,status id %r>' %(self.id ,self.status)
 
