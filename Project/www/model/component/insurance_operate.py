@@ -22,5 +22,9 @@ def change_staue(id, state):
 def all():
     return Insurance.query.all()
 
+def user_request(username):
+    return Insurance.query.filter_by(name = username).all()
+
 if __name__ == '__main__':
-    add_insurance({'name':'1cfabds','product_id':123,'amount_of_money':123, 'flight_number':123,'status':'123', 'pic':223})
+    # add_insurance({'name':'1cfabds','product_id':123,'amount_of_money':123, 'flight_number':123,'status':'123', 'pic':223})
+    print(all())
