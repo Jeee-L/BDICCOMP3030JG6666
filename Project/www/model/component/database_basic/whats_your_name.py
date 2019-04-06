@@ -112,7 +112,7 @@ class Administrator(db.Model):
 class Product(db.Model):
     __tablename__ = 'Product'
     product_id = db.Column(db.Integer, nullable=False, primary_key = True)
-    project_id = db.Column(db.Integer, db.ForeignKey('Project.name'), nullable=False,  primary_key = True)
+    project_id = db.Column(db.Integer, db.ForeignKey('Project.project_id'), nullable=False,  primary_key = True)
     product_information = db.Column(db.String(300))
 
 class Project(db.Model):
