@@ -5,9 +5,10 @@ import cv2
 import time
 from datetime import timedelta
 from email_verificatoin import email_verify
-from re_verification import *
 from flask_cors import core
-import model.component.users_operate as usr_opr
+import user
+
+# TODO 所有的状态：0--未处理，1--处理中，2--处理结束
 
 app = Flask(__name__)
 
@@ -15,10 +16,6 @@ app.secret_key = os.urandom(24)
 app.permanent_session_lifetime = timedelta(days=7)
 app.send_file_max_age_default = timedelta(seconds=10)
 
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'JPG', 'PNG', 'bmp'])
-
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 @app.route('/')
 def home():
@@ -41,122 +38,81 @@ def login_page():
         username = request.form['username']
         password = request.form['password']
         confirm_password = request.form['comfirm_password']
-        if password == confirm_password:
-            if verify_password(password):
-                if verify_username(username):
-                    if usr_opr.search_username(username):
-                        if usr_opr.password_is_right(password):
-                            return "登陆成功"
-                        else:
-                            "密码不正确"
-                    else:
-                        return "用户不存在"
-                else:
-                    return "用户名不合法"
-            else:
-                return "密码不合法"
-        else:
-            return "两次输入密码不相等"
+        return user.login(username,password,confirm_password)
 
 
 @app.route('/register/',methods=['GET','POST'])
 def register_page():
     if request.method == 'POST':
         register_info = {}
-        register_info['username'] = request.form['username']
+        register_info['name'] = request.form['username']
         register_info['password'] = request.form['password']
         register_info['confirm_password'] = request.form['confirm_password']
-        register_info['passport'] = request.form['passport']
-        register_info['phone'] = request.form['phonenumber']
+        register_info['passport_num'] = request.form['passport']
+        register_info['phone_num'] = request.form['phonenumber']
         register_info['email'] = request.form['email']
-        verify_result = verify_register_info(register_info)
-        if verify_result:
-            pass
-        else:
-            return verify_result
+        return user.register(register_info)
 
 
-def verify_register_info(register_info):
-    if verify_username(register_info['username'])
-
-
-@app.route('/success/')
-def success_page():
-    return render_template('successpage.html')
-
-@app.route('/failure/')
-def failure_page():
-    return render_template('register_failpage.html')
-
-@app.route('/deatil/',methods=['GET','POST'])
-def detail_page():
+@app.route('/info/',methods=['GET','POST'])
+def info_page():
     if request.method == 'POST':
-        if request.form['alteredname'] is not None:
-            altered_username = request.form['alteredname']
-        if request.form['alteredpassword'] is not None:
-            altered_password = request.form['alteredpassword']
-        if request.form['alteredphone'] != '':
-            altered_phone = request.form['alteredphone']
-        if request.form['alteredemail'] != '':
-            altered_email = request.form['alteredemail']
-        # passport
+        update_info = {}
+        update_info['old_name'] = request.form['old_name']
+        update_info['new_name'] = request.form['update_name']
+        update_info['password'] = request.form['update_password']
+        update_info['confirm_password'] = request.form['update_confirm_password']
+        update_info['passport_num'] = request.form['update_passport']
+        update_info['phone_num'] = request.form['update_phone']
+        update_info['email'] = request.form['update_email']
 
-        user_image = request.files['user_icon']
-        if not (user_image and allowed_file(user_image.filename)):
-            # 返回一个Json文件格式错误
-            return jsonify({"error": 1001, "msg": "请检查上传的图片类型，仅限于png、PNG、jpg、JPG、bmp"})
-        user_input = request.form.get("name")
-        basepath = os.path.dirname(__file__)  # 当前文件所在路径
-        upload_path = os.path.join(basepath, 'static/user_images', secure_filename(user_image.filename))  # 注意：没有的文件夹一定要先创建，不然会提示没有该路径
-        # upload_path = os.path.join(basepath, 'static/images','test.jpg')  #注意：没有的文件夹一定要先创建，不然会提示没有该路径
-        user_image.save(upload_path)
+        user_image = request.files['user_image']
 
-        # 使用Opencv转换一下图片格式和名称
-        img = cv2.imread(upload_path)
-        cv2.imwrite(os.path.join(basepath, 'static/user_images', 'test.jpg'), img)
+        # TODO 所有信息同时更新还是可以分开更新？
+        # user.update_name(update_info['old_name'],update_info['new_name'])
+        # user.update_password(update_info['old_name'],update_info['password'],update_info['confirm_password'])
+        # user.update_passport(update_info['old_name'],update_info['passport_num'])
+        # user.update_email(update_info['old_name'],update_info['email'])
+        # user.update_phone(update_info['old_name'],update_info['phone_num'])
+        # user.update_user_image(update_info['old_name'],user_image)
+        return None
 
-        return render_template('detail_withicon.html', user_icon=user_input, val1=time.time())
-
-        # return render_template('successpage.html')
-    else:
-        return render_template('detail.html')
-
-@app.route('/claimpage/',methods=['GET','POST'])
-def claim_page():
+@app.route('/buy_insurance/',methods=['GET','POST'])
+def buy_insurance_page():
     if request.method == 'POST':
-        luggage_image = request.files['luggage_icon']
-        if not (luggage_image and allowed_file(luggage_image.filename)):
-            # 返回一个Json文件格式错误
-            return jsonify({"error": 1001, "msg": "请检查上传的图片类型，仅限于png、PNG、jpg、JPG、bmp"})
-        luggage_input = request.form.get("name")
-        basepath = os.path.dirname(__file__)  # 当前文件所在路径
-        upload_path = os.path.join(basepath, 'static/luggage_images',secure_filename(luggage_image.filename))  # 注意：没有的文件夹一定要先创建，不然会提示没有该路径
-        luggage_image.save(upload_path)
+        insurance_info = {}
+        insurance_info['username'] = request.form['username']
+        insurance_info['product_id'] = request.form['product_id']
+        insurance_info['amount_of_money'] = request.form['amount_of_money']
+        insurance_info['flight_number'] = request.form['flight_number']
+        insurance_info['status'] = 0    # 0-未处理
+        insurance_info['image'] = request.files['insurance_image']
 
-        # 使用Opencv转换一下图片格式和名称
-        img = cv2.imread(upload_path)
-        cv2.imwrite(os.path.join(basepath, 'static/luggage_images', 'test.jpg'), img)
+        return user.buy_insurance(insurance_info)
 
-        description = request.form.get('description')
-        print(description)
 
-        return render_template('claimpage_withimage.html', user_icon=luggage_input, val1=time.time())
-    else:
-        return render_template('claimpage.html')
+@app.route('/apply_claim/',methods=['GET','POST'])
+def apply_claim_page():
+    if request.method == 'POST':
+        claim_info = {}
+        claim_info['insurance_id'] = request.form['insurance_id']
+        claim_info['employee_id'] = -1 # 表示新的订单，没有员工处理
+        claim_info['reason'] = request.form['reason']
+        claim_info['status'] = 0
 
-@app.route('/verify/',methods=['GET','POST'])
-def verify_email_page():
+        return user.apply_claim(claim_info)
+
+@app.route('/email_verification/',methods=['GET','POST'])
+def email_verification_page():
     if request.method == 'POST':
         user_email = request.form['email_address']
         verification_code = email_verify(user_email)
-        return render_template('successpage.html')
-    else:
-        return render_template('verify_eamilpage.html')
+        return None
 
 @app.route('/logout/')
 def logout_page():
-    session.clear()
-    return render_template('loginpage.html')
+    session.clear() # TODO 用户登出要清cookie和session
+    return None
 
 
 if __name__ == '__main__':

@@ -1,14 +1,14 @@
 import re
 
 def verify_username(username):
-    valid_name = r'^[_a-zA-Z0-9\u4E00-\u9FA5]{1,10}$'
+    valid_name = r'^[_a-zA-Z0-9\u4E00-\u9FA5]{2,10}$'
     if re.match(valid_name,username):
         return True
     else:
         return False
 
 def verify_password(password):
-    valid_password = r'^[_!?,.*#a-zA-Z0-9]{1,20}$'
+    valid_password = r'^[_!?,.*#a-zA-Z0-9]{6,20}$'
     if re.match(valid_password,password):
         return True
     else:
@@ -50,3 +50,8 @@ def verify_passport(passport):
         return True
     else:
         return False
+
+# TODO 这些用不用正则验证？
+# product_id
+# amount_of_money
+# flight_number
