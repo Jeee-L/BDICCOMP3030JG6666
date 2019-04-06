@@ -86,7 +86,7 @@
             <h2 class="flag-icon flag-icon-cn width-full m-r-10 m-t-0 m-b-3" title="cn" id="cn"></h2>
             <h2 class="flag-icon flag-icon-ie width-full m-r-10 m-t-0 m-b-3" title="ie" id="ie"></h2>
           </div>-->
-          <h2 style="color: black">Hibernia-Sino Travel Insurance</h2>
+          <h2 style="color: black">Welcome {{name}}!</h2>
           <br>
           <h4>
             <b>Choose the best plan and start your journey!</b>
@@ -164,19 +164,33 @@
 </template>
 
 <script>
+import {getCookie, delCookie} from '../assets/js/cookie.js'
 export default {
   data() {
     return {
       slide: 0,
-      sliding: null
+      sliding: null,
+
+      name: ""
     };
   },
+  mounted(){
+    let username = getCookie("username")
+    this.name = username
+
+    if (username == ""){
+      this.$router.push({ path: "/login" });
+    }
+  },
   methods: {
-    onSlideStart(slide) {
+    onSlideStart() {
       this.sliding = true;
     },
-    onSlideEnd(slide) {
+    onSlideEnd() {
       this.sliding = false;
+    },
+    quit(){
+      delCookie("username")
     }
   }
 };

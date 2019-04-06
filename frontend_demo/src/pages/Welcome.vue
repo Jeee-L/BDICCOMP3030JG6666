@@ -4,50 +4,10 @@
     <div id="header" class="header navbar-default">
       <!-- begin navbar-header -->
       <div class="navbar-header">
-        <button
-          type="button"
-          class="navbar-toggle pull-right"
-          v-on:click="toggleMobileRightSidebar"
-          v-if="pageOptions.pageWithTwoSidebar"
-        >
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <button
-          type="button"
-          class="navbar-toggle pull-left"
-          v-on:click="toggleMobileSidebar"
-          v-if="pageOptions.pageWithTwoSidebar"
-        >
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
         <router-link to="/dashboard/v2" class="navbar-brand">
           <span class="navbar-logo"></span>
           <b>Hibernia-Sino</b> Travel Insurance
         </router-link>
-        <button
-          type="button"
-          class="navbar-toggle"
-          v-on:click="toggleMobileSidebar"
-          v-if="!pageOptions.pageWithTwoSidebar && (!pageOptions.pageWithTopMenu && !pageOptions.pageWithoutSidebar)"
-        >
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <button
-          type="button"
-          class="navbar-toggle"
-          v-on:click="toggleMobileTopMenu"
-          v-if="pageOptions.pageWithTopMenu && pageOptions.pageWithoutSidebar"
-        >
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
         <button
           type="button"
           class="navbar-toggle p-0 m-r-0"
@@ -66,6 +26,9 @@
 
       <!-- begin header-nav -->
       <ul class="navbar-nav navbar-right">
+        <li class="nav-item">
+          <a class="nav-link" href="/home">Sign In to Customer Center</a>
+        </li>
         <li
           v-if="!pageOptions.pageWithLanguageBar"
           v-bind:class="{ 'hidden-sm': pageOptions.pageWithMegaMenu }"
@@ -78,20 +41,6 @@
               </button>
             </div>
           </form>
-        </li>
-        <li class="dropdown">
-          <b-dropdown
-            variant="link"
-            menu-class="media-list dropdown-menu-right"
-            toggle-class="f-s-14"
-          >
-            <template slot="button-content">
-              <i class="fa fa-bell"></i>
-              <span class="label">0</span>
-            </template>
-            <b-dropdown-header>NOTIFICATIONS (0)</b-dropdown-header>
-            <li class="text-center width-300 p-b-10">No notification found</li>
-          </b-dropdown>
         </li>
         <li class="dropdown navbar-language" v-if="pageOptions.pageWithLanguageBar">
           <b-dropdown variant="link" menu-class="p-b-0">
@@ -116,48 +65,73 @@
             <b-dropdown-item href="javascript:;" class="text-center">more options</b-dropdown-item>
           </b-dropdown>
         </li>
-        <li class="dropdown navbar-user">
-          <b-dropdown variant="link" menu-class="dropdown-menu-right">
-            <template slot="button-content">
-              <div class="image image-icon bg-black text-grey-darker">
-                <i class="fa fa-user"></i>
-              </div>
-              <span class="d-none d-md-inline">Princess Phoebe</span>
-              <b class="caret"></b>
-            </template>
-            <b-dropdown-item href="javascript:;">Edit Profile</b-dropdown-item>
-            <b-dropdown-item href="javascript:;">
-              <span class="badge badge-danger pull-right">2</span> Inbox
-            </b-dropdown-item>
-            <b-dropdown-item href="javascript:;">Calendar</b-dropdown-item>
-            <b-dropdown-item href="javascript:;">Setting</b-dropdown-item>
-            <b-dropdown-divider></b-dropdown-divider>
-            <b-dropdown-item href="javascript:;">Log Out</b-dropdown-item>
-          </b-dropdown>
-        </li>
-        <li class="divider d-none d-md-block" v-if="pageOptions.pageWithTwoSidebar"></li>
-        <li class="d-none d-md-block" v-if="pageOptions.pageWithTwoSidebar">
-          <a
-            href="javascript:;"
-            v-on:click="toggleRightSidebar"
-            data-click="right-sidebar-toggled"
-            class="f-s-14"
-          >
-            <i class="fa fa-th"></i>
-          </a>
-        </li>
       </ul>
       <!-- end header navigation right -->
     </div>
     <!-- end #header -->
+
+    <!-- begin sliding bar -->
+    <div style="margin: 20px">
+      <b-carousel
+        id="carousel1"
+        style="text-shadow: 1px 1px 2px #333;"
+        controls
+        indicators
+        background="#ababab"
+        :interval="3000"
+        img-width="1024"
+        img-height="480"
+        v-model="slide"
+        @sliding-start="onSlideStart"
+        @sliding-end="onSlideEnd"
+      >
+        <!-- Slides with img slot -->
+        <b-carousel-slide>
+          <img
+            slot="img"
+            class="d-block img-fluid w-100"
+            width="1024"
+            height="480"
+            src="../assets/img/china-land1.jpg"
+            alt="image slot"
+          >
+        </b-carousel-slide>
+
+        <!-- Slides with img slot -->
+        <b-carousel-slide>
+          <img
+            slot="img"
+            class="d-block img-fluid w-100"
+            width="1024"
+            height="480"
+            src="../assets/img/ireland-land2.jpg"
+            alt="image slot"
+          >
+        </b-carousel-slide>
+
+        <!-- Slides with img slot -->
+        <!-- Note the classes .d-block and .img-fluid to prevent browser default image alignment -->
+        <b-carousel-slide>
+          <img
+            slot="img"
+            class="d-block img-fluid w-100"
+            width="1024"
+            height="480"
+            src="../assets/img/china-land2.jpg"
+            alt="image slot"
+          >
+        </b-carousel-slide>
+      </b-carousel>
+    </div>
+    <!-- end sliding bar -->
   </div>
 </template>
 
 <script>
-import PageOptions from "../../config/PageOptions.vue";
+import PageOptions from "../config/PageOptions.vue";
 
 export default {
-  name: "Header",
+  name: "Welcome",
   data() {
     return {
       pageOptions: PageOptions
@@ -187,6 +161,17 @@ export default {
       e.preventDefault();
       this.$router.push({ path: "/extra/search" });
     }
+  },
+  created() {
+    PageOptions.pageEmpty = true;
+  },
+  beforeRouteLeave(to, from, next) {
+    PageOptions.pageEmpty = false;
+    next();
   }
 };
 </script>
+
+<style scoped>
+</style>
+

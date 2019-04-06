@@ -46,6 +46,9 @@ import './assets/css/default/style-responsive.min.css'
 import './assets/css/default/theme/default.css'
 import './assets/css/style.css'
 
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+
 import App from './App.vue'
 
 Vue.config.productionTip = false
@@ -54,7 +57,7 @@ Vue.use(VueX)
 Vue.use(VueRouter)
 Vue.use(VueBootstrap)
 Vue.use(VueNVD3)
-Vue.use(VueEventCalendar, {locale: 'en'})
+Vue.use(VueEventCalendar, { locale: 'en' })
 Vue.use(VueSparkline)
 Vue.use(Vueditor)
 Vue.use(VueHljs)
@@ -76,6 +79,9 @@ Vue.use(VueInsProgressBar, {
   show: true,
   height: '3px'
 })
+Vue.use(VueAxios, axios)
+
+
 Vue.component('v-select', VueSelect);
 Vue.component('datepicker', VueDatepicker)
 Vue.component('masked-input', VueMaskedInput)
@@ -84,7 +90,8 @@ Vue.component('vue-slider', VueSlider)
 Vue.component(VueCountdown.name, VueCountdown);
 
 const router = new VueRouter({
-	routes
+  routes,
+  mode: "history",
 })
 
 new Vue({

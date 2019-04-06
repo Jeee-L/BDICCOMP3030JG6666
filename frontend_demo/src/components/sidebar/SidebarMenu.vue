@@ -1,6 +1,6 @@
 <script>
 const sidebarMenu = [
-  { path: "/", icon: "fa fa-th", title: "Home" },
+  { path: "/home", icon: "fa fa-th", title: "Home" },
   { path: "/baggage", icon: "fa fa-hdd", title: "Baggage Insurance", 
     children: [
       { path: '/baggage/home', title: "Product Information" },
@@ -8,7 +8,8 @@ const sidebarMenu = [
     ]
   },
   { path: "/employee/order", icon: "fa fa-hdd", title: "Employee Order" },
-  // { path: "/form", icon: "fa fa-th", title: "Form Insurance" }
+  { path: "/login", icon: "fa fa-th", title: "Login" },
+  { path: "/register", icon: "fa fa-th", title: "Register" }
 ];
 
 export default sidebarMenu;
