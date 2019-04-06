@@ -25,8 +25,7 @@ def change_staue(id, state):
     claim.status = state
     return 'Change successfully'
 
-def all():
-    return Claim.query.all()
+
 
 if __name__ == '__main__':
     print(all())
