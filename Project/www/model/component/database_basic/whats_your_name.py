@@ -7,7 +7,7 @@ import yaml
 
 app = Flask(__name__)
 # db = yaml.load(open('/var/Project/www/db.yaml'))
-db = yaml.load(open('C:\\Users\\TED\\Documents\\GitHub\\MySimplePythonCode\\BDICCOMP3030JG6666\\Project\\www\\db.yaml'))
+db = yaml.load(open(r'C:\Users\TED\Documents\GitHub\MySimplePythonCode\BDICCOMP3030JG6666\Project\www\db.yaml'))
 
 
 app.config['SQLALCHEMY_DATABASE_URI'] = db['sqlalchemy_database_uri_local']
@@ -20,6 +20,7 @@ class Users(db.Model, UserMixin):
     phone_num = db.Column(db.Integer, nullable=False, unique = True,  index=True)
     passport_num = db.Column(db.Integer, nullable=False, unique=True,  index=True)
     email = db.Column(db.String(32), nullable=False, unique=True)
+    profile = db.Column(db.LargeBinary(length=2048))
 
     @property
     def password(self):
@@ -54,7 +55,9 @@ class Insurance(db.Model):
     amount_of_money = db.Column(db.Integer, nullable=False)
     status = db.Column(db.String(32), nullable=False)
     flight_number = db.Column(db.Integer, nullable=False)
+    pic = db.Column(db.LargeBinary(length=2048))
     date = db.Column(db.DateTime, nullable=False)
+
     def __repr__(self):
         return '<id %r,status id %r>' %(self.id ,self.status)
 
@@ -104,3 +107,15 @@ class Administrator(db.Model):
     def check_password_hash(self, password):
         return check_password_hash(self.password_hash, password)
 
+class Product(db.Model):
+    __tablename__ = 'Product'
+    product_id = db.Column(db.Integer, nullable=False, primary_key = True)
+    project_id = db.Column(db.Integer, db.ForeignKey('Project.name'), nullable=False,  primary_key = True)
+    product_information = db.Column(db.String(300))
+
+class Project(db.Model):
+    __tablename__ = 'Project'
+    project_id = db.Column(db.Integer, nullable = False, primary_key = True)
+    coverage = db.Column(db.Integer, nullable=False)
+    The_amount_of_each_shipment_insured = db.Column(db.Integer, nullable = False)
+    premium = db.Column(db.Integer, nullable=False)
