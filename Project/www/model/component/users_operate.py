@@ -23,6 +23,11 @@ def get_insurance(username):
     assert (user is not None), "Username already exist"
     return user.insurance_id.all()
 
+def get_claim(username):
+    user = search_username(username)
+    assert (user is not None), "Username already exist"
+    return user.claim_id.all()
+
 
 def update_profile(username, new_profile):
     user = search_username(username)
