@@ -4,7 +4,7 @@ const pageOptions = {
   pageContentFullWidth: false,
   pageContentInverseMode: false,
   pageContentFullHeight: false,
-  pageWithLanguageBar: true,
+  pageWithLanguageBar: false,
   pageWithFooter: false,
   pageWithoutSidebar: false,
   pageWithRightSidebar: false,
