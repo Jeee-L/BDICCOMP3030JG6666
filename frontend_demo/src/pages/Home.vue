@@ -86,7 +86,11 @@
             <h2 class="flag-icon flag-icon-cn width-full m-r-10 m-t-0 m-b-3" title="cn" id="cn"></h2>
             <h2 class="flag-icon flag-icon-ie width-full m-r-10 m-t-0 m-b-3" title="ie" id="ie"></h2>
           </div>-->
+<<<<<<< HEAD
           <h2 style="color: black">Hibernia-Sino Travel Insurance</h2>
+=======
+          <h2 style="color: black">Welcome {{name}}!</h2>
+>>>>>>> Xiuxian-LI
           <br>
           <h4>
             <b>Choose the best plan and start your journey!</b>
@@ -164,10 +168,15 @@
 </template>
 
 <script>
+<<<<<<< HEAD
+=======
+import {getCookie, delCookie} from '../assets/js/cookie.js'
+>>>>>>> Xiuxian-LI
 export default {
   data() {
     return {
       slide: 0,
+<<<<<<< HEAD
       sliding: null
     };
   },
@@ -177,6 +186,30 @@ export default {
     },
     onSlideEnd(slide) {
       this.sliding = false;
+=======
+      sliding: null,
+
+      name: ""
+    };
+  },
+  mounted(){
+    let username = getCookie("username")
+    this.name = username
+
+    if (username == ""){
+      this.$router.push({ path: "/login" });
+    }
+  },
+  methods: {
+    onSlideStart() {
+      this.sliding = true;
+    },
+    onSlideEnd() {
+      this.sliding = false;
+    },
+    quit(){
+      delCookie("username")
+>>>>>>> Xiuxian-LI
     }
   }
 };

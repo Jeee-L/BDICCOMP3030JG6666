@@ -4,7 +4,11 @@ const pageOptions = {
   pageContentFullWidth: false,
   pageContentInverseMode: false,
   pageContentFullHeight: false,
+<<<<<<< HEAD
   pageWithLanguageBar: false,
+=======
+  pageWithLanguageBar: true,
+>>>>>>> Xiuxian-LI
   pageWithFooter: false,
   pageWithoutSidebar: false,
   pageWithRightSidebar: false,
