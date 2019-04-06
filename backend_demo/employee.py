@@ -2,14 +2,11 @@ from re_verification import *
 import db_operatoin.employee_operate as db_emp_opr
 import db_operatoin.insurance_operate as db_ins_opr
 import db_operatoin.claim_operate as db_cla_opr
-import os
-import cv2
-from werkzeug.utils import secure_filename
 
 def login(employeeid,password):
     if not verify_password(password):
         return "密码不合法"
-    elif not verify_username(employeeid):
+    elif not verify_employeename(employeeid):
         return "员工名不合法"
     else:
         try:
@@ -27,3 +24,15 @@ def update_password(employeeid,new_password,confirm_password):
             return db_emp_opr.update_password(employeeid,new_password)
         except AssertionError as ae:
             return ae
+
+def list_all_insurance():
+    return db_ins_opr.all()
+
+def list_all_claim():
+    return db_cla_opr.all()
+
+def address_claim(claim_id,state):
+    try:
+        return db_cla_opr.change_staue(claim_id,state)
+    except AssertionError as ae:
+        return "失败,reason:"+ae

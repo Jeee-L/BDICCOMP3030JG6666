@@ -30,16 +30,15 @@ def verify_phone_number(phonenumber):
         return False
 
 def verify_employeename(employeename):
-    valid_employeename = r'^[e|E]@[_a-zA-Z0-9\u4E00-\u9FA5]{1,10}$'
+    valid_employeename = r'^e@[_a-zA-Z0-9\u4E00-\u9FA5]{1,10}$'
     if re.match(valid_employeename,employeename):
         return True
     else:
         return False
 
-def verify_root(rootname):
-    # TODO 是否可以修改root这个名字？
-    valid_root = r'[e|E]@[r|R]oot'
-    if re.match(valid_root, rootname):
+def verify_administrator_name(administrator_name):
+    valid_administrator_name = r'^a@[_a-zA-Z0-9\u4E00-\u9FA5]{1,10}$'
+    if re.match(valid_administrator_name, administrator_name):
         return True
     else:
         return False
