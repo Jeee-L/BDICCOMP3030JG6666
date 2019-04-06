@@ -1,11 +1,16 @@
-from flask import Flask,render_template,url_for,request,redirect,g,session,jsonify,make_response
+from flask import Flask,render_template,url_for,request,redirect,session,jsonify,make_response
 from werkzeug.utils import secure_filename
 import os
 import cv2
 import time
 from datetime import timedelta
 from email_verificatoin import email_verify
+from flask_cors import core
+import user
+import employee
+import administrator
 
+# TODO 所有的状态：0--未处理，1--处理中，2--驳回， 3--处理结束
 
 app = Flask(__name__)
 
@@ -13,15 +18,10 @@ app.secret_key = os.urandom(24)
 app.permanent_session_lifetime = timedelta(days=7)
 app.send_file_max_age_default = timedelta(seconds=10)
 
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'JPG', 'PNG', 'bmp'])
-
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 @app.route('/')
 def home():
     user = session.get('username')
-    # user = request.cookies.get('username')
     if user:
         return redirect('/1/')
     else:
@@ -34,113 +34,174 @@ def home_page(is_login):
     else:
         return render_template('homepage.html')
 
-@app.route('/login/',methods=['GET','POST'])
-def login_page():
+@app.route('/user_login/',methods=['GET','POST'])
+def user_login_page():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        return user.login(username,password)
 
-        session['username'] = username
-        session.permanent = True
-
-        # search in the database to check whether this user is valid
-        return redirect('/1/')
-    else:
-        return render_template('loginpage.html')
 
 @app.route('/register/',methods=['GET','POST'])
 def register_page():
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        phone = request.form['phonenumber']
-        email = request.form['email']
-        check_password = request.form['check_password']
-        print("username: "+username+" password: "+password)
-        if check_password == password and password != '':
-            # search in database
-            return redirect(url_for('success_page'))
-        else:
-            return redirect(url_for('failure_page'))
-    else:
-        return render_template('registerpage.html')
+        register_info = {}
+        register_info['name'] = request.form['username']
+        register_info['password'] = request.form['password']
+        register_info['confirm_password'] = request.form['confirm_password']
+        register_info['passport_num'] = request.form['passport']
+        register_info['phone_num'] = request.form['phonenumber']
+        register_info['email'] = request.form['email']
+        return user.register(register_info)
 
-@app.route('/success/')
-def success_page():
-    return render_template('successpage.html')
 
-@app.route('/failure/')
-def failure_page():
-    return render_template('register_failpage.html')
-
-@app.route('/deatil/',methods=['GET','POST'])
-def detail_page():
+@app.route('/user_info/',methods=['GET','POST'])
+def user_info_page():
     if request.method == 'POST':
-        if request.form['alteredname'] is not None:
-            altered_username = request.form['alteredname']
-        if request.form['alteredpassword'] is not None:
-            altered_password = request.form['alteredpassword']
-        if request.form['alteredphone'] != '':
-            altered_phone = request.form['alteredphone']
-        if request.form['alteredemail'] != '':
-            altered_email = request.form['alteredemail']
+        update_info = {}
+        update_info['old_name'] = request.form['old_name']
+        update_info['new_name'] = request.form['update_name']
+        update_info['password'] = request.form['update_password']
+        update_info['confirm_password'] = request.form['update_confirm_password']
+        update_info['passport_num'] = request.form['update_passport']
+        update_info['phone_num'] = request.form['update_phone']
+        update_info['email'] = request.form['update_email']
 
-        user_image = request.files['user_icon']
-        if not (user_image and allowed_file(user_image.filename)):
-            # 返回一个Json文件格式错误
-            return jsonify({"error": 1001, "msg": "请检查上传的图片类型，仅限于png、PNG、jpg、JPG、bmp"})
-        user_input = request.form.get("name")
-        basepath = os.path.dirname(__file__)  # 当前文件所在路径
-        upload_path = os.path.join(basepath, 'static/user_images', secure_filename(user_image.filename))  # 注意：没有的文件夹一定要先创建，不然会提示没有该路径
-        # upload_path = os.path.join(basepath, 'static/images','test.jpg')  #注意：没有的文件夹一定要先创建，不然会提示没有该路径
-        user_image.save(upload_path)
+        user_image = request.files['user_image']
 
-        # 使用Opencv转换一下图片格式和名称
-        img = cv2.imread(upload_path)
-        cv2.imwrite(os.path.join(basepath, 'static/user_images', 'test.jpg'), img)
+        # TODO 所有信息同时更新还是可以分开更新？
+        # user.update_name(update_info['old_name'],update_info['new_name'])
+        # user.update_password(update_info['old_name'],,update_info['password'],update_info['confirm_password'])
+        # user.update_passport(update_info['old_name'],update_info['passport_num'])
+        # user.update_email(update_info['old_name'],update_info['email'])
+        # user.update_phone(update_info['old_name'],update_info['phone_num'])
+        # user.update_user_image(update_info['old_name'],user_image)
+        return None
 
-        return render_template('detail_withicon.html', user_icon=user_input, val1=time.time())
-
-        # return render_template('successpage.html')
-    else:
-        return render_template('detail.html')
-
-@app.route('/claimpage/',methods=['GET','POST'])
-def claim_page():
+@app.route('/buy_insurance/',methods=['GET','POST'])
+def buy_insurance_page():
     if request.method == 'POST':
-        luggage_image = request.files['luggage_icon']
-        if not (luggage_image and allowed_file(luggage_image.filename)):
-            # 返回一个Json文件格式错误
-            return jsonify({"error": 1001, "msg": "请检查上传的图片类型，仅限于png、PNG、jpg、JPG、bmp"})
-        luggage_input = request.form.get("name")
-        basepath = os.path.dirname(__file__)  # 当前文件所在路径
-        upload_path = os.path.join(basepath, 'static/luggage_images',secure_filename(luggage_image.filename))  # 注意：没有的文件夹一定要先创建，不然会提示没有该路径
-        luggage_image.save(upload_path)
+        insurance_info = {}
+        insurance_info['username'] = request.form['username']
+        insurance_info['product_id'] = request.form['product_id']
+        insurance_info['amount_of_money'] = request.form['amount_of_money']
+        insurance_info['flight_number'] = request.form['flight_number']
+        insurance_info['status'] = 0    # 0-未处理
+        insurance_info['image'] = request.files['insurance_image']
 
-        # 使用Opencv转换一下图片格式和名称
-        img = cv2.imread(upload_path)
-        cv2.imwrite(os.path.join(basepath, 'static/luggage_images', 'test.jpg'), img)
+        return user.buy_insurance(insurance_info)
 
-        description = request.form.get('description')
-        print(description)
 
-        return render_template('claimpage_withimage.html', user_icon=luggage_input, val1=time.time())
-    else:
-        return render_template('claimpage.html')
+@app.route('/apply_claim/',methods=['GET','POST'])
+def apply_claim_page():
+    if request.method == 'POST':
+        claim_info = {}
+        claim_info['insurance_id'] = request.form['insurance_id']
+        claim_info['employee_id'] = -1 # 表示新的订单，没有员工处理
+        claim_info['reason'] = request.form['reason']
+        claim_info['status'] = 0
 
-@app.route('/verify/',methods=['GET','POST'])
-def verify_email_page():
+        return user.apply_claim(claim_info)
+
+@app.route('/email_verification/',methods=['GET','POST'])
+def email_verification_page():
     if request.method == 'POST':
         user_email = request.form['email_address']
         verification_code = email_verify(user_email)
-        return render_template('successpage.html')
-    else:
-        return render_template('verify_eamilpage.html')
+        return None
 
 @app.route('/logout/')
 def logout_page():
-    session.clear()
-    return render_template('loginpage.html')
+    session.clear() # TODO 用户登出要清cookie和session
+    return None
+
+@app.route('/employee_login/',methods=['GET','POST'])
+def employee_lonin_page():
+    employeeid = request.form['employeeid']
+    password = request.form['password']
+    return employee.login(employeeid, password)
+
+@app.route('/employee_update_password/',methods=['GET','POST'])
+def employee_update_password_page():
+    employeeid = request.form['employeeid']
+    new_password = request.form['new_password']
+    confirm_password = request.form['confirm_password']
+    return employee.update_password(employeeid,new_password,confirm_password)
+
+# TODO 员工是否应该看到所有的保险和理赔申请？
+@app.route('/check_all_insurance/',methods=['GET','POST'])
+def list_all_insurance_page():
+    return employee.list_all_insurance()
+
+@app.route('/list_all_claim/',methods=['GET','POST'])
+def list_all_claim_page():
+    return employee.list_all_claim()
+
+@app.route('/address_claim/',methods=['GET','POST'])
+def address_claim_page():
+    claim_id = request.form['claim_id']
+    # TODO 这里的状态位如何确定？
+    state = request.form['state']
+    return employee.address_claim(claim_id,state)
+
+@app.route('/administrator_login/',methods=['GET','POST'])
+def administrator_login_page():
+    administratorid = request.form['administratorid']
+    password = request.form['password']
+    return administrator.login(administratorid, password)
+
+@app.route('/administrator_update_password/',methods=['GET','POST'])
+def administrator_update_password():
+    administratorid = request.form['administratorid']
+    new_password = request.form['new_password']
+    confirm_password = request.form['confirm_password']
+    return administrator.update_password(administratorid, new_password, confirm_password)
+
+@app.route('/create_new_administrator/',methods=['GET','POST'])
+def create_new_administrator():
+    new_id = request.form['new_id']
+    password = request.form['password']
+    confirm_password = request.form['confirm_password']
+    return administrator.create_new_administrator(new_id,password,confirm_password)
+
+@app.route('/delete_administrator/',methods=['GET','POST'])
+def delete_administrator():
+    current_id = request.form['current_id']
+    delete_id = request.form['delete_id']
+    return administrator.delete_administrator(current_id,delete_id)
+
+@app.route('/create_employee/',methods=['GET','POST'])
+def create_employee():
+    employee_id = request.form['employee_id']
+    password = request.form['password']
+    confirm_password = request.form['confirm_password']
+    return administrator.create_employee(employee_id, password, confirm_password)
+
+@app.route('/delete_employee/',methods=['GET','POST'])
+def delete_employee():
+    delete_employee_id = request.form['delete_employee_id']
+    return administrator.delete_employee(delete_employee_id)
+
+@app.route('/update_employee_password/',methods=['GET','POST'])
+def update_employee_password():
+    update_employee_id = request.form['update_employee_id']
+    password = request.form['password']
+    confirm_password = request.form['confirm_password']
+    return administrator.update_employee_password(update_employee_id,password,confirm_password)
+
+@app.route('/delete_user/',methods=['GET','POST'])
+def delete_user():
+    delete_username = request.form['delete_username']
+    return administrator.delete_user(delete_username)
+
+# TODO list
+"""
+1. administrator 是否看到所有的claim和insurance，是否可以和员工共用一个方法？(再一个py文件)
+2. administrator 的名字问题，a@开头
+3. 员工和管理员的名字前缀(e@,a@),应不应该手动输入
+4. 其他信息的正则验证
+5. 状态位的确定
+"""
 
 if __name__ == '__main__':
     app.run()
