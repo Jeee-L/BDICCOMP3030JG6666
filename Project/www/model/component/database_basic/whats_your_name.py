@@ -58,7 +58,8 @@ class Insurance(db.Model):
     flight_number = db.Column(db.Integer, nullable=False)
     pic = db.Column(db.LargeBinary(length=2048))
     date = db.Column(db.DateTime, nullable=False)
-
+    claim_id = db.relationship('Claim', backref='Insurance',
+                                lazy='dynamic')
 
 
     def __repr__(self):
