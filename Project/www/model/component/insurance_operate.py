@@ -22,6 +22,9 @@ def change_staue(id, state):
 def all():
     return Insurance.query.all()
 
+def search_claim(id):
+    return __search_insurance(id).claim_id.first()
+
 def user_request(username):
     return Insurance.query.filter_by(name = username).all()
 
