@@ -21,7 +21,8 @@ class Users(db.Model, UserMixin):
     passport_num = db.Column(db.Integer, nullable=False, unique=True,  index=True)
     email = db.Column(db.String(32), nullable=False, unique=True)
     profile = db.Column(db.LargeBinary(length=2048))
-
+    insurance_id = db.relationship('Insurance', backref='Users',
+                                lazy='dynamic')
     @property
     def password(self):
         raise AttributeError("密码不允许读取")
@@ -57,6 +58,7 @@ class Insurance(db.Model):
     flight_number = db.Column(db.Integer, nullable=False)
     pic = db.Column(db.LargeBinary(length=2048))
     date = db.Column(db.DateTime, nullable=False)
+
 
     def __repr__(self):
         return '<id %r,status id %r>' %(self.id ,self.status)
@@ -110,7 +112,7 @@ class Administrator(db.Model):
 class Product(db.Model):
     __tablename__ = 'Product'
     product_id = db.Column(db.Integer, nullable=False, primary_key = True)
-    project_id = db.Column(db.Integer, db.ForeignKey('Project.name'), nullable=False,  primary_key = True)
+    project_id = db.Column(db.Integer, db.ForeignKey('Project.project_id'), nullable=False,  primary_key = True)
     product_information = db.Column(db.String(300))
 
 class Project(db.Model):

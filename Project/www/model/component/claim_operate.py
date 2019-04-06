@@ -16,3 +16,9 @@ def cancel_claim(id):
     assert(claim is not None), 'No such Claim'
     claim.status = 'cancel'
     return 'cancel Successfully'
+
+def change_staue(id, state):
+    claim = __search_claim(id)
+    assert claim is not None,'No such Claim'
+    claim.status = state
+    return 'Change successfully'
