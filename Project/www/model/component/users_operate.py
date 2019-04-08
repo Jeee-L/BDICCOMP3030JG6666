@@ -3,7 +3,7 @@ from www.model.component.database_basic.whats_your_name import Users,db
 
 def search_username(username):
     '参数:username， 用户对象，否则None'
-    return Users.query.filter_by(name=username).first()
+    return Users.query.filter_by(username=username).first()
 
 def password_is_right(username, password):
     '参数:username, password'
@@ -11,10 +11,10 @@ def password_is_right(username, password):
     return user.check_password_hash(password)
 
 def insert_user(dict):
-    '参数:dict username,password,phone_num,passport_num,email'
-    user = search_username(dict['name'])
+    '参数:dict username,password,phone_num,email'
+    user = search_username(dict['username'])
     assert (user is None), "Username already exist"
-    db.session.add(Users(name=dict['username'],password=dict['password'],phone_num=dict['phone_num'],passport_num=dict['passport_num'],email=dict['email'], profile=dict['profile']))
+    db.session.add(Users(username=dict['username'],password=dict['password'],phone_num=dict['phone_num'],email=dict['email']))
     db.session.commit()
     return 'Create successfully'
 
@@ -40,7 +40,7 @@ def update_username(username, new_name):
     user = search_username(username)
     assert (user is not None), "No such user"
     assert (not search_username(new_name)), 'This name already exist'
-    user.name = new_name
+    user.username = new_name
     db.session.commit()
     return "Update successfully"
 
@@ -81,7 +81,8 @@ def delete_user(username):
 
 if __name__ == '__main__':
     '参数:dict name,password,phone_num,passport_num,email, return boolean'
-    # insert_user({'name':'1cfabds','password':'1afsdfff','phone_num':1213334,'passport_num':1233413,'email':'133f23@1163.com','profile':1231})
-    print(search_username('1cfabds'))
-    print(password_is_right('1cfabds', '1afsdfff'))
+    # insert_user({'username':'1cfabds','password':'1afsdfff','phone_num':1213334,'passport_num':1233413,'email':'133f23@1163.com','profile':1231})
+    print(get_insurance('1cfabds'))
+    print(search_username('1cfabds').insurance_id.first())
+    print(password_is_right('1cfabds', '123'))
     print(get_insurance('1cfabds'))

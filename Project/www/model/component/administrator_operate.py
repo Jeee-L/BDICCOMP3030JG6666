@@ -28,6 +28,11 @@ def update_password(id, new_password):
 
 
 def delete(id):
+    '''
+
+    :param id:
+    :return:
+    '''
     admin = search_id(id)
     assert(admin is not None),'No such administrator'
     db.session.delete(admin)
@@ -36,13 +41,35 @@ def delete(id):
 
 
 def delete_employee(id):
+    '''
+
+    :param id:
+    :return:
+    '''
     return emp.delete(id)
 
 def update_employee_password(id, password):
+    '''
+
+    :param id:
+    :param password:
+    :return:
+    '''
     return emp.update_password(id,password)
 
 def create_employee(id, password):
+    '''
+
+    :param id:
+    :param password:
+    :return:
+    '''
     return emp.create(id, password)
 
 def search_employee(id):
+    '''
+
+    :param id:
+    :return:
+    '''
     return emp.search_id(id)
