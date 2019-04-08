@@ -1,7 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
 from werkzeug.security import generate_password_hash,check_password_hash
-from flask_security import RoleMixin, UserMixin
+
 import yaml
 
 
@@ -13,15 +13,21 @@ db = yaml.load(open(r'C:\Users\TED\Documents\GitHub\MySimplePythonCode\BDICCOMP3
 app.config['SQLALCHEMY_DATABASE_URI'] = db['sqlalchemy_database_uri_local']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
-class Users(db.Model, UserMixin):
+class Users(db.Model):
     __tablename__ = 'users'
-    name = db.Column(db.String(32), nullable=False, unique=True,primary_key=True,  index=True)
+    first_name = db.Column(db.String(32), nullable=True, index=True)
+    last_name = db.Column(db.String(32), nullable=True, index=True)
+    username = db.Column(db.String(32), nullable=False, unique=True,primary_key=True,  index=True)
     password_hash = db.Column(db.String(300), nullable=False, unique = True)
     phone_num = db.Column(db.Integer, nullable=False, unique = True,  index=True)
-    passport_num = db.Column(db.Integer, nullable=False, unique=True,  index=True)
-    email = db.Column(db.String(32), nullable=False, unique=True)
+    passport_num = db.Column(db.Integer, nullable=True, unique=True,  index=True)
+    email = db.Column(db.String(32), nullable=True, unique=True)
     profile = db.Column(db.LargeBinary(length=2048))
-    insurance_id = db.relationship('Insurance', backref='Users',
+    birth_day = db.Column(db.DateTime, nullable=True)
+    address = db.Column(db.String(32), nullable=True)
+    insurance_id = db.relationship('Insurance', backref='user',
+                                   lazy='dynamic')
+    addresses = db.relationship('Claim', backref='user',
                                 lazy='dynamic')
     @property
     def password(self):
@@ -31,56 +37,80 @@ class Users(db.Model, UserMixin):
     def password(self, password):
         self.password_hash = generate_password_hash(password)
 
-
     def check_password_hash(self, password):
         return check_password_hash(self.password_hash, password)
-
-
-
-
-class Passport(db.Model):
-    __tablename__ = 'passport'
-    id = db.Column(db.Integer, nullable=False, primary_key=True, index=True)
-    first_name = db.Column(db.String(32), nullable=False, unique=True,  index=True)
-    last_name = db.Column(db.String(32), nullable=False, unique=True, index=True)
-    birth_day = db.Column(db.DateTime, nullable=False)
-    address = db.Column(db.String(32), nullable=False)
     def __repr__(self):
-        return '<User %r %r, passport_id %r>' %(self.first_name,self.last_name,self.id)
+        return '''
+        first_name = {}
+        last_name = {}
+        username = {}
+        phone_num = {}
+        passport_num = {}
+        email = {}
+        birth_day = {}
+        address = {}
+        '''.format(self.first_name,self.last_name,self.username,self.phone_num,self.passport_num,self.email, self.birth_day, self.address )
+
 
 class Insurance(db.Model):
     __tablename__ = 'Insurance'
     id = db.Column(db.Integer, nullable=False, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(32), db.ForeignKey('users.name'))
-    product_id = db.Column(db.Integer, nullable=False)
+    username = db.Column(db.String(32), db.ForeignKey('users.username'))
+    pro_id = db.Column(db.Integer, nullable=False)
     amount_of_money = db.Column(db.Integer, nullable=False)
     status = db.Column(db.String(32), nullable=False)
     flight_number = db.Column(db.Integer, nullable=False)
-    pic = db.Column(db.LargeBinary(length=2048))
+    luggage_image_outside = db.Column(db.LargeBinary(length=2048))
+    luggage_image_inside = db.Column(db.LargeBinary(length=2048))
+    luggage_height = db.Column(db.Integer, nullable=False)
+    luggage_width = db.Column(db.Integer, nullable=False)
     date = db.Column(db.DateTime, nullable=False)
-    claim_id = db.relationship('Claim', backref='Insurance',
-                                lazy='dynamic')
-
-
+    claim_id = db.relationship('Claim', backref='insurance',
+                                lazy='dynamic', uselist = False)
+    remark = db.Column(db.String(32))
     def __repr__(self):
-        return '<id %r,status id %r>' %(self.id ,self.status)
+        return '''
+        id = {}
+        username = {}
+        pro_id = {}
+        amount_of_money = {}
+        status = {}
+        flight_number = {}
+        luggage_image_outside = {}
+        luggage_image_inside = {}
+        luggage_height = {}
+        luggage_width = {}
+        date = {}
+        claim_id = {}
+        remark = {}
+        '''.format(self.id, self.username,self.pro_id,self.amount_of_money, self.status, self.flight_number,self.luggage_image_outside,self.luggage_image_inside,self.luggage_height,self.luggage_width,self.date, self.claim_id,self.remark)
 
 class Claim(db.Model):
     __tablename__='Claim'
     insurance_id = db.Column(db.Integer, db.ForeignKey('Insurance.id'),nullable=False,unique=True)
-    id = db.Column(db.Integer, nullable=False, primary_key=True, index=True)
+    id = db.Column(db.Integer, nullable=False, primary_key=True, index=True,autoincrement=True)
     employee_id = db.Column(db.Integer,nullable = False)
     reason = db.Column(db.String(300), nullable=False)
     status = db.Column(db.Integer, nullable=False)
+    lost_time = db.Column(db.DateTime, nullable=False)
+    lost_place = db.Column(db.String(100), nullable=False)
+    remark = db.Column(db.String(300), nullable=False)
     def __repr__(self):
-        return '<id %r,status id %r>' %(self.id ,self.status)
+        return '''
+        insurance_id = {}
+        id = {}
+        employee_id = {}
+        reason = {}
+        status = {}
+        lost_time = {}
+        lost_place = {}
+        remark = {}
+        '''.format(self.insurance_id, self.id, self.employee_id,self.reason, self.status, self.lost_time,self.lost_place,self.remark)
 
 class Employee(db.Model):
     __tablename__='Employee.model'
     id = db.Column(db.Integer, nullable=False, primary_key=True, index=True)
     password_hash = db.Column(db.String(32), nullable=False, unique=True)
-    def __repr__(self):
-        return '<id %r>' %(self.id )
 
     @property
     def password(self):
@@ -92,13 +122,16 @@ class Employee(db.Model):
 
     def check_password_hash(self, password):
         return check_password_hash(self.password_hash, password)
+
+    def __repr__(self):
+        return '''
+        id = {}
+        '''.format(self.id)
 
 class Administrator(db.Model):
     __tablename__ = 'Administrator.model'
     id = db.Column(db.Integer, nullable=False, primary_key=True, index=True)
     password_hash = db.Column(db.String(32), nullable=False, unique=True)
-    def __repr__(self):
-        return '<id %r>' %(self.id )
 
     @property
     def password(self):
@@ -110,12 +143,30 @@ class Administrator(db.Model):
 
     def check_password_hash(self, password):
         return check_password_hash(self.password_hash, password)
+    def __repr__(self):
+        return '''
+        id = {}
+        '''.format(id)
 
 class Product(db.Model):
     __tablename__ = 'Product'
     product_id = db.Column(db.Integer, nullable=False, primary_key = True)
-    project_id = db.Column(db.Integer, db.ForeignKey('Project.project_id'), nullable=False,  primary_key = True)
     product_information = db.Column(db.String(300))
+    def __repr__(self):
+        return '''
+        product_id = {}
+        product_information = {}
+        '''.format(self.product_id, self.product_information)
+
+class Has(db.Model):
+    __tablename__ = 'Has'
+    product_id = db.Column(db.Integer, db.ForeignKey('Prduct.product_id'),nullable=False, primary_key = True)
+    project_id = db.Column(db.Integer, db.ForeignKey('Project.project_id'), nullable=False, primary_key = True)
+
+    def __repr__(self):
+        return '''
+        product:{} has project: {}
+        '''.format(self.product_id, self.project_id)
 
 class Project(db.Model):
     __tablename__ = 'Project'
@@ -123,3 +174,10 @@ class Project(db.Model):
     coverage = db.Column(db.Integer, nullable=False)
     The_amount_of_each_shipment_insured = db.Column(db.Integer, nullable = False)
     premium = db.Column(db.Integer, nullable=False)
+    def __repr__(self):
+        return '''
+        project_id = {}
+        coverage = {}
+        The_amount_of_each_shipment_insured = {}
+        premium = {}
+        '''.format(self.project_id, self.coverage, self.The_amount_of_each_shipment_insured, self. premium)
