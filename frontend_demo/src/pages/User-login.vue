@@ -95,12 +95,15 @@ export default {
         params.append("username", this.username);
         params.append("password", this.password);
 
-        axios.post("http://localhost:5000/login", params).then(res => {
+        axios.post("/login", params).then(res => {
           if (res.data == -1) {
             this.notification = "Invalid user";
             this.showNotification = true;
           } else if (res.data == 0) {
             this.notification = "Wrong password";
+            this.showNotification = true;
+          } else if (res.data == 3) {
+            this.notification = "Welcome to the Administration Page";
             this.showNotification = true;
           } else if (res.data == 2) {
             this.notification = "Welcome to the Employee Page";
