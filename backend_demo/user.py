@@ -71,7 +71,29 @@ def verify_register_info(register_info):
         return True
 
 def update_user_info(update_info):
-    pass
+    if not update_info['first_name'] == '':
+        update_first_name(update_info['old_username'],update_info['first_name'])
+    if not update_info['last_name'] == '':
+        update_last_name(update_info['old_username'], update_info['last_name'])
+    # first_name
+    # last_name
+    # old_username
+    # username
+    # email
+    # phone_num
+    # passport_num
+    # birthday
+    # address
+
+def update_first_name(username,first_name):
+    user = db_usr_opr.search_username(username)
+    if not (user is None):
+        user.first_name = first_name
+
+def update_last_name(username,last_name):
+    user = db_usr_opr.search_username(username)
+    if not (user is None):
+        user.last_name = last_name
 
 def update_name(old_name,new_name):
     if not verify_username(new_name):
