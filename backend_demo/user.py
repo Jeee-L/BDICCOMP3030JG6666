@@ -7,26 +7,51 @@ import cv2
 from werkzeug.utils import secure_filename
 
 def login(username,password):
-    if not verify_password(password):
-        return "密码不合法"
-    elif not verify_username(username):
-        return "用户名不合法"
-    elif db_usr_opr.search_username(username):
-        return "用户不存在"
+    if db_usr_opr.search_username(username):
+        return "-1"
     elif db_usr_opr.password_is_right(password):
-        return "密码不正确"
+        return "0"
     else:
-        return "登陆成功"
+        try:
+            insurance = db_usr_opr.get_insurance(username)
+            claim = db_usr_opr.get_claim(username)
+            return "1"+insurance+claim
+        except AssertionError as ae:
+            return ae
+
+def user_all_info(username):
+    user = db_usr_opr.search_username(username)
+    if user is None:
+        return_value = {'state':'-1','error_msg':'no such user'}
+        return return_value
+    else:
+        return_value = {
+            'state' : '1',
+            'first_name' : user.first_name,
+            'last_name' : user.last_name,
+            'phone_num' : user.phone_num,
+            'passport_num' : user.passport_num,
+            'email' : user.email,
+            'birthday' : user.birthday,
+            'address' : user.address,
+            'insurance_id_list' : user.insurance_id,
+            'claim_id_list' : user.claim_id,
+        }
+        return return_value
+
 
 def register(register_info):
     verify_result = verify_register_info(register_info)
-    if verify_result:
+    if verify_result == True:
         try:
-            db_usr_opr.insert_user(register_info)
+            success_message = 'Create successfully'
+            return_message = db_usr_opr.insert_user(register_info)
+            if success_message == return_message:
+                return "1"
         except AssertionError as ae:
-            return ae
+            return "0"
     else:
-        return verify_result
+        return "0"
 
 def verify_register_info(register_info):
     if not verify_username(register_info['name']):
@@ -45,7 +70,6 @@ def verify_register_info(register_info):
         return True
 
 def update_name(old_name,new_name):
-    # TODO 如何获得用户的 old_name?
     if not verify_username(new_name):
         return "新用户名不合法"
     else:

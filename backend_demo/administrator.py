@@ -11,9 +11,15 @@ def login(administratorid,password):
         return "管理员名不合法"
     else:
         try:
-            return db_adi_opr.login(administratorid,password)
+            return_message = db_adi_opr.login(administratorid, password)
+            success_message = 'Login successfully'
+            if return_message == success_message:
+                return "3"
         except AssertionError as ae:
-            return "登陆失败,reason:"+ae
+            if ae == 'No such id':
+                return "-1"
+            elif ae == 'Password wrong':
+                return "0"
 
 def update_password(administratorid,new_password,confirm_password):
     if not verify_password(new_password):

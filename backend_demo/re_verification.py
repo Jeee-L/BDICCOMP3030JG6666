@@ -22,9 +22,8 @@ def verify_email(email):
         return False
 
 def verify_phone_number(phonenumber):
-    valid_phone_cn = r'^1[34578]\d{9}$'
-    valid_phone_ie = r'^\d{8,9}$'
-    if re.match(valid_phone_cn, phonenumber) or re.match(valid_phone_ie,phonenumber):
+    valid_phone = r'^1[34578]\d{9}$|^\d{8,9}$'
+    if re.match(valid_phone, phonenumber):
         return True
     else:
         return False
@@ -44,13 +43,20 @@ def verify_administrator_name(administrator_name):
         return False
 
 def verify_passport(passport):
-    valid_passport = r'' # TODO 护照号格式？爱尔兰护照？
+    # 因私普通护照号码格式有:14/15+7位数,G+8位数；
+    # 因公普通的是:P.+7位数；公务的是：S.+7位数 或者 S+8位数,以D开头的是外交护照.D=diplomatic
+    # H:香港特区护照和香港公民所持回乡卡H开头,后接10位数字
+    # M:澳门特区护照和澳门公民所持回乡卡M开头,后接10位数字
+    valid_passport = r'^[14|15|P]\d{7}$|^[G|D|E](\d{8})$|^S\d{7,8}$|^[H|M]\d{10}$'
     if re.match(valid_passport, passport):
         return True
     else:
         return False
 
-# TODO 这些用不用正则验证？
-# product_id
-# amount_of_money
-# flight_number
+def verify_flight_number(flight_num):
+    # 数字加大写字母开头，或者两个/三个大写字母，后面是2个到4个数字
+    valid_flight_num = r'^[\dA-Z][A-Z]{1,2}\d{2,4}$'
+    if re.match(valid_flight_num, flight_num):
+        return True
+    else:
+        return False

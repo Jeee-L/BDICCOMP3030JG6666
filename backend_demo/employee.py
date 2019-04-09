@@ -10,9 +10,15 @@ def login(employeeid,password):
         return "员工名不合法"
     else:
         try:
-            return db_emp_opr.login(employeeid,password)
+            return_message = db_emp_opr.login(employeeid,password)
+            success_message = "Login successfully"
+            if return_message == success_message:
+                return "2"
         except AssertionError as ae:
-            return "登陆失败,reason:"+ae
+            if ae == 'No such id':
+                return "-1"
+            elif ae == 'Wrong password':
+                return "0"
 
 def update_password(employeeid,new_password,confirm_password):
     if not verify_password(new_password):
