@@ -169,16 +169,6 @@
                     <!-- begin form-group -->
                     <div class="form-group row m-b-10">
                       <label class="col-md-3 col-form-label text-md-right">Address</label>
-                      <!-- <div class="col-md-9">
-                        <input
-                          type="text"
-                          name="address"
-                          placeholder="Address"
-                          class="form-control m-b-10"
-                          v-model="formData.passport_num"
-                          aria-rowspan="3"
-                        >
-                      </div>-->
                       <div class="col-md-9">
                         <textarea
                           class="form-control m-b-10"
