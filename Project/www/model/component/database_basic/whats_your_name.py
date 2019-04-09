@@ -1,4 +1,6 @@
-from flask_sqlalchemy import SQLAlchemy
+import datetime
+
+from flask_sqlalchemy import SQLAlchemy,event
 from flask import Flask
 from werkzeug.security import generate_password_hash,check_password_hash
 
@@ -18,17 +20,16 @@ class Users(db.Model):
     first_name = db.Column(db.String(32), nullable=True, index=True)
     last_name = db.Column(db.String(32), nullable=True, index=True)
     username = db.Column(db.String(32), nullable=False, unique=True,primary_key=True,  index=True)
-    password_hash = db.Column(db.String(300), nullable=False, unique = True)
+    password_hash = db.Column(db.String(300), nullable=False)
     phone_num = db.Column(db.Integer, nullable=False, unique = False,  index=True)
     passport_num = db.Column(db.Integer, nullable=True, unique=True,  index=True)
     email = db.Column(db.String(32), nullable=True, unique=True)
-    profile = db.Column(db.LargeBinary(length=2048))
+    profile = db.Column(db.LargeBinary(length=204800))
     birthday = db.Column(db.DateTime, nullable=True)
     address = db.Column(db.String(32), nullable=True)
-    insurance_id = db.relationship('Insurance', backref='user',
+    insurance_id = db.relationship('Insurance', backref='users',
                                    lazy='dynamic')
-    claim_id = db.relationship('Claim', backref='user',
-                                lazy='dynamic')
+
     @property
     def password(self):
         raise AttributeError("密码不允许读取")
@@ -49,7 +50,7 @@ class Users(db.Model):
         email = {}
         birth_day = {}
         address = {}
-        '''.format(self.first_name,self.last_name,self.username,self.phone_num,self.passport_num,self.email, self.birth_day, self.address )
+        '''.format(self.first_name,self.last_name,self.username,self.phone_num,self.passport_num,self.email, self.birthday, self.address )
 
     @classmethod
     def search_username(cls,username):
@@ -58,7 +59,7 @@ class Users(db.Model):
         :param username: 用户名
         :return: 用户对象 or None
         '''
-        return Users.query.filter_by(username=username).first()
+        return cls.query.filter_by(username=username).first()
 
     @classmethod
     def password_is_right(cls,username, password):
@@ -68,7 +69,7 @@ class Users(db.Model):
         :param password: 明文密码
         :return: True or False
         '''
-        user = Users.search_username(username)
+        user = cls.search_username(username)
         return user.check_password_hash(password)
 
     @classmethod
@@ -78,7 +79,7 @@ class Users(db.Model):
         :param dict: 用户信息字典
         :return: 是否创建成功
         '''
-        user = Users.search_username(dict['username'])
+        user = cls.search_username(dict['username'])
         db.session.add(Users(username=dict['username'], password=dict['password'], phone_num=dict['phone_num'],
                              email=dict['email']))
         db.session.commit()
@@ -91,7 +92,7 @@ class Users(db.Model):
         :param username: 用户名
         :return: list
         '''
-        user = Users.search_username(username)
+        user = cls.search_username(username)
         return user.insurance_id.all()
 
     @classmethod
@@ -101,7 +102,7 @@ class Users(db.Model):
         :param username:用户名
         :return: list
         '''
-        user = Users.search_username(username)
+        user = cls.search_username(username)
         return user.claim_id.all()
 
     @classmethod
@@ -112,7 +113,7 @@ class Users(db.Model):
         :param new_profile: 新照片
         :return: 是否创建成功
         '''
-        user = Users.search_username(username)
+        user = cls.search_username(username)
         user.profile = new_profile
         db.session.commit()
         return "Update successfully"
@@ -125,7 +126,7 @@ class Users(db.Model):
         :param new_name: 新名称
         :return: 是否创建成功
         '''
-        user = Users.search_username(username)
+        user = cls.search_username(username)
         user.username = new_name
         db.session.commit()
         return "Update successfully"
@@ -138,7 +139,7 @@ class Users(db.Model):
         :param new_password: 新密码
         :return: 是否更新成功
         '''
-        user = Users.search_username(username)
+        user = cls.search_username(username)
         user.password = new_password
         return "Update successfully"
 
@@ -150,7 +151,7 @@ class Users(db.Model):
         :param new_phone_num: 手机号
         :return: 是否更新成功
         '''
-        user = Users.search_username(username)
+        user = cls.search_username(username)
         user.phone_num = new_phone_num
         return "Update successfully"
 
@@ -162,19 +163,19 @@ class Users(db.Model):
         :param new_passport_num: 护照id
         :return: 是否更新成功
         '''
-        user = Users.search_username(username)
+        user = cls.search_username(username)
         user.password = new_passport_num
         return "Update successfully"
 
     @classmethod
     def update_email(cls,username, new_email):
-        user = Users.search_username(username)
+        user = cls.search_username(username)
         user.password = new_email
         return 'Update email successfully'
 
     @classmethod
     def delete_user(cls,username):
-        user = Users.search_username(username)
+        user = cls.search_username(username)
         db.session.delete(user)
         db.session.commit()
         return 'Delete successfully'
@@ -188,13 +189,13 @@ class Insurance(db.Model):
     amount_of_money = db.Column(db.Integer, nullable=False)
     status = db.Column(db.String(32), nullable=False)
     flight_number = db.Column(db.Integer, nullable=False)
-    luggage_image_outside = db.Column(db.LargeBinary(length=2048))
-    luggage_image_inside = db.Column(db.LargeBinary(length=2048))
+    luggage_image_outside = db.Column(db.LargeBinary(length=204800))
+    luggage_image_inside = db.Column(db.LargeBinary(length=204800))
     luggage_height = db.Column(db.Integer, nullable=False)
     luggage_width = db.Column(db.Integer, nullable=False)
-    date = db.Column(db.DateTime, nullable=False)
+    date = db.Column(db.DateTime, nullable=False,default=datetime.datetime.now())
     claim_id = db.relationship('Claim', backref='insurance',
-                                lazy='dynamic', uselist = False)
+                                lazy='dynamic')
     remark = db.Column(db.String(32))
     def __repr__(self):
         return '''
@@ -204,14 +205,12 @@ class Insurance(db.Model):
         amount_of_money = {}
         status = {}
         flight_number = {}
-        luggage_image_outside = {}
-        luggage_image_inside = {}
         luggage_height = {}
         luggage_width = {}
         date = {}
         claim_id = {}
         remark = {}
-        '''.format(self.id, self.username,self.pro_id,self.amount_of_money, self.status, self.flight_number,self.luggage_image_outside,self.luggage_image_inside,self.luggage_height,self.luggage_width,self.date, self.claim_id,self.remark)
+        '''.format(self.id, self.username,self.pro_id,self.amount_of_money, self.status, self.flight_number,self.luggage_height,self.luggage_width,self.date, self.claim_id,self.remark)
 
     @classmethod
     def __search_insurance(cls,id):
@@ -223,8 +222,8 @@ class Insurance(db.Model):
         'status are the one of set (Creating, using, out_date)'
         assert (Users.search_username(dict['username']) is not None), "No such User"
         f = Insurance(username=dict['username'], product_id=dict['product_id'], amount_of_money=dict['amount_of_money'],
-                      flight_number=dict['flight_number'], status=dict['status'], date=datetime.datetime.now(),
-                      pic=dict['image'])
+                      flight_number=dict['flight_number'], status=dict['status'], luggage_image_outside=dict['luggage_image_outside'], luggage_image_inside=dict['luggage_image_inside'],luggage_height=dict['luggage_height'],
+                      luggage_width=dict['luggage_width'])
         db.session.add(f)
         db.session.commit()
         return f.id
@@ -258,6 +257,7 @@ class Claim(db.Model):
     status = db.Column(db.Integer, nullable=False)
     lost_time = db.Column(db.DateTime, nullable=False)
     lost_place = db.Column(db.String(100), nullable=False)
+    time = db.Column(db.DateTime, default=datetime.datetime.now())
     remark = db.Column(db.String(300), nullable=False)
     def __repr__(self):
         return '''
@@ -311,7 +311,7 @@ class Claim(db.Model):
 
 
 class Employee(db.Model):
-    __tablename__='Employee.model'
+    __tablename__='Employee'
     id = db.Column(db.Integer, nullable=False, primary_key=True, index=True)
     password_hash = db.Column(db.String(32), nullable=False, unique=True)
 
@@ -369,7 +369,7 @@ class Employee(db.Model):
 
 
 class Administrator(db.Model):
-    __tablename__ = 'Administrator.model'
+    __tablename__ = 'Administrator'
     id = db.Column(db.Integer, nullable=False, primary_key=True, index=True)
     password_hash = db.Column(db.String(32), nullable=False, unique=True)
 
@@ -388,25 +388,25 @@ class Administrator(db.Model):
         id = {}
         '''.format(id)
 
-    @property
+    @classmethod
     def search_id(id):
         return Administrator.query.filter_by(id=id).first()
 
-    @property
+    @classmethod
     def login(id, password):
         admin = Administrator.search_id(id)
         assert (Administrator.search_id(id) is not None), 'No such id'
         assert (admin.check_password_hash(password)), 'Password wrong'
         return 'Login successfully'
 
-    @property
+    @classmethod
     def create(id, password):
         assert (Administrator.search_id(id) is None), 'Administrator already exist'
         db.session.add(Administrator(id=id, password=password))
         db.session.commit()
         return 'Create successfully'
 
-    @property
+    @classmethod
     def update_password(id, new_password):
         '''
 
@@ -419,7 +419,7 @@ class Administrator(db.Model):
         admin.password = new_password
         return 'Update successfully'
 
-    @property
+    @classmethod
     def delete(cls, id):
         '''
 
@@ -431,7 +431,7 @@ class Administrator(db.Model):
         db.session.commit()
         return 'Delete successfully'
 
-    @property
+    @classmethod
     def delete_employee(cls, id):
         '''
 
@@ -440,7 +440,7 @@ class Administrator(db.Model):
         '''
         return Employee.delete(id)
 
-    @property
+    @classmethod
     def update_employee_password(cls, id, password):
         '''
 
@@ -450,7 +450,7 @@ class Administrator(db.Model):
         '''
         return Employee.update_password(id, password)
 
-    @property
+    @classmethod
     def create_employee(cls, id, password):
         '''
 
@@ -460,7 +460,7 @@ class Administrator(db.Model):
         '''
         return Employee.create(id, password)
 
-    @property
+    @classmethod
     def search_employee(cls, id):
         '''
 
@@ -471,7 +471,7 @@ class Administrator(db.Model):
 
 class Product(db.Model):
     __tablename__ = 'Product'
-    product_id = db.Column(db.Integer, nullable=False, primary_key = True)
+    product_id = db.Column(db.Integer, nullable=False, primary_key=True)
     product_information = db.Column(db.String(300))
     def __repr__(self):
         return '''
@@ -498,4 +498,8 @@ class Project(db.Model):
 
 class log(db.Model):
     __tablename__ = 'log'
+    date = db.Column(db.DateTime, nullable=False, primary_key = True)
+    employee_id = db.Column(db.Integer, nullable=False, primary_key = True)
+
+
 
