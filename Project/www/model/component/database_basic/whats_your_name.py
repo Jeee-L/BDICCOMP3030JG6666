@@ -19,15 +19,15 @@ class Users(db.Model):
     last_name = db.Column(db.String(32), nullable=True, index=True)
     username = db.Column(db.String(32), nullable=False, unique=True,primary_key=True,  index=True)
     password_hash = db.Column(db.String(300), nullable=False, unique = True)
-    phone_num = db.Column(db.Integer, nullable=False, unique = True,  index=True)
+    phone_num = db.Column(db.Integer, nullable=False, unique = False,  index=True)
     passport_num = db.Column(db.Integer, nullable=True, unique=True,  index=True)
     email = db.Column(db.String(32), nullable=True, unique=True)
     profile = db.Column(db.LargeBinary(length=2048))
-    birth_day = db.Column(db.DateTime, nullable=True)
+    birthday = db.Column(db.DateTime, nullable=True)
     address = db.Column(db.String(32), nullable=True)
     insurance_id = db.relationship('Insurance', backref='user',
                                    lazy='dynamic')
-    addresses = db.relationship('Claim', backref='user',
+    claim_id = db.relationship('Claim', backref='user',
                                 lazy='dynamic')
     @property
     def password(self):
@@ -158,18 +158,11 @@ class Product(db.Model):
         product_information = {}
         '''.format(self.product_id, self.product_information)
 
-class Has(db.Model):
-    __tablename__ = 'Has'
-    product_id = db.Column(db.Integer, db.ForeignKey('Prduct.product_id'),nullable=False, primary_key = True)
-    project_id = db.Column(db.Integer, db.ForeignKey('Project.project_id'), nullable=False, primary_key = True)
 
-    def __repr__(self):
-        return '''
-        product:{} has project: {}
-        '''.format(self.product_id, self.project_id)
 
 class Project(db.Model):
     __tablename__ = 'Project'
+    product_id = db.Column(db.Integer, db.ForeignKey('Product.product_id'), primary_key = True)
     project_id = db.Column(db.Integer, nullable = False, primary_key = True)
     coverage = db.Column(db.Integer, nullable=False)
     The_amount_of_each_shipment_insured = db.Column(db.Integer, nullable = False)
@@ -181,3 +174,7 @@ class Project(db.Model):
         The_amount_of_each_shipment_insured = {}
         premium = {}
         '''.format(self.project_id, self.coverage, self.The_amount_of_each_shipment_insured, self. premium)
+
+class log(db.Model):
+    __tablename__ = 'log'
+
