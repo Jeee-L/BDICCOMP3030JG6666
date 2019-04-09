@@ -51,6 +51,8 @@ import VueAxios from 'vue-axios'
 
 import App from './App.vue'
 
+import VeeValidate from 'vee-validate';
+
 Vue.config.productionTip = false
 
 Vue.use(VueX)
@@ -80,6 +82,7 @@ Vue.use(VueInsProgressBar, {
   height: '3px'
 })
 Vue.use(VueAxios, axios)
+Vue.use(VeeValidate);
 
 
 Vue.component('v-select', VueSelect);

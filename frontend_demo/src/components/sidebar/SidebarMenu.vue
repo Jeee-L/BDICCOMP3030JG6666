@@ -5,6 +5,7 @@ const sidebarMenu = [
     children: [
       { path: '/baggage/home', title: "Product Information" },
       { path: '/baggage/order', title: "Create Order" },
+      { path: '/baggage/order1', title: "Create Order1" },
     ]
   },
   { path: "/employee/order", icon: "fa fa-hdd", title: "Employee Order" },
