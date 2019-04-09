@@ -18,10 +18,6 @@
   >
     <Header/>
     <Sidebar v-if="!pageOptions.pageWithoutSidebar"/>
-<<<<<<< HEAD
-    <SidebarRight v-if="pageOptions.pageWithTwoSidebar"/>
-=======
->>>>>>> Xiuxian-LI
     <div
       id="content"
       class="content"
@@ -40,10 +36,6 @@
 
 <script>
 import Sidebar from "./components/sidebar/Sidebar.vue";
-<<<<<<< HEAD
-import SidebarRight from "./components/sidebar-right/SidebarRight.vue";
-=======
->>>>>>> Xiuxian-LI
 import Header from "./components/header/Header.vue";
 import Footer from "./components/footer/Footer.vue";
 import PageOptions from "./config/PageOptions.vue";
@@ -52,10 +44,6 @@ export default {
   name: "app",
   components: {
     Sidebar,
-<<<<<<< HEAD
-    SidebarRight,
-=======
->>>>>>> Xiuxian-LI
     Header,
     Footer
   },
@@ -72,33 +60,5 @@ export default {
   mounted() {
     this.$insProgress.finish();
   },
-<<<<<<< HEAD
-  // created() {
-  //   PageOptions.pageBodyScrollTop = window.scrollY;
-
-  //   window.addEventListener("scroll", this.handleScroll);
-
-  //   this.$insProgress.start();
-
-  //   this.$router.beforeEach((to, from, next) => {
-  //     this.$insProgress.start();
-  //     if (localStorage.getItem("username")) {
-  //       next();
-  //     } else {
-  //       if (to.path === "/login") {
-  //         next();
-  //       } else {
-  //         next({
-  //           path: "/login"
-  //         });
-  //       }
-  //     }
-  //   });
-  //   this.$router.afterEach(() => {
-  //     this.$insProgress.finish();
-  //   });
-  // }
-=======
->>>>>>> Xiuxian-LI
 };
 </script>
