@@ -102,6 +102,9 @@ export default {
           } else if (res.data == 0) {
             this.notification = "Wrong password";
             this.showNotification = true;
+          } else if (res.data == 3) {
+            this.notification = "Welcome to the Administration Page";
+            this.showNotification = true;
           } else if (res.data == 2) {
             this.notification = "Welcome to the Employee Page";
             this.showNotification = true;

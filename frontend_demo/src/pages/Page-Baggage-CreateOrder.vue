@@ -21,7 +21,7 @@
             </wizard-step>
           </template>
           <!-- Headers -->
-          <tab-content title="<div>FIRST STEP TITLE</div><div>Step subtitle</div>">
+          <tab-content title="<div>FIRST STEP</div><div>Customer Personal Information</div>">
             <b-card class="mb-3">
               <!-- begin fieldset -->
               <fieldset>
@@ -31,7 +31,7 @@
                   <div class="col-md-8 offset-md-2">
                     <legend
                       class="no-border f-w-700 p-b-0 m-t-0 m-b-20 f-s-16 text-inverse"
-                    >Customer Personal Information</legend>
+                    >Please complete personal information for security</legend>
                     <!-- begin form-group -->
                     <div class="form-group row m-b-10">
                       <label class="col-md-3 col-form-label text-md-right">
@@ -44,7 +44,7 @@
                           class="form-control"
                           placeholder="First Name"
                           name="first name"
-                          v-validate="{ required: true, regex:/^[_a-zA-Z0-9\u4E00-\u9FA5]{2,10}$/ }"
+                          v-validate="{ required: true, regex:/^[_a-zA-Z0-9\u4E00-\u9FA5]{2,30}$/ }"
                           v-bind:class="{'is-invalid': errors.has('first name')}"
                           v-model="formData.first_name"
                         >
@@ -64,7 +64,7 @@
                           name="last name"
                           placeholder="Last Name"
                           class="form-control"
-                          v-validate="{ required: true, regex:/^[_a-zA-Z0-9\u4E00-\u9FA5]{2,10}$/ }"
+                          v-validate="{ required: true, regex:/^[_a-zA-Z0-9\u4E00-\u9FA5]{2,30}$/ }"
                           v-bind:class="{'is-invalid': errors.has('last name')}"
                           v-model="formData.last_name"
                         >
@@ -118,7 +118,7 @@
                         class="col-md-3 col-form-label text-md-right"
                         for="inputContact8"
                       >Birthday</label>
-                      <div class="col-md-8">
+                      <div class="col-md-6">
                         <datepicker
                           placeholder="Select Date"
                           :value="formData.birthday"
@@ -147,15 +147,19 @@
                       </div>
                     </div>
                     <!-- end form-group -->
-                    <label class="control-label">Passport Number</label>
-                    <div class="row m-b-15">
-                      <div class="col-md-12">
+                    <!-- begin form-group -->
+                    <div class="form-group row m-b-10">
+                      <label class="col-md-3 col-form-label text-md-right">
+                        Passport Number
+                        <span class="text-danger">*</span>
+                      </label>
+                      <div class="col-md-6">
                         <input
                           type="text"
                           class="form-control"
                           placeholder="Passport Number"
                           name="passport"
-                          v-validate="{ required: false, regex:/^1[34578]\d{9}$/ }"
+                          v-validate="{ required: false, regex:/^\d{8,9}$/ }"
                           v-bind:class="{'is-invalid': errors.has('passport')}"
                           v-model="formData.passport_num"
                         >
@@ -164,38 +168,24 @@
                     </div>
                     <!-- begin form-group -->
                     <div class="form-group row m-b-10">
-                      <label class="col-md-3 col-form-label text-md-right">
-                        IC No
-                        <span class="text-danger">*</span>
-                      </label>
-                      <div class="col-md-6">
-                        <input
-                          type="text"
-                          name="ic"
-                          placeholder
-                          class="form-control"
-                          data-parsley-group="step-1"
-                          data-parsley-required="true"
-                        >
-                      </div>
-                    </div>
-                    <!-- end form-group -->
-                    <!-- begin form-group -->
-                    <div class="form-group row m-b-10">
                       <label class="col-md-3 col-form-label text-md-right">Address</label>
-                      <div class="col-md-9">
+                      <!-- <div class="col-md-9">
                         <input
                           type="text"
-                          name="address1"
-                          placeholder="Address 1"
+                          name="address"
+                          placeholder="Address"
                           class="form-control m-b-10"
+                          v-model="formData.passport_num"
+                          aria-rowspan="3"
                         >
-                        <input
-                          type="text"
-                          name="address2"
-                          placeholder="Address 2"
-                          class="form-control"
-                        >
+                      </div>-->
+                      <div class="col-md-9">
+                        <textarea
+                          class="form-control m-b-10"
+                          rows="3"
+                          placeholder="Address"
+                          v-model="formData.address"
+                        ></textarea>
                       </div>
                     </div>
                     <!-- end form-group -->
@@ -207,7 +197,7 @@
               <!-- end fieldset -->
             </b-card>
           </tab-content>
-          <tab-content title="<div>SECOND STEP TITLE</div><div>Step subtitle</div>">
+          <tab-content title="<div>SECOND STEP</div><div>Select Insurance Project</div>">
             <b-card class="mb-3">
               <!-- begin step-2 -->
               <div id="step-2">
@@ -219,45 +209,425 @@
                     <div class="col-md-8 md-offset-2">
                       <legend
                         class="no-border f-w-700 p-b-0 m-t-0 m-b-20 f-s-16 text-inverse"
-                      >You contact info, so that we can easily reach you</legend>
-                      <!-- begin form-group -->
-                      <div class="form-group row m-b-10">
-                        <label class="col-md-3 col-form-label text-md-right">
-                          Phone Number
-                          <span class="text-danger">*</span>
-                        </label>
-                        <div class="col-md-6">
-                          <input
-                            type="number"
-                            name="phone"
-                            placeholder="123-456-7890"
-                            data-parsley-group="step-2"
-                            data-parsley-required="true"
-                            data-parsley-type="number"
-                            class="form-control"
-                          >
-                        </div>
+                      >Please select one proper project (product)</legend>
+                      <div class="card b mb-2">
+                          <b-collapse v-model="collapse2" id="acc1collapse2">
+                            <table
+                              class="table m-b-0"
+                              style="margin-left: 20px; margin-right: 20px"
+                            >
+                              <thead>
+                                <tr>
+                                  <th>#</th>
+                                  <th>Product Name</th>
+                                  <th>Project Information</th>
+                                  <th>Product Description</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>1</td>
+                                  <td>
+                                    <div>1 Time</div>
+                                    <div>
+                                      <br>
+                                      <button
+                                        type="button"
+                                        class="btn btn-default m-r-5 m-b-5"
+                                        href="javascript:;"
+                                        v-b-modal.modalDialog
+                                      >Detail</button>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div class="form-check">
+                                      <p>
+                                        <input
+                                          class="form-check-input"
+                                          type="radio"
+                                          name="default_radio"
+                                          id="defaultRadio"
+                                          value
+                                          checked
+                                        >
+                                        <label
+                                          class="form-check-label"
+                                          for="defaultRadio"
+                                        >Project 1 - (18 EUR)</label>
+                                      </p>
+                                    </div>
+                                    <div class="form-check">
+                                      <p>
+                                        <input
+                                          class="form-check-input"
+                                          type="radio"
+                                          name="default_radio"
+                                          id="defaultRadio"
+                                          value
+                                          checked
+                                        >
+                                        <label
+                                          class="form-check-label"
+                                          for="defaultRadio"
+                                        >Project 2 - (36 EUR)</label>
+                                      </p>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <!-- TODO -->
+                                    <p>This product is a single-off travel insurance.</p>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>1</td>
+                                  <td>
+                                    <div>1 Time</div>
+                                    <div>
+                                      <br>
+                                      <button
+                                        type="button"
+                                        class="btn btn-default m-r-5 m-b-5"
+                                        href="javascript:;"
+                                        v-b-modal.modalDialog2
+                                      >Detail</button>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div class="form-check">
+                                      <p>
+                                        <input
+                                          class="form-check-input"
+                                          type="radio"
+                                          name="default_radio"
+                                          id="defaultRadio"
+                                          value
+                                          checked
+                                        >
+                                        <label
+                                          class="form-check-label"
+                                          for="defaultRadio"
+                                        >Project 1 - (18 EUR)</label>
+                                      </p>
+                                    </div>
+                                    <div class="form-check">
+                                      <p>
+                                        <input
+                                          class="form-check-input"
+                                          type="radio"
+                                          name="default_radio"
+                                          id="defaultRadio"
+                                          value
+                                          checked
+                                        >
+                                        <label
+                                          class="form-check-label"
+                                          for="defaultRadio"
+                                        >Project 2 - (36 EUR)</label>
+                                      </p>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <!-- TODO -->
+                                    <p>This product is a single-off travel insurance.</p>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>1</td>
+                                  <td>
+                                    <div>1 Time</div>
+                                    <div>
+                                      <br>
+                                      <button
+                                        type="button"
+                                        class="btn btn-default m-r-5 m-b-5"
+                                        href="javascript:;"
+                                        v-b-modal.modalDialog3
+                                      >Detail</button>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div class="form-check">
+                                      <p>
+                                        <input
+                                          class="form-check-input"
+                                          type="radio"
+                                          name="default_radio"
+                                          id="defaultRadio"
+                                          value
+                                          checked
+                                        >
+                                        <label
+                                          class="form-check-label"
+                                          for="defaultRadio"
+                                        >Project 1 - (18 EUR)</label>
+                                      </p>
+                                    </div>
+                                    <div class="form-check">
+                                      <p>
+                                        <input
+                                          class="form-check-input"
+                                          type="radio"
+                                          name="default_radio"
+                                          id="defaultRadio"
+                                          value
+                                          checked
+                                        >
+                                        <label
+                                          class="form-check-label"
+                                          for="defaultRadio"
+                                        >Project 2 - (36 EUR)</label>
+                                      </p>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <!-- TODO -->
+                                    <p>This product is a single-off travel insurance.</p>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>1</td>
+                                  <td>
+                                    <div>1 Time</div>
+                                    <div>
+                                      <br>
+                                      <button
+                                        type="button"
+                                        class="btn btn-default m-r-5 m-b-5"
+                                        href="javascript:;"
+                                        v-b-modal.modalDialog4
+                                      >Detail</button>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div class="form-check">
+                                      <p>
+                                        <input
+                                          class="form-check-input"
+                                          type="radio"
+                                          name="default_radio"
+                                          id="defaultRadio"
+                                          value
+                                          checked
+                                        >
+                                        <label
+                                          class="form-check-label"
+                                          for="defaultRadio"
+                                        >Project 1 - (18 EUR)</label>
+                                      </p>
+                                    </div>
+                                    <div class="form-check">
+                                      <p>
+                                        <input
+                                          class="form-check-input"
+                                          type="radio"
+                                          name="default_radio"
+                                          id="defaultRadio"
+                                          value
+                                          checked
+                                        >
+                                        <label
+                                          class="form-check-label"
+                                          for="defaultRadio"
+                                        >Project 2 - (36 EUR)</label>
+                                      </p>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <!-- TODO -->
+                                    <p>This product is a single-off travel insurance.</p>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                            <div class="pt-2 clearfix">
+                              <p class="float-right text-sm">
+                                <i>Fields marked with (*) are required</i>
+                              </p>
+                              <div class="float-left">
+                                <button
+                                  class="btn btn-primary"
+                                  type="button"
+                                  @click="collapse2 = false; collapse3 = true"
+                                >Continue</button>
+                              </div>
+                            </div>
+                          </b-collapse>
+
+                        <!-- beign product detail modal -->
+                        <!-- begin product modal 1 -->
+                        <b-modal
+                          id="modalDialog"
+                          cancel-title="Buy Now"
+                          cancel-variant="danger"
+                          ok-title="Cancel"
+                          ok-variant="white"
+                          title="1 Time Insurance"
+                        >
+                          <p>For claimed items without original receipts, payment of loss will be calculated based upon 75% of the Actual Cash Value at the time of loss, not to exceed €250.</p>
+                          <br>
+                          <table class="table m-b-0">
+                            <thead>
+                              <tr class="danger">
+                                <th>Porject Name</th>
+                                <th>Porject 1</th>
+                                <th>Project 2</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Total Sum Insured</td>
+                                <td>1000 EUR</td>
+                                <td>2000 EUR</td>
+                              </tr>
+                              <tr>
+                                <td>Sum Insured Per Time</td>
+                                <td>1000 EUR</td>
+                                <td>2000 EUR</td>
+                              </tr>
+                              <tr>
+                                <td>Price</td>
+                                <td>18 EUR</td>
+                                <td>36 EUR</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <br>
+                        </b-modal>
+                        <!-- end product modal 1 -->
+                        <!-- begin product modal 2 -->
+                        <b-modal
+                          id="modalDialog2"
+                          cancel-title="Buy Now"
+                          cancel-variant="warning"
+                          ok-title="Cancel"
+                          ok-variant="white"
+                          title="15 days Insurance"
+                        >
+                          <p>For claimed items without original receipts, payment of loss will be calculated based upon 75% of the Actual Cash Value at the time of loss, not to exceed €250.</p>
+                          <br>
+                          <table class="table m-b-0">
+                            <thead>
+                              <tr class="warning">
+                                <th>Porject Name</th>
+                                <th>Porject 1</th>
+                                <th>Project 2</th>
+                                <th>Project 3</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Total Sum Insured</td>
+                                <td>2600 EUR</td>
+                                <td>4000 EUR</td>
+                                <td>8000 EUR</td>
+                              </tr>
+                              <tr>
+                                <td>Sum Insured Per Time</td>
+                                <td>1000 EUR</td>
+                                <td>2000 EUR</td>
+                                <td>4000 EUR</td>
+                              </tr>
+                              <tr>
+                                <td>Price</td>
+                                <td>54 EUR</td>
+                                <td>72 EUR</td>
+                                <td>144 EUR</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <br>
+                        </b-modal>
+                        <!-- end product modal 2 -->
+                        <!-- begin product modal 3 -->
+                        <b-modal
+                          id="modalDialog3"
+                          cancel-title="Buy Now"
+                          cancel-variant="grey"
+                          ok-title="Cancel"
+                          ok-variant="white"
+                          title="30 days Insurance"
+                        >
+                          <p>For claimed items without original receipts, payment of loss will be calculated based upon 75% of the Actual Cash Value at the time of loss, not to exceed €250.</p>
+                          <br>
+                          <table class="table m-b-0">
+                            <thead>
+                              <tr class="active">
+                                <th>Porject Name</th>
+                                <th>Porject 1</th>
+                                <th>Project 2</th>
+                                <th>Project 3</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Total Sum Insured</td>
+                                <td>2600 EUR</td>
+                                <td>4000 EUR</td>
+                                <td>8000 EUR</td>
+                              </tr>
+                              <tr>
+                                <td>Sum Insured Per Time</td>
+                                <td>1000 EUR</td>
+                                <td>2000 EUR</td>
+                                <td>4000 EUR</td>
+                              </tr>
+                              <tr>
+                                <td>Price</td>
+                                <td>80 EUR</td>
+                                <td>150 EUR</td>
+                                <td>200 EUR</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <br>
+                        </b-modal>
+                        <!-- end product modal 3 -->
+                        <!-- begin product modal 4 -->
+                        <b-modal
+                          id="modalDialog4"
+                          cancel-title="Buy Now"
+                          cancel-variant="info"
+                          ok-title="Cancel"
+                          ok-variant="white"
+                          title="1 Year Insurance"
+                        >
+                          <p>For claimed items without original receipts, payment of loss will be calculated based upon 75% of the Actual Cash Value at the time of loss, not to exceed €250.</p>
+                          <br>
+                          <table class="table m-b-0">
+                            <thead>
+                              <tr class="info">
+                                <th>Porject Name</th>
+                                <th>Porject 1</th>
+                                <th>Project 2</th>
+                                <th>Project 3</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Total Sum Insured</td>
+                                <td>2600 EUR</td>
+                                <td>4000 EUR</td>
+                                <td>8000 EUR</td>
+                              </tr>
+                              <tr>
+                                <td>Sum Insured Per Time</td>
+                                <td>1000 EUR</td>
+                                <td>2000 EUR</td>
+                                <td>4000 EUR</td>
+                              </tr>
+                              <tr>
+                                <td>Price</td>
+                                <td>225 EUR</td>
+                                <td>350 EUR</td>
+                                <td>500 EUR</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <br>
+                        </b-modal>
+                        <!-- end product modal 4 -->
+                        <!-- end product detail modal -->
                       </div>
-                      <!-- end form-group -->
-                      <!-- begin form-group -->
-                      <div class="form-group row m-b-10">
-                        <label class="col-md-3 col-form-label text-md-right">
-                          Email Address
-                          <span class="text-danger">*</span>
-                        </label>
-                        <div class="col-md-6">
-                          <input
-                            type="email"
-                            name="email"
-                            placeholder="someone@example.com"
-                            class="form-control"
-                            data-parsley-group="step-2"
-                            data-parsley-required="true"
-                            data-parsley-type="email"
-                          >
-                        </div>
-                      </div>
-                      <!-- end form-group -->
                     </div>
                     <!-- end col-8 -->
                   </div>

@@ -153,7 +153,7 @@
                 class="form-control"
                 placeholder="Phone Number"
                 name="phone number"
-                v-validate="{ required: true, regex:/^\d{8,9}$/ }"
+                v-validate="{ required: true, regex:/^1[34578]\d{9}$/ }"
                 v-bind:class="{'is-invalid': errors.has('phone number')}"
                 v-model="formData.phone_num"
               >
@@ -245,13 +245,19 @@ export default {
         this.disabled = true;
         this.timer();
 
-        // let params = new URLSearchParams();
-        // params.append("username", this.username);
-        // params.append("password", this.password);
-
-        // axios.post("/register", this.fields.email).then(res => {
-        //   this.phonedata = res.data;
-        // });
+        var obj = JSON.stringify(this.formData.email);
+        axios
+          .post("/register", obj)
+          .then(res => {
+            if (res.data == 1) {
+              res.data.verification
+            } else {
+              // this.swalNotification("danger")
+            }
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
       }
     },
     timer() {
