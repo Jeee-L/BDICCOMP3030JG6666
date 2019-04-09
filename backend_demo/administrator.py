@@ -1,25 +1,24 @@
 from re_verification import *
+from flask import jsonify
 import db_operatoin.users_operate as db_usr_opr
 import db_operatoin.insurance_operate as db_ins_opr
 import db_operatoin.claim_operate as db_cla_opr
 import db_operatoin.administrator_operate as db_adi_opr
 
 def login(administratorid,password):
-    if not verify_password(password):
-        return "密码不合法"
-    elif not verify_administrator_name(administratorid):
-        return "管理员名不合法"
-    else:
-        try:
-            return_message = db_adi_opr.login(administratorid, password)
-            success_message = 'Login successfully'
-            if return_message == success_message:
-                return "3"
-        except AssertionError as ae:
-            if ae == 'No such id':
-                return "-1"
-            elif ae == 'Password wrong':
-                return "0"
+    try:
+        return_message = db_adi_opr.login(administratorid, password)
+        success_message = 'Login successfully'
+        if return_message == success_message:
+            return_value = {'state': '3'}
+            return jsonify(return_value)
+    except AssertionError as ae:
+        if ae == 'No such id':
+            return_value = {'state': '-1','error_msg':'No such administrator'}
+            return jsonify(return_value)
+        elif ae == 'Password wrong':
+            return_value = {'state': '0', 'error_msg': 'Password is not correct'}
+            return jsonify(return_value)
 
 def update_password(administratorid,new_password,confirm_password):
     if not verify_password(new_password):

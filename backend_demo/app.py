@@ -1,9 +1,6 @@
 from flask import Flask,render_template,request,redirect,session,jsonify,make_response
-from werkzeug.utils import secure_filename
 import os
 import json
-import cv2
-import time
 from datetime import timedelta
 from email_verificatoin import email_verify
 from flask_cors import CORS
@@ -40,90 +37,34 @@ def login():
     if request.method == 'POST':
         login_info = json.load(request.get_data())
         name = login_info['name']
-        return_value = {}
+        password = login_info['password']
         if verify_username(name):
-            return_value = user.user_all_info(name)
-            return jsonify(return_value)
+            return user.login(name,password)
         elif verify_employeename(name):
-            return_value['state'] = "2"
-            return jsonify(return_value)
+            return employee.login(name,password)
         elif verify_administrator_name(name):
-            return_value['state'] = "3"
-            return jsonify(return_value)
+            return administrator.login(name,password)
         else:
-            return_value['state'] = "-1"
+            return_value = {'state': '-1', 'error_msg': 'No such user'}
             return jsonify(return_value)
-
-@app.route('/user_login/',methods=['GET','POST'])
-def user_login():
-    if request.method == 'POST':
-        data = request.get_data()
-        login_info = json.load(data)
-        return user.login(login_info['username'],login_info['password'])
-    # test
-    # return render_template('loginpage.html')
-
-#TODO 改
-@app.route('/employee_login/',methods=['GET','POST'])
-def employee_login():
-    if request.method == 'POST':
-        data = request.get_data()
-        login_info = json.load(data)
-        return user.login(login_info['username'],login_info['password'])
-
-@app.route('/administrator_login/',methods=['GET','POST'])
-def administrator_login():
-    if request.method == 'POST':
-        data = request.get_data()
-        login_info = json.load(data)
-        return user.login(login_info['username'],login_info['password'])
 
 @app.route('/register/',methods=['GET','POST'])
 def register():
     if request.method == 'POST':
-        data = request.get_data()
-        register_info = json.load(data)
-        # register_info = {}
+        register_info = json.load(request.get_data())
         if register_info['verify'] == 0:
-
-            register_info['email'] = request.form['email']
             verification_code = email_verify(register_info['email'])
             return verification_code
         else:
-            register_info['username'] = request.form['username']
-            register_info['password'] = request.form['password']
-            register_info['confirm_password'] = request.form['confirm_password']
-            # register_info['passport_num'] = request.form['passport']
-            register_info['phone_num'] = request.form['phone_number']
-            # register_info['email'] = request.form['email']
             return user.register(register_info)
 
 
-@app.route('/customer_info/',methods=['GET','POST'])
+@app.route('/customer/info/',methods=['GET','POST'])
 def customer_info():
     if request.method == 'POST':
-        update_info = {}
-        update_info['old_username'] = request.form['old_name']
-        update_info['first_name'] = request.form['first_name']
-        update_info['last_name'] = request.form['last_name']
-        update_info['user_name'] = request.form['user_name']
-        update_info['password'] = request.form['password']
-        update_info['confirm_password'] = request.form['confirm_password']
-        update_info['passport_id'] = request.form['passport_id']
-        update_info['mobile_cn'] = request.form['mobile_cn']
-        update_info['email'] = request.form['email']
-        update_info['birthday'] = request.form['birthday']
-        update_info['address'] = request.form['address']
-
-        user_image = request.files['user_image']
-
-        # TODO 所有信息同时更新还是可以分开更新？
-        # user.update_name(update_info['old_name'],update_info['new_name'])
-        # user.update_password(update_info['old_name'],update_info['password'],update_info['confirm_password'])
-        # user.update_passport(update_info['old_name'],update_info['passport_num'])
-        # user.update_email(update_info['old_name'],update_info['email'])
-        # user.update_phone(update_info['old_name'],update_info['phone_num'])
-        # user.update_user_image(update_info['old_name'],user_image)
+        update_info = json.load(request.get_data())
+        # TODO 头像图片？
+        user.update_user_info(update_info)
         return None
 
 @app.route('/luggage/order/create',methods=['GET','POST'])
@@ -266,14 +207,6 @@ def delete_user():
     delete_username = request.form['delete_username']
     return administrator.delete_user(delete_username)
 
-# TODO list
-"""
-1. administrator 是否看到所有的claim和insurance，是否可以和员工共用一个方法？(再一个py文件)
-2. administrator 的名字问题，a@开头
-3. 员工和管理员的名字前缀(e@,a@),应不应该手动输入
-4. 其他信息的正则验证
-5. 状态位的确定
-"""
 
 if __name__ == '__main__':
     app.run()

@@ -1,4 +1,5 @@
 from re_verification import *
+from flask import jsonify
 import db_operatoin.users_operate as db_usr_opr
 import db_operatoin.insurance_operate as db_ins_opr
 import db_operatoin.claim_operate as db_cla_opr
@@ -7,37 +8,29 @@ import cv2
 from werkzeug.utils import secure_filename
 
 def login(username,password):
-    if db_usr_opr.search_username(username):
-        return "-1"
-    elif db_usr_opr.password_is_right(password):
-        return "0"
+    if db_usr_opr.search_username(username) is None:
+        return_value = {'state': '-1', 'error_msg': 'No such user'}
+        return jsonify(return_value)
+    elif not (db_usr_opr.password_is_right(password)):
+        return_value = {'state': '0', 'error_msg': 'Password is not correct'}
+        return jsonify(return_value)
     else:
-        try:
-            insurance = db_usr_opr.get_insurance(username)
-            claim = db_usr_opr.get_claim(username)
-            return "1"+insurance+claim
-        except AssertionError as ae:
-            return ae
+        return user_all_info(username)
 
 def user_all_info(username):
     user = db_usr_opr.search_username(username)
-    if user is None:
-        return_value = {'state':'-1','error_msg':'no such user'}
-        return return_value
-    else:
-        return_value = {
-            'state' : '1',
-            'first_name' : user.first_name,
-            'last_name' : user.last_name,
-            'phone_num' : user.phone_num,
-            'passport_num' : user.passport_num,
-            'email' : user.email,
-            'birthday' : user.birthday,
-            'address' : user.address,
-            'insurance_id_list' : user.insurance_id,
-            'claim_id_list' : user.claim_id,
-        }
-        return return_value
+    return_value = {
+        'state': '1',
+        'first_name': user.first_name,
+        'last_name': user.last_name,
+        'phone_num': user.phone_num,
+        'passport_num': user.passport_num,
+        'email': user.email,
+        'birthday': user.birthday,
+        'address': user.address,
+        'order_list': user_all_insurance(),
+    }
+    return jsonify(return_value)
 
 
 def register(register_info):
@@ -47,27 +40,38 @@ def register(register_info):
             success_message = 'Create successfully'
             return_message = db_usr_opr.insert_user(register_info)
             if success_message == return_message:
-                return "1"
+                return_value = {'state': '1'}
+                return jsonify(return_value)
         except AssertionError as ae:
-            return "0"
+            return_value = {'state':'0','error_msg':ae}
+            return jsonify(return_value)
     else:
-        return "0"
+        return verify_result
 
 def verify_register_info(register_info):
     if not verify_username(register_info['name']):
-        return "用户名不合法"
+        return_value = {'state':'0','error_msg':"Illegal username"}
+        return jsonify(return_value)
     elif not (register_info['password']==register_info['confirm_password']):
-        return "两次输入密码不一样"
+        return_value = {'state': '0', 'error_msg': "Two password are different"}
+        return jsonify(return_value)
     elif not verify_password(register_info['password']):
-        return "密码不合法"
+        return_value = {'state': '0', 'error_msg': "Illegal password"}
+        return jsonify(return_value)
     elif not verify_email(register_info['email']):
-        return "邮箱不合法"
+        return_value = {'state': '0', 'error_msg': "Illegal email"}
+        return jsonify(return_value)
     elif not verify_phone_number(register_info['phone_num']):
-        return "手机号不合法"
+        return_value = {'state': '0', 'error_msg': "Illegal phone number"}
+        return jsonify(return_value)
     elif not verify_passport(register_info['passport_num']):
-        return "护照号不合法"
+        return_value = {'state': '0', 'error_msg': "Illegal passport number"}
+        return jsonify(return_value)
     else:
         return True
+
+def update_user_info(update_info):
+    pass
 
 def update_name(old_name,new_name):
     if not verify_username(new_name):
@@ -205,7 +209,6 @@ def buy_insurance(insurance_info):
 
 def user_all_insurance(username):
     user_all_insurance = db_ins_opr.user_request(username)
-    # TODO 是否需要改数据结构?
     return user_all_insurance
 
 def apply_claim(claim_info):
@@ -217,5 +220,4 @@ def apply_claim(claim_info):
         return "失败, reason: "+ae
 
 def user_all_claim(username):
-    # TODO 是否需要改数据结构?
     return db_ins_opr.search_claim(db_ins_opr.user_request(username))

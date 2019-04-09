@@ -25,7 +25,7 @@ def all():
 def search_claim(ins):
     return ins.claim_id.first()
 
-def user_request(username):
+def user_all_insurance(username):
     return Insurance.query.filter_by(username = username).all()
 
 if __name__ == '__main__':
