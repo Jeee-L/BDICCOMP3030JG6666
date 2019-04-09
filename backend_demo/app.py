@@ -17,20 +17,20 @@ app.permanent_session_lifetime = timedelta(days=7)
 app.send_file_max_age_default = timedelta(seconds=10)
 
 
-# @app.route('/')
-# def home():
-#     user = session.get('username')
-#     if user:
-#         return redirect('/1/')
-#     else:
-#         return redirect('/0/')
-#
-# @app.route('/<is_login>/')
-# def home_page(is_login):
-#     if is_login == '1':
-#         return render_template('homepage.html',user=session['username'])
-#     else:
-#         return render_template('homepage.html')
+@app.route('/')
+def home():
+    user = session.get('username')
+    if user:
+        return redirect('/1/')
+    else:
+        return redirect('/0/')
+
+@app.route('/<is_login>/')
+def home_page(is_login):
+    if is_login == '1':
+        return render_template('homepage.html',user=session['username'])
+    else:
+        return render_template('homepage.html')
 
 @app.route('/login/',methods=['GET','POST'])
 def login():
@@ -63,7 +63,6 @@ def register():
 def customer_info():
     if request.method == 'POST':
         update_info = json.load(request.get_data())
-        # TODO 头像图片？
         user.update_user_info(update_info)
         return None
 
