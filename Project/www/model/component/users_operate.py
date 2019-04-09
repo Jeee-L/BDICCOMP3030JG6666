@@ -1,5 +1,4 @@
-from www.model.component.database_basic.whats_your_name import Users,db
-
+from www.model.component.database_basic.whats_your_name import *
 
 def search_username(username):
     '参数:username， 用户对象，否则None'
@@ -81,8 +80,8 @@ def delete_user(username):
 
 if __name__ == '__main__':
     '参数:dict name,password,phone_num,passport_num,email, return boolean'
-    # insert_user({'username':'1cfabds','password':'1afsdfff','phone_num':1213334,'passport_num':1233413,'email':'133f23@1163.com','profile':1231})
-    print(get_insurance('1cfabds'))
-    print(search_username('1cfabds').insurance_id.first())
-    print(password_is_right('1cfabds', '123'))
-    print(get_insurance('1cfabds'))
+    # Users.insert_user({'username': '1cfabds', 'password': '1afsdfff', 'phone_num': 1213334,
+    #                    'email': '133f23@1163.com'})
+
+    user = Users.search_username('teds')
+    print(user.insurance_id.all())

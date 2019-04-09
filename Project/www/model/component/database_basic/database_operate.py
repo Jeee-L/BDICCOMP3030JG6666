@@ -17,4 +17,6 @@ def recreate_table():
     print('create successfully')
 
 if __name__ == '__main__':
+    # create_tables()
     recreate_table()
+    # drop_all_tables()
