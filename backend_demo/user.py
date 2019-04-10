@@ -75,73 +75,116 @@ def update_user_info(update_info):
         update_first_name(update_info['old_username'],update_info['first_name'])
     if not update_info['last_name'] == '':
         update_last_name(update_info['old_username'], update_info['last_name'])
-    # first_name
-    # last_name
-    # old_username
-    # username
-    # email
-    # phone_num
-    # passport_num
-    # birthday
-    # address
+    if not update_info['username'] == '':
+        update_name(update_info['old_username'], update_info['username'])
+    if not(update_info['password']=='' and update_info['confirm_password']==''):
+        update_password(update_info['old_username'],update_info['password'],update_info['confirm_password'])
+    if not update_info['email'] == '':
+        update_email(update_info['old_username'], update_info['email'])
+    if not update_info['phone_num'] == '':
+        update_phone(update_info['old_username'], update_info['phone_num'])
+    if not update_info['passport_num'] == '':
+        update_passport(update_info['old_username'], update_info['passport_num'])
+    if not update_info['birthday'] == '':
+        update_birthday(update_info['old_username'], update_info['birthday'])
+    if not update_info['address'] == '':
+        update_address(update_info['old_username'], update_info['address'])
+    if not update_info['image'] is None:
+        update_user_image(update_info['old_username'],update_info['image'])
+
+    return_value = {'state': '1'}
+    return jsonify(return_value)
 
 def update_first_name(username,first_name):
     user = db_usr_opr.search_username(username)
     if not (user is None):
         user.first_name = first_name
+    else:
+        return_value = {'state': '0', 'error_msg': 'No such user'}
+        return jsonify(return_value)
 
 def update_last_name(username,last_name):
     user = db_usr_opr.search_username(username)
     if not (user is None):
         user.last_name = last_name
+    else:
+        return_value = {'state': '0', 'error_msg': 'No such user'}
+        return jsonify(return_value)
+
+def update_birthday(username,birthday):
+    user = db_usr_opr.search_username(username)
+    if not (user is None):
+        user.birthday = birthday
+    else:
+        return_value = {'state': '0', 'error_msg': 'No such user'}
+        return jsonify(return_value)
+
+def update_address(username,address):
+    user = db_usr_opr.search_username(username)
+    if not (user is None):
+        user.address = address
+    else:
+        return_value = {'state': '0', 'error_msg': 'No such user'}
+        return jsonify(return_value)
 
 def update_name(old_name,new_name):
     if not verify_username(new_name):
-        return "新用户名不合法"
+        return_value = {'state':'0','error_msg':'Illegal username'}
+        return jsonify(return_value)
     else:
         try:
-            return db_usr_opr.update_username(old_name,new_name)
+            db_usr_opr.update_username(old_name,new_name)
         except AssertionError as ae:
-            return ae
+            return_value = {'state': '0', 'error_msg': ae}
+            return jsonify(return_value)
 
 def update_password(name,new_password,confirm_password):
     # TODO 用邮箱验证来改密码？
     if not verify_password(new_password):
-        return "新密码不合法"
+        return_value = {'state': '0', 'error_msg': 'Illegal password'}
+        return jsonify(return_value)
     elif not (new_password == confirm_password):
-        return "两次输入的密码不一样"
+        return_value = {'state': '0', 'error_msg': 'Two password are different'}
+        return jsonify(return_value)
     else:
         try:
-            return db_usr_opr.update_password(name,new_password)
+            db_usr_opr.update_password(name,new_password)
         except AssertionError as ae:
-            return ae
+            return_value = {'state': '0', 'error_msg': ae}
+            return jsonify(return_value)
 
 def update_email(name,new_email):
     if not verify_email(new_email):
-        return "邮箱格式不合法"
+        return_value = {'state': '0', 'error_msg': 'Illegal email'}
+        return jsonify(return_value)
     else:
         try:
-            return db_usr_opr.update_email(name,new_email)
+            db_usr_opr.update_email(name,new_email)
         except AssertionError as ae:
-            return ae
+            return_value = {'state': '0', 'error_msg': ae}
+            return jsonify(return_value)
 
 def update_phone(name,new_phone):
     if not verify_phone_number(new_phone):
-        return "手机号格式不合法"
+        return_value = {'state': '0', 'error_msg': 'Illegal phone number'}
+        return jsonify(return_value)
     else:
         try:
-            return db_usr_opr.update_phone_num(name,new_phone)
+            db_usr_opr.update_phone_num(name,new_phone)
         except AssertionError as ae:
-            return ae
+            return_value = {'state': '0', 'error_msg': ae}
+            return jsonify(return_value)
 
 def update_passport(name,new_passport):
     if not verify_passport(new_passport):
-        return "护照号格式不合法"
+        return_value = {'state': '0', 'error_msg': 'Illegal passport number'}
+        return jsonify(return_value)
     else:
         try:
-            return db_usr_opr.update_passport_num(name,new_passport)
+            db_usr_opr.update_passport_num(name,new_passport)
         except AssertionError as ae:
-            return ae
+            return_value = {'state': '0', 'error_msg': ae}
+            return jsonify(return_value)
 
 # 图片允许的后缀名
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'JPG', 'PNG', 'bmp'])
@@ -165,9 +208,7 @@ def img_stream(img_local_path):
 
 def update_user_image(name,user_image):
     if not (user_image and allowed_file(user_image.filename)):
-        # 返回一个Json文件格式错误
-        # return jsonify({"error": 1001, "msg": "请检查上传的图片类型，仅限于png、PNG、jpg、JPG、bmp"})
-        return "图片类型不合法,仅限于png、PNG、jpg、JPG、bmp"
+        return jsonify({"state": 0, "error_msg": "Illegal image type，limited: png、PNG、jpg、JPG、bmp"})
     basepath = os.path.dirname(__file__)  # 当前文件所在路径
 
     # 注意：没有的文件夹一定要先创建，不然会提示没有该路径
@@ -178,7 +219,7 @@ def update_user_image(name,user_image):
     byte_size = os.path.getsize(upload_path)
     MB_size = float(byte_size / (1024 * 1024))
     if not (MB_size < 2):
-        return "图片大小不可超出 2 MB"
+        return jsonify({"state": 0, "error_msg": "image size should not bigger than 2 MB"})
 
     # 使用Opencv转换一下图片格式和名称
     img = cv2.imread(upload_path)
@@ -189,9 +230,9 @@ def update_user_image(name,user_image):
     try:
         db_usr_opr.update_profile(name,image_stream)
         os.remove(upload_path)
-        return "头像上传成功"
+        # return "头像上传成功"
     except AssertionError as ae:
-        return "头像上传失败"
+        return jsonify({"state": 0, "error_msg": ae})
 
 def convert_insurance_image(insurance_image):
     if not (insurance_image and allowed_file(insurance_image.filename)):
