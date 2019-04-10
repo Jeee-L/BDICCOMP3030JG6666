@@ -34,6 +34,7 @@ def user_all_info(username):
 
 
 def register(register_info):
+    print(register_info)
     verify_result = verify_register_info(register_info)
     if verify_result == True:
         try:
@@ -49,7 +50,7 @@ def register(register_info):
         return verify_result
 
 def verify_register_info(register_info):
-    if not verify_username(register_info['name']):
+    if not verify_username(register_info['username']):
         return_value = {'state':'0','error_msg':"Illegal username"}
         return jsonify(return_value)
     elif not (register_info['password']==register_info['confirm_password']):
@@ -64,9 +65,10 @@ def verify_register_info(register_info):
     elif not verify_phone_number(register_info['phone_num']):
         return_value = {'state': '0', 'error_msg': "Illegal phone number"}
         return jsonify(return_value)
-    elif not verify_passport(register_info['passport_num']):
-        return_value = {'state': '0', 'error_msg': "Illegal passport number"}
-        return jsonify(return_value)
+    # 前端没有护照号
+    # elif not verify_passport(register_info['passport_num']):
+    #     return_value = {'state': '0', 'error_msg': "Illegal passport number"}
+    #     return jsonify(return_value)
     else:
         return True
 

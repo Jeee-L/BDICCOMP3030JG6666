@@ -8,7 +8,7 @@ def email_verify(reciever_email):
     # 第三方 SMTP 服务
     mail_host = "smtp.163.com"  # 设置服务器
     mail_user = "hibernia_sino@163.com"  # 用户名
-    mail_pass = "ShouQuan2019"  # 口令
+    mail_pass = "ShouQuan2019"  # 授权码
 
     sender = 'hibernia_sino@163.com'
     receivers = reciever_email  # 接收邮件，可设置为你的QQ邮箱或者其他邮箱
@@ -30,8 +30,9 @@ def email_verify(reciever_email):
         smtpObj.login(mail_user, mail_pass)
         smtpObj.sendmail(sender, receivers, message.as_string())
         print("邮件发送成功")
+        return verification_code
     except smtplib.SMTPException as e:
         print("Error: 无法发送邮件")
         print(e)
+        return '0'
 
-    return verification_code
