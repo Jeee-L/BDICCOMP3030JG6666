@@ -8,9 +8,19 @@ from re_verification import *
 import user
 import employee
 import administrator
+from flask_mysqldb import MySQL
+from flask_sqlalchemy import SQLAlchemy
+import yaml
 
 app = Flask(__name__)
 CORS(app,support_credentials=True)
+
+db = yaml.load(open(r'C:\SoftwareProject2\BDICCOMP3030JG6666\backend_demo\db.yaml'),Loader=yaml.FullLoader)
+app.config['MYSQL_HOST'] = db['mysql_host']
+app.config['MYSQL_USER'] = db['mysql_user']
+app.config['MYSQL_PASSWORD'] = db['mysql_password']
+app.config['MYSQL_DB'] = db['mysql_db']
+mysql = MySQL(app)
 
 app.secret_key = os.urandom(24)
 app.permanent_session_lifetime = timedelta(days=7)
@@ -49,7 +59,7 @@ def login():
             return_value = {'state': '-1', 'error_msg': 'No such user'}
             return jsonify(return_value)
 
-# TODO 用户暂时完成
+# TODO 用户注册暂时完成
 @app.route('/register/',methods=['GET','POST'])
 def register():
     if request.method == 'POST':
