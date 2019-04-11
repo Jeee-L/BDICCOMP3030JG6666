@@ -22,7 +22,7 @@
       <!-- end register-header -->
       <!-- begin register-content -->
       <div class="register-content">
-        <form class="margin-bottom-0">
+        <form action="" class="margin-bottom-0" v-on:submit.prevent="submitForm">
           <label class="control-label">
             User Name
             <span class="text-danger">*</span>
@@ -85,7 +85,7 @@
                 placeholder="Password, Again"
                 data-vv-as="password"
                 v-bind:class="{'is-invalid': errors.has('confirm_password')}"
-                v-model="formData.password_comfirmation"
+                v-model="formData.confirm_password"
               >
               <div
                 v-if="errors.has('confirm_password')"
@@ -129,6 +129,8 @@
                   placeholder="Verification Code"
                   aria-label="Recipient's username"
                   aria-describedby="button-addon2"
+                  v-bind:class="{'is-valid': this.verification_field}"
+                  v-model="verification_input"
                 >
                 <div class="input-group-append">
                   <button
@@ -161,21 +163,8 @@
             </div>
           </div>
           <br>
-          <div class="checkbox checkbox-css m-b-30">
-            <div class="checkbox checkbox-css m-b-30">
-              <input type="checkbox" id="agreement_checkbox" value>
-              <label for="agreement_checkbox">
-                By clicking Sign Up, you agree to our
-                <a href="javascript:;">Terms</a> and that you have read our
-                <a href="javascript:;">Data Policy</a>, including our
-                <a href="javascript:;">Cookie Use</a>.
-              </label>
-            </div>
-          </div>
           <div class="register-buttons">
             <button
-              type="primary"
-              @click="submitForm"
               class="btn btn-primary btn-block btn-lg"
             >Sign Up</button>
           </div>
@@ -202,10 +191,15 @@ export default {
       disabled: false,
       time: 0,
       btntxt: "Send Verification Code",
+
+      verification_code: "",
+      verification_input: "",
+      verification_field: false,
+
       formData: {
         username: "",
         password: "",
-        password_comfirmation: "",
+        confirm_password: "",
         email: "",
         phone_num: "",
         verify: 1
@@ -221,38 +215,60 @@ export default {
     document.body.className = "";
     next();
   },
+  computed: {
+    isFormInvalid() {
+      return Object.keys(this.fields).some(key => this.fields[key].invalid);
+    }
+  },
   methods: {
     submitForm() {
-      this.formData.verify = 0;
-      var obj = JSON.stringify(this.formData);
-      axios
-        .post("/register", obj)
-        .then(res => {
-          if (res.data == 1) {
-            // this.swalNotification("success")
-            this.$router.push("/login");
-          } else {
-            // this.swalNotification("danger")
-          }
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
+      if (!this.isFormInvalid && this.verification_field) {
+        alert("All fields in form are valid.");
+        this.formData.verify = 1;
+        var obj = JSON.stringify(this.formData);
+        axios
+          .post("/register/", obj)
+          .then(res => {
+            var response = JSON.parse(JSON.stringify(res.data));
+            if (response.state == "1") {
+              alert("Welcome to Hibernia-Sino Travel Insurance, dear customer.");
+              this.$router.push("/login");
+            } else {
+              this.swalNotification("danger")
+            }
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+      } else if (!this.isFormInvalid && !this.verification_field) {
+        alert("Please enter valid verification code.");
+      } else {
+        alert("Please enter valid information in all required fields.");
+      }
     },
     sendCode() {
-      if (this.fields.email.valid) {
-        this.time = 60;
-        this.disabled = true;
-        this.timer();
+      this.formData.verify = 0;
+      this.verification_input = "";
+      this.verification_field = false;
 
-        var obj = JSON.stringify(this.formData.email);
+      if (this.fields.email.valid) {
+        var params = {
+          email: this.formData.email,
+          verify: this.formData.verify
+        };
+        var obj = JSON.stringify(params);
+
         axios
-          .post("/register", obj)
+          .post("/register/", obj)
           .then(res => {
-            if (res.data == 1) {
-              res.data.verification
+            if (res.data == 0) {
+              alert("Sorry, sending verification code failed.");
             } else {
-              // this.swalNotification("danger")
+              this.time = 60;
+              this.disabled = true;
+              this.timer();
+              this.verification_code = res.data;
+              alert(res.data);
             }
           })
           .catch(function(error) {
@@ -262,6 +278,13 @@ export default {
     },
     timer() {
       if (this.time > 0) {
+        if (
+          this.verification_input == this.verification_code &&
+          this.verification_input != ""
+        ) {
+          this.verification_field = true;
+        }
+
         this.time--;
         this.btntxt = "Resend Code after " + this.time + " Seconds";
         setTimeout(this.timer, 1000);
@@ -297,14 +320,22 @@ export default {
 <style scoped>
 .news-feed {
   background-image: url("../assets/img/register.jpg");
-  width: 50% !important;
+  width: 45% !important;
 }
 
 .right-content {
-  width: 50% !important;
+  width: 55% !important;
 }
 
 .text-muted {
   color: dimgray !important;
+}
+
+.is-invalid {
+  background-color: #facccc62 !important;
+}
+
+.is-valid {
+  background-color: #e1fcc4be !important;
 }
 </style>
