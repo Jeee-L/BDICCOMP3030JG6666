@@ -25,7 +25,7 @@
             type="text"
             class="form-control form-control-lg"
             placeholder="User Name"
-            v-model="username"
+            v-model="formData.username"
             required
           >
         </div>
@@ -34,15 +34,15 @@
             type="password"
             class="form-control form-control-lg"
             placeholder="Password"
-            v-model="password"
+            v-model="formData.password"
             required
           >
         </div>
         <p v-show="showNotification" style="color: red;">{{notification}}</p>
-        <div class="checkbox checkbox-css m-b-20">
+        <!-- <div class="checkbox checkbox-css m-b-20">
           <input type="checkbox" id="remember_checkbox">
           <label for="remember_checkbox">Remember Me</label>
-        </div>
+        </div> -->
         <div class="login-buttons">
           <button v-on:click="login" class="btn btn-success btn-block btn-lg">Sign me in</button>
         </div>
@@ -67,11 +67,12 @@ import { setCookie, getCookie } from "../assets/js/cookie.js";
 export default {
   data() {
     return {
-      username: "",
-      password: "",
-
       notification: "",
-      showNotification: false
+      showNotification: false,
+      formData: {
+        username: "",
+        password: ""
+      }
     };
   },
   created() {
@@ -91,11 +92,8 @@ export default {
       if (this.username == "" || this.password == "") {
         alert("Please enter valid User Name and Password.");
       } else {
-        let params = new URLSearchParams();
-        params.append("username", this.username);
-        params.append("password", this.password);
-
-        axios.post("http://localhost:5000/login", params).then(res => {
+        var obj = JSON.stringify(this.formData);
+        axios.post("http://localhost:5000/login/", obj).then(res => {
           if (res.data == -1) {
             this.notification = "Invalid user";
             this.showNotification = true;

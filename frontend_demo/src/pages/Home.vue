@@ -175,12 +175,12 @@ export default {
     };
   },
   mounted(){
-    let username = getCookie("username")
-    this.name = username
+    // let username = getCookie("username")
+    // this.name = username
 
-    if (username == ""){
-      this.$router.push({ path: "/login" });
-    }
+    // if (username == ""){
+    //   this.$router.push({ path: "/login" });
+    // }
   },
   methods: {
     onSlideStart() {
