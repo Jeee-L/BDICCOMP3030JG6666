@@ -17,7 +17,7 @@ from ext import db
 app = Flask(__name__)
 CORS(app,support_credentials=True)
 
-db.init_app(app)
+
 
 # db = yaml.load(open(r'C:\SoftwareProject2\BDICCOMP3030JG6666\backend_demo\db.yaml'),Loader=yaml.FullLoader)
 # app.config['MYSQL_HOST'] = db['mysql_host']
@@ -29,6 +29,10 @@ db.init_app(app)
 app.secret_key = os.urandom(24)
 app.permanent_session_lifetime = timedelta(days=7)
 app.send_file_max_age_default = timedelta(seconds=10)
+dbs = yaml.load(open(r'C:\SoftwareProject2\BDICCOMP3030JG6666\backend_demo\db.yaml'),Loader=yaml.FullLoader)
+app.config['SQLALCHEMY_DATABASE_URI'] = dbs['sqlalchemy_database_uri_local']
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+db.init_app(app)
 
 
 @app.route('/')

@@ -6,15 +6,13 @@ from werkzeug.security import generate_password_hash,check_password_hash
 
 import yaml
 from ext import db
-
-app = Flask(__name__)
+# app =  Flask(__name__)
+# dbs = yaml.load(open(r'C:\SoftwareProject2\BDICCOMP3030JG6666\backend_demo\db.yaml'),Loader=yaml.FullLoader)
+# app.config['SQLALCHEMY_DATABASE_URI'] = dbs['sqlalchemy_database_uri_local']
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 # db = yaml.load(open('/var/Project/www/db.yaml'))
 # db = yaml.load(open(r'C:\Users\TED\Documents\GitHub\MySimplePythonCode\BDICCOMP3030JG6666\Project\www\db.yaml'))
-# db = yaml.load(open(r'C:\SoftwareProject2\BDICCOMP3030JG6666\backend_demo\db.yaml'),Loader=yaml.FullLoader)
-db = db
 
-app.config['SQLALCHEMY_DATABASE_URI'] = db['sqlalchemy_database_uri_local']
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 # db = SQLAlchemy(app)
 class Users(db.Model):
     __tablename__ = 'users'
@@ -22,8 +20,8 @@ class Users(db.Model):
     last_name = db.Column(db.String(32), nullable=True, index=True)
     username = db.Column(db.String(32), nullable=False, unique=True,primary_key=True,  index=True)
     password_hash = db.Column(db.String(300), nullable=False)
-    phone_num = db.Column(db.Integer, nullable=False, unique = False,  index=True)
-    passport_num = db.Column(db.Integer, nullable=True, unique=True,  index=True)
+    phone_num = db.Column(db.String(13), nullable=False, unique = False,  index=True)
+    passport_num = db.Column(db.String(13), nullable=True, unique=True,  index=True)
     email = db.Column(db.String(32), nullable=True, unique=True)
     profile = db.Column(db.LargeBinary(length=204800))
     birthday = db.Column(db.DateTime, nullable=True)

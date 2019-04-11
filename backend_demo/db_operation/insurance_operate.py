@@ -1,6 +1,7 @@
 from db_operation.users_operate import search_username
-from db_operation.database_basic.whats_your_name import Insurance,db
+from db_operation.database_basic.whats_your_name import Insurance
 import datetime
+from ext import db
 
 def __search_insurance(id):
     return Insurance.query.filter_by(id = id).first()
@@ -19,6 +20,7 @@ def change_staue(id, state):
     assert ins is not None,'No such Insurance'
     ins.status = state
     return 'Change successfully'
+
 def all():
     return Insurance.query.all()
 

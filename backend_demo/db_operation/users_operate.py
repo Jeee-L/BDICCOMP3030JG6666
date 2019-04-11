@@ -1,5 +1,5 @@
-from db_operation.database_basic.whats_your_name import Users,db
-
+from db_operation.database_basic.whats_your_name import Users
+from ext import db
 
 def search_username(username):
     '参数:username， 用户对象，否则None'

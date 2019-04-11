@@ -11,7 +11,7 @@ def login(username,password):
     if db_usr_opr.search_username(username) is None:
         return_value = {'state': '-1', 'error_msg': 'No such user'}
         return jsonify(return_value)
-    elif not (db_usr_opr.password_is_right(password)):
+    elif not (db_usr_opr.password_is_right(username,password)):
         return_value = {'state': '0', 'error_msg': 'Password is not correct'}
         return jsonify(return_value)
     else:
@@ -28,7 +28,7 @@ def user_all_info(username):
         'email': user.email,
         'birthday': user.birthday,
         'address': user.address,
-        'order_list': user_all_insurance(),
+        'order_list': user_all_insurance(username),
     }
     return jsonify(return_value)
 
@@ -259,23 +259,17 @@ def convert_insurance_image(insurance_image):
 def buy_insurance(insurance_info):
     # insurance_info['first_name'] = request.form['first_name']
     # insurance_info['last_name'] = request.form['last_name']
-    # insurance_info['user_name'] = request.form['user_name']
-    # insurance_info['passport_id'] = request.form['passport_id']
-    # insurance_info['mobile_cn'] = request.form['mobile_cn']
+    # insurance_info['username'] = request.form['user_name']
+    # insurance_info['passport_num'] = request.form['passport_id']
+    # insurance_info['phone_num'] = request.form['mobile_cn']
     # insurance_info['email'] = request.form['email']
     # insurance_info['birthday'] = request.form['birthday']
     # insurance_info['address'] = request.form['address']
     #
     # insurance_info['product_id'] = request.form['product_id']
     # insurance_info['project_id'] = request.form['project_id']
-    # insurance_info['flight_number'] = request.form['flight_number']
     #
     # insurance_info['status'] = 0  # 0-未处理
-    #
-    # insurance_info['luggage_image_outside'] = request.files['luggage_image_outside']
-    # insurance_info['luggage_image_inside'] = request.files['luggage_image_inside']
-    # insurance_info['luggage_height'] = request.files['luggage_height']
-    # insurance_info['luggage_width'] = request.files['luggage_width']
     #
     # insurance_info['remark'] = request.files['remark']
     try:
@@ -290,7 +284,7 @@ def buy_insurance(insurance_info):
         return "购买失败,reason: "+ae
 
 def user_all_insurance(username):
-    user_all_insurance = db_ins_opr.user_request(username)
+    user_all_insurance = db_ins_opr.user_all_insurance(username)
     return user_all_insurance
 
 def apply_claim(claim_info):

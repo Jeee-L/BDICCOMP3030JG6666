@@ -14,8 +14,9 @@ def email_verify(reciever_email):
     receivers = reciever_email  # 接收邮件，可设置为你的QQ邮箱或者其他邮箱
 
     verification_code = random_code_generator()
+    # verification_code = 111111
 
-    content = "这是你的验证码，请妥善保管："+ str(verification_code)+"\n"+ "This is your verifiecation code, please keep it well: "+ str(verification_code)
+    content = "随机生成验证码："+ str(verification_code)+"\n"+ "This is your verifiecation code, please keep it well: "+ str(verification_code)
 
     message = MIMEText(content, 'plain', 'utf-8')
     message['From'] = mail_user
