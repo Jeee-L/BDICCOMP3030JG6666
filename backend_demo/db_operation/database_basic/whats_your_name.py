@@ -194,5 +194,10 @@ class log(db.Model):
     date = db.Column(db.DateTime, nullable=False, primary_key = True)
     employee_id = db.Column(db.Integer, nullable=False, primary_key = True)
 
+# @event.listens_for(Insurance.amount_of_money,'set')
+# def set_to_log(target, value,oldvalue, initiator):
+#     logs = log()
+#     db.session.add(logs)
+#     db.session.commit()
 
 
