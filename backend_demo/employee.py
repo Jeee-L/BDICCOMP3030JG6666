@@ -1,8 +1,8 @@
 from re_verification import *
 from flask import jsonify
-import db_operatoin.employee_operate as db_emp_opr
-import db_operatoin.insurance_operate as db_ins_opr
-import db_operatoin.claim_operate as db_cla_opr
+import db_operation.employee_operate as db_emp_opr
+import db_operation.insurance_operate as db_ins_opr
+import db_operation.claim_operate as db_cla_opr
 
 def login(employeeid,password):
     try:

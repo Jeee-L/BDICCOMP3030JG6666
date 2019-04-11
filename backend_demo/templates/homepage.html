@@ -2,18 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Homepage</title>
+    <title>Home</title>
 </head>
 <body>
-    <h1>This is the home page</h1>
-    <p>Information</p>
-    {% if user %}
-        <h1>Welcome back, {{ user }}</h1>
-        <a href="{{ url_for('detail_page') }}">click here to details</a><br>
-        <a href="{{ url_for('logout_page') }}">click here to logout</a>
-    {% else %}
-        <a href="{{ url_for('login') }}">click here to login</a><br>
-        <a href="{{ url_for('register') }}">click here to register</a>
-    {% endif %}
+    <p>This is a home page</p>
 </body>
 </html>
