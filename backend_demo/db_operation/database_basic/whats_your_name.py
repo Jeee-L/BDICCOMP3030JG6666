@@ -5,17 +5,17 @@ from flask import Flask
 from werkzeug.security import generate_password_hash,check_password_hash
 
 import yaml
-
+from ext import db
 
 app = Flask(__name__)
 # db = yaml.load(open('/var/Project/www/db.yaml'))
 # db = yaml.load(open(r'C:\Users\TED\Documents\GitHub\MySimplePythonCode\BDICCOMP3030JG6666\Project\www\db.yaml'))
-db = yaml.load(open(r'C:\SoftwareProject2\BDICCOMP3030JG6666\backend_demo\db.yaml'),Loader=yaml.FullLoader)
-
+# db = yaml.load(open(r'C:\SoftwareProject2\BDICCOMP3030JG6666\backend_demo\db.yaml'),Loader=yaml.FullLoader)
+db = db
 
 app.config['SQLALCHEMY_DATABASE_URI'] = db['sqlalchemy_database_uri_local']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-db = SQLAlchemy(app)
+# db = SQLAlchemy(app)
 class Users(db.Model):
     __tablename__ = 'users'
     first_name = db.Column(db.String(32), nullable=True, index=True)

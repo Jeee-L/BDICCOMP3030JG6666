@@ -65,10 +65,6 @@ def verify_register_info(register_info):
     elif not verify_phone_number(register_info['phone_num']):
         return_value = {'state': '0', 'error_msg': "Illegal phone number"}
         return jsonify(return_value)
-    # 前端没有护照号
-    # elif not verify_passport(register_info['passport_num']):
-    #     return_value = {'state': '0', 'error_msg': "Illegal passport number"}
-    #     return jsonify(return_value)
     else:
         return True
 
@@ -261,6 +257,27 @@ def convert_insurance_image(insurance_image):
     return image_info
 
 def buy_insurance(insurance_info):
+    # insurance_info['first_name'] = request.form['first_name']
+    # insurance_info['last_name'] = request.form['last_name']
+    # insurance_info['user_name'] = request.form['user_name']
+    # insurance_info['passport_id'] = request.form['passport_id']
+    # insurance_info['mobile_cn'] = request.form['mobile_cn']
+    # insurance_info['email'] = request.form['email']
+    # insurance_info['birthday'] = request.form['birthday']
+    # insurance_info['address'] = request.form['address']
+    #
+    # insurance_info['product_id'] = request.form['product_id']
+    # insurance_info['project_id'] = request.form['project_id']
+    # insurance_info['flight_number'] = request.form['flight_number']
+    #
+    # insurance_info['status'] = 0  # 0-未处理
+    #
+    # insurance_info['luggage_image_outside'] = request.files['luggage_image_outside']
+    # insurance_info['luggage_image_inside'] = request.files['luggage_image_inside']
+    # insurance_info['luggage_height'] = request.files['luggage_height']
+    # insurance_info['luggage_width'] = request.files['luggage_width']
+    #
+    # insurance_info['remark'] = request.files['remark']
     try:
         insurance_image_info = convert_insurance_image(insurance_info['image'])
         insurance_info['image'] = insurance_image_info[0]
@@ -277,6 +294,7 @@ def user_all_insurance(username):
     return user_all_insurance
 
 def apply_claim(claim_info):
+
     if not (len(claim_info['reason'])<300):
         return "原因长度在300个字符以内"
     try:

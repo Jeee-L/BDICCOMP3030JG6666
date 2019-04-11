@@ -12,28 +12,33 @@ from flask_mysqldb import MySQL
 from flask_sqlalchemy import SQLAlchemy
 import yaml
 
+from ext import db
+
 app = Flask(__name__)
 CORS(app,support_credentials=True)
 
-db = yaml.load(open(r'C:\SoftwareProject2\BDICCOMP3030JG6666\backend_demo\db.yaml'),Loader=yaml.FullLoader)
-app.config['MYSQL_HOST'] = db['mysql_host']
-app.config['MYSQL_USER'] = db['mysql_user']
-app.config['MYSQL_PASSWORD'] = db['mysql_password']
-app.config['MYSQL_DB'] = db['mysql_db']
-mysql = MySQL(app)
+db.init_app(app)
+
+# db = yaml.load(open(r'C:\SoftwareProject2\BDICCOMP3030JG6666\backend_demo\db.yaml'),Loader=yaml.FullLoader)
+# app.config['MYSQL_HOST'] = db['mysql_host']
+# app.config['MYSQL_USER'] = db['mysql_user']
+# app.config['MYSQL_PASSWORD'] = db['mysql_password']
+# app.config['MYSQL_DB'] = db['mysql_db']
+# mysql = MySQL(app)
 
 app.secret_key = os.urandom(24)
 app.permanent_session_lifetime = timedelta(days=7)
 app.send_file_max_age_default = timedelta(seconds=10)
 
 
-# @app.route('/')
-# def home():
-#     user = session.get('username')
-#     if user:
-#         return redirect('/1/')
-#     else:
-#         return redirect('/0/')
+@app.route('/')
+def home():
+    return render_template('homepage.html')
+    # user = session.get('username')
+    # if user:
+    #     return redirect('/1/')
+    # else:
+    #     return redirect('/0/')
 #
 # @app.route('/<is_login>/')
 # def home_page(is_login):
@@ -70,7 +75,7 @@ def register():
         else:
             return user.register(register_info)
 
-# TODO 用户更改信息暂时完成，头像未完成
+# TODO 用户更改信息暂时完成，头像待测试
 @app.route('/customer/info/',methods=['GET','POST'])
 def customer_info():
     if request.method == 'POST':
@@ -80,29 +85,7 @@ def customer_info():
 @app.route('/luggage/order/create',methods=['GET','POST'])
 def luggage_order_create():
     if request.method == 'POST':
-        insurance_info = {}
-        insurance_info['first_name'] = request.form['first_name']
-        insurance_info['last_name'] = request.form['last_name']
-        insurance_info['user_name'] = request.form['user_name']
-        insurance_info['passport_id'] = request.form['passport_id']
-        insurance_info['mobile_cn'] = request.form['mobile_cn']
-        insurance_info['email'] = request.form['email']
-        insurance_info['birthday'] = request.form['birthday']
-        insurance_info['address'] = request.form['address']
-
-        insurance_info['product_id'] = request.form['product_id']
-        insurance_info['project_id'] = request.form['project_id']
-        insurance_info['flight_number'] = request.form['flight_number']
-
-        insurance_info['status'] = 0    # 0-未处理
-
-        insurance_info['luggage_image_outside'] = request.files['luggage_image_outside']
-        insurance_info['luggage_image_inside'] = request.files['luggage_image_inside']
-        insurance_info['luggage_height'] = request.files['luggage_height']
-        insurance_info['luggage_width'] = request.files['luggage_width']
-
-        insurance_info['remark'] = request.files['remark']
-
+        insurance_info = json.loads(request.get_data())
         return user.buy_insurance(insurance_info)
 
 @app.route('/luggage/order/list',methods=['GET','POST'])
