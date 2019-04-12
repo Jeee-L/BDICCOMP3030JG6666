@@ -7,6 +7,12 @@ def search_id(id):
     return Administrator.query.filter_by(id = id).first()
 
 def login(id, password):
+    '''
+
+    :param id:
+    :param password:
+    :return:
+    '''
     admin = search_id(id)
     assert(search_id(id) is not None),'No such id'
     assert(admin.check_password_hash(password)), 'Password wrong'
@@ -14,12 +20,24 @@ def login(id, password):
 
 
 def create(id, password):
+    '''
+
+    :param id:
+    :param password:
+    :return:
+    '''
     assert(search_id(id) is None),'Administrator already exist'
     db.session.add(Administrator(id = id, password = password))
     db.session.commit()
     return 'Create successfully'
 
 def update_password(id, new_password):
+    '''
+
+    :param id:
+    :param new_password:
+    :return:
+    '''
     admin = search_id(id)
     assert (admin is not None), 'No such administrator'
     assert (not admin.check_password_hash(new_password)),'Same password'
