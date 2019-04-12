@@ -26,8 +26,8 @@ def add_insurance(dict):
 def change_staue(id, state):
     '''
 
-    :param id:
-    :param state:
+    :param id: 保险id int
+    :param state: 保险状态 int
     :return:
     '''
     ins = __search_insurance(id)
@@ -38,7 +38,7 @@ def change_staue(id, state):
 def all():
     '''
 
-    :return:
+    :return: list
     '''
     return Insurance.query.all()
 
