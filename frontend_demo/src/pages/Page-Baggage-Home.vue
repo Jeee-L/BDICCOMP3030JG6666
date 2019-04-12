@@ -3,7 +3,8 @@
     <!-- begin page-header -->
     <div class="card card-block">
       <h1 class="page-header">Production Information</h1>
-      <p>When you are travelling, your carry-on luggage and checked luggage may encounter theft, robbery, damage, loss and other accidents.
+      <p>
+        When you are travelling, your carry-on luggage and checked luggage may encounter theft, robbery, damage, loss and other accidents.
         <br>This product will provide comprehensive compensation for your luggage protection.
       </p>
       <!-- end page-header -->

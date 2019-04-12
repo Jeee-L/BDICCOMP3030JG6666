@@ -3288,8 +3288,8 @@ legend {
 }
 
 .btn.btn-lime, .btn.btn-lime.disabled, .btn.btn-lime.disabled:focus, .btn.btn-lime.disabled:hover, .btn.btn-lime[disabled], .btn.btn-lime[disabled]:focus, .btn.btn-lime[disabled]:hover {
-    color: #fff;
-    background: #90ca4b;
+    color: rgb(54, 90, 34);
+    background: #a7d3717c;
     border-color: #90ca4b
 }
 
@@ -11205,7 +11205,7 @@ body.flat-black {
 }
 
 .m-b-0 {
-    margin-bottom: 0!important
+    margin-bottom: 0!important;
 }
 
 .m-b-1 {
