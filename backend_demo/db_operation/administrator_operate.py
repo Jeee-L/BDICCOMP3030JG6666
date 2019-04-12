@@ -1,6 +1,6 @@
-from db_operation.database_basic.whats_your_name import Administrator
-import db_operation.employee_operate as emp
-from ext import db
+from backend_demo.db_operation.database_basic.whats_your_name import Administrator
+import backend_demo.db_operation.employee_operate as emp
+from backend_demo.ext import db
 
 
 def search_id(id):
