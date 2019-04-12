@@ -11,6 +11,7 @@ def add_claim(dict):
     db.session.add(Claim(insurance_id=dict['insurance_id'], employee_id=dict['employee_id'], reason=dict['reason'], status=dict['status']))
     db.session.commit()
     return 'Create Claim successfully'
+
 def search_claim_use_insurance_id(id):
     '''
 

@@ -9,8 +9,7 @@ def login(employeeid,password):
         return_message = db_emp_opr.login(employeeid, password)
         success_message = "Login successfully"
         if return_message == success_message:
-            return_value = {'state': '2'}
-            return jsonify(return_value)
+            return jsonify({'state': '2'})
     except AssertionError as ae:
         if ae == 'No such id':
             return_value = {'state': '-1', 'error_msg': 'No such employee'}
@@ -21,23 +20,27 @@ def login(employeeid,password):
 
 def update_password(employeeid,new_password,confirm_password):
     if not verify_password(new_password):
-        return "新密码不合法"
+        return jsonify({'state':'0','error_msg':'Illegal password'})
     elif not (new_password == confirm_password):
-        return "两次输入的密码不一样"
+        return jsonify({'state':'0','error_msg':'Tow passwords are different'})
     else:
         try:
-            return db_emp_opr.update_password(employeeid,new_password)
+            db_emp_opr.update_password(employeeid, new_password)
+            return jsonify({'state':'1'})
         except AssertionError as ae:
-            return ae
+            return jsonify({'state':'0','error_msg':ae})
 
 def list_all_insurance():
-    return db_ins_opr.all()
+    all_insurance = {'orders':db_ins_opr.all()}
+    return jsonify(all_insurance)
 
 def list_all_claim():
-    return db_cla_opr.all()
+    all_claim = {'claims':db_cla_opr.all()}
+    return jsonify(all_claim)
 
-def address_claim(claim_id,state):
+def address_claim(address_info):
     try:
-        return db_cla_opr.change_staue(claim_id,state)
+        db_cla_opr.change_staue(address_info['claim_id'], address_info['state'])
+        return jsonify({'state':'1'})
     except AssertionError as ae:
-        return "失败,reason:"+ae
+        return jsonify({'state':'0','error_msg':ae})

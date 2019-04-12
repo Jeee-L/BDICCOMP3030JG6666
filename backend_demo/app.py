@@ -86,6 +86,7 @@ def customer_info():
         update_info = json.loads(request.get_data())
         return user.update_user_info(update_info)
 
+# TODO 缺少验证，数据库需要改
 @app.route('/luggage/order/create',methods=['GET','POST'])
 def luggage_order_create():
     if request.method == 'POST':
@@ -95,47 +96,40 @@ def luggage_order_create():
 @app.route('/luggage/order/list',methods=['GET','POST'])
 def luggage_order_list():
     if request.method == 'POST':
-        claim_info = {}
-        claim_info['order_id'] = request.form['order_id']
-        claim_info['user_name'] = request.form['user_name']
-        claim_info['lost_time'] = request.form['lost_time']
-        claim_info['lost_place'] = request.form['lost_place']
-        claim_info['flight_number'] = request.form['flight_number']
-        claim_info['lost_reason'] = request.form['lost_reason']
-        claim_info['remark'] = request.form['remark']
-        claim_info['employee_id'] = -1  # 表示新的订单，没有员工处理
-        claim_info['status'] = -1
-
+        claim_info = json.loads(request.get_data())
         return user.apply_claim(claim_info)
 
-@app.route('/apply_claim/',methods=['GET','POST'])
-def apply_claim_page():
-    if request.method == 'POST':
-        claim_info = {}
-        claim_info['insurance_id'] = request.form['insurance_id']
-        claim_info['employee_id'] = -1 # 表示新的订单，没有员工处理
-        claim_info['reason'] = request.form['reason']
-        claim_info['status'] = -1
-
-        return user.apply_claim(claim_info)
+# @app.route('/apply_claim/',methods=['GET','POST'])
+# def apply_claim_page():
+#     if request.method == 'POST':
+#         claim_info = {}
+#         claim_info['insurance_id'] = request.form['insurance_id']
+#         claim_info['employee_id'] = -1 # 表示新的订单，没有员工处理
+#         claim_info['reason'] = request.form['reason']
+#         claim_info['status'] = -1
+#
+#         return user.apply_claim(claim_info)
 
 @app.route('/logout/')
 def logout_page():
     session.clear() # TODO 用户登出要清cookie和session
     return None
 
-@app.route('/employee_login/',methods=['GET','POST'])
-def employee_lonin_page():
-    employeeid = request.form['employeeid']
-    password = request.form['password']
-    return employee.login(employeeid, password)
+# @app.route('/employee_login/',methods=['GET','POST'])
+# def employee_lonin_page():
+#
+#     employeeid = request.form['employeeid']
+#     password = request.form['password']
+#     return employee.login(employeeid, password)
 
+# TODO 员工更改密码暂时完成
 @app.route('/employee_update_password/',methods=['GET','POST'])
 def employee_update_password_page():
-    employeeid = request.form['employeeid']
-    new_password = request.form['new_password']
-    confirm_password = request.form['confirm_password']
-    return employee.update_password(employeeid,new_password,confirm_password)
+    employee_update_info = json.loads(request.get_data())
+    # employeeid = request.form['employeeid']
+    # new_password = request.form['new_password']
+    # confirm_password = request.form['confirm_password']
+    return employee.update_password(employee_update_info)
 
 # TODO 员工是否应该看到所有的保险和理赔申请？
 @app.route('/check_all_insurance/',methods=['GET','POST'])
@@ -146,18 +140,20 @@ def list_all_insurance_page():
 def list_all_claim_page():
     return employee.list_all_claim()
 
+# TODO 员工处理理赔申请暂时完成，需要前端传来员工受理回复
 @app.route('/address_claim/',methods=['GET','POST'])
 def address_claim_page():
-    claim_id = request.form['claim_id']
+    address_info = json.loads(request.get_data())
+    # claim_id = request.form['claim_id']
     # state = request.form['state']
-    audit_result = request.form['audit_result']
-    return employee.address_claim(claim_id,audit_result)
+    # audit_result = request.form['audit_result']
+    return employee.address_claim(address_info)
 
-@app.route('/administrator_login/',methods=['GET','POST'])
-def administrator_login_page():
-    administratorid = request.form['administratorid']
-    password = request.form['password']
-    return administrator.login(administratorid, password)
+# @app.route('/administrator_login/',methods=['GET','POST'])
+# def administrator_login_page():
+#     administratorid = request.form['administratorid']
+#     password = request.form['password']
+#     return administrator.login(administratorid, password)
 
 @app.route('/administrator_update_password/',methods=['GET','POST'])
 def administrator_update_password():

@@ -34,7 +34,7 @@ def user_all_info(username):
 
 
 def register(register_info):
-    print(register_info)
+    # print(register_info)
     verify_result = verify_register_info(register_info)
     if verify_result == True:
         try:
@@ -69,26 +69,16 @@ def verify_register_info(register_info):
         return True
 
 def update_user_info(update_info):
-    if not update_info['first_name'] == '':
-        update_first_name(update_info['old_username'],update_info['first_name'])
-    if not update_info['last_name'] == '':
-        update_last_name(update_info['old_username'], update_info['last_name'])
-    if not update_info['username'] == '':
-        update_name(update_info['old_username'], update_info['username'])
-    if not(update_info['password']=='' and update_info['confirm_password']==''):
-        update_password(update_info['old_username'],update_info['password'],update_info['confirm_password'])
-    if not update_info['email'] == '':
-        update_email(update_info['old_username'], update_info['email'])
-    if not update_info['phone_num'] == '':
-        update_phone(update_info['old_username'], update_info['phone_num'])
-    if not update_info['passport_num'] == '':
-        update_passport(update_info['old_username'], update_info['passport_num'])
-    if not update_info['birthday'] == '':
-        update_birthday(update_info['old_username'], update_info['birthday'])
-    if not update_info['address'] == '':
-        update_address(update_info['old_username'], update_info['address'])
-    if not update_info['image'] is None:
-        update_user_image(update_info['old_username'],update_info['image'])
+    update_first_name(update_info['old_username'], update_info['first_name'])
+    update_last_name(update_info['old_username'], update_info['last_name'])
+    update_name(update_info['old_username'], update_info['username'])
+    update_password(update_info['old_username'], update_info['password'], update_info['confirm_password'])
+    update_email(update_info['old_username'], update_info['email'])
+    update_phone(update_info['old_username'], update_info['phone_num'])
+    update_passport(update_info['old_username'], update_info['passport_num'])
+    update_birthday(update_info['old_username'], update_info['birthday'])
+    update_address(update_info['old_username'], update_info['address'])
+    update_user_image(update_info['old_username'],update_info['image'])
 
     return_value = {'state': '1'}
     return jsonify(return_value)
@@ -142,7 +132,7 @@ def update_password(name,new_password,confirm_password):
         return_value = {'state': '0', 'error_msg': 'Illegal password'}
         return jsonify(return_value)
     elif not (new_password == confirm_password):
-        return_value = {'state': '0', 'error_msg': 'Two password are different'}
+        return_value = {'state': '0', 'error_msg': 'Two passwords are different'}
         return jsonify(return_value)
     else:
         try:
@@ -206,7 +196,7 @@ def img_stream(img_local_path):
 
 def update_user_image(name,user_image):
     if not (user_image and allowed_file(user_image.filename)):
-        return jsonify({"state": 0, "error_msg": "Illegal image type，limited: png、PNG、jpg、JPG、bmp"})
+        return jsonify({"state": '0', "error_msg": "Illegal image type，limited: png、PNG、jpg、JPG、bmp"})
     basepath = os.path.dirname(__file__)  # 当前文件所在路径
 
     # 注意：没有的文件夹一定要先创建，不然会提示没有该路径
@@ -217,7 +207,7 @@ def update_user_image(name,user_image):
     byte_size = os.path.getsize(upload_path)
     MB_size = float(byte_size / (1024 * 1024))
     if not (MB_size < 2):
-        return jsonify({"state": 0, "error_msg": "image size should not bigger than 2 MB"})
+        return jsonify({"state": '0', "error_msg": "image size should not bigger than 2 MB"})
 
     # 使用Opencv转换一下图片格式和名称
     img = cv2.imread(upload_path)
@@ -230,7 +220,7 @@ def update_user_image(name,user_image):
         os.remove(upload_path)
         # return "头像上传成功"
     except AssertionError as ae:
-        return jsonify({"state": 0, "error_msg": ae})
+        return jsonify({"state": '0', "error_msg": ae})
 
 def convert_insurance_image(insurance_image):
     if not (insurance_image and allowed_file(insurance_image.filename)):
@@ -272,29 +262,35 @@ def buy_insurance(insurance_info):
     # insurance_info['status'] = 0  # 0-未处理
     #
     # insurance_info['remark'] = request.files['remark']
+    insurance_info['state'] = 0
     try:
-        insurance_image_info = convert_insurance_image(insurance_info['image'])
-        insurance_info['image'] = insurance_image_info[0]
-        upload_path = insurance_image_info[1]
         insurance_id = db_ins_opr.add_insurance(insurance_info)
-        os.remove(upload_path)
-        # 返回保险号
-        return insurance_id
+        return jsonify({'state':'1','order_id': insurance_id})
     except AssertionError as ae:
-        return "购买失败,reason: "+ae
+        return jsonify({'state':'0','error_msg': ae})
+
+def apply_claim(claim_info):
+    # claim_info['order_id'] = request.form['order_id']
+    # claim_info['user_name'] = request.form['user_name']
+    # claim_info['lost_time'] = request.form['lost_time']
+    # claim_info['lost_place'] = request.form['lost_place']
+    # claim_info['flight_number'] = request.form['flight_number']
+    # claim_info['lost_reason'] = request.form['lost_reason']
+    # claim_info['remark'] = request.form['remark']
+    claim_info['employee_id'] = -1  # 表示新的订单，没有员工处理
+    claim_info['status'] = -1
+
+    if not (len(claim_info['reason'])<300):
+        return jsonify({'state':'0','error_msg':'The length of reason should less than 300 characters'})
+    try:
+        db_cla_opr.add_claim(claim_info)
+        return jsonify({'state':'1'})
+    except AssertionError as ae:
+        return jsonify({'state':'0','error_msg':ae})
 
 def user_all_insurance(username):
     user_all_insurance = db_ins_opr.user_all_insurance(username)
     return user_all_insurance
-
-def apply_claim(claim_info):
-
-    if not (len(claim_info['reason'])<300):
-        return "原因长度在300个字符以内"
-    try:
-        return db_cla_opr.add_claim(claim_info)
-    except AssertionError as ae:
-        return "失败, reason: "+ae
 
 def user_all_claim(username):
     return db_ins_opr.search_claim(db_ins_opr.user_request(username))
