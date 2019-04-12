@@ -5,7 +5,7 @@ from flask import Flask
 from werkzeug.security import generate_password_hash,check_password_hash
 
 import yaml
-from ext import db
+from backend_demo.ext import db
 # app =  Flask(__name__)
 # dbs = yaml.load(open(r'C:\SoftwareProject2\BDICCOMP3030JG6666\backend_demo\db.yaml'),Loader=yaml.FullLoader)
 # app.config['SQLALCHEMY_DATABASE_URI'] = dbs['sqlalchemy_database_uri_local']

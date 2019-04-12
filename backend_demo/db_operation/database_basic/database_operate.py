@@ -1,4 +1,4 @@
-from db_operation.database_basic.whats_your_name import db
+from backend_demo.db_operation.database_basic.whats_your_name import db
 import yaml
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -11,17 +11,27 @@ from flask_sqlalchemy import SQLAlchemy
 #
 # db  = SQLAlchemy(app)
 def create_tables():
-    '建表'
+    '''
+
+    :return:
+    '''
     db.create_all()
     return 'Create successfully'
 
 
 def drop_all_tables():
-    '删库跑路'
+    '''
+
+    :return:
+    '''
     db.drop_all()
     return 'Drop successfully'
 
 def recreate_table():
+    '''
+
+    :return:
+    '''
     drop_all_tables()
     create_tables()
     print('create successfully')

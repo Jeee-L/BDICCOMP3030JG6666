@@ -1,17 +1,30 @@
 from db_operation.database_basic.whats_your_name import Users
-from ext import db
+from backend_demo.ext import db
 
 def search_username(username):
-    '参数:username， 用户对象，否则None'
+    '''
+
+    :param username:
+    :return:
+    '''
     return Users.query.filter_by(username=username).first()
 
 def password_is_right(username, password):
-    '参数:username, password'
+    '''
+
+    :param username:
+    :param password:
+    :return:
+    '''
     user = search_username(username)
     return user.check_password_hash(password)
 
 def insert_user(dict):
-    '参数:dict username,password,phone_num,email'
+    '''
+
+    :param dict:
+    :return:
+    '''
     user = search_username(dict['username'])
     assert (user is None), "Username already exist"
     db.session.add(Users(username=dict['username'],password=dict['password'],phone_num=dict['phone_num'],email=dict['email']))
@@ -19,17 +32,33 @@ def insert_user(dict):
     return 'Create successfully'
 
 def get_insurance(username):
+    '''
+
+    :param username:
+    :return:
+    '''
     user = search_username(username)
     assert (user is not None), "Username already exist"
     return user.insurance_id.all()
 
 def get_claim(username):
+    '''
+
+    :param username:
+    :return:
+    '''
     user = search_username(username)
     assert (user is not None), "Username already exist"
     return user.claim_id.all()
 
 
 def update_profile(username, new_profile):
+    '''
+
+    :param username:
+    :param new_profile:
+    :return:
+    '''
     user = search_username(username)
     assert user is not None, 'No such user'
     user.profile = new_profile
@@ -37,6 +66,12 @@ def update_profile(username, new_profile):
     return "Update successfully"
 
 def update_username(username, new_name):
+    '''
+
+    :param username:
+    :param new_name:
+    :return:
+    '''
     user = search_username(username)
     assert (user is not None), "No such user"
     assert (not search_username(new_name)), 'This name already exist'
@@ -45,6 +80,12 @@ def update_username(username, new_name):
     return "Update successfully"
 
 def update_password(username, new_password):
+    '''
+
+    :param username:
+    :param new_password:
+    :return:
+    '''
     user = search_username(username)
     assert (user is not None), "No such user"
     assert (not user.check_password_hash(new_password)),'Same password'
@@ -52,6 +93,12 @@ def update_password(username, new_password):
     return "Update successfully"
 
 def update_phone_num(username,new_phone_num):
+    '''
+
+    :param username:
+    :param new_phone_num:
+    :return:
+    '''
     user = search_username(username)
     assert (user is not None), "No such user"
     assert (user.phone_num is not new_phone_num), 'Same phone num'
@@ -59,6 +106,12 @@ def update_phone_num(username,new_phone_num):
     return "Update successfully"
 
 def update_passport_num(username,new_passport_num):
+    '''
+
+    :param username:
+    :param new_passport_num:
+    :return:
+    '''
     user = search_username(username)
     assert (user is not None), "No such user"
     assert (user.passport_num is not new_passport_num), 'Same passport_num'
@@ -66,6 +119,12 @@ def update_passport_num(username,new_passport_num):
     return "Update successfully"
 
 def update_email(username, new_email):
+    '''
+
+    :param username:
+    :param new_email:
+    :return:
+    '''
     user = search_username(username)
     assert (user is not None), "No such user"
     assert (user.email is not new_email), 'Same email'
@@ -73,6 +132,11 @@ def update_email(username, new_email):
     return 'Update email successfully'
 
 def delete_user(username):
+    '''
+
+    :param username:
+    :return:
+    '''
     user = search_username(username)
     assert (user is not None), "No such user"
     db.session.delete(user)
@@ -82,7 +146,6 @@ def delete_user(username):
 if __name__ == '__main__':
     '参数:dict name,password,phone_num,passport_num,email, return boolean'
     insert_user({'username':'1cfabds','password':'1afsdfff','phone_num':1213334,'passport_num':1233413,'email':'133f23@1163.com','profile':1231})
-    # print(get_insurance('1cfabds'))
     print(search_username('1cfabds'))
     print(password_is_right('1cfabds', '123'))
     print(get_insurance('1cfabds'))
