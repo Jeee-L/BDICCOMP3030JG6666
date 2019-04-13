@@ -1,31 +1,44 @@
 import datetime
-
 from flask_sqlalchemy import SQLAlchemy,event
 from flask import Flask
 from werkzeug.security import generate_password_hash,check_password_hash
-
 import yaml
-from backend_demo.ext import db
+
+
 # app =  Flask(__name__)
-# dbs = yaml.load(open(r'C:\SoftwareProject2\BDICCOMP3030JG6666\backend_demo\db.yaml'),Loader=yaml.FullLoader)
+# # dbs = yaml.load(open('/var/Project/www/db.yaml'), Loader=yaml.FullLoader)
+# dbs = yaml.load(open(r'C:\Users\TED\Documents\GitHub\MySimplePythonCode\BDICCOMP3030JG6666\backend_demo\db_operation\db.yaml'), Loader=yaml.FullLoader)
+# # dbs = yaml.load(open(r'C:\SoftwareProject2\BDICCOMP3030JG6666\backend_demo\db.yaml'),Loader=yaml.FullLoader)
 # app.config['SQLALCHEMY_DATABASE_URI'] = dbs['sqlalchemy_database_uri_local']
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-# db = yaml.load(open('/var/Project/www/db.yaml'))
-# db = yaml.load(open(r'C:\Users\TED\Documents\GitHub\MySimplePythonCode\BDICCOMP3030JG6666\Project\www\db.yaml'))
-
 # db = SQLAlchemy(app)
+'''
+创建库的时候，注释取消
+'''
+
+
+from backend_demo.ext import db
+'''
+启动服务前，注释取消
+'''
+
+
+'''
+两组注释有且只能有一个
+'''
+
 class Users(db.Model):
     __tablename__ = 'users'
-    first_name = db.Column(db.String(32), nullable=True, index=True)
-    last_name = db.Column(db.String(32), nullable=True, index=True)
-    username = db.Column(db.String(32), nullable=False, unique=True,primary_key=True,  index=True)
-    password_hash = db.Column(db.String(300), nullable=False)
-    phone_num = db.Column(db.String(13), nullable=False, unique = False,  index=True)
-    passport_num = db.Column(db.String(13), nullable=True, unique=True,  index=True)
-    email = db.Column(db.String(32), nullable=True, unique=True)
+    first_name = db.Column(db.Unicode(32), nullable=True, index=True)
+    last_name = db.Column(db.Unicode(32), nullable=True, index=True)
+    username = db.Column(db.Unicode(32), nullable=False, unique=True,primary_key=True,  index=True)
+    password_hash = db.Column(db.Unicode(300), nullable=False)
+    phone_num = db.Column(db.Unicode(13), nullable=False, unique = False,  index=True)
+    passport_num = db.Column(db.Unicode(13), nullable=True, unique=True,  index=True)
+    email = db.Column(db.Unicode(32), nullable=True, unique=True)
     profile = db.Column(db.LargeBinary(length=204800))
     birthday = db.Column(db.DateTime, nullable=True)
-    address = db.Column(db.String(32), nullable=True)
+    address = db.Column(db.Unicode(32), nullable=True)
     insurance_id = db.relationship('Insurance', backref='users',
                                    lazy='dynamic')
 
@@ -57,10 +70,11 @@ class Users(db.Model):
 class Insurance(db.Model):
     __tablename__ = 'Insurance'
     id = db.Column(db.Integer, nullable=False, primary_key=True, autoincrement=True)
-    username = db.Column(db.String(32), db.ForeignKey('users.username'))
-    pro_id = db.Column(db.Integer, nullable=False)
+    username = db.Column(db.Unicode(32), db.ForeignKey('users.username'))
+    project_id = db.Column(db.Integer, nullable=False)
+    product_id = db.Column(db.Integer, nullable=False)
     amount_of_money = db.Column(db.Integer, nullable=False)
-    status = db.Column(db.String(32), nullable=False)
+    status = db.Column(db.Unicode(32), nullable=False)
     flight_number = db.Column(db.Integer, nullable=False)
     luggage_image_outside = db.Column(db.LargeBinary(length=204800))
     luggage_image_inside = db.Column(db.LargeBinary(length=204800))
@@ -69,12 +83,13 @@ class Insurance(db.Model):
     date = db.Column(db.DateTime, nullable=False,default=datetime.datetime.now())
     claim_id = db.relationship('Claim', backref='insurance',
                                 lazy='dynamic')
-    remark = db.Column(db.String(32))
+    remark = db.Column(db.Unicode(32))
     def __repr__(self):
         return '''
         id = {}
         username = {}
-        pro_id = {}
+        project_id = {}
+        product_id = {}
         amount_of_money = {}
         status = {}
         flight_number = {}
@@ -83,7 +98,7 @@ class Insurance(db.Model):
         date = {}
         claim_id = {}
         remark = {}
-        '''.format(self.id, self.username,self.pro_id,self.amount_of_money, self.status, self.flight_number,self.luggage_height,self.luggage_width,self.date, self.claim_id,self.remark)
+        '''.format(self.id, self.username,self.project_id,self. product_id,self.amount_of_money, self.status, self.flight_number,self.luggage_height,self.luggage_width,self.date, self.claim_id,self.remark)
 
 
 
@@ -92,12 +107,12 @@ class Claim(db.Model):
     insurance_id = db.Column(db.Integer, db.ForeignKey('Insurance.id'),nullable=False,unique=True)
     id = db.Column(db.Integer, nullable=False, primary_key=True, index=True,autoincrement=True)
     employee_id = db.Column(db.Integer,nullable = False)
-    reason = db.Column(db.String(300), nullable=False)
+    reason = db.Column(db.Unicode(300), nullable=False)
     status = db.Column(db.Integer, nullable=False)
     lost_time = db.Column(db.DateTime, nullable=False)
-    lost_place = db.Column(db.String(100), nullable=False)
+    lost_place = db.Column(db.Unicode(100), nullable=False)
     time = db.Column(db.DateTime, default=datetime.datetime.now())
-    remark = db.Column(db.String(300), nullable=False)
+    remark = db.Column(db.Unicode(300), nullable=False)
     def __repr__(self):
         return '''
         insurance_id = {}
@@ -118,7 +133,7 @@ class Claim(db.Model):
 class Employee(db.Model):
     __tablename__='Employee'
     id = db.Column(db.Integer, nullable=False, primary_key=True, index=True)
-    password_hash = db.Column(db.String(32), nullable=False, unique=True)
+    password_hash = db.Column(db.Unicode(32), nullable=False, unique=True)
 
     @property
     def password(self):
@@ -143,7 +158,7 @@ class Employee(db.Model):
 class Administrator(db.Model):
     __tablename__ = 'Administrator'
     id = db.Column(db.Integer, nullable=False, primary_key=True, index=True)
-    password_hash = db.Column(db.String(32), nullable=False, unique=True)
+    password_hash = db.Column(db.Unicode(32), nullable=False, unique=True)
 
     @property
     def password(self):
@@ -165,7 +180,7 @@ class Administrator(db.Model):
 class Product(db.Model):
     __tablename__ = 'Product'
     product_id = db.Column(db.Integer, nullable=False, primary_key=True)
-    product_information = db.Column(db.String(300))
+    product_information = db.Column(db.Unicode(300))
     def __repr__(self):
         return '''
         product_id = {}
