@@ -34,7 +34,6 @@ def user_all_info(username):
 
 
 def register(register_info):
-    # print(register_info)
     verify_result = verify_register_info(register_info)
     if verify_result == True:
         try:
