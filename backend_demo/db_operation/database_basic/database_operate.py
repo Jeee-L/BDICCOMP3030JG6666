@@ -4,12 +4,12 @@
 
 
 
-from backend_demo.ext import db
+# from backend_demo.ext import db
 '''
 项目db
 '''
 
-# from backend_demo.db_operation.database_basic.whats_your_name import db
+from backend_demo.db_operation.database_basic.whats_your_name import db
 '''
 建库db
 '''
@@ -17,7 +17,7 @@ from backend_demo.ext import db
 def create_tables():
     '''
 
-    :return:
+    :return:'Create successfully'
     '''
     db.create_all()
     return 'Create successfully'
@@ -26,7 +26,7 @@ def create_tables():
 def drop_all_tables():
     '''
 
-    :return:
+    :return:'Drop successfully'
     '''
     db.drop_all()
     return 'Drop successfully'
