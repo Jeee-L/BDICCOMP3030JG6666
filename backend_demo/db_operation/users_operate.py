@@ -146,6 +146,22 @@ def delete_user(username):
     db.session.commit()
     return 'Delete successfully'
 
+
+def update_attribute(attribute_name, new_attribute):
+    '''
+
+    :param attribute_name: 旧的属性名称， str
+    :param new_attribute: 新的属性
+    :return: list[原来的值， 新的值]
+    '''
+    res = []
+
+
+
+
+    return res
+
+
 if __name__ == '__main__':
     s = reads(r'C:\Users\TED\Documents\GitHub\MySimplePythonCode\BDICCOMP3030JG6666\backend_demo\db_operation\file\user.csv')
     for item in s:

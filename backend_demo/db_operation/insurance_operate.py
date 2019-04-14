@@ -1,7 +1,7 @@
 from backend_demo.db_operation.users_operate import search_username
 from backend_demo.db_operation.database_basic.whats_your_name import Insurance,db
 import datetime
-# from backend_demo.ext import db
+
 from backend_demo.db_operation.file.read import read as reads
 
 def __search_insurance(id):
@@ -32,6 +32,7 @@ def change_state(id, state):
     :return:
     '''
     ins = __search_insurance(id)
+
     assert ins is not None,'No such Insurance'
     ins.status = state
     return 'Change successfully'
@@ -58,6 +59,21 @@ def user_all_insurance(username):
     :return:
     '''
     return Insurance.query.filter_by(username = username).all()
+
+
+def update_attribute(attribute_name, new_attribute):
+    '''
+
+    :param attribute_name: 旧的属性名称， str
+    :param new_attribute: 新的属性
+    :return: list[原来的值， 新的值]
+    '''
+    res = []
+
+
+
+
+    return res
 
 if __name__ == '__main__':
     s = reads(r'C:\Users\TED\Documents\GitHub\MySimplePythonCode\BDICCOMP3030JG6666\backend_demo\db_operation\file\insurances.csv')

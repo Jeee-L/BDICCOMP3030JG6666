@@ -29,10 +29,10 @@ db = SQLAlchemy(app)
 
 class Users(db.Model):
     __tablename__ = 'users'
-    id = db.Column(db.Integer, unique= True, index=True, autoincrement=True)
+    id = db.Column(db.Integer, unique= True, index=True, autoincrement=True, primary_key=True)
     first_name = db.Column(db.Unicode(32), nullable=True)
     last_name = db.Column(db.Unicode(32), nullable=True)
-    username = db.Column(db.Unicode(32), nullable=False, unique=True,primary_key=True)
+    username = db.Column(db.Unicode(32), nullable=False, unique=True)
     password_hash = db.Column(db.Unicode(300), nullable=True)
     phone_num = db.Column(db.Unicode(13), nullable=True, unique = False)
     passport_num = db.Column(db.Unicode(13), nullable=True, unique=True)
