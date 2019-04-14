@@ -1,5 +1,8 @@
-from backend_demo.db_operation.database_basic.whats_your_name import Users
-from backend_demo.ext import db
+from backend_demo.db_operation.database_basic.whats_your_name import Users,db
+
+from backend_demo.db_operation.file.read import read as reads
+
+
 
 def search_username(username):
     '''
@@ -27,7 +30,7 @@ def insert_user(dict):
     '''
     user = search_username(dict['username'])
     assert (user is None), "Username already exist"
-    db.session.add(Users(username=dict['username'],password=dict['password'],phone_num=dict['phone_num'],email=dict['email']))
+    db.session.add(Users(username=dict['username'], password=dict['password'],phone_num=dict['phone_num'],email=dict['email']))
     db.session.commit()
     return 'Create successfully'
 
@@ -144,8 +147,7 @@ def delete_user(username):
     return 'Delete successfully'
 
 if __name__ == '__main__':
-    '参数:dict name,password,phone_num,passport_num,email, return boolean'
-    insert_user({'username':'1cfabds','password':'1afsdfff','phone_num':1213334,'passport_num':1233413,'email':'133f23@1163.com','profile':1231})
-    print(search_username('1cfabds'))
-    print(password_is_right('1cfabds', '123'))
-    print(get_insurance('1cfabds'))
+    s = reads(r'C:\Users\TED\Documents\GitHub\MySimplePythonCode\BDICCOMP3030JG6666\backend_demo\db_operation\file\user.csv')
+    for item in s:
+        insert_user(item)
+    # update_username('Angela Christopher', 'fuck u')

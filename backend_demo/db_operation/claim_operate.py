@@ -39,7 +39,7 @@ def cancel_claim(id):
     claim.status = 'cancel'
     return 'cancel Successfully'
 
-def change_staue(id, state):
+def change_state(id, state):
     '''
 
     :param id:

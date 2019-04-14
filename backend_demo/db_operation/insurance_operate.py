@@ -1,7 +1,8 @@
 from backend_demo.db_operation.users_operate import search_username
-from backend_demo.db_operation.database_basic.whats_your_name import Insurance
+from backend_demo.db_operation.database_basic.whats_your_name import Insurance,db
 import datetime
-from backend_demo.ext import db
+# from backend_demo.ext import db
+from backend_demo.db_operation.file.read import read as reads
 
 def __search_insurance(id):
     '''
@@ -14,16 +15,16 @@ def __search_insurance(id):
 def add_insurance(dict):
     '''
 
-    :param dict: id,name[0],product_id[1],amount_of_money[2],status,flight_number[3],status are the one of set (Creating, using, out_date)
+    :param dict: username[0],product_id[1],project_id[2], amount_of_money[3],status,flight_number[4],status are the one of set (Creating, using, out_date)
     :return:
     '''
     assert (search_username(dict['username']) is not None), "No such User"
-    f = Insurance(username=dict['username'], product_id=dict['product_id'], amount_of_money=dict['amount_of_money'], flight_number=dict['flight_number'], status=dict['status'], date =datetime.datetime.now(),pic=dict['image'] )
+    f = Insurance(username=dict['username'], product_id=dict['product_id'], project_id=dict['project_id'], amount_of_money=dict['amount_of_money'],  status=dict['status'], date =datetime.datetime.now() )
     db.session.add(f)
     db.session.commit()
     return f.id
 
-def change_staue(id, state):
+def change_state(id, state):
     '''
 
     :param id: 保险id int
@@ -59,5 +60,6 @@ def user_all_insurance(username):
     return Insurance.query.filter_by(username = username).all()
 
 if __name__ == '__main__':
-    # add_insurance({'name':'1cfabds','product_id':123,'amount_of_money':123, 'flight_number':123,'status':'123', 'pic':223})
-    print(all())
+    s = reads(r'C:\Users\TED\Documents\GitHub\MySimplePythonCode\BDICCOMP3030JG6666\backend_demo\db_operation\file\insurances.csv')
+    for item in s:
+        add_insurance(item)

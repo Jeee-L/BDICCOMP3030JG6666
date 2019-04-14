@@ -29,10 +29,10 @@ db = SQLAlchemy(app)
 
 class Users(db.Model):
     __tablename__ = 'users'
-    id = db.Column(db.Integer, primary_key=True, unique= True, index=True)
+    id = db.Column(db.Integer, unique= True, index=True, autoincrement=True)
     first_name = db.Column(db.Unicode(32), nullable=True)
     last_name = db.Column(db.Unicode(32), nullable=True)
-    username = db.Column(db.Unicode(32), nullable=False, unique=True)
+    username = db.Column(db.Unicode(32), nullable=False, unique=True,primary_key=True)
     password_hash = db.Column(db.Unicode(300), nullable=True)
     phone_num = db.Column(db.Unicode(13), nullable=True, unique = False)
     passport_num = db.Column(db.Unicode(13), nullable=True, unique=True)
@@ -74,14 +74,14 @@ class Users(db.Model):
 class Insurance(db.Model):
     __tablename__ = 'insurance'
     id = db.Column(db.Integer, nullable=True, primary_key=True, autoincrement=True)
-    username = db.Column(db.Unicode(32), db.ForeignKey('users.username'))
-    project_id = db.Column(db.Integer, db.ForeignKey('project.project_id'), nullable=True)
-    product_id = db.Column(db.Integer, db.ForeignKey('product.product_id'), nullable=True)
+    username = db.Column(db.ForeignKey('users.username', ondelete='CASCADE',onupdate='CASCADE'))
+    project_id = db.Column(db.ForeignKey('project.project_id', ondelete='CASCADE',onupdate='CASCADE'), unique=False)
+    product_id = db.Column(db.ForeignKey('product.product_id', ondelete='CASCADE',onupdate='CASCADE'), unique=False)
     amount_of_money = db.Column(db.Integer, nullable=True)
     status = db.Column(db.Unicode(32), nullable=True)
     flight_number = db.Column(db.Integer, nullable=True)
-    luggage_image_outside = db.Column(db.LargeBinary(length=204800))
-    luggage_image_inside = db.Column(db.LargeBinary(length=204800))
+    luggage_image_outside = db.Column(db.LargeBinary(length=204800), nullable=True)
+    luggage_image_inside = db.Column(db.LargeBinary(length=204800), nullable=True)
     luggage_height = db.Column(db.Integer, nullable=True)
     luggage_width = db.Column(db.Integer, nullable=True)
     date = db.Column(db.DateTime, nullable=True,default=datetime.datetime.now())
@@ -110,7 +110,7 @@ class Insurance(db.Model):
 
 class Claim(db.Model):
     __tablename__='claim'
-    insurance_id = db.Column(db.Integer, db.ForeignKey('insurance.id'),nullable=True,unique=True)
+    insurance_id = db.Column(db.ForeignKey('insurance.id', ondelete='CASCADE',onupdate='CASCADE'),nullable=True,unique=True)
     id = db.Column(db.Integer, nullable=True, primary_key=True, index=True,autoincrement=True)
     employee_id = db.Column(db.Integer,nullable = False)
     reason = db.Column(db.Unicode(300), nullable=True)
@@ -204,7 +204,7 @@ class Product(db.Model):
 
 class Project(db.Model):
     __tablename__ = 'project'
-    product_id = db.Column(db.Integer, db.ForeignKey('product.product_id'), primary_key=True)
+    product_id = db.Column(db.ForeignKey('product.product_id', ondelete='CASCADE',onupdate='CASCADE'),primary_key=True,unique=True )
     project_id = db.Column(db.Integer,  primary_key = True, unique=True)
     coverage = db.Column(db.Integer, nullable=True)
     The_amount_of_each_shipment_insured = db.Column(db.Integer, nullable = False)
