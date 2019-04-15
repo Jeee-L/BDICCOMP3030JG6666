@@ -232,21 +232,12 @@ class log(db.Model):
 def set_to_log(target, value,oldvalue, initiator):
     '''
 
-    :param target:
-    :param value:
-    :param oldvalue:
-    :param initiator:
-    :return:
+    :param target: insurance对象
+    :param value: insurance.amout_of_money的值
+    :param oldvalue: insurance.amount_of_money原来的值 symbol('NO_VALUE')
+    :param initiator: 不知道
+    :return: None
     '''
-    print('***')
-    print(target)
-    print('*')
-    print(value)
-    print('**')
-    print(oldvalue)
-    print('**')
-    print(initiator)
-    print('***')
     logs = log(date=datetime.datetime.now(), previous_money=123, post_money=223)
     db.session.add(logs)
     db.session.commit()
