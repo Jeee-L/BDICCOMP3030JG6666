@@ -1,5 +1,7 @@
-from backend_demo.db_operation.database_basic.whats_your_name import Users
-from backend_demo.ext import db
+from backend_demo.db_operation.database_basic.whats_your_name import Users,db
+
+
+
 
 def search_username(username):
     '''
@@ -27,7 +29,7 @@ def insert_user(dict):
     '''
     user = search_username(dict['username'])
     assert (user is None), "Username already exist"
-    db.session.add(Users(username=dict['username'],password=dict['password'],phone_num=dict['phone_num'],email=dict['email']))
+    db.session.add(Users(username=dict['username'], password=dict['password'],phone_num=dict['phone_num'],email=dict['email']))
     db.session.commit()
     return 'Create successfully'
 
@@ -143,9 +145,20 @@ def delete_user(username):
     db.session.commit()
     return 'Delete successfully'
 
-if __name__ == '__main__':
-    '参数:dict name,password,phone_num,passport_num,email, return boolean'
-    insert_user({'username':'1cfabds','password':'1afsdfff','phone_num':1213334,'passport_num':1233413,'email':'133f23@1163.com','profile':1231})
-    print(search_username('1cfabds'))
-    print(password_is_right('1cfabds', '123'))
-    print(get_insurance('1cfabds'))
+
+def update_attribute(attribute_name, new_attribute):
+    '''
+
+    :param attribute_name: 旧的属性名称， str
+    :param new_attribute: 新的属性
+    :return: list[原来的值， 新的值]
+    '''
+    res = []
+
+
+
+
+    return res
+
+
+

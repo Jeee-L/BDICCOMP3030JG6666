@@ -1,6 +1,5 @@
-from backend_demo.db_operation.database_basic.whats_your_name import Administrator
+from backend_demo.db_operation.database_basic.whats_your_name import Administrator,db
 import backend_demo.db_operation.employee_operate as emp
-from backend_demo.ext import db
 
 
 def search_id(id):
@@ -8,9 +7,9 @@ def search_id(id):
 
 def login(id, password):
     '''
-
-    :param id:
-    :param password:
+    登陆管理员
+    :param id: administrator id
+    :param password: administrator 密码
     :return:
     '''
     admin = search_id(id)
@@ -21,7 +20,7 @@ def login(id, password):
 
 def create(id, password):
     '''
-
+    创建管理员
     :param id:
     :param password:
     :return:
@@ -33,7 +32,7 @@ def create(id, password):
 
 def update_password(id, new_password):
     '''
-
+    修改管理员密码
     :param id:
     :param new_password:
     :return:
@@ -48,7 +47,7 @@ def update_password(id, new_password):
 
 def delete(id):
     '''
-
+    删除管理员 通过管理员id
     :param id:
     :return:
     '''
@@ -61,7 +60,7 @@ def delete(id):
 
 def delete_employee(id):
     '''
-
+    删除员工 通过员工id
     :param id:
     :return:
     '''
@@ -69,7 +68,7 @@ def delete_employee(id):
 
 def update_employee_password(id, password):
     '''
-
+    通过id修改员工密码
     :param id:
     :param password:
     :return:
@@ -78,7 +77,7 @@ def update_employee_password(id, password):
 
 def create_employee(id, password):
     '''
-
+    创建员工
     :param id:
     :param password:
     :return:
@@ -87,8 +86,22 @@ def create_employee(id, password):
 
 def search_employee(id):
     '''
-
+    查找员工
     :param id:
     :return:
     '''
     return emp.search_id(id)
+
+def update_attribute(attribute_name, new_attribute):
+    '''
+
+    :param attribute_name: 旧的属性名称， str
+    :param new_attribute: 新的属性
+    :return: list[原来的值， 新的值]
+    '''
+    res = []
+
+
+
+
+    return res

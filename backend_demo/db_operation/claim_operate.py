@@ -1,9 +1,10 @@
-from backend_demo.db_operation.database_basic.whats_your_name import Claim
+from backend_demo.db_operation.database_basic.whats_your_name import Claim,db
 from backend_demo.db_operation.insurance_operate import __search_insurance
-from backend_demo.ext import db
+
 
 def add_claim(dict):
     '''
+    增加
     :param dict:
     :return:
     '''
@@ -14,7 +15,7 @@ def add_claim(dict):
 
 def search_claim_use_insurance_id(id):
     '''
-
+    查找
     :param id:
     :return:
     '''
@@ -22,7 +23,7 @@ def search_claim_use_insurance_id(id):
 
 def __search_claim(id):
     '''
-
+    查找claim
     :param id:
     :return:
     '''
@@ -39,7 +40,7 @@ def cancel_claim(id):
     claim.status = 'cancel'
     return 'cancel Successfully'
 
-def change_staue(id, state):
+def change_state(id, state):
     '''
 
     :param id:
@@ -57,6 +58,21 @@ def all():
     :return:
     '''
     return Claim.query.all()
+
+
+def update_attribute(attribute_name, new_attribute):
+    '''
+
+    :param attribute_name: 旧的属性名称， str
+    :param new_attribute: 新的属性
+    :return: list[原来的值， 新的值]
+    '''
+    res = []
+
+
+
+
+    return res
 
 if __name__ == '__main__':
     print(all())
