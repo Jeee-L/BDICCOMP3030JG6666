@@ -286,10 +286,3 @@ def apply_claim(claim_info):
         return jsonify({'state':'1'})
     except AssertionError as ae:
         return jsonify({'state':'0','error_msg':ae})
-
-def user_all_insurance(username):
-    user_all_insurance = db_ins_opr.user_all_insurance(username)
-    return user_all_insurance
-
-def user_all_claim(username):
-    return db_ins_opr.search_claim(db_ins_opr.user_request(username))

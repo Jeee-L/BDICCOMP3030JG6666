@@ -114,7 +114,6 @@ def administrator_update_password():
     administrator_info = json.loads(request.get_data())
     return administrator.update_password(administrator_info)
 
-
 @app.route('/create_new_administrator/',methods=['GET','POST'])
 def create_new_administrator():
     new_administrator_info = json.loads(request.get_data())
