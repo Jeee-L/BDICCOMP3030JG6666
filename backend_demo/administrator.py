@@ -4,6 +4,7 @@ import db_operation.users_operate as db_usr_opr
 import db_operation.insurance_operate as db_ins_opr
 import db_operation.claim_operate as db_cla_opr
 import db_operation.administrator_operate as db_adi_opr
+import user
 
 def login(administratorid,password):
     try:
@@ -20,73 +21,83 @@ def login(administratorid,password):
             return_value = {'state': '0', 'error_msg': 'Password is not correct'}
             return jsonify(return_value)
 
-def update_password(administratorid,new_password,confirm_password):
-    if not verify_password(new_password):
-        return "新密码不合法"
-    elif not (new_password == confirm_password):
-        return "两次输入的密码不一样"
+def update_password(administrator_info):
+    if not verify_password(administrator_info['new_password']):
+        return jsonify({'stste':'0','error_msg':'Illegal password'})
+    elif not (administrator_info['new_password'] == administrator_info['confirm_password']):
+        return jsonify({'state':'0','error_msg':'Tow passwords are different'})
     else:
         try:
-            return db_adi_opr.update_password(administratorid,new_password)
+            db_adi_opr.update_password(administrator_info['administratorid'], administrator_info['new_password'])
+            return jsonify({'state':'1'})
         except AssertionError as ae:
-            return ae
+            return jsonify({'state':'0','error_msg':ae})
 
-def create_new_administrator(id,password,confirm_password):
-    if not verify_password(password):
-        return "新密码不合法"
-    elif not (password == confirm_password):
-        return "两次输入的密码不一样"
-    elif not verify_administrator_name(id):
-        return "新管理员名不合法"
+def create_new_administrator(new_administrator_info):
+    if not verify_password(new_administrator_info['password']):
+        return jsonify({'stste':'0','error_msg':'Illegal password'})
+    elif not (new_administrator_info['password'] == new_administrator_info['confirm_password']):
+        return jsonify({'state':'0','error_msg':'Tow passwords are different'})
+    elif not verify_administrator_name(new_administrator_info['id']):
+        return jsonify({'stste':'0','error_msg':'Illegal administrator id'})
     else:
         try:
-            return db_adi_opr.create(id,password)
+            db_adi_opr.create(new_administrator_info['id'], new_administrator_info['password'])
+            return jsonify({'state':'1'})
         except AssertionError as ae:
-            return "创建失败,reason:"+ae
+            return jsonify({'state':'0','error_msg':ae})
 
-def delete_administrator(current_id,delete_id):
-    if current_id == delete_id:
-        return "不能删除自己"
-    elif delete_id == 'a@root': #TODO 管理员名字？
-        return "不能删除保留管理员"
+def delete_administrator(delete_info):
+    if delete_info['current_id'] == delete_info['delete_id']:
+        return jsonify({'stste':'0','error_msg':'Can not delete current account'})
+    elif delete_info['delete_id'] == 'a@root': #TODO 管理员名字？
+        return jsonify({'stste':'0','error_msg':'Can not delete root administrator'})
     else:
         try:
-            return db_adi_opr.delete(delete_id)
+            db_adi_opr.delete(delete_info['delete_id'])
+            return jsonify({'state':'1'})
         except AssertionError as ae:
-            return "删除失败,reason:"+ae
+            return jsonify({'state':'0','error_msg':ae})
 
-def create_employee(employee_id,password,confirm_password):
-    if not verify_employeename(employee_id):
-        return "新员工名不合法"
-    elif not (password == confirm_password):
-        return "两次输入密码不一致"
-    elif not verify_password(password):
-        return "新员工密码不合法"
+def create_employee(employee_info):
+    if not verify_employeename(employee_info['employee_id']):
+        return jsonify({'stste':'0','error_msg':'Illegal employee id'})
+    elif not (employee_info['password'] == employee_info['confirm_password']):
+        return jsonify({'state':'0','error_msg':'Tow passwords are different'})
+    elif not verify_password(employee_info['password']):
+        return jsonify({'stste':'0','error_msg':'Illegal password'})
     else:
         try:
-            return db_adi_opr.create_employee(employee_id,password)
+            db_adi_opr.create_employee(employee_info['employee_id'], employee_info['password'])
+            return jsonify({'stste':'1'})
         except AssertionError as ae:
-            return "创建员工失败,reason:"+ae
+            return jsonify({'stste':'0','error_msg':ae})
 
 def delete_employee(employee_id):
     try:
-        return db_adi_opr.delete_employee(employee_id)
+        db_adi_opr.delete_employee(employee_id)
+        return jsonify({'stste':'1'})
     except AssertionError as ae:
-        return "删除员工失败,reason:"+ae
+        return jsonify({'stste':'0','error_msg':ae})
 
-def update_employee_password(employee_id,password,confirm_password):
-    if not (password == confirm_password):
-        return "两次输入密码不一致"
-    elif not verify_password(password):
-        return "新员工密码不合法"
+def update_employee_password(update_employee_info):
+    if not (update_employee_info['password'] == update_employee_info['confirm_password']):
+        return jsonify({'state':'0','error_msg':'Tow passwords are different'})
+    elif not verify_password(update_employee_info['password']):
+        return jsonify({'stste':'0','error_msg':'Illegal password'})
     else:
         try:
-            return db_adi_opr.update_employee_password(employee_id, password)
+            db_adi_opr.update_employee_password(update_employee_info['employee_id'], update_employee_info['password'])
+            return jsonify({'stste':'1'})
         except AssertionError as ae:
-            return "更改员工密码失败,reason:" + ae
+            return jsonify({'stste':'0','error_msg':ae})
+
+def create_user(create_user_info):
+    return user.register(create_user_info)
 
 def delete_user(username):
     try:
-        return db_usr_opr.delete_user(username)
+        db_usr_opr.delete_user(username)
+        return jsonify({'stste':'1'})
     except AssertionError as ae:
-        return "删除用户失败,reason:"+ae
+        return jsonify({'stste':'0','error_msg':ae})

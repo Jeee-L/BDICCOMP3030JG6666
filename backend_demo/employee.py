@@ -18,14 +18,14 @@ def login(employeeid,password):
             return_value = {'state': '0', 'error_msg': 'Password is not correct'}
             return jsonify(return_value)
 
-def update_password(employeeid,new_password,confirm_password):
-    if not verify_password(new_password):
+def update_password(employee_update_info):
+    if not verify_password(employee_update_info['new_password']):
         return jsonify({'state':'0','error_msg':'Illegal password'})
-    elif not (new_password == confirm_password):
+    elif not (employee_update_info['new_password'] == employee_update_info['confirm_password']):
         return jsonify({'state':'0','error_msg':'Tow passwords are different'})
     else:
         try:
-            db_emp_opr.update_password(employeeid, new_password)
+            db_emp_opr.update_password(employee_update_info['employeeid'], employee_update_info['new_password'])
             return jsonify({'state':'1'})
         except AssertionError as ae:
             return jsonify({'state':'0','error_msg':ae})
