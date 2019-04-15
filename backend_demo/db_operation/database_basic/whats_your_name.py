@@ -5,19 +5,19 @@ from werkzeug.security import generate_password_hash,check_password_hash
 import yaml
 
 
-app =  Flask(__name__)
-# dbs = yaml.load(open('/var/Project/www/db.yaml'), Loader=yaml.FullLoader)
-dbs = yaml.load(open(r'C:\Users\TED\Documents\GitHub\MySimplePythonCode\BDICCOMP3030JG6666\backend_demo\db_operation\test\db.yaml'), Loader=yaml.FullLoader)
-# dbs = yaml.load(open(r'C:\SoftwareProject2\BDICCOMP3030JG6666\backend_demo\db.yaml'),Loader=yaml.FullLoader)
-app.config['SQLALCHEMY_DATABASE_URI'] = dbs['sqlalchemy_database_uri_local']
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-db = SQLAlchemy(app)
+# app =  Flask(__name__)
+# # dbs = yaml.load(open('/var/Project/www/db.yaml'), Loader=yaml.FullLoader)
+# dbs = yaml.load(open(r'C:\Users\TED\Documents\GitHub\MySimplePythonCode\BDICCOMP3030JG6666\backend_demo\db_operation\test\db.yaml'), Loader=yaml.FullLoader)
+# # dbs = yaml.load(open(r'C:\SoftwareProject2\BDICCOMP3030JG6666\backend_demo\db.yaml'),Loader=yaml.FullLoader)
+# app.config['SQLALCHEMY_DATABASE_URI'] = dbs['sqlalchemy_database_uri_local']
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+# db = SQLAlchemy(app)
 '''
 创建库的时候，注释取消
 '''
 
 
-# from backend_demo.ext import db
+from backend_demo.ext import db
 '''
 启动服务前，注释取消
 '''
