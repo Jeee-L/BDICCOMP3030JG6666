@@ -7,7 +7,7 @@ import yaml
 
 app =  Flask(__name__)
 # dbs = yaml.load(open('/var/Project/www/db.yaml'), Loader=yaml.FullLoader)
-dbs = yaml.load(open(r'C:\Users\TED\Documents\GitHub\MySimplePythonCode\BDICCOMP3030JG6666\backend_demo\db_operation\file\db.yaml'), Loader=yaml.FullLoader)
+dbs = yaml.load(open(r'C:\Users\TED\Documents\GitHub\MySimplePythonCode\BDICCOMP3030JG6666\backend_demo\db_operation\test\db.yaml'), Loader=yaml.FullLoader)
 # dbs = yaml.load(open(r'C:\SoftwareProject2\BDICCOMP3030JG6666\backend_demo\db.yaml'),Loader=yaml.FullLoader)
 app.config['SQLALCHEMY_DATABASE_URI'] = dbs['sqlalchemy_database_uri_local']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
@@ -207,28 +207,48 @@ class Project(db.Model):
     product_id = db.Column(db.ForeignKey('product.product_id', ondelete='CASCADE',onupdate='CASCADE'),primary_key=True,unique=True )
     project_id = db.Column(db.Integer,  primary_key = True, unique=True)
     coverage = db.Column(db.Integer, nullable=True)
-    The_amount_of_each_shipment_insured = db.Column(db.Integer, nullable = False)
+    amount_of_each_shipment_insured = db.Column(db.Integer, nullable = False)
     premium = db.Column(db.Integer, nullable=True)
     def __repr__(self):
         return '''
         ***************
+        product_id = {}
         project_id = {}
         coverage = {}
         The_amount_of_each_shipment_insured = {}
         premium = {}
         ***************
-        '''.format(self.project_id, self.coverage, self.The_amount_of_each_shipment_insured, self. premium)
+        '''.format(self.product_id, self.project_id, self.coverage, self.amount_of_each_shipment_insured, self. premium)
 
 class log(db.Model):
     __tablename__ = 'log'
-    date = db.Column(db.DateTime, nullable=True, primary_key = True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    date = db.Column(db.DateTime, nullable=True)
+    previous_money = db.Column(db.Integer, nullable=False)
+    post_money = db.Column(db.Integer, nullable=False)
 
 
+@event.listens_for(Insurance.amount_of_money,'set')
+def set_to_log(target, value,oldvalue, initiator):
+    '''
 
-# @event.listens_for(Insurance.amount_of_money,'set')
-# def set_to_log(target, value,oldvalue, initiator):
-#     logs = log()
-#     db.session.add(logs)
-#     db.session.commit()
+    :param target:
+    :param value:
+    :param oldvalue:
+    :param initiator:
+    :return:
+    '''
+    print('***')
+    print(target)
+    print('*')
+    print(value)
+    print('**')
+    print(oldvalue)
+    print('**')
+    print(initiator)
+    print('***')
+    logs = log(date=datetime.datetime.now(), previous_money=123, post_money=223)
+    db.session.add(logs)
+    db.session.commit()
 
 

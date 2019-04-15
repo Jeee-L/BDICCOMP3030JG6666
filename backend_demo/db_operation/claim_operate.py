@@ -4,6 +4,7 @@ from backend_demo.db_operation.insurance_operate import __search_insurance
 
 def add_claim(dict):
     '''
+    增加
     :param dict:
     :return:
     '''
@@ -14,7 +15,7 @@ def add_claim(dict):
 
 def search_claim_use_insurance_id(id):
     '''
-
+    查找
     :param id:
     :return:
     '''
@@ -22,7 +23,7 @@ def search_claim_use_insurance_id(id):
 
 def __search_claim(id):
     '''
-
+    查找claim
     :param id:
     :return:
     '''

@@ -2,7 +2,6 @@ from backend_demo.db_operation.users_operate import search_username
 from backend_demo.db_operation.database_basic.whats_your_name import Insurance,db
 import datetime
 
-from backend_demo.db_operation.file.read import read as reads
 
 def __search_insurance(id):
     '''
@@ -16,7 +15,7 @@ def add_insurance(dict):
     '''
 
     :param dict: username[0],product_id[1],project_id[2], amount_of_money[3],status,flight_number[4],status are the one of set (Creating, using, out_date)
-    :return:
+    :return: id
     '''
     assert (search_username(dict['username']) is not None), "No such User"
     f = Insurance(username=dict['username'], product_id=dict['product_id'], project_id=dict['project_id'], amount_of_money=dict['amount_of_money'],  status=dict['status'], date =datetime.datetime.now() )
@@ -75,7 +74,5 @@ def update_attribute(attribute_name, new_attribute):
 
     return res
 
-if __name__ == '__main__':
-    s = reads(r'C:\Users\TED\Documents\GitHub\MySimplePythonCode\BDICCOMP3030JG6666\backend_demo\db_operation\file\insurances.csv')
-    for item in s:
-        add_insurance(item)
+
+

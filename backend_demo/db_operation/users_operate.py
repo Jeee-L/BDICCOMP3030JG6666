@@ -1,6 +1,5 @@
 from backend_demo.db_operation.database_basic.whats_your_name import Users,db
 
-from backend_demo.db_operation.file.read import read as reads
 
 
 
@@ -162,8 +161,4 @@ def update_attribute(attribute_name, new_attribute):
     return res
 
 
-if __name__ == '__main__':
-    s = reads(r'C:\Users\TED\Documents\GitHub\MySimplePythonCode\BDICCOMP3030JG6666\backend_demo\db_operation\file\user.csv')
-    for item in s:
-        insert_user(item)
-    # update_username('Angela Christopher', 'fuck u')
+

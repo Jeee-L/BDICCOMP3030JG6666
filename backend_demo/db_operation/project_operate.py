@@ -12,3 +12,10 @@ def update_attribute(attribute_name, new_attribute):
 
 
     return res
+
+def insert_project(dict):
+    p = Project(product_id=dict['product_id'], project_id=dict['project_id'], coverage=dict['coverage'], amount_of_each_shipment_insured=dict['amount_of_each_shipment_insured'], premium=dict['premium'])
+    db.session.add(p)
+    db.session.commit()
+    return p
+

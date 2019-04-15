@@ -13,4 +13,11 @@ def update_attribute(attribute_name, new_attribute):
 
     return res
 
-# def insert_product(dict):
+def insert_product(dict):
+    p = Product(product_id=dict['product_id'], product_information=dict['product_information'])
+    db.session.add(p)
+    db.session.commit()
+    return p
+
+
+
