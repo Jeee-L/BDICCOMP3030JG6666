@@ -7447,7 +7447,7 @@ body .bootstrap-datetimepicker-widget .timepicker-picker table td:first-child {
 
 .widget.widget-stats {
     position: relative;
-    color: #fff;
+    color: rgb(248, 248, 227);
     padding: 15px;
     border-radius: 3px
 }
@@ -7455,8 +7455,7 @@ body .bootstrap-datetimepicker-widget .timepicker-picker table td:first-child {
 .widget-stats .stats-info h4 {
     font-size: 12px;
     margin: 5px 0;
-    color: #fff;
-    color: rgba(255, 255, 255, .7)
+    color: rgb(5, 5, 5);
 }
 
 .widget-stats .stats-icon {
@@ -9897,7 +9896,7 @@ div+.widget-input.widget-input-rounded {
 }
 
 .login-cover-bg {
-    background: rgba(0, 0, 0, .5)
+    background: rgba(0, 0, 0, 0.562)
 }
 
 .login-bg-list {
@@ -13093,9 +13092,7 @@ a.text-green:focus, a.text-green:hover {
 }
 
 .bg-gradient-blue {
-    background: -moz-linear-gradient(-45deg, rgba(81, 136, 218, 1) 0, rgba(52, 135, 226, 1) 100%)!important;
-    background: -webkit-linear-gradient(-45deg, rgba(81, 136, 218, 1) 0, rgba(52, 135, 226, 1) 100%)!important;
-    background: linear-gradient(135deg, rgba(81, 136, 218, 1) 0, rgba(52, 135, 226, 1) 100%)!important;
+    background: linear-gradient(135deg, rgba(81, 140, 218, 0.692) 0, rgba(226, 58, 52, 0.637) 100%)!important;
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5188da', endColorstr='#3487e2', GradientType=1)!important
 }
 
@@ -13597,9 +13594,7 @@ a.text-green:focus, a.text-green:hover {
 
 .bg-gradient-purple {
     background: #8457f3!important;
-    background: -moz-linear-gradient(-45deg, rgba(132, 87, 243, 1) 0, rgba(114, 124, 182, 1) 100%)!important;
-    background: -webkit-linear-gradient(-45deg, rgba(132, 87, 243, 1) 0, rgba(114, 124, 182, 1) 100%)!important;
-    background: linear-gradient(135deg, rgba(132, 87, 243, 1) 0, rgba(114, 124, 182, 1) 100%)!important;
+    background: linear-gradient(135deg, rgba(114, 51, 51, 0.616) 0, rgb(138, 94, 175) 100%)!important;
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8457f3', endColorstr='#727cb6', GradientType=1)!important
 }
 

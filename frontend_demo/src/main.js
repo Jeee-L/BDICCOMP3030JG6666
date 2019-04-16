@@ -18,13 +18,14 @@ import VuePanel from './plugins/panel/'
 import VueDateTimePicker from 'vue-bootstrap-datetimepicker'
 import VueSelect from 'vue-select'
 import VueDatepicker from "vuejs-datepicker/dist/vuejs-datepicker.esm.js"
-import VueMaskedInput from 'vue-maskedinput'
-import VueInputTag from 'vue-input-tag'
-import VueSlider from 'vue-slider-component'
+import VueMaskedInput from 'vue-maskedinput';
+import VueInputTag from 'vue-input-tag';
+import VueSlider from 'vue-slider-component';
 import VueGoodTable from 'vue-good-table';
 import VueFullCalendar from 'vue-full-calendar'
 import VueCountdown from '@xkeshi/vue-countdown';
-import VueColorpicker from 'vue-pop-colorpicker'
+import VueColorpicker from 'vue-pop-colorpicker';
+import VueChartJs from 'vue-chartjs';
 
 // plugins css
 import 'bootstrap/dist/css/bootstrap.css'
@@ -81,16 +82,25 @@ Vue.use(VueInsProgressBar, {
   show: true,
   height: '3px'
 })
-Vue.use(VueAxios, axios)
+Vue.use(VueAxios, axios);
 Vue.use(VeeValidate);
 
 
 Vue.component('v-select', VueSelect);
-Vue.component('datepicker', VueDatepicker)
-Vue.component('masked-input', VueMaskedInput)
-Vue.component('input-tag', VueInputTag)
-Vue.component('vue-slider', VueSlider)
+Vue.component('datepicker', VueDatepicker);
+Vue.component('masked-input', VueMaskedInput);
+Vue.component('input-tag', VueInputTag);
+Vue.component('vue-slider', VueSlider);
 Vue.component(VueCountdown.name, VueCountdown);
+
+// Global variables configuration
+import global from './config/global';
+Vue.use(global);
+
+// Vue Cropper for image processing
+import VueCropper from 'vue-cropper'
+Vue.use(VueCropper);
+
 
 const router = new VueRouter({
   routes,

@@ -122,8 +122,13 @@
               liability, the insurer shall calculate the indemnity according to the actual loss within the
               insured amount, but the indemnity shall not exceed the maximum insured amount.
             </div>
-            <br><br>
-            <button type="button" class="btn btn-lime" v-on:click="changeFormStatus">I Accept Terms and Conditions Mentioned Above</button>
+            <br>
+            <br>
+            <button
+              type="button"
+              class="btn btn-lime"
+              v-on:click="changeFormStatus"
+            >I Accept Terms and Conditions Mentioned Above</button>
           </div>
         </div>
 
@@ -848,21 +853,22 @@
 <script>
 import { FormWizard, TabContent, WizardStep } from "vue-form-wizard";
 import PageOptions from "../config/PageOptions.vue";
+import axios from "axios";
 
 export default {
   data() {
     return {
       showForm: false,
       formData: {
-        first_name: "",
-        last_name: "",
-        username: "",
-        email: "",
-        birthday: new Date().toISOString().substr(0, 10),
-        phone_num: "",
-        passport_num: "",
-        address: "",
-        product_id: "",
+        first_name: this.$user.first_name,
+        last_name: this.$user.last_name,
+        username: this.$user.username,
+        email: this.$user.email,
+        birthday: this.$user.birthday.toISOString().substr(0, 10),
+        phone_num: this.$user.phone_num,
+        passport_num: this.$user.passport_num,
+        address: this.$user.address,
+        product_id:  "",
         project_id: "",
         remark: ""
       }
@@ -884,17 +890,18 @@ export default {
     },
     checkProjectValue(e) {
       var value = e.target.value.split("-");
-      this.product_id = value[0];
-      this.project_id = value[1];
+      this.formData.product_id = value[0];
+      this.formData.project_id = value[1];
     },
     submitOrderForm() {
-      if (!this.isFormInvalid && this.project_id != "") {
-        var today = new Date().toISOString().substr(0, 10);
-        if (this.birthday == today) {
-          this.birthday = new Date("1000-01-01").toISOString().substr(0, 10);
-        }
-        alert("All fields in form are valid." + this.birthday);
+      var today = new Date().toISOString().substr(0, 10);
+      if (this.formData.birthday == today) {
+        this.formData.birthday = new Date("1000-01-01")
+          .toISOString()
+          .substr(0, 10);
+      }
 
+      if (!this.isFormInvalid && this.formData.project_id != "") {
         var obj = JSON.stringify(this.formData);
         axios
           .post("/luggage/order/create", obj)
@@ -905,13 +912,10 @@ export default {
           .catch(function(error) {
             console.log(error);
           });
-      } else if (!this.isFormInvalid && this.project_id != "") {
-        alert("Please select one product Birthday:" + this.formData.birthday);
+      } else if (!this.isFormInvalid && this.formData.project_id != "") {
+        alert("Please select one product.");
       } else {
-        alert(
-          "Please enter valid information in all required fields. Birthday:" +
-            this.formData.birthday
-        );
+        alert("Please enter valid information in all required fields.");
       }
     }
   }

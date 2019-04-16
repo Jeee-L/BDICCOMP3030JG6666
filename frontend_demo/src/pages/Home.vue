@@ -86,7 +86,7 @@
             <h2 class="flag-icon flag-icon-cn width-full m-r-10 m-t-0 m-b-3" title="cn" id="cn"></h2>
             <h2 class="flag-icon flag-icon-ie width-full m-r-10 m-t-0 m-b-3" title="ie" id="ie"></h2>
           </div>-->
-          <h2 style="color: black">Welcome {{name}}!</h2>
+          <h2 style="color: black">Welcome {{$user.username}}!</h2>
           <br>
           <h4>
             <b>Choose the best plan and start your journey!</b>
@@ -175,12 +175,9 @@ export default {
     };
   },
   mounted(){
-    // let username = getCookie("username")
-    // this.name = username
-
-    // if (username == ""){
-    //   this.$router.push({ path: "/login" });
-    // }
+    if (getCookie("username") == ""){
+      this.$router.push({ path: "/login" });
+    }
   },
   methods: {
     onSlideStart() {
