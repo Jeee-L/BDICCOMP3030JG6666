@@ -8,7 +8,7 @@
         </div>
         <div class="info">
           <b class="caret pull-right"></b>
-          Catherine Mooney
+          {{$user.username}}
           <small>Insured customer</small>
         </div>
       </a>

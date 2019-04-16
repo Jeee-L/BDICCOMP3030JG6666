@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- begin profile -->
-    <div class="profile">
+    <div class>
       <div class="profile-header">
         <!-- BEGIN profile-header-cover -->
         <div class="profile-header-cover"></div>
@@ -10,18 +10,18 @@
         <div class="profile-header-content">
           <!-- BEGIN profile-header-img -->
           <div class="profile-header-img">
-            <img src="../assets/img/avatar.jpg" alt>
+            <img :src="avatarSRC">
+            <!-- onerror="this.src='../assets/img/china-land1.jpg'" -->
           </div>
           <!-- END profile-header-img -->
           <!-- BEGIN profile-header-info -->
           <div class="profile-header-info">
-            <h4 class="m-t-10 m-b-5">Catherine Mooney</h4>
+            <h4 class="m-t-10 m-b-5">{{$user.username}}</h4>
             <p class="m-b-10"></p>
             <a
               a
               href="javascript:;"
-              v-on:click="show('update')"
-              v-bind:class="{ 'active': tab.update }"
+              v-on:click="startEdit(false)"
               class="btn btn-xs btn-yellow"
               data-toggle="tab"
             >Edit Profile</a>
@@ -74,76 +74,6 @@
                 <a href="javascript:;">&nbsp;</a>
               </div>
               <!-- end timeline-icon -->
-              <!-- begin timeline-body -->
-              <div class="timeline-body">
-                <div class="timeline-header">
-                  <span class="userimage">
-                    <img src="/assets/img/user/user-12.jpg" alt>
-                  </span>
-                  <span class="username">
-                    <a href="javascript:;">Sean Ngu</a>
-                    <small></small>
-                  </span>
-                  <span class="pull-right text-muted">18 Views</span>
-                </div>
-                <div class="timeline-content">
-                  <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc faucibus turpis quis tincidunt luctus.
-                    Nam sagittis dui in nunc consequat, in imperdiet nunc sagittis.
-                  </p>
-                </div>
-                <div class="timeline-likes">
-                  <div class="stats-right">
-                    <span class="stats-text">259 Shares</span>
-                    <span class="stats-text">21 Comments</span>
-                  </div>
-                  <div class="stats">
-                    <span class="fa-stack fa-fw stats-icon">
-                      <i class="fa fa-circle fa-stack-2x text-danger"></i>
-                      <i class="fa fa-heart fa-stack-1x fa-inverse t-plus-1"></i>
-                    </span>
-                    <span class="fa-stack fa-fw stats-icon">
-                      <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                      <i class="fa fa-thumbs-up fa-stack-1x fa-inverse"></i>
-                    </span>
-                    <span class="stats-total">4.3k</span>
-                  </div>
-                </div>
-                <div class="timeline-footer">
-                  <a href="javascript:;" class="m-r-15 text-inverse-lighter">
-                    <i class="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i> Like
-                  </a>
-                  <a href="javascript:;" class="m-r-15 text-inverse-lighter">
-                    <i class="fa fa-comments fa-fw fa-lg m-r-3"></i> Comment
-                  </a>
-                  <a href="javascript:;" class="m-r-15 text-inverse-lighter">
-                    <i class="fa fa-share fa-fw fa-lg m-r-3"></i> Share
-                  </a>
-                </div>
-                <div class="timeline-comment-box">
-                  <div class="user">
-                    <img src="/assets/img/user/user-12.jpg">
-                  </div>
-                  <div class="input">
-                    <form action>
-                      <div class="input-group">
-                        <input
-                          type="text"
-                          class="form-control rounded-corner"
-                          placeholder="Write a comment..."
-                        >
-                        <span class="input-group-btn p-l-10">
-                          <button
-                            class="btn btn-primary f-s-12 rounded-corner"
-                            type="button"
-                          >Comment</button>
-                        </span>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
-              <!-- end timeline-body -->
             </li>
             <li>
               <!-- begin timeline-time -->
@@ -157,36 +87,6 @@
                 <a href="javascript:;">&nbsp;</a>
               </div>
               <!-- end timeline-icon -->
-              <!-- begin timeline-body -->
-              <div class="timeline-body">
-                <div class="timeline-header">
-                  <span class="userimage">
-                    <img src="/assets/img/user/user-12.jpg" alt>
-                  </span>
-                  <span class="username">Sean Ngu</span>
-                  <span class="pull-right text-muted">82 Views</span>
-                </div>
-                <div class="timeline-content">
-                  <p>Location: United States</p>
-                  <GmapMap
-                    class="height-sm m-b-10"
-                    :zoom="5"
-                    :center="{lat: 25.304304, lng: -90.06591800000001}"
-                  ></GmapMap>
-                </div>
-                <div class="timeline-footer">
-                  <a href="javascript:;" class="m-r-15 text-inverse-lighter">
-                    <i class="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i> Like
-                  </a>
-                  <a href="javascript:;" class="m-r-15 text-inverse-lighter">
-                    <i class="fa fa-comments fa-fw fa-lg m-r-3"></i> Comment
-                  </a>
-                  <a href="javascript:;" class="m-r-15 text-inverse-lighter">
-                    <i class="fa fa-share fa-fw fa-lg m-r-3"></i> Share
-                  </a>
-                </div>
-              </div>
-              <!-- end timeline-body -->
             </li>
             <li>
               <!-- begin timeline-time -->
@@ -200,37 +100,6 @@
                 <a href="javascript:;">&nbsp;</a>
               </div>
               <!-- end timeline-icon -->
-              <!-- begin timeline-body -->
-              <div class="timeline-body">
-                <div class="timeline-header">
-                  <span class="userimage">
-                    <img src="/assets/img/user/user-12.jpg" alt>
-                  </span>
-                  <span class="username">Sean Ngu</span>
-                  <span class="pull-right text-muted">1,282 Views</span>
-                </div>
-                <div class="timeline-content">
-                  <p class="lead">
-                    <i class="fa fa-quote-left fa-fw pull-left"></i>
-                    Quisque sed varius nisl. Nulla facilisi. Phasellus consequat sapien sit amet nibh molestie placerat. Donec nulla quam, ullamcorper ut velit vitae, lobortis condimentum magna. Suspendisse mollis in sem vel mollis.
-                    <i
-                      class="fa fa-quote-right fa-fw pull-right"
-                    ></i>
-                  </p>
-                </div>
-                <div class="timeline-footer">
-                  <a href="javascript:;" class="m-r-15 text-inverse-lighter">
-                    <i class="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i> Like
-                  </a>
-                  <a href="javascript:;" class="m-r-15 text-inverse-lighter">
-                    <i class="fa fa-comments fa-fw fa-lg m-r-3"></i> Comment
-                  </a>
-                  <a href="javascript:;" class="m-r-15 text-inverse-lighter">
-                    <i class="fa fa-share fa-fw fa-lg m-r-3"></i> Share
-                  </a>
-                </div>
-              </div>
-              <!-- end timeline-body -->
             </li>
             <li>
               <!-- begin timeline-time -->
@@ -248,21 +117,12 @@
               <div class="timeline-body">
                 <div class="timeline-header">
                   <span class="userimage">
-                    <img src="/assets/img/user/user-12.jpg" alt>
+                    <!-- <img src="/assets/img/user/user-12.jpg" alt> -->
                   </span>
                   <span class="username">Sean Ngu</span>
                   <span class="pull-right text-muted">1,021,282 Views</span>
                 </div>
-                <div class="timeline-content">
-                  <h4 class="template-title">
-                    <i class="fa fa-map-marker-alt text-danger fa-fw"></i>
-                    795 Folsom Ave, Suite 600 San Francisco, CA 94107
-                  </h4>
-                  <p>In hac habitasse platea dictumst. Pellentesque bibendum id sem nec faucibus. Maecenas molestie, augue vel accumsan rutrum, massa mi rutrum odio, id luctus mauris nibh ut leo.</p>
-                  <p class="m-t-20">
-                    <img src="/assets/img/gallery/gallery-5.jpg" alt>
-                  </p>
-                </div>
+                <div class="timeline-content"></div>
                 <div class="timeline-footer">
                   <a href="javascript:;" class="m-r-15 text-inverse-lighter">
                     <i class="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i> Like
@@ -300,12 +160,12 @@
                   <div class="py-4">
                     <img
                       class="img-fluid rounded-circle img-thumbnail thumb96"
-                      src="../assets/img/avatar.jpg"
+                      :src="avatarSRC"
                       alt="Contact"
                       onload="if (this.width>140 || this.height>226) if (this.width/this.height>140/226) this.width=140; else this.height=226;"
                     >
                   </div>
-                  <h3 class="m-0 text-bold">Catherine Mooney</h3>
+                  <h3 class="m-0 text-bold">{{$user.username}}</h3>
                   <div class="my-3">
                     <p>Please upload a photo to customize your avatar.</p>
                   </div>
@@ -385,19 +245,39 @@
                 <div class="card-body">
                   <div class="row py-4 justify-content-center">
                     <div class="col-12 col-sm-10">
+                      <p
+                        class="text-danger"
+                      >* Please click the Edit Profile button to update personal information.</p> <br>
                       <form class="form-horizontal">
                         <div class="form-group row">
                           <label
                             class="text-bold col-xl-2 col-md-3 col-4 col-form-label text-right"
                             for="inputContact1"
-                          >Name</label>
+                          >First Name</label>
                           <div class="col-xl-10 col-md-9 col-8">
                             <input
                               class="form-control"
                               id="inputContact1"
                               type="text"
                               placeholder
-                              value="Catherine Mooney"
+                              v-model.lazy="$user.first_name"
+                              :disabled="this.update"
+                            >
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label
+                            class="text-bold col-xl-2 col-md-3 col-4 col-form-label text-right"
+                            for="inputContact1"
+                          >Last Name</label>
+                          <div class="col-xl-10 col-md-9 col-8">
+                            <input
+                              class="form-control"
+                              id="inputContact1"
+                              type="text"
+                              placeholder
+                              v-model.lazy="$user.last_name"
+                              :disabled="this.update"
                             >
                           </div>
                         </div>
@@ -410,8 +290,10 @@
                             <input
                               class="form-control"
                               id="inputContact2"
-                              type="email"
-                              value="hibernia-sino@hotmail.com"
+                              type="text"
+                              placeholder
+                              v-model.lazy="$user.username"
+                              :disabled="this.update"
                             >
                           </div>
                         </div>
@@ -425,8 +307,10 @@
                             <input
                               class="form-control"
                               id="inputContact7"
-                              type="text"
-                              value="@Social"
+                              type="email"
+                              placeholder
+                              v-model.lazy="$user.email"
+                              :disabled="this.update"
                             >
                           </div>
                         </div>
@@ -435,38 +319,28 @@
                             class="text-bold col-xl-2 col-md-3 col-4 col-form-label text-right"
                             for="inputContact8"
                           >Birthday</label>
-                            <div class="col-md-8">
-                              <datepicker
-                                placeholder="Select Date"
-                                input-class="form-control bg-white"
-                              ></datepicker>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                          <label
-                            class="text-bold col-xl-2 col-md-3 col-4 col-form-label text-right"
-                            for="inputContact3"
-                          >Mobile (CN)</label>
-                          <div class="col-xl-10 col-md-9 col-8">
-                            <input
-                              class="form-control"
-                              id="inputContact3"
-                              type="text"
-                              value="(86) 15611600577"
-                            >
+                          <div class="col-md-8">
+                            <datepicker
+                              placeholder="Select Date"
+                              input-class="form-control bg-white"
+                              v-model.lazy="$user.birthday"
+                              :disabled="this.update"
+                            ></datepicker>
                           </div>
                         </div>
                         <div class="form-group row">
                           <label
                             class="text-bold col-xl-2 col-md-3 col-4 col-form-label text-right"
-                            for="inputContact4"
-                          >Mobile (IE)</label>
+                            for="inputContact3"
+                          >Phone Num</label>
                           <div class="col-xl-10 col-md-9 col-8">
                             <input
                               class="form-control"
-                              id="inputContact4"
-                              type="text"
-                              value="(12) 123 987 465"
+                              id="inputContact3"
+                              type="number"
+                              placeholder
+                              v-model.lazy="$user.phone_num"
+                              :disabled="this.update"
                             >
                           </div>
                         </div>
@@ -480,7 +354,9 @@
                               class="form-control"
                               id="inputContact5"
                               type="text"
-                              value="EC8325666"
+                              placeholder
+                              v-model.lazy="$user.passport_num"
+                              :disabled="this.update"
                             >
                           </div>
                         </div>
@@ -490,12 +366,22 @@
                             for="inputContact6"
                           >Address</label>
                           <div class="col-xl-10 col-md-9 col-8">
-                            <textarea class="form-control" id="inputContact6" rows="4">Some nice Street, 1234</textarea>
+                            <textarea
+                              class="form-control"
+                              id="inputContact6"
+                              rows="4"
+                              v-model.lazy="$user.address"
+                              :disabled="this.update"
+                            ></textarea>
                           </div>
                         </div>
                         <div class="form-group row">
                           <div class="col-md-10">
-                            <button class="btn btn-info" type="button">Update</button>
+                            <button
+                              class="btn btn-info"
+                              type="button"
+                              v-on:click="startEdit(true)"
+                            >Update</button>
                           </div>
                         </div>
                       </form>
@@ -505,154 +391,6 @@
               </div>
             </div>
           </div>
-        </div>
-        <!-- end #profile-about tab -->
-        <!-- begin #profile-update tab -->
-        <div class="tab-pane fade" v-bind:class="{ 'show active': tab.update }">
-          <!-- begin table -->
-          <div class="table-responsive">
-            <table class="table table-profile">
-              <thead>
-                <tr>
-                  <th></th>
-                  <th>
-                    <h4>
-                      Micheal Meyer
-                      <small>Lorraine Stokes</small>
-                    </h4>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="highlight">
-                  <td class="field">Mood</td>
-                  <td>
-                    <a href="javascript:;">Add Mood Message</a>
-                  </td>
-                </tr>
-                <tr class="divider">
-                  <td colspan="2"></td>
-                </tr>
-                <tr>
-                  <td class="field">Mobile</td>
-                  <td>
-                    <i class="fa fa-mobile fa-lg m-r-5"></i> +1-(847)- 367-8924
-                    <a href="javascript:;" class="m-l-5">Edit</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="field">Home</td>
-                  <td>
-                    <a href="javascript:;">Add Number</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="field">Office</td>
-                  <td>
-                    <a href="javascript:;">Add Number</a>
-                  </td>
-                </tr>
-                <tr class="divider">
-                  <td colspan="2"></td>
-                </tr>
-                <tr class="highlight">
-                  <td class="field">About Me</td>
-                  <td>
-                    <a href="javascript:;">Add Description</a>
-                  </td>
-                </tr>
-                <tr class="divider">
-                  <td colspan="2"></td>
-                </tr>
-                <tr>
-                  <td class="field">Country/Region</td>
-                  <td>
-                    <select class="form-control input-inline input-xs" name="region">
-                      <option value="US" selected>United State</option>
-                      <option value="AF">Afghanistan</option>
-                      <option value="AL">Albania</option>
-                      <option value="DZ">Algeria</option>
-                      <option value="AS">American Samoa</option>
-                      <option value="AD">Andorra</option>
-                      <option value="AO">Angola</option>
-                      <option value="AI">Anguilla</option>
-                      <option value="AQ">Antarctica</option>
-                      <option value="AG">Antigua and Barbuda</option>
-                    </select>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="field">City</td>
-                  <td>Los Angeles</td>
-                </tr>
-                <tr>
-                  <td class="field">State</td>
-                  <td>
-                    <a href="javascript:;">Add State</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="field">Website</td>
-                  <td>
-                    <a href="javascript:;">Add Webpage</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="field">Gender</td>
-                  <td>
-                    <select class="form-control input-inline input-xs" name="gender">
-                      <option value="male">Male</option>
-                      <option value="female">Female</option>
-                    </select>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="field">Birthdate</td>
-                  <td>
-                    <select class="form-control input-inline input-xs" name="day">
-                      <option value="04" selected>04</option>
-                    </select>
-                    -
-                    <select
-                      class="form-control input-inline input-xs"
-                      name="month"
-                    >
-                      <option value="11" selected>11</option>
-                    </select>
-                    -
-                    <select
-                      class="form-control input-inline input-xs"
-                      name="year"
-                    >
-                      <option value="1989" selected>1989</option>
-                    </select>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="field">Language</td>
-                  <td>
-                    <select class="form-control input-inline input-xs" name="language">
-                      <option value selected>English</option>
-                    </select>
-                  </td>
-                </tr>
-                <tr class="divider">
-                  <td colspan="2"></td>
-                </tr>
-                <tr class="highlight">
-                  <td class="field">&nbsp;</td>
-                  <td class="p-t-10 p-b-10">
-                    <button type="submit" class="btn btn-primary width-150">Update</button>
-                    <button
-                      type="submit"
-                      class="btn btn-white btn-white-without-border width-150 m-l-5"
-                    >Cancel</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <!-- end table -->
         </div>
         <!-- end #profile-about tab -->
       </div>
@@ -670,28 +408,28 @@ export default {
     return {
       tab: {
         post: false,
-        about: true,
-        update: false
-      }
+        about: true
+      },
+      update: true,
+      avatarSRC: require("../components/img/avatar.jpg")
     };
   },
   methods: {
     show: function(x) {
       this.tab.post = false;
       this.tab.about = false;
-      this.tab.update = false;
 
       switch (x) {
         case "about":
           this.tab.about = true;
           break;
-        case "update":
-          this.tab.update = true;
-          break;
         default:
           this.tab.post = true;
           break;
       }
+    },
+    startEdit(value) {
+      this.update = value;
     }
   },
   created() {
@@ -721,3 +459,19 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+input:disabled {
+  border: 1px solid #ddd;
+  background-color: #f3faf9b4;
+  color: #000000;
+  opacity: 1;
+}
+
+textarea:disabled {
+  border: 1px solid #ddd;
+  background-color: #f3faf9a8;
+  color: #000000;
+  opacity: 1;
+}
+</style>

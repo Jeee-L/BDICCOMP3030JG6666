@@ -96,24 +96,16 @@
         <li class="dropdown navbar-language" v-if="pageOptions.pageWithLanguageBar">
           <b-dropdown variant="link" menu-class="p-b-0">
             <template slot="button-content">
-              <span class="flag-icon flag-icon-us" title="us"></span>
-              <span class="name">EN</span>
+              <span class="flag-icon" title="language" v-bind:class="{'flag-icon-ie': language == 'English', 'flag-icon-cn': language == 'Chinese'}"></span>
+              <span class="name">{{language}}</span>
               <b class="caret"></b>
             </template>
-            <b-dropdown-item href="javascript:;">
-              <span class="flag-icon flag-icon-us" title="us"></span> English
+            <b-dropdown-item href="javascript:;" v-on:click="changeLanguage('English')" style="margin-bottom: 10px">
+              <span class="flag-icon flag-icon-ie" title="us"></span> English
             </b-dropdown-item>
-            <b-dropdown-item href="javascript:;">
+            <b-dropdown-item href="javascript:;" v-on:click="changeLanguage('Chinese')"  style="margin-bottom: 10px">
               <span class="flag-icon flag-icon-cn" title="cn"></span> Chinese
             </b-dropdown-item>
-            <b-dropdown-item href="javascript:;">
-              <span class="flag-icon flag-icon-jp" title="jp"></span> Japanese
-            </b-dropdown-item>
-            <b-dropdown-item href="javascript:;">
-              <span class="flag-icon flag-icon-be" title="be"></span> Belgium
-            </b-dropdown-item>
-            <b-dropdown-divider class="m-b-0"></b-dropdown-divider>
-            <b-dropdown-item href="javascript:;" class="text-center">more options</b-dropdown-item>
           </b-dropdown>
         </li>
         <li class="dropdown navbar-user">
@@ -122,7 +114,7 @@
               <div class="image image-icon bg-black text-grey-darker">
                 <i class="fa fa-user"></i>
               </div>
-              <span class="d-none d-md-inline">Princess Phoebe</span>
+              <span class="d-none d-md-inline">{{$user.username}}</span>
               <b class="caret"></b>
             </template>
             <b-dropdown-item href="javascript:;">Edit Profile</b-dropdown-item>
@@ -160,10 +152,14 @@ export default {
   name: "Header",
   data() {
     return {
-      pageOptions: PageOptions
+      pageOptions: PageOptions,
+      language: 'English'
     };
   },
   methods: {
+    changeLanguage(value){
+      this.language = value
+    },
     toggleMobileSidebar() {
       this.pageOptions.pageMobileSidebarToggled = !this.pageOptions
         .pageMobileSidebarToggled;
