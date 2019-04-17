@@ -22,7 +22,7 @@
       <!-- end register-header -->
       <!-- begin register-content -->
       <div class="register-content">
-        <form action="" class="margin-bottom-0" v-on:submit.prevent="submitForm">
+        <form action class="margin-bottom-0" v-on:submit.prevent="submitForm">
           <label class="control-label">
             User Name
             <span class="text-danger">*</span>
@@ -164,9 +164,7 @@
           </div>
           <br>
           <div class="register-buttons">
-            <button
-              class="btn btn-primary btn-block btn-lg"
-            >Sign Up</button>
+            <button class="btn btn-primary btn-block btn-lg">Sign Up</button>
           </div>
           <div class="m-t-20 m-b-40 p-b-40 text-inverse">
             Already a member? Click
@@ -231,10 +229,12 @@ export default {
           .then(res => {
             var response = JSON.parse(JSON.stringify(res.data));
             if (response.state == "1") {
-              alert("Welcome to Hibernia-Sino Travel Insurance, dear customer.");
+              alert(
+                "Welcome to Hibernia-Sino Travel Insurance, dear customer."
+              );
               this.$router.push("/login");
             } else {
-              this.swalNotification("danger")
+              this.swalNotification("danger");
             }
           })
           .catch(function(error) {

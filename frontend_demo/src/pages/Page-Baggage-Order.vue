@@ -1,5 +1,4 @@
 <template>
-  <ContentWrapper>
     <div class="row">
       <div class="col-lg-3">
         <div class="card b mb-2">
@@ -768,7 +767,6 @@
         </div>
       </div>
     </div>
-  </ContentWrapper>
 </template>
 <script>
 export default {
