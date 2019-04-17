@@ -32,6 +32,8 @@ def user_all_info(username):
     }
     return jsonify(return_value)
 
+def user_all_insurance(username):
+    return db_usr_opr.get_insurance(username)
 
 def register(register_info):
     verify_result = verify_register_info(register_info)
@@ -261,7 +263,7 @@ def buy_insurance(insurance_info):
     # insurance_info['status'] = 0  # 0-未处理
     #
     # insurance_info['remark'] = request.files['remark']
-    insurance_info['state'] = 0
+    insurance_info['status'] = 0
     try:
         insurance_id = db_ins_opr.add_insurance(insurance_info)
         return jsonify({'state':'1','order_id': insurance_id})
@@ -286,3 +288,9 @@ def apply_claim(claim_info):
         return jsonify({'state':'1'})
     except AssertionError as ae:
         return jsonify({'state':'0','error_msg':ae})
+
+# TODO 用户添加保险信息
+def supplementary_information(supplementary_info):
+    pass
+
+# TODO 保险的赔偿总数存在哪里，amount_of_money是总共赔偿金额还是已赔偿金额？
