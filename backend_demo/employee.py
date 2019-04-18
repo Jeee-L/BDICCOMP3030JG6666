@@ -31,12 +31,39 @@ def update_password(employee_update_info):
             return jsonify({'state':'0','error_msg':ae})
 
 def list_all_insurance():
-    all_insurance = {'orders':db_ins_opr.all()}
-    return jsonify(all_insurance)
+    all_insurance = db_ins_opr.all()
+    return_list = []
+    for insurance in all_insurance:
+        insurance_dict = {}
+        insurance_dict['id'] = insurance.id
+        insurance_dict['project_id'] = insurance.project_id
+        insurance_dict['product_id'] = insurance.product_id
+        insurance_dict['amount_of_money'] = insurance.amount_of_money
+        insurance_dict['compensated_amount '] = insurance.compensated_amount
+        insurance_dict['status'] = insurance.status
+        insurance_dict['date'] = insurance.date
+        insurance_dict['remark'] = insurance.remark
+        return_list.append(insurance_dict)
+    return return_list
+    # return jsonify(all_insurance)
 
 def list_all_claim():
-    all_claim = {'claims':db_cla_opr.all()}
-    return jsonify(all_claim)
+    all_claim = db_cla_opr.all()
+    return_list = []
+    for claim in all_claim:
+        claim_dict = {}
+        claim_dict['insurance_id'] = claim.insurance_id
+        claim_dict['id'] = claim.id
+        claim_dict['employee_id'] = claim.employee_id
+        claim_dict['reason'] = claim.reason
+        claim_dict['status'] = claim.status
+        claim_dict['lost_time'] = claim.lost_time
+        claim_dict['lost_place'] = claim.lost_place
+        claim_dict['date'] = claim.time
+        claim_dict['remark'] = claim.remark
+        return_list.append(claim_dict)
+    return return_list
+    # return jsonify(all_claim)
 
 def address_claim(address_info):
     try:

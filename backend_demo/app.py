@@ -25,6 +25,10 @@ app.config['SQLALCHEMY_DATABASE_URI'] = dbs['sqlalchemy_database_uri_local']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db.init_app(app)
 
+# TODO 把用户和员工的return all insurance/claim 改成了返回一个list，里面包含了字典
+# TODO 是否需要单独的对应页面的方法来显示用户的所有insurance/insurance_order/claim?
+
+
 
 @app.route('/')
 def home():
