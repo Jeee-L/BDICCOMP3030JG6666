@@ -27,12 +27,14 @@ def test_for_delete():
 
 def test_for_search():
     print('search successfully')
-
+def test_for_user_all_insurance():
+    print(user_all_insurance('Angela Christopher'))
 
 if __name__=='__main__':
-    recreate_table()
-    test_for_insert()
-    test_for_search()
-    test_for_update()
-    test_for_delete()
-    test_for_search()
+    # recreate_table()
+    # test_for_insert()
+    # test_for_search()
+    # test_for_update()
+    # test_for_delete()
+    # test_for_search()
+    test_for_user_all_insurance()
