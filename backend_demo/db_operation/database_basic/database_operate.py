@@ -1,4 +1,3 @@
-
 from db_operation.database_basic.whats_your_name import db
 
 
@@ -19,6 +18,7 @@ def drop_all_tables():
     db.drop_all()
     return 'Drop successfully'
 
+
 def recreate_table():
     '''
 
@@ -27,6 +27,7 @@ def recreate_table():
     drop_all_tables()
     create_tables()
     print('create successfully')
+
 
 if __name__ == '__main__':
     recreate_table()
