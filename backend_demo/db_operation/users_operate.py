@@ -43,6 +43,10 @@ def get_insurance(username):
     assert (user is not None), "Username already exist"
     return user.insurance_id.all()
 
+def get_order(username):
+    user=search_username(username)
+    return user.order_id.all()
+
 def get_claim(username):
     '''
 

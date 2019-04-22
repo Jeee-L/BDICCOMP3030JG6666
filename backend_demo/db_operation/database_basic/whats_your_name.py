@@ -42,6 +42,8 @@ class Users(db.Model):
     address = db.Column(db.Unicode(32), nullable=True)
     insurance_id = db.relationship('Insurance', backref='users',
                                    lazy='dynamic')
+    order_id = db.relationship('Order', backref='users',
+                               lazy='dynamic')
 
     @property
     def password(self):
@@ -70,14 +72,10 @@ class Users(db.Model):
 
 class Order(db.Model):
     __tablename__ = 'order'
-    # insurance_order
-    # insurance_id Foreign
-    # state
-    # employee gai这个状
     order_id = db.Column(db.Integer, primary_key = True, auto_increment = True, unique = True)
     state = db.Column(db.Integer)
-    insurance_id = db.relationship('Insurance', backref='order',
-                                   lazy = 'dynamic')
+    username = db.Column(db.ForeignKey('users.username', ondelete='CASCADE',onupdate='CASCADE'), unique=True)
+    insurance_id =db.Column(db.ForeignKey('insurance.id', ondelete='CASCADE',onupdate='CASCADE'), unique=False)
     flight_number = db.Column(db.Integer, nullable=True)
     luggage_image_outside = db.Column(db.LargeBinary(length=204800), nullable=True)
     luggage_image_inside = db.Column(db.LargeBinary(length=204800), nullable=True)
@@ -118,7 +116,7 @@ class Insurance(db.Model):
 
 class Claim(db.Model):
     __tablename__='claim'
-    insurance_id = db.Column(db.ForeignKey('insurance.id', ondelete='CASCADE',onupdate='CASCADE'),nullable=True,unique=True)
+    order_id = db.Column(db.ForeignKey('order.id', ondelete='CASCADE',onupdate='CASCADE'),nullable=True,unique=True)
     id = db.Column(db.Integer, nullable=True, primary_key=True, index=True,autoincrement=True)
     employee_id = db.Column(db.Integer,nullable = False)
     reason = db.Column(db.Unicode(300), nullable=True)
@@ -130,7 +128,7 @@ class Claim(db.Model):
     def __repr__(self):
         return '''
         ***************
-        insurance_id = {}
+        order_id = {}
         id = {}
         employee_id = {}
         reason = {}
@@ -140,7 +138,7 @@ class Claim(db.Model):
         time = {}
         remark = {}
         ***************
-        '''.format(self.insurance_id, self.id, self.employee_id, self.reason, self.state, self.lost_time,self.lost_place,self.time, self.remark)
+        '''.format(self.order_id, self.id, self.employee_id, self.reason, self.state, self.lost_time,self.lost_place,self.time, self.remark)
 
 
 

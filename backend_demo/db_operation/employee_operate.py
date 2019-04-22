@@ -58,3 +58,9 @@ def delete(id):
     return 'successful'
 
 
+def change_order_state(id):
+    '''
+
+    :param id:
+    :return:
+    '''
