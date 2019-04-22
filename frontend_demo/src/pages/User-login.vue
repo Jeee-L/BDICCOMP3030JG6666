@@ -42,7 +42,7 @@
         <!-- <div class="checkbox checkbox-css m-b-20">
           <input type="checkbox" id="remember_checkbox">
           <label for="remember_checkbox">Remember Me</label>
-        </div> -->
+        </div>-->
         <div class="login-buttons">
           <button v-on:click="login" class="btn btn-success btn-block btn-lg">Sign me in</button>
         </div>
@@ -89,28 +89,47 @@ export default {
   },
   methods: {
     login() {
-      if (this.username == "" || this.password == "") {
+      if (this.formData.username == "" || this.formData.password == "") {
         alert("Please enter valid User Name and Password.");
       } else {
         var obj = JSON.stringify(this.formData);
         axios.post("http://localhost:5000/login/", obj).then(res => {
-          if (res.data == -1) {
-            this.notification = "Invalid user";
+          var response = JSON.parse(JSON.stringify(res.data));
+          if (response.state == "-1") {
+            this.notification = response.error_msg;
             this.showNotification = true;
-          } else if (res.data == 0) {
-            this.notification = "Wrong password";
+          } else if (response.state == "0") {
+            this.notification = response.error_msg;
             this.showNotification = true;
-          } else if (res.data == 3) {
-            this.notification = "Welcome to the Administration Page";
+          } else if (response.state == "3") {
+            this.$administrator.username = this.username;
+            this.$administrator.password = this.password;
+            this.notification =
+              "Welcome to the Administration Page, " +
+              this.$administrator.username +
+              ".";
             this.showNotification = true;
-          } else if (res.data == 2) {
-            this.notification = "Welcome to the Employee Page";
+          } else if (response.state == "2") {
+            this.$employee.username = this.username;
+            this.$employee.password = this.password;
+            this.notification =
+              "Welcome to the Employee Page, " + this.$employee.username + ".";
             this.showNotification = true;
           } else {
-            this.notification = "Welcome dear customer.";
-            this.showNotification = true;
-            setCookie("username", this.username, 1000 * 60);
+            this.$user.first_name = response.first_name;
+            this.$user.last_name = response.last_name;
+            this.$user.username = this.formData.username;
+            this.$user.password = this.formData.password;
+            this.$user.phone_num = response.phone_num;
+            this.$user.passport_num = response.passport_num;
+            this.$user.email = response.email;
+            this.$user.birthday = response.birthday;
+            this.$user.address = response.address;
+            this.$user.order_list = response.order_list;
 
+            alert(this.$user.email + this.$user.phone_num);
+
+            setCookie("username", this.username, 1000 * 60);
             this.$router.push("/home");
           }
         });
@@ -122,3 +141,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.login-cover-image {
+  background-image: url("../assets/img/china-ireland.jpg");
+}
+</style>

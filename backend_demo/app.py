@@ -25,9 +25,14 @@ app.config['SQLALCHEMY_DATABASE_URI'] = dbs['sqlalchemy_database_uri_local']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db.init_app(app)
 
+# TODO 把用户和员工的return all insurance/claim 改成了返回一个list，里面包含了字典
+# TODO 是否需要单独的对应页面的方法来显示用户的所有insurance/insurance_order/claim?
+
+
 
 @app.route('/')
 def home():
+    # user.user_all_insurance()
     return render_template('homepage.html')
     # user = session.get('username')
     # if user:
@@ -70,7 +75,7 @@ def customer_info():
         update_info = json.loads(request.get_data())
         return user.update_user_info(update_info)
 
-# TODO 缺少验证，数据库需要改
+# TODO 待测试
 @app.route('/luggage/order/create',methods=['GET','POST'])
 def luggage_order_create():
     if request.method == 'POST':
@@ -82,6 +87,12 @@ def luggage_order_list():
     if request.method == 'POST':
         claim_info = json.loads(request.get_data())
         return user.apply_claim(claim_info)
+
+@app.route('/luggage/order/new_travel',methods=['GET','POST'])
+def new_travel():
+    if request.method == 'POST':
+        supplementary_information = json.loads(request.get_data())
+        return user.supplementary_information(supplementary_information)
 
 @app.route('/logout/')
 def logout_page():
@@ -113,7 +124,6 @@ def address_claim_page():
 def administrator_update_password():
     administrator_info = json.loads(request.get_data())
     return administrator.update_password(administrator_info)
-
 
 @app.route('/create_new_administrator/',methods=['GET','POST'])
 def create_new_administrator():
@@ -149,6 +159,11 @@ def create_user():
 def delete_user():
     delete_username = json.loads(request.get_data())
     return administrator.delete_user(delete_username)
+
+@app.route('/update_user_password/',methods=['GET','POST'])
+def update_user_password():
+    update_user_info = json.loads(request.get_data())
+    return administrator.update_user_password(update_user_info)
 
 
 if __name__ == '__main__':

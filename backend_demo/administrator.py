@@ -101,3 +101,6 @@ def delete_user(username):
         return jsonify({'stste':'1'})
     except AssertionError as ae:
         return jsonify({'stste':'0','error_msg':ae})
+
+def update_user_password(update_user_info):
+    return user.update_password(update_user_info['username'],update_user_info['password'],update_user_info['confirm_password'])

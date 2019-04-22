@@ -28,10 +28,48 @@ def user_all_info(username):
         'email': user.email,
         'birthday': user.birthday,
         'address': user.address,
-        'order_list': user_all_insurance(username),
+        'insurance_list': user_all_insurance(username),
+        'insurance_order_list':user_all_insurance_order(username),
+        'claim_list':user_all_claim(username)
     }
     return jsonify(return_value)
 
+def user_all_insurance(username):
+    insurance_list = db_usr_opr.get_insurance(username)
+    return_list = []
+    for insurance in insurance_list:
+        insurance_dict = {} # TODO 可能会有问题，也许会每次循环都加一遍
+        insurance_dict['id'] = insurance.id
+        insurance_dict['project_id'] = insurance.project_id
+        insurance_dict['product_id'] = insurance.product_id
+        insurance_dict['amount_of_money'] = insurance.amount_of_money
+        insurance_dict['compensated_amount '] = insurance.compensated_amount
+        insurance_dict['status'] = insurance.status
+        insurance_dict['date'] = insurance.date
+        insurance_dict['remark'] = insurance.remark
+        return_list.append(insurance_dict)
+    return return_list
+
+def user_all_claim(username):
+    claim_list = db_usr_opr.get_claim(username)
+    return_list = []
+    for claim in claim_list:
+        claim_dict = {}
+        claim_dict['insurance_id'] = claim.insurance_id
+        claim_dict['id'] = claim.id
+        claim_dict['employee_id'] = claim.employee_id
+        claim_dict['reason'] = claim.reason
+        claim_dict['status'] = claim.status
+        claim_dict['lost_time'] = claim.lost_time
+        claim_dict['lost_place'] = claim.lost_place
+        claim_dict['date'] = claim.time
+        claim_dict['remark'] = claim.remark
+        return_list.append(claim_dict)
+    return return_list
+
+# TODO 需等数据库改完后添加
+def user_all_insurance_order(username):
+    pass
 
 def register(register_info):
     verify_result = verify_register_info(register_info)
@@ -261,10 +299,10 @@ def buy_insurance(insurance_info):
     # insurance_info['status'] = 0  # 0-未处理
     #
     # insurance_info['remark'] = request.files['remark']
-    insurance_info['state'] = 0
+    insurance_info['status'] = 0
     try:
         insurance_id = db_ins_opr.add_insurance(insurance_info)
-        return jsonify({'state':'1','order_id': insurance_id})
+        return jsonify({'state':'1','insurance_id': insurance_id})
     except AssertionError as ae:
         return jsonify({'state':'0','error_msg': ae})
 
@@ -287,9 +325,6 @@ def apply_claim(claim_info):
     except AssertionError as ae:
         return jsonify({'state':'0','error_msg':ae})
 
-def user_all_insurance(username):
-    user_all_insurance = db_ins_opr.user_all_insurance(username)
-    return user_all_insurance
-
-def user_all_claim(username):
-    return db_ins_opr.search_claim(db_ins_opr.user_request(username))
+# TODO 用户添加保险信息
+def supplementary_information(supplementary_info):
+    pass

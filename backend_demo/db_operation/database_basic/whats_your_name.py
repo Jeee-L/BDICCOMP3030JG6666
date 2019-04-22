@@ -17,7 +17,7 @@ import yaml
 '''
 
 
-from backend_demo.ext import db
+from ext import db
 '''
 启动服务前，注释取消
 '''
