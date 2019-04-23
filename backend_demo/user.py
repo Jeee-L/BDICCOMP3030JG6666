@@ -39,19 +39,22 @@ def user_all_info(username):
 
 def user_all_insurance(username):
     insurance_list = db_usr_opr.get_insurance(username)
-    return_list = []
-    for insurance in insurance_list:
-        insurance_dict = {}  # TODO 可能会有问题，也许会每次循环都加一遍
-        insurance_dict['id'] = insurance.id
-        insurance_dict['project_id'] = insurance.project_id
-        insurance_dict['product_id'] = insurance.product_id
-        insurance_dict['amount_of_money'] = insurance.amount_of_money
-        insurance_dict['compensated_amount '] = insurance.compensated_amount
-        insurance_dict['status'] = insurance.status
-        insurance_dict['date'] = insurance.date
-        insurance_dict['remark'] = insurance.remark
-        return_list.append(insurance_dict)
-    return return_list
+    if insurance_list is []:
+        return ""
+    else:
+        return_list = []
+        for insurance in insurance_list:
+            insurance_dict = {}  # TODO 可能会有问题，也许会每次循环都加一遍
+            insurance_dict['id'] = insurance.id
+            insurance_dict['project_id'] = insurance.project_id
+            insurance_dict['product_id'] = insurance.product_id
+            insurance_dict['amount_of_money'] = insurance.amount_of_money
+            insurance_dict['compensated_amount '] = insurance.compensated_amount
+            insurance_dict['status'] = insurance.status
+            insurance_dict['date'] = insurance.date
+            insurance_dict['remark'] = insurance.remark
+            return_list.append(insurance_dict)
+        return return_list
 
 
 def user_all_claim(username):
@@ -256,29 +259,31 @@ def img_stream(img_local_path):
 
 
 def update_user_image(name, user_image):
-    if not (user_image and allowed_file(user_image.filename)):
-        return jsonify({"state": '0', "error_msg": "Illegal image type，limited: png、PNG、jpg、JPG、bmp"})
-    basepath = os.path.dirname(__file__)  # 当前文件所在路径
+    # if not (user_image and allowed_file(user_image.filename)):
+    #     return jsonify({"state": '0', "error_msg": "Illegal image type，limited: png、PNG、jpg、JPG、bmp"})
+    # basepath = os.path.dirname(__file__)  # 当前文件所在路径
+    #
+    # # 注意：没有的文件夹一定要先创建，不然会提示没有该路径
+    # upload_path = os.path.join(basepath, 'static/user_images',
+    #                            secure_filename(user_image.filename))
+    # user_image.save(upload_path)
+    #
+    # byte_size = os.path.getsize(upload_path)
+    # MB_size = float(byte_size / (1024 * 1024))
+    # if not (MB_size < 2):
+    #     return jsonify({"state": '0', "error_msg": "image size should not bigger than 2 MB"})
+    #
+    # # 使用Opencv转换一下图片格式和名称
+    # img = cv2.imread(upload_path)
+    # cv2.imwrite(os.path.join(basepath, 'static/user_images', 'temp_user_avatar.jpg'), img)
+    #
+    # image_stream = img_stream(basepath + 'static/user_images/temp_user_avatar')
 
-    # 注意：没有的文件夹一定要先创建，不然会提示没有该路径
-    upload_path = os.path.join(basepath, 'static/user_images',
-                               secure_filename(user_image.filename))
-    user_image.save(upload_path)
-
-    byte_size = os.path.getsize(upload_path)
-    MB_size = float(byte_size / (1024 * 1024))
-    if not (MB_size < 2):
-        return jsonify({"state": '0', "error_msg": "image size should not bigger than 2 MB"})
-
-    # 使用Opencv转换一下图片格式和名称
-    img = cv2.imread(upload_path)
-    cv2.imwrite(os.path.join(basepath, 'static/user_images', 'temp_user_avatar.jpg'), img)
-
-    image_stream = img_stream(basepath + 'static/user_images/temp_user_avatar')
-
+    if user_image > 204800:
+        return jsonify({"state": '0', "error_msg": "Image size should not bigger than 2 MB"})
     try:
-        db_usr_opr.update_profile(name, image_stream)
-        os.remove(upload_path)
+        db_usr_opr.update_profile(name, user_image)
+        # os.remove(upload_path)
         # return "头像上传成功"
     except AssertionError as ae:
         return jsonify({"state": '0', "error_msg": ae})
