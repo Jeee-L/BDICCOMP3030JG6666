@@ -1,5 +1,5 @@
-from db_operation.database_basic.whats_your_name import Claim,db
-from db_operation.insurance_operate import __search_insurance
+from backend_demo.db_operation.database_basic.whats_your_name import Claim,db
+from backend_demo.db_operation.insurance_operate import __search_insurance
 
 
 def add_claim(dict):

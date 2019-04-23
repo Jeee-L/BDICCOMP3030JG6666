@@ -1,4 +1,4 @@
-from db_operation.database_basic.whats_your_name import Users,db
+from backend_demo.db_operation.database_basic.whats_your_name import Users,db,Claim
 
 
 
@@ -55,7 +55,12 @@ def get_claim(username):
     '''
     user = search_username(username)
     assert (user is not None), "Username already exist"
-    return user.claim_id.all()
+    inss = user.order_id.all()
+    res = []
+    if inss is not []:
+        for ins in inss:
+            res.append(Claim.query.filter_by(insurance_id = ins.insurance_id).first())
+    return res
 
 
 def update_profile(username, new_profile):

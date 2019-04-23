@@ -1,9 +1,9 @@
-from db_operation.users_operate import *
-from db_operation.insurance_operate import *
-from db_operation.product_operate import insert_product
-from db_operation.project_operate import *
-from db_operation.test.read import read
-from db_operation.database_basic.database_operate import recreate_table
+from backend_demo.db_operation.users_operate import *
+from backend_demo.db_operation.insurance_operate import *
+from backend_demo.db_operation.product_operate import insert_product
+from backend_demo.db_operation.project_operate import *
+from backend_demo.db_operation.test.read import read
+from backend_demo.db_operation.database_basic.database_operate import recreate_table
 
 
 def test_for_insert():
@@ -31,10 +31,10 @@ def test_for_user_all_insurance():
     print(user_all_insurance('Angela Christopher'))
 
 if __name__=='__main__':
-    # recreate_table()
-    # test_for_insert()
-    # test_for_search()
-    # test_for_update()
-    # test_for_delete()
-    # test_for_search()
+    recreate_table()
+    test_for_insert()
+    test_for_search()
+    test_for_update()
+    test_for_delete()
+    test_for_search()
     test_for_user_all_insurance()
