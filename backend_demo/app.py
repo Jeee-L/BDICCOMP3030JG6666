@@ -101,7 +101,7 @@ def luggage_order_list():
 def new_travel():
     if request.method == 'POST':
         supplementary_information = json.loads(request.get_data())
-        print(supplementary_information)
+        # print(supplementary_information)
         return user.supplementary_information(supplementary_information)
 
 

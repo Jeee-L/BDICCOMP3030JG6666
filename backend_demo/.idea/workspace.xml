@@ -2,20 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d2264177-d48a-4d6d-a2b4-d0252df70f88" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_operation/administrator_operate.py" beforeDir="false" afterPath="$PROJECT_DIR$/db_operation/administrator_operate.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_operation/claim_operate.py" beforeDir="false" afterPath="$PROJECT_DIR$/db_operation/claim_operate.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_operation/database_basic/database_operate.py" beforeDir="false" afterPath="$PROJECT_DIR$/db_operation/database_basic/database_operate.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_operation/database_basic/whats_your_name.py" beforeDir="false" afterPath="$PROJECT_DIR$/db_operation/database_basic/whats_your_name.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_operation/employee_operate.py" beforeDir="false" afterPath="$PROJECT_DIR$/db_operation/employee_operate.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_operation/insurance_operate.py" beforeDir="false" afterPath="$PROJECT_DIR$/db_operation/insurance_operate.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_operation/product_operate.py" beforeDir="false" afterPath="$PROJECT_DIR$/db_operation/product_operate.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_operation/project_operate.py" beforeDir="false" afterPath="$PROJECT_DIR$/db_operation/project_operate.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_operation/test/db.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/db_operation/test/db.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_operation/test/insurances.csv" beforeDir="false" afterPath="$PROJECT_DIR$/db_operation/test/insurances.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_operation/test/test_for_run.py" beforeDir="false" afterPath="$PROJECT_DIR$/db_operation/test/test_for_run.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_operation/users_operate.py" beforeDir="false" afterPath="$PROJECT_DIR$/db_operation/users_operate.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/employee.py" beforeDir="false" afterPath="$PROJECT_DIR$/employee.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/user.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -73,8 +60,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/db_operation/database_basic/whats_your_name.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="218">
-              <caret line="93" column="4" selection-start-line="93" selection-start-column="4" selection-end-line="93" selection-end-column="4" />
+            <state relative-caret-position="338">
+              <caret line="80" column="25" selection-start-line="80" selection-start-column="25" selection-end-line="80" selection-end-column="25" />
             </state>
           </provider>
         </entry>
@@ -82,7 +69,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/db_operation/order.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-72">
+            <state relative-caret-position="410">
+              <caret line="38" column="69" selection-start-line="38" selection-start-column="64" selection-end-line="38" selection-end-column="69" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -90,11 +78,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/user.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-784">
-              <caret line="69" column="48" selection-start-line="69" selection-start-column="48" selection-end-line="69" selection-end-column="48" />
+            <state relative-caret-position="498">
+              <caret line="372" lean-forward="true" selection-start-line="372" selection-end-line="372" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
               </folding>
@@ -102,10 +90,19 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="460">
+              <caret line="104" column="38" lean-forward="true" selection-start-line="104" selection-start-column="38" selection-end-line="104" selection-end-column="38" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/employee.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="312">
+            <state relative-caret-position="-654">
               <caret line="31" lean-forward="true" selection-start-line="31" selection-end-line="31" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
@@ -213,11 +210,11 @@
         <option value="$PROJECT_DIR$/db.yaml" />
         <option value="$PROJECT_DIR$/db_operation/test/test_for_run.py" />
         <option value="$PROJECT_DIR$/db_operation/users_operate.py" />
-        <option value="$PROJECT_DIR$/app.py" />
         <option value="$PROJECT_DIR$/db_operation/claim_operate.py" />
         <option value="$PROJECT_DIR$/db_operation/database_basic/whats_your_name.py" />
-        <option value="$PROJECT_DIR$/user.py" />
         <option value="$PROJECT_DIR$/employee.py" />
+        <option value="$PROJECT_DIR$/app.py" />
+        <option value="$PROJECT_DIR$/user.py" />
       </list>
     </option>
   </component>
@@ -515,12 +512,12 @@
       <workItem from="1555571792046" duration="2219000" />
       <workItem from="1555990739874" duration="470000" />
       <workItem from="1555998881140" duration="738000" />
-      <workItem from="1556002981680" duration="1376000" />
+      <workItem from="1556002981680" duration="2233000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="158786000" />
+    <option name="totallyTimeSpent" value="159643000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -771,16 +768,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="316">
-          <caret line="98" lean-forward="true" selection-start-line="98" selection-end-line="98" />
-          <folding>
-            <element signature="e#0#86#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/db_operation/claim_operate.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="408">
@@ -809,16 +796,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/user.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-784">
-          <caret line="69" column="48" selection-start-line="69" selection-start-column="48" selection-end-line="69" selection-end-column="48" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/db_operation/insurance_operate.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="168">
@@ -826,26 +803,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db_operation/database_basic/whats_your_name.py">
+    <entry file="file://$PROJECT_DIR$/app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="218">
-          <caret line="93" column="4" selection-start-line="93" selection-start-column="4" selection-end-line="93" selection-end-column="4" />
+        <state relative-caret-position="460">
+          <caret line="104" column="38" lean-forward="true" selection-start-line="104" selection-start-column="38" selection-end-line="104" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/employee.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-654">
+          <caret line="31" lean-forward="true" selection-start-line="31" selection-end-line="31" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/db_operation/order.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-72">
+        <state relative-caret-position="410">
+          <caret line="38" column="69" selection-start-line="38" selection-start-column="64" selection-end-line="38" selection-end-column="69" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/employee.py">
+    <entry file="file://$PROJECT_DIR$/db_operation/database_basic/whats_your_name.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
-          <caret line="31" lean-forward="true" selection-start-line="31" selection-end-line="31" />
+        <state relative-caret-position="338">
+          <caret line="80" column="25" selection-start-line="80" selection-start-column="25" selection-end-line="80" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/user.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="498">
+          <caret line="372" lean-forward="true" selection-start-line="372" selection-end-line="372" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
           </folding>

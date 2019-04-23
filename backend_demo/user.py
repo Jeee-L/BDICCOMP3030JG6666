@@ -3,6 +3,7 @@ from flask import jsonify
 import db_operation.users_operate as db_usr_opr
 import db_operation.insurance_operate as db_ins_opr
 import db_operation.claim_operate as db_cla_opr
+import db_operation.order as db_ord_opr
 import os
 import cv2
 from werkzeug.utils import secure_filename
@@ -301,7 +302,7 @@ def update_user_image(name, user_image):
     #
     # image_stream = img_stream(basepath + 'static/user_images/temp_user_avatar')
 
-    if user_image > 204800:
+    if len(user_image) > 204800:
         return jsonify({"state": '0', "error_msg": "Image size should not bigger than 2 MB"})
     try:
         db_usr_opr.update_profile(name, user_image)
@@ -338,21 +339,6 @@ def convert_insurance_image(insurance_image):
 
 
 def buy_insurance(insurance_info):
-    # insurance_info['first_name'] = request.form['first_name']
-    # insurance_info['last_name'] = request.form['last_name']
-    # insurance_info['username'] = request.form['user_name']
-    # insurance_info['passport_num'] = request.form['passport_id']
-    # insurance_info['phone_num'] = request.form['mobile_cn']
-    # insurance_info['email'] = request.form['email']
-    # insurance_info['birthday'] = request.form['birthday']
-    # insurance_info['address'] = request.form['address']
-    #
-    # insurance_info['product_id'] = request.form['product_id']
-    # insurance_info['project_id'] = request.form['project_id']
-    #
-    # insurance_info['status'] = 0  # 0-未处理
-    #
-    # insurance_info['remark'] = request.files['remark']
     insurance_info['status'] = 0
     try:
         insurance_id = db_ins_opr.add_insurance(insurance_info)
@@ -362,13 +348,6 @@ def buy_insurance(insurance_info):
 
 
 def apply_claim(claim_info):
-    # claim_info['order_id'] = request.form['order_id']
-    # claim_info['user_name'] = request.form['user_name']
-    # claim_info['lost_time'] = request.form['lost_time']
-    # claim_info['lost_place'] = request.form['lost_place']
-    # claim_info['flight_number'] = request.form['flight_number']
-    # claim_info['lost_reason'] = request.form['lost_reason']
-    # claim_info['remark'] = request.form['remark']
     claim_info['employee_id'] = -1  # 表示新的订单，没有员工处理
     claim_info['status'] = -1
 
@@ -381,6 +360,13 @@ def apply_claim(claim_info):
         return jsonify({'state': '0', 'error_msg': ae})
 
 
-# TODO 用户添加保险信息
+# 用户添加保险信息
 def supplementary_information(supplementary_info):
-    pass
+    supplementary_info['state'] = -1
+    if len(supplementary_info['luggage_image_outside'])>204800 or len(supplementary_info['luggage_image_inside'])>204800:
+        return jsonify({"state": '0', "error_msg": "Image size should not bigger than 2 MB"})
+    try:
+        db_ord_opr.add_order(supplementary_info)
+        return jsonify({'state': '1'})
+    except AssertionError as ae:
+        return jsonify({'state': '0', 'error_msg': ae})
