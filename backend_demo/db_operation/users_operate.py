@@ -1,4 +1,4 @@
-from db_operation.database_basic.whats_your_name import Claim, Users,db
+from backend_demo.db_operation.database_basic.whats_your_name import Users,db,Claim
 
 
 
@@ -43,6 +43,10 @@ def get_insurance(username):
     assert (user is not None), "Username already exist"
     return user.insurance_id.all()
 
+def get_order(username):
+    user=search_username(username)
+    return user.order_id.all()
+
 def get_claim(username):
     '''
 
@@ -51,12 +55,12 @@ def get_claim(username):
     '''
     user = search_username(username)
     assert (user is not None), "Username already exist"
-    ans = []
-    if user.insurance_id.all() is not []:
-        for ins in user.insurance_id.all():
-            ans.append(Claim.query.filter_by(insurance_id = ins.insurance_id).first())
-    return []
-
+    inss = user.order_id.all()
+    res = []
+    if inss is not []:
+        for ins in inss:
+            res.append(Claim.query.filter_by(insurance_id = ins.insurance_id).first())
+    return res
 
 
 def update_profile(username, new_profile):
@@ -151,19 +155,7 @@ def delete_user(username):
     return 'Delete successfully'
 
 
-def update_attribute(attribute_name, new_attribute):
-    '''
 
-    :param attribute_name: 旧的属性名称， str
-    :param new_attribute: 新的属性
-    :return: list[原来的值， 新的值]
-    '''
-    res = []
-
-
-
-
-    return res
 
 
 

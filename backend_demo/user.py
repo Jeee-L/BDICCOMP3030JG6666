@@ -23,6 +23,7 @@ def user_all_info(username):
     user = db_usr_opr.search_username(username)
     return_value = {
         'state': '1',
+        'username':username,
         'first_name': user.first_name,
         'last_name': user.last_name,
         'phone_num': user.phone_num,
@@ -45,16 +46,17 @@ def user_all_insurance(username):
         return_list = []
         for insurance in insurance_list:
             insurance_dict = {}  # TODO 可能会有问题，也许会每次循环都加一遍
+            insurance_dict['username'] = insurance.username
             insurance_dict['id'] = insurance.id
             insurance_dict['project_id'] = insurance.project_id
             insurance_dict['product_id'] = insurance.product_id
             insurance_dict['amount_of_money'] = insurance.amount_of_money
-            insurance_dict['compensated_amount '] = insurance.compensated_amount
+            insurance_dict['compensated_amount'] = insurance.compensated_amount
             insurance_dict['status'] = insurance.status
             insurance_dict['date'] = insurance.date
             insurance_dict['remark'] = insurance.remark
             return_list.append(insurance_dict)
-        return return_list
+        return jsonify(return_list)
 
 
 def user_all_claim(username):
@@ -65,6 +67,7 @@ def user_all_claim(username):
         return_list = []
         for claim in claim_list:
             claim_dict = {}
+            claim_dict['username'] = username # claim表里没有username，所以这种返回
             claim_dict['insurance_id'] = claim.insurance_id
             claim_dict['id'] = claim.id
             claim_dict['employee_id'] = claim.employee_id
@@ -75,12 +78,31 @@ def user_all_claim(username):
             claim_dict['date'] = claim.time
             claim_dict['remark'] = claim.remark
             return_list.append(claim_dict)
-        return return_list
+        return jsonify(return_list)
 
 
-# TODO 需等数据库改完后添加
 def user_all_insurance_order(username):
-    pass
+    order_list = db_usr_opr.get_order(username)
+    if order_list is []:
+        return ""
+    else:
+        return_list = []
+        for order in order_list:
+            order_dict = {}
+            order_list['order_id'] = order.order_id
+            order_list['state'] = order.state
+            order_list['username'] = order.username
+            order_list['insurance_id'] = order.insurance_id
+            order_list['flight_number'] = order.flight_number
+            order_list['luggage_image_outside'] = order.luggage_image_outside
+            order_list['luggage_image_inside'] = order.luggage_image_inside
+            order_list['luggage_height'] = order.luggage_height
+            order_list['luggage_width'] = order.luggage_width
+            order_list['date'] = order.date
+            order_list['claim_id'] = order.claim_id
+            order_list['remark'] = order.remark
+            return_list.append(order_dict)
+        return jsonify(return_list)
 
 
 def register(register_info):
@@ -285,6 +307,7 @@ def update_user_image(name, user_image):
         db_usr_opr.update_profile(name, user_image)
         # os.remove(upload_path)
         # return "头像上传成功"
+        return jsonify({"state":"1"})
     except AssertionError as ae:
         return jsonify({"state": '0', "error_msg": ae})
 

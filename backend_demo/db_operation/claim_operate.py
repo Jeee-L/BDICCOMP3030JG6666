@@ -1,5 +1,5 @@
-from db_operation.database_basic.whats_your_name import Claim, db
-from db_operation.insurance_operate import __search_insurance
+from backend_demo.db_operation.database_basic.whats_your_name import Claim,db
+from backend_demo.db_operation.insurance_operate import __search_insurance
 
 
 def add_claim(dict):
@@ -9,11 +9,9 @@ def add_claim(dict):
     :return:
     '''
     assert (__search_insurance(id) is not None), 'No such insurance id'
-    db.session.add(Claim(insurance_id=dict['insurance_id'], employee_id=dict['employee_id'], reason=dict['reason'],
-                         status=dict['status']))
+    db.session.add(Claim(insurance_id=dict['insurance_id'], employee_id=dict['employee_id'], reason=dict['reason'], status=dict['status']))
     db.session.commit()
     return 'Create Claim successfully'
-
 
 def search_claim_use_insurance_id(id):
     '''
@@ -21,8 +19,7 @@ def search_claim_use_insurance_id(id):
     :param id:
     :return:
     '''
-    return Claim.query.filter_by(insurance_id=id).all()
-
+    return Claim.query.filter_by(insurance_id = id).all()
 
 def __search_claim(id):
     '''
@@ -32,7 +29,6 @@ def __search_claim(id):
     '''
     return Claim.query.filter_by(id=id).first()
 
-
 def cancel_claim(id):
     '''
 
@@ -40,10 +36,9 @@ def cancel_claim(id):
     :return:
     '''
     claim = __search_claim(id)
-    assert (claim is not None), 'No such Claim'
+    assert(claim is not None), 'No such Claim'
     claim.status = 'cancel'
     return 'cancel Successfully'
-
 
 def change_state(id, state):
     '''
@@ -53,10 +48,9 @@ def change_state(id, state):
     :return:
     '''
     claim = __search_claim(id)
-    assert claim is not None, 'No such Claim'
+    assert claim is not None,'No such Claim'
     claim.status = state
     return 'Change successfully'
-
 
 def all():
     '''
@@ -66,16 +60,6 @@ def all():
     return Claim.query.all()
 
 
-def update_attribute(attribute_name, new_attribute):
-    '''
-
-    :param attribute_name: 旧的属性名称， str
-    :param new_attribute: 新的属性
-    :return: list[原来的值， 新的值]
-    '''
-    res = []
-
-    return res
 
 
 if __name__ == '__main__':

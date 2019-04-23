@@ -1,4 +1,4 @@
-from db_operation.database_basic.whats_your_name import Employee,db
+from backend_demo.db_operation.database_basic.whats_your_name import Employee,db
 
 def search_id(id):
     return Employee.query.filter_by(id = id).first()
@@ -58,16 +58,9 @@ def delete(id):
     return 'successful'
 
 
-def update_attribute(attribute_name, new_attribute):
+def change_order_state(id):
     '''
 
-    :param attribute_name: 旧的属性名称， str
-    :param new_attribute: 新的属性
-    :return: list[原来的值， 新的值]
+    :param id:
+    :return:
     '''
-    res = []
-
-
-
-
-    return res

@@ -1,5 +1,5 @@
-from db_operation.users_operate import search_username
-from db_operation.database_basic.whats_your_name import Insurance,db
+from backend_demo.db_operation.users_operate import search_username
+from backend_demo.db_operation.database_basic.whats_your_name import Insurance,db
 import datetime
 
 
@@ -60,19 +60,6 @@ def user_all_insurance(username):
     return Insurance.query.filter_by(username = username).all()
 
 
-def update_attribute(attribute_name, new_attribute):
-    '''
-
-    :param attribute_name: 旧的属性名称， str
-    :param new_attribute: 新的属性
-    :return: list[原来的值， 新的值]
-    '''
-    res = []
-
-
-
-
-    return res
 
 
 

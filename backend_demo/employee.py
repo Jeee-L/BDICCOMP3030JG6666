@@ -33,37 +33,44 @@ def update_password(employee_update_info):
 def list_all_insurance():
     all_insurance = db_ins_opr.all()
     return_list = []
-    for insurance in all_insurance:
-        insurance_dict = {}
-        insurance_dict['id'] = insurance.id
-        insurance_dict['project_id'] = insurance.project_id
-        insurance_dict['product_id'] = insurance.product_id
-        insurance_dict['amount_of_money'] = insurance.amount_of_money
-        insurance_dict['compensated_amount '] = insurance.compensated_amount
-        insurance_dict['status'] = insurance.status
-        insurance_dict['date'] = insurance.date
-        insurance_dict['remark'] = insurance.remark
-        return_list.append(insurance_dict)
-    return return_list
-    # return jsonify(all_insurance)
+    if all_insurance is []:
+        return ""
+    else:
+        for insurance in all_insurance:
+            insurance_dict = {}
+            insurance_dict['username'] = insurance.username
+            insurance_dict['id'] = insurance.id
+            insurance_dict['project_id'] = insurance.project_id
+            insurance_dict['product_id'] = insurance.product_id
+            insurance_dict['amount_of_money'] = insurance.amount_of_money
+            insurance_dict['compensated_amount '] = insurance.compensated_amount
+            insurance_dict['status'] = insurance.status
+            insurance_dict['date'] = insurance.date
+            insurance_dict['remark'] = insurance.remark
+            return_list.append(insurance_dict)
+        return jsonify(return_list)
 
 def list_all_claim():
     all_claim = db_cla_opr.all()
     return_list = []
-    for claim in all_claim:
-        claim_dict = {}
-        claim_dict['insurance_id'] = claim.insurance_id
-        claim_dict['id'] = claim.id
-        claim_dict['employee_id'] = claim.employee_id
-        claim_dict['reason'] = claim.reason
-        claim_dict['status'] = claim.status
-        claim_dict['lost_time'] = claim.lost_time
-        claim_dict['lost_place'] = claim.lost_place
-        claim_dict['date'] = claim.time
-        claim_dict['remark'] = claim.remark
-        return_list.append(claim_dict)
-    return return_list
-    # return jsonify(all_claim)
+    if all_claim is []:
+        return ""
+    else:
+        for claim in all_claim:
+            claim_dict = {}
+            # claim 中没有username，先查insurance再通过insurance查username，待测试
+            claim_dict['username'] = (db_ins_opr.__search_insurance(claim.insurance_id)).username
+            claim_dict['insurance_id'] = claim.insurance_id
+            claim_dict['id'] = claim.id
+            claim_dict['employee_id'] = claim.employee_id
+            claim_dict['reason'] = claim.reason
+            claim_dict['status'] = claim.status
+            claim_dict['lost_time'] = claim.lost_time
+            claim_dict['lost_place'] = claim.lost_place
+            claim_dict['date'] = claim.time
+            claim_dict['remark'] = claim.remark
+            return_list.append(claim_dict)
+        return jsonify(return_list)
 
 def address_claim(address_info):
     try:
