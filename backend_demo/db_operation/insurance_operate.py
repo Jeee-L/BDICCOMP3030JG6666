@@ -14,11 +14,11 @@ def __search_insurance(id):
 def add_insurance(dict):
     '''
 
-    :param dict: username[0],product_id[1],project_id[2], amount_of_money[3],status,flight_number[4],status are the one of set (Creating, using, out_date)
+    :param dict:
     :return: id
     '''
     assert (search_username(dict['username']) is not None), "No such User"
-    f = Insurance(username=dict['username'], product_id=dict['product_id'], project_id=dict['project_id'], amount_of_money=dict['amount_of_money'],  status=dict['status'], date =datetime.datetime.now() )
+    f = Insurance(remark=dict['remark'], username=dict['username'], product_id=dict['product_id'], project_id=dict['project_id'], amount_of_money=dict['amount_of_money'],  state=dict['state'], date =datetime.datetime.now() )
     db.session.add(f)
     db.session.commit()
     return f.id
@@ -33,7 +33,7 @@ def change_state(id, state):
     ins = __search_insurance(id)
 
     assert ins is not None,'No such Insurance'
-    ins.status = state
+    ins.state = state
     return 'Change successfully'
 
 def all():

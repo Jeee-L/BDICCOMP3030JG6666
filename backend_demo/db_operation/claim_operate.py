@@ -1,5 +1,5 @@
 from backend_demo.db_operation.database_basic.whats_your_name import Claim,db
-from backend_demo.db_operation.insurance_operate import __search_insurance
+from backend_demo.db_operation.order import search_order
 
 
 def add_claim(dict):
@@ -8,18 +8,18 @@ def add_claim(dict):
     :param dict:
     :return:
     '''
-    assert (__search_insurance(id) is not None), 'No such insurance id'
-    db.session.add(Claim(insurance_id=dict['insurance_id'], employee_id=dict['employee_id'], reason=dict['reason'], status=dict['status']))
+    assert (search_order(id) is not None), 'No such order id'
+    db.session.add(Claim(order_id=dict['order_id'], employee_id=dict['employee_id'], reason=dict['reason'], status=dict['status']))
     db.session.commit()
     return 'Create Claim successfully'
 
-def search_claim_use_insurance_id(id):
+def search_claim_use_order_id(id):
     '''
     查找
     :param id:
     :return:
     '''
-    return Claim.query.filter_by(insurance_id = id).all()
+    return Claim.query.filter_by(order_id = id).all()
 
 def __search_claim(id):
     '''
