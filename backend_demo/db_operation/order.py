@@ -16,6 +16,10 @@ def search_order(obj):
     else:
         return Order.query.filter_by(username=obj).all()
 
+def all():
+    return Order.query.all()
+
+
 def change_state(id, state):
     '''
 
