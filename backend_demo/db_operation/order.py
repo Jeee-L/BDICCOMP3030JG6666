@@ -30,12 +30,11 @@ def change_state(id, state):
 
 def add_order(dict):
     '''
-state,insurance_id,username,flight_number,luggage_image_outside,luggage_image_inside,luggage_height,luggage_width,claim_id
+
     :param dict:dict for order status are the one of set (Creating, using, out_date)
     :return: id
     '''
-    if search_username(dict['username']) is None:
-        print( "No such User {}".format(dict['username']))
+    assert (search_username(dict['username']) is not None), "No such User"
     f = Order(username=dict['username'], flight_number =  dict['flight_number'], luggage_image_inside=dict['luggage_image_inside'],luggage_image_outside=dict['luggage_image_outside'], luggage_width=dict['luggage_width'],
               luggage_height=dict['luggage_height'],state=dict['state'], date =datetime.datetime.now() ,remark=dict['remark'])
     db.session.add(f)
