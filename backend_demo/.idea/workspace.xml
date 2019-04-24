@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d2264177-d48a-4d6d-a2b4-d0252df70f88" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/employee.py" beforeDir="false" afterPath="$PROJECT_DIR$/employee.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -54,17 +54,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/db_operation/database_basic/whats_your_name.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="76" column="33" lean-forward="true" selection-start-line="76" selection-start-column="33" selection-end-line="76" selection-end-column="33" />
+            <state relative-caret-position="408">
+              <caret line="81" column="23" lean-forward="true" selection-start-line="81" selection-start-column="23" selection-end-line="81" selection-end-column="23" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/user.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="258">
-              <caret line="334" column="36" lean-forward="true" selection-start-line="334" selection-start-column="36" selection-end-line="334" selection-end-column="36" />
+            <state relative-caret-position="234">
+              <caret line="279" column="51" lean-forward="true" selection-start-line="279" selection-start-column="51" selection-end-line="279" selection-end-column="51" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
               </folding>
@@ -75,17 +75,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="504">
-              <caret line="92" column="26" lean-forward="true" selection-start-line="92" selection-start-column="26" selection-end-line="92" selection-end-column="26" />
+            <state relative-caret-position="432">
+              <caret line="140" column="61" selection-start-line="140" selection-start-column="61" selection-end-line="140" selection-end-column="61" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/employee.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="168">
-              <caret line="76" column="39" selection-start-line="76" selection-start-column="39" selection-end-line="76" selection-end-column="39" />
+            <state relative-caret-position="512">
+              <caret line="116" column="39" selection-start-line="116" selection-start-column="39" selection-end-line="116" selection-end-column="39" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
               </folding>
@@ -176,13 +176,13 @@
         <option value="$PROJECT_DIR$/db_operation/claim_operate.py" />
         <option value="$PROJECT_DIR$/db_operation/database_basic/whats_your_name.py" />
         <option value="$PROJECT_DIR$/email_verificatoin.py" />
-        <option value="$PROJECT_DIR$/employee.py" />
-        <option value="$PROJECT_DIR$/app.py" />
         <option value="$PROJECT_DIR$/user.py" />
+        <option value="$PROJECT_DIR$/app.py" />
+        <option value="$PROJECT_DIR$/employee.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="width" value="1920" />
     <option name="height" value="1080" />
   </component>
@@ -478,12 +478,12 @@
       <workItem from="1555998881140" duration="738000" />
       <workItem from="1556002981680" duration="2936000" />
       <workItem from="1556093497619" duration="5331000" />
-      <workItem from="1556100429158" duration="1076000" />
+      <workItem from="1556100429158" duration="2704000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="166753000" />
+    <option name="totallyTimeSpent" value="168381000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -762,34 +762,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/employee.py">
+    <entry file="file://$PROJECT_DIR$/user.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="76" column="39" selection-start-line="76" selection-start-column="39" selection-end-line="76" selection-end-column="39" />
+        <state relative-caret-position="234">
+          <caret line="279" column="51" lean-forward="true" selection-start-line="279" selection-start-column="51" selection-end-line="279" selection-end-column="51" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db_operation/claim_operate.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="4" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/db_operation/database_basic/whats_your_name.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="76" column="33" lean-forward="true" selection-start-line="76" selection-start-column="33" selection-end-line="76" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="504">
-          <caret line="92" column="26" lean-forward="true" selection-start-line="92" selection-start-column="26" selection-end-line="92" selection-end-column="26" />
+        <state relative-caret-position="432">
+          <caret line="140" column="61" selection-start-line="140" selection-start-column="61" selection-end-line="140" selection-end-column="61" />
         </state>
       </provider>
     </entry>
@@ -803,10 +789,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/user.py">
+    <entry file="file://$PROJECT_DIR$/db_operation/claim_operate.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="258">
-          <caret line="334" column="36" lean-forward="true" selection-start-line="334" selection-start-column="36" selection-end-line="334" selection-end-column="36" />
+        <state relative-caret-position="72">
+          <caret line="4" column="4" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db_operation/database_basic/whats_your_name.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="81" column="23" lean-forward="true" selection-start-line="81" selection-start-column="23" selection-end-line="81" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/employee.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="512">
+          <caret line="116" column="39" selection-start-line="116" selection-start-column="39" selection-end-line="116" selection-end-column="39" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
           </folding>

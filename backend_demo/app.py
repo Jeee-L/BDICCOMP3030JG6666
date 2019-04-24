@@ -135,6 +135,11 @@ def list_all_insurance_page():
 def list_all_claim_page():
     return employee.list_all_claim()
 
+@app.route('/list_insurance_order_info/', methods=['GET', 'POST'])
+def list_all_claim_page():
+    insurance_order_id = json.loads(request.get_data())
+    return employee.insurance_order_detail(insurance_order_id)
+
 
 # TODO 员工处理理赔申请暂时完成，需要前端传来员工受理意见(即state)
 @app.route('/address_claim/', methods=['GET', 'POST'])
