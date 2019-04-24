@@ -104,6 +104,17 @@ def new_travel():
         # print(supplementary_information)
         return user.supplementary_information(supplementary_information)
 
+@app.route('/list_user_all_insurance_order',methods=['GET','POST'])
+def list_user_all_insurance_order():
+    if request.method == 'POST':
+        username = json.loads(request.get_data())
+        return user.user_all_insurance_order(username)
+
+@app.route('/list_user_all_claim',methods=['GET','POST'])
+def list_user_all_claim():
+    if request.method == 'POST':
+        username = json.loads(request.get_data())
+        return user.user_all_claim(username)
 
 @app.route('/logout/')
 def logout_page():
