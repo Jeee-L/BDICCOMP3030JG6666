@@ -329,6 +329,10 @@ def apply_claim(claim_info):
     if not (len(claim_info['reason']) < 300):
         return jsonify({'state': '0', 'error_msg': 'The length of reason should less than 300 characters'})
     try:
+        # TODO 改state，待测试
+        corresponded_order_id = claim_info['order_id']
+        corresponded_order = db_ord_opr.search_order(corresponded_order_id)
+        corresponded_order.state = 0
         db_cla_opr.add_claim(claim_info)
         return jsonify({'state': '1'})
     except AssertionError as ae:
