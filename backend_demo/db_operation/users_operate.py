@@ -155,7 +155,8 @@ def delete_user(username):
     return 'Delete successfully'
 
 
-
+def all():
+    return Users.query.all()
 
 
 

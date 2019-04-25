@@ -133,6 +133,11 @@ def logout_page():
         session.clear()  # TODO 用户登出要清cookie和session
         return None
 
+@app.route('/all_customers/',methods=['GET','POST'])
+def all_customers():
+    if request.method == 'POST':
+        return user.all_users()
+
 
 # TODO 员工更改密码暂时完成
 @app.route('/employee_update_password/', methods=['GET', 'POST'])
@@ -168,6 +173,10 @@ def address_claim_page():
         address_info = json.loads(request.get_data())
         return employee.address_claim(address_info)
 
+@app.route('/all_employees/',methods=['GET','POST'])
+def all_employees():
+    if request.method == 'POST':
+        return employee.all_employees()
 
 @app.route('/administrator_update_password/', methods=['GET', 'POST'])
 def administrator_update_password():

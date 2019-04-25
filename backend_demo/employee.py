@@ -74,7 +74,7 @@ def list_all_claim():
         return return_list
 
 def list_all_insurance_order():
-    all_insurance_order = db_ord_opr.all()# TODO 等数据库加all方法
+    all_insurance_order = db_ord_opr.all()
     return_list = []
     if all_insurance_order is []:
         return ""
@@ -124,3 +124,15 @@ def address_claim(address_info):
         return jsonify({'state':'1'})
     except AssertionError as ae:
         return jsonify({'state':'0','error_msg':ae})
+
+def all_employees():
+    employee_list = db_emp_opr.all()
+    if employee_list is []:
+        return ""
+    else:
+        return_list = []
+        for employee in employee_list:
+            employee_dict = {}
+            employee_dict['employee_id'] = employee.id
+            return_list.append(employee_dict)
+        return return_list

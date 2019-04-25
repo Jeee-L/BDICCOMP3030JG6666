@@ -360,3 +360,23 @@ def supplementary_information(supplementary_info):
         return jsonify({'state': '1'})
     except AssertionError as ae:
         return jsonify({'state': '0', 'error_msg': ae})
+
+def all_users():
+    user_list = db_usr_opr.all()
+    if user_list is []:
+        return ""
+    else:
+        return_list = []
+        for user in user_list:
+            user_dict = {}
+            user_dict['first_name'] = user.first_name
+            user_dict['last_name'] = user.last_name
+            user_dict['username'] = user.username
+            user_dict['phone_num'] = user.phone_num
+            user_dict['passport_num'] = user.passport_num
+            user_dict['email'] = user.email
+            user_dict['birthday'] = user.birthday
+            user_dict['address'] = user.first_name
+            # TODO 密码，头像，id，insurance，order没有返回
+            return_list.append(user_dict)
+        return return_list

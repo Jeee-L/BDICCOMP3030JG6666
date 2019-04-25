@@ -64,3 +64,6 @@ def change_order_state(id):
     :param id:
     :return:
     '''
+
+def all():
+    Employee.query.all()
