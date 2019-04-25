@@ -3,6 +3,7 @@ from flask import jsonify
 import db_operation.employee_operate as db_emp_opr
 import db_operation.insurance_operate as db_ins_opr
 import db_operation.claim_operate as db_cla_opr
+import db_operation.order as db_ord_opr
 
 def login(employeeid,password):
     try:
@@ -48,7 +49,7 @@ def list_all_insurance():
             insurance_dict['date'] = insurance.date
             insurance_dict['remark'] = insurance.remark
             return_list.append(insurance_dict)
-        return jsonify(return_list)
+        return return_list
 
 def list_all_claim():
     all_claim = db_cla_opr.all()
@@ -60,7 +61,7 @@ def list_all_claim():
             claim_dict = {}
             # claim 中没有username，先查insurance再通过insurance查username，待测试
             claim_dict['username'] = (db_ins_opr.__search_insurance(claim.insurance_id)).username
-            claim_dict['insurance_id'] = claim.insurance_id
+            claim_dict['insurance_order_id'] = claim.order_id
             claim_dict['id'] = claim.id
             claim_dict['employee_id'] = claim.employee_id
             claim_dict['reason'] = claim.reason
@@ -70,11 +71,56 @@ def list_all_claim():
             claim_dict['date'] = claim.time
             claim_dict['remark'] = claim.remark
             return_list.append(claim_dict)
-        return jsonify(return_list)
+        return return_list
+
+def list_all_insurance_order():
+    all_insurance_order = db_ord_opr.all()# TODO 等数据库加all方法
+    return_list = []
+    if all_insurance_order is []:
+        return ""
+    else:
+        for insurance_order in all_insurance_order:
+            insurance_dict = {}
+            insurance_dict['id'] = insurance_order.id
+            insurance_dict['state'] = insurance_order.state
+            insurance_dict['username'] = insurance_order.username
+            insurance_dict['insurance_id'] = insurance_order.insurance_id
+            insurance_dict['flight_number'] = insurance_order.flight_number
+            insurance_dict['luggage_image_outside'] = insurance_order.luggage_image_outside
+            insurance_dict['luggage_image_inside'] = insurance_order.luggage_image_inside
+            insurance_dict['luggage_height'] = insurance_order.luggage_height
+            insurance_dict['luggage_width'] = insurance_order.luggage_width
+            insurance_dict['date'] = insurance_order.date
+            insurance_dict['claim_id'] = insurance_order.claim_id
+            insurance_dict['remark'] = insurance_order.remark
+            return_list.append(insurance_dict)
+        return return_list
+
+def insurance_order_detail(insurance_order_id):
+    insurance_order = db_ord_opr.search_order(insurance_order_id)
+    if insurance_order is None:
+        return jsonify({'state':'-1','error_msg':'No such insurance order'})
+    else:
+        insurance_order_dict = {}
+        insurance_order_dict['order_id'] = insurance_order.id
+        insurance_order_dict['state'] = insurance_order.state
+        insurance_order_dict['username'] = insurance_order.username
+        insurance_order_dict['insurance_id'] = insurance_order.insurance_id
+        insurance_order_dict['flight_number'] = insurance_order.flight_number
+        insurance_order_dict['luggage_image_outside'] = insurance_order.luggage_image_outside
+        insurance_order_dict['luggage_image_inside'] = insurance_order.luggage_image_inside
+        insurance_order_dict['luggage_height'] = insurance_order.luggage_height
+        insurance_order_dict['luggage_width'] = insurance_order.luggage_width
+        insurance_order_dict['date'] = insurance_order.date
+        insurance_order_dict['claim_id'] = insurance_order.claim_id
+        insurance_order_dict['remark'] = insurance_order.remark
+    return jsonify(insurance_order_dict)
 
 def address_claim(address_info):
     try:
-        db_cla_opr.change_staue(address_info['claim_id'], address_info['state'])
+        current_claim = db_cla_opr.__search_claim(address_info['claim_id'])
+        current_claim.employee_id = address_info['employee_id']
+        db_cla_opr.change_state(address_info['claim_id'], address_info['state'])
         return jsonify({'state':'1'})
     except AssertionError as ae:
         return jsonify({'state':'0','error_msg':ae})

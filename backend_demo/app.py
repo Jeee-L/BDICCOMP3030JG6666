@@ -28,10 +28,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db.init_app(app)
 
 
-# TODO 把用户和员工的return all insurance/claim 改成了返回一个list，里面包含了字典
-# TODO 是否需要单独的对应页面的方法来显示用户的所有insurance/insurance_order/claim?
-
-
 @app.route('/')
 def home():
     # user.user_all_insurance()
@@ -104,6 +100,17 @@ def new_travel():
         # print(supplementary_information)
         return user.supplementary_information(supplementary_information)
 
+@app.route('/list_user_all_insurance_order',methods=['GET','POST'])
+def list_user_all_insurance_order():
+    if request.method == 'POST':
+        username = json.loads(request.get_data())
+        return user.user_all_insurance_order(username)
+
+@app.route('/list_user_all_claim',methods=['GET','POST'])
+def list_user_all_claim():
+    if request.method == 'POST':
+        username = json.loads(request.get_data())
+        return user.user_all_claim(username)
 
 @app.route('/logout/')
 def logout_page():
@@ -127,6 +134,11 @@ def list_all_insurance_page():
 @app.route('/list_all_claim/', methods=['GET', 'POST'])
 def list_all_claim_page():
     return employee.list_all_claim()
+
+@app.route('/list_insurance_order_info/', methods=['GET', 'POST'])
+def list_all_claim_page():
+    insurance_order_id = json.loads(request.get_data())
+    return employee.insurance_order_detail(insurance_order_id)
 
 
 # TODO 员工处理理赔申请暂时完成，需要前端传来员工受理意见(即state)

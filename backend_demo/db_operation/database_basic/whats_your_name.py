@@ -5,19 +5,19 @@ from werkzeug.security import generate_password_hash,check_password_hash
 import yaml
 
 
-# app =  Flask(__name__)
-# # dbs = yaml.load(open('/var/Project/www/db.yaml'), Loader=yaml.FullLoader)
-# dbs = yaml.load(open(r'C:\Users\TED\Documents\GitHub\MySimplePythonCode\BDICCOMP3030JG6666\backend_demo\db_operation\test\db.yaml'), Loader=yaml.FullLoader)
-# # dbs = yaml.load(open(r'C:\SoftwareProject2\BDICCOMP3030JG6666\backend_demo\db.yaml'),Loader=yaml.FullLoader)
-# app.config['SQLALCHEMY_DATABASE_URI'] = dbs['sqlalchemy_database_uri_local']
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-# db = SQLAlchemy(app)
+app =  Flask(__name__)
+# dbs = yaml.load(open('/var/Project/www/db.yaml'), Loader=yaml.FullLoader)
+dbs = yaml.load(open(r'C:\Users\TED\Documents\GitHub\MySimplePythonCode\BDICCOMP3030JG6666\backend_demo\db_operation\test\db.yaml'), Loader=yaml.FullLoader)
+# dbs = yaml.load(open(r'C:\SoftwareProject2\BDICCOMP3030JG6666\backend_demo\db.yaml'),Loader=yaml.FullLoader)
+app.config['SQLALCHEMY_DATABASE_URI'] = dbs['sqlalchemy_database_uri_local']
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+db = SQLAlchemy(app)
 '''
 创建库的时候，注释取消
 '''
 
 
-from backend_demo.ext import db
+# from backend_demo.ext import db
 '''
 启动服务前，注释取消
 '''
@@ -51,7 +51,8 @@ class Users(db.Model):
 
     @password.setter
     def password(self, password):
-        self.password_hash = generate_password_hash(password)
+        # self.password_hash = generate_password_hash(password)
+        self.password_hash = password
 
     def check_password_hash(self, password):
         return check_password_hash(self.password_hash, password)
@@ -72,32 +73,55 @@ class Users(db.Model):
 
 class Order(db.Model):
     __tablename__ = 'order'
-    order_id = db.Column(db.Integer, primary_key = True, auto_increment = True, unique = True)
+    order_id = db.Column(db.Integer, primary_key = True, autoincrement = True, unique = True)
     state = db.Column(db.Integer)
     username = db.Column(db.ForeignKey('users.username', ondelete='CASCADE',onupdate='CASCADE'), unique=True)
-    insurance_id =db.Column(db.ForeignKey('insurance.id', ondelete='CASCADE',onupdate='CASCADE'), unique=False)
-    flight_number = db.Column(db.Integer, nullable=True)
-    luggage_image_outside = db.Column(db.LargeBinary(length=204800), nullable=True)
-    luggage_image_inside = db.Column(db.LargeBinary(length=204800), nullable=True)
+    insurance_id =db.Column(db.ForeignKey('insurance.id', ondelete='CASCADE',onupdate='CASCADE'), unique=True)
+    flight_number = db.Column(db.Unicode(100), nullable=True)
+    luggage_image_outside = db.Column(db.String(100), nullable=True)
+    luggage_image_inside = db.Column(db.String(100), nullable=True)
     luggage_height = db.Column(db.Integer, nullable=True)
     luggage_width = db.Column(db.Integer, nullable=True)
     date = db.Column(db.DateTime, nullable=True, default=datetime.datetime.now())
     claim_id = db.relationship('Claim', backref='order',
                                lazy='dynamic')
     remark = db.Column(db.Unicode(32))
+    def __repr__(self):
+        return '''
+        order_id = {}
+        state = {}
+        username = {}
+        insurance_id ={}
+        flight_number = {}
+        luggage_height = {}
+        luggage_width = {}
+        date = {}
+        claim_id = {}
+        remark = {}
+        '''.format(self.order_id,
+                    self.state,
+                    self.username,
+                    self.insurance_id,
+                    self.flight_number,
+                    self.luggage_width,
+                    self.luggage_height,
+                    self.date,
+                    self.claim_id.all(),
+                    self.remark)
 
 
 
 class Insurance(db.Model):
     __tablename__ = 'insurance'
-    id = db.Column(db.Integer, nullable=True, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, nullable=True, unique=True, primary_key=True, autoincrement=True)
     username = db.Column(db.ForeignKey('users.username', ondelete='CASCADE',onupdate='CASCADE'))
-    project_id = db.Column(db.ForeignKey('project.project_id', ondelete='CASCADE', onupdate='CASCADE'), unique=False)
-    product_id = db.Column(db.ForeignKey('product.product_id', ondelete='CASCADE', onupdate='CASCADE'), unique=False)
+    project_id = db.Column(db.ForeignKey('project.project_id', ondelete='CASCADE', onupdate='CASCADE'))
+    product_id = db.Column(db.ForeignKey('product.product_id', ondelete='CASCADE', onupdate='CASCADE'))
     amount_of_money = db.Column(db.Integer, nullable=True)
-    state = db.Column(db.Unicode(32), nullable=True)
+    state = db.Column(db.Integer, nullable=True)
     remark = db.Column(db.Unicode(32))
     compensated_amount = db.Column(db.Integer, nullable = True)
+    date = db.Column(db.DateTime, default=datetime.datetime.now())
     def __repr__(self):
         return '''
         ***************
@@ -109,15 +133,16 @@ class Insurance(db.Model):
         state = {}
         remark = {}
         compensated_amount = {}
+        date = {}
         ***************
-        '''.format(self.id, self.username,self.project_id,self. product_id,self.amount_of_money, self.state,self.remark,self.compensated_amount)
+        '''.format(self.id, self.username,self.project_id,self. product_id,self.amount_of_money, self.state,self.remark,self.compensated_amount, self.date)
 
 
 
 class Claim(db.Model):
     __tablename__='claim'
-    order_id = db.Column(db.ForeignKey('order.id', ondelete='CASCADE',onupdate='CASCADE'),nullable=True,unique=True)
-    id = db.Column(db.Integer, nullable=True, primary_key=True, index=True,autoincrement=True)
+    order_id = db.Column(db.ForeignKey('order.order_id', ondelete='CASCADE',onupdate='CASCADE'),unique=True)
+    id = db.Column(db.Integer, primary_key=True, index=True,autoincrement=True, unique=True)
     employee_id = db.Column(db.Integer,nullable = False)
     reason = db.Column(db.Unicode(300), nullable=True)
     state = db.Column(db.Integer, nullable=True)
