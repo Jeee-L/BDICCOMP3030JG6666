@@ -1,0 +1,13 @@
+
+        ***************
+        id = 1
+        username = AngelaChristopher
+        project_id = 1
+        product_id = 1
+        amount_of_money = 1
+        state = 1
+        remark = hi
+        compensated_amount = None
+        date = 2019-04-24 09:09:18
+        ***************
+        

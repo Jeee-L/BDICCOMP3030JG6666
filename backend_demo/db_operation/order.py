@@ -1,7 +1,7 @@
 import datetime
 
 from backend_demo.db_operation.insurance_operate import __search_insurance
-from backend_demo.db_operation.database_basic.whats_your_name import Order,db
+from backend_demo.db_operation.database_basic.whats_your_name import Order,db,Select_img
 from backend_demo.db_operation.users_operate import search_username
 
 def search_order(obj):
@@ -55,3 +55,8 @@ def delete_order(id):
     db.session.delete(search_order(id))
     db.session.commit()
 
+def select_img(id):
+    return Select_img.query.filter_by(order_id = id).all()
+
+def add_img(dict):
+    db.session.add(Select_img(order_id = dict['order_id'], imgUrl = dict['imgUrl'], name = dict['name'] , remark = dict['remark'] , price = dict['price']))

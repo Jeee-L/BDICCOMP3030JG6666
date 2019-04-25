@@ -71,15 +71,24 @@ class Users(db.Model):
         ***************
         '''.format(self.first_name,self.last_name,self.username,self.phone_num,self.passport_num,self.email, self.birthday, self.address )
 
+class Select_img(db.Model):
+    __tablename__ = 'selectimg'
+    id = db.Column(db.Integer, unique = True, primary_key= True, nullable=False, autoincrement=True)
+    order_id = db.Column(db.ForeignKey('order.order_id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False)
+    imgUrl = db.Column(db.UnicodeText)
+    name = db.Column(db.Unicode(100))
+    price = db.Column(db.Integer)
+    remark = db.Column(db.Unicode(300))
+
 class Order(db.Model):
     __tablename__ = 'order'
     order_id = db.Column(db.Integer, primary_key = True, autoincrement = True, unique = True)
     state = db.Column(db.Integer)
-    username = db.Column(db.ForeignKey('users.username', ondelete='CASCADE',onupdate='CASCADE'), unique=True)
-    insurance_id =db.Column(db.ForeignKey('insurance.id', ondelete='CASCADE',onupdate='CASCADE'), unique=True)
+    username = db.Column(db.ForeignKey('users.username', ondelete='CASCADE',onupdate='CASCADE'))
+    insurance_id =db.Column(db.ForeignKey('insurance.id', ondelete='CASCADE',onupdate='CASCADE'))
     flight_number = db.Column(db.Unicode(100), nullable=True)
-    luggage_image_outside = db.Column(db.String(100), nullable=True)
-    luggage_image_inside = db.Column(db.String(100), nullable=True)
+    luggage_image_outside = db.Column(db.Text, nullable=True)
+    luggage_image_inside = db.Column(db.Text, nullable=True)
     luggage_height = db.Column(db.Integer, nullable=True)
     luggage_width = db.Column(db.Integer, nullable=True)
     date = db.Column(db.DateTime, nullable=True, default=datetime.datetime.now())
