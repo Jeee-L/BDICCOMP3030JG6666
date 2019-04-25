@@ -69,13 +69,28 @@ def register():
             return user.register(register_info)
 
 
-# TODO 用户更改信息暂时完成，头像待测试
+# TODO 用户更改信息，头像，密码单独改
 @app.route('/customer/info/', methods=['GET', 'POST'])
 def customer_info():
     if request.method == 'POST':
         update_info = json.loads(request.get_data())
         return user.update_user_info(update_info)
 
+@app.route('/customer/info/update_password',methods=['GET','POST'])
+def customer_update_password():
+    if request.method == 'POST':
+        update_password = json.loads(request.get_data())
+        if update_password['verify'] == 0:
+            verification_code = email_verify(update_password['email'])
+            return verification_code
+        else:
+            return user.update_password(update_password['username'],update_password['new_password'],update_password['confirm_password'])
+
+@app.route('/customer/info/update_avatar',methods=['GET','POST'])
+def customer_update_avatar():
+    if request.method == 'POST':
+        update_avatar = json.loads(request.get_data())
+        return user.update_user_image(update_avatar['username'],update_avatar['image'])
 
 # TODO 待测试
 @app.route('/luggage/order/create', methods=['GET', 'POST'])
@@ -114,92 +129,106 @@ def list_user_all_claim():
 
 @app.route('/logout/')
 def logout_page():
-    session.clear()  # TODO 用户登出要清cookie和session
-    return None
+    if request.method == 'POST':
+        session.clear()  # TODO 用户登出要清cookie和session
+        return None
 
 
 # TODO 员工更改密码暂时完成
 @app.route('/employee_update_password/', methods=['GET', 'POST'])
 def employee_update_password_page():
-    employee_update_info = json.loads(request.get_data())
-    return employee.update_password(employee_update_info)
+    if request.method == 'POST':
+        employee_update_info = json.loads(request.get_data())
+        return employee.update_password(employee_update_info)
 
 
 # TODO 员工是否应该看到所有的保险和理赔申请？
 @app.route('/check_all_insurance/', methods=['GET', 'POST'])
 def list_all_insurance_page():
-    return employee.list_all_insurance()
+    if request.method == 'POST':
+        return employee.list_all_insurance()
 
 
 @app.route('/list_all_claim/', methods=['GET', 'POST'])
 def list_all_claim_page():
-    return employee.list_all_claim()
+    if request.method == 'POST':
+        return employee.list_all_claim()
 
 @app.route('/list_insurance_order_info/', methods=['GET', 'POST'])
 def list_all_claim_page():
-    insurance_order_id = json.loads(request.get_data())
-    return employee.insurance_order_detail(insurance_order_id)
+    if request.method == 'POST':
+        insurance_order_id = json.loads(request.get_data())
+        return employee.insurance_order_detail(insurance_order_id)
 
 
 # TODO 员工处理理赔申请暂时完成，需要前端传来员工受理意见(即state)
 @app.route('/address_claim/', methods=['GET', 'POST'])
 def address_claim_page():
-    address_info = json.loads(request.get_data())
-    return employee.address_claim(address_info)
+    if request.method == 'POST':
+        address_info = json.loads(request.get_data())
+        return employee.address_claim(address_info)
 
 
 @app.route('/administrator_update_password/', methods=['GET', 'POST'])
 def administrator_update_password():
-    administrator_info = json.loads(request.get_data())
-    return administrator.update_password(administrator_info)
+    if request.method == 'POST':
+        administrator_info = json.loads(request.get_data())
+        return administrator.update_password(administrator_info)
 
 
 @app.route('/create_new_administrator/', methods=['GET', 'POST'])
 def create_new_administrator():
-    new_administrator_info = json.loads(request.get_data())
-    return administrator.create_new_administrator(new_administrator_info)
+    if request.method == 'POST':
+        new_administrator_info = json.loads(request.get_data())
+        return administrator.create_new_administrator(new_administrator_info)
 
 
 @app.route('/delete_administrator/', methods=['GET', 'POST'])
 def delete_administrator():
-    delete_info = json.loads(request.get_data())
-    return administrator.delete_administrator(delete_info)
+    if request.method == 'POST':
+        delete_info = json.loads(request.get_data())
+        return administrator.delete_administrator(delete_info)
 
 
 @app.route('/create_employee/', methods=['GET', 'POST'])
 def create_employee():
-    employee_info = json.loads(request.get_data())
-    return administrator.create_employee(employee_info)
+    if request.method == 'POST':
+        employee_info = json.loads(request.get_data())
+        return administrator.create_employee(employee_info)
 
 
 @app.route('/delete_employee/', methods=['GET', 'POST'])
 def delete_employee():
-    delete_employee_id = json.loads(request.get_data())
-    return administrator.delete_employee(delete_employee_id)
+    if request.method == 'POST':
+        delete_employee_id = json.loads(request.get_data())
+        return administrator.delete_employee(delete_employee_id)
 
 
 @app.route('/update_employee_password/', methods=['GET', 'POST'])
 def update_employee_password():
-    update_employee_info = json.loads(request.get_data())
-    return administrator.update_employee_password(update_employee_info)
+    if request.method == 'POST':
+        update_employee_info = json.loads(request.get_data())
+        return administrator.update_employee_password(update_employee_info)
 
 
 @app.route('/create_user/', methods=['GET', 'POST'])
 def create_user():
-    create_user_info = json.loads(request.get_data())
-    return administrator.create_user(create_user_info)
-
+    if request.method == 'POST':
+        create_user_info = json.loads(request.get_data())
+        return administrator.create_user(create_user_info)
 
 @app.route('/delete_user/', methods=['GET', 'POST'])
 def delete_user():
-    delete_username = json.loads(request.get_data())
-    return administrator.delete_user(delete_username)
+    if request.method == 'POST':
+        delete_username = json.loads(request.get_data())
+        return administrator.delete_user(delete_username)
 
 
 @app.route('/update_user_password/', methods=['GET', 'POST'])
 def update_user_password():
-    update_user_info = json.loads(request.get_data())
-    return administrator.update_user_password(update_user_info)
+    if request.method == 'POST':
+        update_user_info = json.loads(request.get_data())
+        return administrator.update_user_password(update_user_info)
 
 
 if __name__ == '__main__':

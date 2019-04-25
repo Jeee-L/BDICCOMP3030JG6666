@@ -7,6 +7,8 @@ import db_operation.order as db_ord_opr
 import os
 import cv2
 from werkzeug.utils import secure_filename
+from datetime import datetime,timedelta
+import time
 
 
 def login(username, password):
@@ -146,68 +148,73 @@ def update_user_info(update_info):
     update_first_name(update_info['old_username'], update_info['first_name'])
     update_last_name(update_info['old_username'], update_info['last_name'])
     update_name(update_info['old_username'], update_info['username'])
-    update_password(update_info['old_username'], update_info['password'], update_info['confirm_password'])
+    # update_password(update_info['old_username'], update_info['password'], update_info['confirm_password'])
     update_email(update_info['old_username'], update_info['email'])
     update_phone(update_info['old_username'], update_info['phone_num'])
     update_passport(update_info['old_username'], update_info['passport_num'])
     update_birthday(update_info['old_username'], update_info['birthday'])
     update_address(update_info['old_username'], update_info['address'])
-    update_user_image(update_info['old_username'], update_info['image'])
+    # update_user_image(update_info['old_username'], update_info['image'])
 
     return_value = {'state': '1'}
     return jsonify(return_value)
 
 
 def update_first_name(username, first_name):
-    user = db_usr_opr.search_username(username)
-    if not (user is None):
-        user.first_name = first_name
-    else:
-        return_value = {'state': '0', 'error_msg': 'No such user'}
-        return jsonify(return_value)
-
-
-def update_last_name(username, last_name):
-    user = db_usr_opr.search_username(username)
-    if not (user is None):
-        user.last_name = last_name
-    else:
-        return_value = {'state': '0', 'error_msg': 'No such user'}
-        return jsonify(return_value)
-
-
-def update_birthday(username, birthday):
-    user = db_usr_opr.search_username(username)
-    if not (user is None):
-        user.birthday = birthday
-    else:
-        return_value = {'state': '0', 'error_msg': 'No such user'}
-        return jsonify(return_value)
-
-
-def update_address(username, address):
-    user = db_usr_opr.search_username(username)
-    if not (user is None):
-        user.address = address
-    else:
-        return_value = {'state': '0', 'error_msg': 'No such user'}
-        return jsonify(return_value)
-
-
-def update_name(old_name, new_name):
-    if not verify_username(new_name):
-        return_value = {'state': '0', 'error_msg': 'Illegal username'}
-        return jsonify(return_value)
-    else:
-        try:
-            db_usr_opr.update_username(old_name, new_name)
-        except AssertionError as ae:
-            return_value = {'state': '0', 'error_msg': ae}
+    if not (first_name is ''):
+        user = db_usr_opr.search_username(username)
+        if not (user is None):
+            user.first_name = first_name
+        else:
+            return_value = {'state': '0', 'error_msg': 'No such user'}
             return jsonify(return_value)
 
 
+def update_last_name(username, last_name):
+    if not (last_name is ''):
+        user = db_usr_opr.search_username(username)
+        if not (user is None):
+            user.last_name = last_name
+        else:
+            return_value = {'state': '0', 'error_msg': 'No such user'}
+            return jsonify(return_value)
+
+
+def update_birthday(username, birthday):
+    if not (birthday is ''):
+        user = db_usr_opr.search_username(username)
+        if not (user is None):
+            birthday_date = datetime.strptime(birthday, "%Y-%m-%d")
+            user.birthday = birthday_date
+        else:
+            return_value = {'state': '0', 'error_msg': 'No such user'}
+            return jsonify(return_value)
+
+
+def update_address(username, address):
+    if not (address is ''):
+        user = db_usr_opr.search_username(username)
+        if not (user is None):
+            user.address = address
+        else:
+            return_value = {'state': '0', 'error_msg': 'No such user'}
+            return jsonify(return_value)
+
+
+def update_name(old_name, new_name):
+    if not (new_name is ''):
+        if not verify_username(new_name):
+            return_value = {'state': '0', 'error_msg': 'Illegal username'}
+            return jsonify(return_value)
+        else:
+            try:
+                db_usr_opr.update_username(old_name, new_name)
+            except AssertionError as ae:
+                return_value = {'state': '0', 'error_msg': ae}
+                return jsonify(return_value)
+
+
 def update_password(name, new_password, confirm_password):
-    # TODO 用邮箱验证来改密码？
     if not verify_password(new_password):
         return_value = {'state': '0', 'error_msg': 'Illegal password'}
         return jsonify(return_value)
@@ -217,45 +224,49 @@ def update_password(name, new_password, confirm_password):
     else:
         try:
             db_usr_opr.update_password(name, new_password)
+            return jsonify({'state':'1'})
         except AssertionError as ae:
             return_value = {'state': '0', 'error_msg': ae}
             return jsonify(return_value)
 
 
 def update_email(name, new_email):
-    if not verify_email(new_email):
-        return_value = {'state': '0', 'error_msg': 'Illegal email'}
-        return jsonify(return_value)
-    else:
-        try:
-            db_usr_opr.update_email(name, new_email)
-        except AssertionError as ae:
-            return_value = {'state': '0', 'error_msg': ae}
+    if not (new_email is ''):
+        if not verify_email(new_email):
+            return_value = {'state': '0', 'error_msg': 'Illegal email'}
             return jsonify(return_value)
+        else:
+            try:
+                db_usr_opr.update_email(name, new_email)
+            except AssertionError as ae:
+                return_value = {'state': '0', 'error_msg': ae}
+                return jsonify(return_value)
 
 
 def update_phone(name, new_phone):
-    if not verify_phone_number(new_phone):
-        return_value = {'state': '0', 'error_msg': 'Illegal phone number'}
-        return jsonify(return_value)
-    else:
-        try:
-            db_usr_opr.update_phone_num(name, new_phone)
-        except AssertionError as ae:
-            return_value = {'state': '0', 'error_msg': ae}
+    if not (new_phone is ''):
+        if not verify_phone_number(new_phone):
+            return_value = {'state': '0', 'error_msg': 'Illegal phone number'}
             return jsonify(return_value)
+        else:
+            try:
+                db_usr_opr.update_phone_num(name, new_phone)
+            except AssertionError as ae:
+                return_value = {'state': '0', 'error_msg': ae}
+                return jsonify(return_value)
 
 
 def update_passport(name, new_passport):
-    if not verify_passport(new_passport):
-        return_value = {'state': '0', 'error_msg': 'Illegal passport number'}
-        return jsonify(return_value)
-    else:
-        try:
-            db_usr_opr.update_passport_num(name, new_passport)
-        except AssertionError as ae:
-            return_value = {'state': '0', 'error_msg': ae}
+    if not (new_passport is ''):
+        if not verify_passport(new_passport):
+            return_value = {'state': '0', 'error_msg': 'Illegal passport number'}
             return jsonify(return_value)
+        else:
+            try:
+                db_usr_opr.update_passport_num(name, new_passport)
+            except AssertionError as ae:
+                return_value = {'state': '0', 'error_msg': ae}
+                return jsonify(return_value)
 
 
 # 图片允许的后缀名
@@ -302,8 +313,8 @@ def update_user_image(name, user_image):
     #
     # image_stream = img_stream(basepath + 'static/user_images/temp_user_avatar')
 
-    if len(user_image) > 204800:
-        return jsonify({"state": '0', "error_msg": "Image size should not bigger than 2 MB"})
+    # if len(user_image) > 204800:
+    #     return jsonify({"state": '0', "error_msg": "Image size should not bigger than 2 MB"})
     try:
         db_usr_opr.update_profile(name, user_image)
         # os.remove(upload_path)
@@ -342,8 +353,8 @@ def apply_claim(claim_info):
 # 用户添加保险信息
 def supplementary_information(supplementary_info):
     supplementary_info['state'] = -1
-    if len(supplementary_info['luggage_image_outside'])>204800 or len(supplementary_info['luggage_image_inside'])>204800:
-        return jsonify({"state": '0', "error_msg": "Image size should not bigger than 2 MB"})
+    # if len(supplementary_info['luggage_image_outside'])>204800 or len(supplementary_info['luggage_image_inside'])>204800:
+    #     return jsonify({"state": '0', "error_msg": "Image size should not bigger than 2 MB"})
     try:
         db_ord_opr.add_order(supplementary_info)
         return jsonify({'state': '1'})

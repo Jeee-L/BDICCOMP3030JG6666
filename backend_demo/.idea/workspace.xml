@@ -1,7 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d2264177-d48a-4d6d-a2b4-d0252df70f88" name="Default Changelist" comment="" />
+    <list default="true" id="d2264177-d48a-4d6d-a2b4-d0252df70f88" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend_demo/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend_demo/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/assets/css/default/style.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/assets/css/default/style.min.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/assets/img/china-land1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/assets/img/china-land1.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/assets/img/china-land2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/assets/img/china-land2.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/assets/img/ireland-land2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/assets/img/ireland-land2.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/components/header/Header.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/components/header/Header.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/components/sidebar/SidebarMenu.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/components/sidebar/SidebarMenu.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/components/sidebar/SidebarNavProfile.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/components/sidebar/SidebarNavProfile.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/components/vue-chartjs/BarChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/components/vue-chartjs/BarChart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/components/vue-chartjs/BubbleChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/components/vue-chartjs/BubbleChart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/components/vue-chartjs/DoughnutChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/components/vue-chartjs/DoughnutChart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/components/vue-chartjs/HorizontalBarChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/components/vue-chartjs/HorizontalBarChart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/components/vue-chartjs/LineChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/components/vue-chartjs/LineChart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/components/vue-chartjs/PieChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/components/vue-chartjs/PieChart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/components/vue-chartjs/PolarAreaChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/components/vue-chartjs/PolarAreaChart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/components/vue-chartjs/RadarChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/components/vue-chartjs/RadarChart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/components/vue-chartjs/Scatter.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/components/vue-chartjs/Scatter.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/config/PageRoutes.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/config/PageRoutes.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/config/global.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/config/global.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/pages/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/pages/Home.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/pages/Page-Baggage-BuyInsurance.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/pages/Page-Baggage-BuyInsurance.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/pages/Page-Baggage-Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/pages/Page-Baggage-Home.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/pages/Page-Baggage-RegisterBaggage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/pages/Page-Baggage-RegisterBaggage.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/pages/Profile-Customer-Info.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/pages/Profile-Customer-Info.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/pages/User-Register.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/pages/User-Register.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/pages/User-login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/pages/User-login.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/pages/Welcome.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/pages/Welcome.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend_demo/vue.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/vue.config.js" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,6 +62,24 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/db_operation/administrator_operate.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="632">
+              <caret line="93" selection-start-line="93" selection-end-line="93" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/administrator.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1200">
+              <caret line="56" column="55" selection-start-line="56" selection-start-column="55" selection-end-line="56" selection-end-column="55" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/db_operation/claim_operate.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="72">
@@ -51,8 +103,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/db_operation/database_basic/whats_your_name.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="81" column="23" lean-forward="true" selection-start-line="81" selection-start-column="23" selection-end-line="81" selection-end-column="23" />
+            <state relative-caret-position="864">
+              <caret line="40" column="52" lean-forward="true" selection-start-line="40" selection-start-column="52" selection-end-line="40" selection-end-column="52" />
             </state>
           </provider>
         </entry>
@@ -60,8 +112,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/user.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="234">
-              <caret line="279" column="51" lean-forward="true" selection-start-line="279" selection-start-column="51" selection-end-line="279" selection-end-column="51" />
+            <state relative-caret-position="6552">
+              <caret line="273" column="1" lean-forward="true" selection-start-line="273" selection-start-column="1" selection-end-line="273" selection-end-column="1" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
               </folding>
@@ -70,19 +122,37 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app.py">
+        <entry file="file://$PROJECT_DIR$/db_operation/users_operate.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="432">
-              <caret line="140" column="61" selection-start-line="140" selection-start-column="61" selection-end-line="140" selection-end-column="61" />
+            <state relative-caret-position="-3246">
+              <caret line="5" column="4" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="5136">
+              <caret line="228" column="17" lean-forward="true" selection-start-line="228" selection-start-column="17" selection-end-line="228" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/email_verificatoin.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="48">
+              <caret line="5" column="4" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/employee.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="488">
-              <caret line="115" column="43" selection-start-line="115" selection-start-column="43" selection-end-line="115" selection-end-column="43" />
+            <state relative-caret-position="392">
+              <caret line="76" column="59" selection-start-line="76" selection-start-column="42" selection-end-line="76" selection-end-column="59" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
               </folding>
@@ -173,15 +243,17 @@
         <option value="$PROJECT_DIR$/db_operation/claim_operate.py" />
         <option value="$PROJECT_DIR$/db_operation/database_basic/whats_your_name.py" />
         <option value="$PROJECT_DIR$/email_verificatoin.py" />
+        <option value="$PROJECT_DIR$/employee.py" />
         <option value="$PROJECT_DIR$/user.py" />
         <option value="$PROJECT_DIR$/app.py" />
-        <option value="$PROJECT_DIR$/employee.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="width" value="1920" />
-    <option name="height" value="1080" />
+    <option name="x" value="-75" />
+    <option name="y" value="20" />
+    <option name="width" value="980" />
+    <option name="height" value="1040" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -217,6 +289,17 @@
               <item name="C:\SoftwareProject2\BDICCOMP3030JG6666\backend_demo" type="442cc68d:ScopeViewTreeModel$RootNode" />
               <item name="db_operation" type="9f88c78c:ScopeViewTreeModel$FileNode" />
               <item name="database_basic" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="backend_demo" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="C:\SoftwareProject2\BDICCOMP3030JG6666\backend_demo" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="db_operation" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="test" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="backend_demo" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="C:\SoftwareProject2\BDICCOMP3030JG6666\backend_demo" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="static" type="9f88c78c:ScopeViewTreeModel$FileNode" />
             </path>
           </expand>
           <select />
@@ -476,11 +559,13 @@
       <workItem from="1556002981680" duration="2936000" />
       <workItem from="1556093497619" duration="5331000" />
       <workItem from="1556100429158" duration="3300000" />
+      <workItem from="1556180398602" duration="2298000" />
+      <workItem from="1556182956982" duration="2946000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="168977000" />
+    <option name="totallyTimeSpent" value="174221000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -494,7 +579,7 @@
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1930295" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19839142" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -681,13 +766,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db_operation/test/user.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="24">
-          <caret line="1" column="20" selection-start-line="1" selection-start-column="2" selection-end-line="1" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/db_operation/test/read.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="192">
@@ -695,19 +773,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db_operation/test/insurances.csv">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/db_operation/test/test_for_run.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="10" column="13" lean-forward="true" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/db_operation/test/insurances.csv" />
     <entry file="file://C:/../Information Retrieval/Lab./Lab8/single.py" />
     <entry file="file://$PROJECT_DIR$/db_operation/test/db.yaml">
       <provider selected="true" editor-type-id="text-editor">
@@ -723,13 +789,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db_operation/administrator_operate.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1616">
-          <caret line="93" selection-start-line="93" selection-end-line="93" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/db_operation/database_basic/database_operate.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="312">
@@ -737,41 +796,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/email_verificatoin.py">
+    <entry file="file://$PROJECT_DIR$/db_operation/test/test_for_run.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="18" selection-start-line="18" selection-end-line="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/db_operation/users_operate.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="5" column="4" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/administrator.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="608">
-          <caret line="56" column="55" selection-start-line="56" selection-start-column="55" selection-end-line="56" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/user.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="279" column="51" lean-forward="true" selection-start-line="279" selection-start-column="51" selection-end-line="279" selection-end-column="51" />
+        <state relative-caret-position="312">
+          <caret line="13" column="25" lean-forward="true" selection-start-line="13" selection-start-column="25" selection-end-line="13" selection-end-column="25" />
           <folding>
-            <element signature="e#0#29#0" expanded="true" />
+            <element signature="e#0#53#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.py">
+    <entry file="file://$PROJECT_DIR$/db_operation/claim_operate.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="140" column="61" selection-start-line="140" selection-start-column="61" selection-end-line="140" selection-end-column="61" />
+        <state relative-caret-position="72">
+          <caret line="4" column="4" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="4" />
         </state>
       </provider>
     </entry>
@@ -785,27 +823,72 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db_operation/claim_operate.py">
+    <entry file="file://$PROJECT_DIR$/email_verificatoin.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="4" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/db_operation/database_basic/whats_your_name.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="81" column="23" lean-forward="true" selection-start-line="81" selection-start-column="23" selection-end-line="81" selection-end-column="23" />
+        <state relative-caret-position="48">
+          <caret line="5" column="4" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/employee.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="488">
-          <caret line="115" column="43" selection-start-line="115" selection-start-column="43" selection-end-line="115" selection-end-column="43" />
+        <state relative-caret-position="392">
+          <caret line="76" column="59" selection-start-line="76" selection-start-column="42" selection-end-line="76" selection-end-column="59" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db_operation/administrator_operate.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="632">
+          <caret line="93" selection-start-line="93" selection-end-line="93" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db_operation/test/user.csv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="24">
+          <caret line="1" column="20" selection-start-line="1" selection-start-column="2" selection-end-line="1" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db_operation/users_operate.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3246">
+          <caret line="5" column="4" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/administrator.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1200">
+          <caret line="56" column="55" selection-start-line="56" selection-start-column="55" selection-end-line="56" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db_operation/database_basic/whats_your_name.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="864">
+          <caret line="40" column="52" lean-forward="true" selection-start-line="40" selection-start-column="52" selection-end-line="40" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/user.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6552">
+          <caret line="273" column="1" lean-forward="true" selection-start-line="273" selection-start-column="1" selection-end-line="273" selection-end-column="1" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5136">
+          <caret line="228" column="17" lean-forward="true" selection-start-line="228" selection-start-column="17" selection-end-line="228" selection-end-column="17" />
         </state>
       </provider>
     </entry>
