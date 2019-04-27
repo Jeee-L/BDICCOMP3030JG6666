@@ -269,9 +269,6 @@ def update_passport(name, new_passport):
                 return_value = {'state': '0', 'error_msg': ae}
                 return jsonify(return_value)
 
-
-
-
 def update_user_image(name, user_image):
     try:
         db_usr_opr.update_profile(name, user_image)
@@ -283,6 +280,8 @@ def update_user_image(name, user_image):
 def buy_insurance(insurance_info):
     insurance_info['state'] = 0
     insurance_info['compensated_amount'] = 0
+    insurance_info['product_id'] = int(insurance_info['product_id'])
+    insurance_info['project_id'] = int(insurance_info['project_id'])
     insurance_info['birthday'] = datetime.strptime(insurance_info['birthday'], "%Y-%m-%d")
     try:
         insurance_id = db_ins_opr.add_insurance(insurance_info)
