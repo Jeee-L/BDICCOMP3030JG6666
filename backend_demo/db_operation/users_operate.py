@@ -88,7 +88,59 @@ def update_username(username, new_name):
     assert (not search_username(new_name)), 'This name already exist'
     user.username = new_name
     db.session.commit()
-    return "Update successfully"
+    return "Update username successfully"
+
+def update_first_name(username, first_name):
+    '''
+
+    :param username:
+    :param first_name:
+    :return:
+    '''
+    user = search_username(username)
+    assert (user is not None), "No such user"
+    user.first_name = first_name
+    db.session.commit()
+    return "Update first name successfully"
+
+def update_last_name(username, last_name):
+    '''
+
+    :param username:
+    :param last_name:
+    :return:
+    '''
+    user = search_username(username)
+    assert (user is not None), "No such user"
+    user.last_name = last_name
+    db.session.commit()
+    return "Update last name successfully"
+
+def update_birthday(username, birthday):
+    '''
+
+    :param username:
+    :param birthday:
+    :return:
+    '''
+    user = search_username(username)
+    assert (user is not None), "No such user"
+    user.birthday = birthday
+    db.session.commit()
+    return "Update birthday successfully"
+
+def update_address(username, address):
+    '''
+
+    :param username:
+    :param address:
+    :return:
+    '''
+    user = search_username(username)
+    assert (user is not None), "No such user"
+    user.address = address
+    db.session.commit()
+    return "Update address successfully"
 
 def update_password(username, new_password):
     '''
@@ -101,7 +153,8 @@ def update_password(username, new_password):
     assert (user is not None), "No such user"
     assert (not user.check_password_hash(new_password)),'Same password'
     user.password = new_password
-    return "Update successfully"
+    db.session.commit()
+    return "Update password successfully"
 
 def update_phone_num(username,new_phone_num):
     '''
@@ -114,7 +167,8 @@ def update_phone_num(username,new_phone_num):
     assert (user is not None), "No such user"
     assert (user.phone_num is not new_phone_num), 'Same phone num'
     user.phone_num = new_phone_num
-    return "Update successfully"
+    db.session.commit()
+    return "Update phone number successfully"
 
 def update_passport_num(username,new_passport_num):
     '''
@@ -126,8 +180,9 @@ def update_passport_num(username,new_passport_num):
     user = search_username(username)
     assert (user is not None), "No such user"
     assert (user.passport_num is not new_passport_num), 'Same passport_num'
-    user.password = new_passport_num
-    return "Update successfully"
+    user.passport_num = new_passport_num
+    db.session.commit()
+    return "Update passport number successfully"
 
 def update_email(username, new_email):
     '''
@@ -139,7 +194,8 @@ def update_email(username, new_email):
     user = search_username(username)
     assert (user is not None), "No such user"
     assert (user.email is not new_email), 'Same email'
-    user.password = new_email
+    user.email = new_email
+    db.session.commit()
     return 'Update email successfully'
 
 def delete_user(username):

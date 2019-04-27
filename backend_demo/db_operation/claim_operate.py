@@ -9,7 +9,7 @@ def add_claim(dict):
     :return:
     '''
     assert (search_order(id) is not None), 'No such order id'
-    db.session.add(Claim(order_id=dict['order_id'], employee_id=dict['employee_id'], reason=dict['reason'], status=dict['status']))
+    db.session.add(Claim(order_id=dict['order_id'],lost_time=dict['lost_time'],lost_place=dict['lost_place'], employee_id=dict['employee_id'], reason=dict['reason'],remark=dict['remark'], state=dict['state']))
     db.session.commit()
     return 'Create Claim successfully'
 
@@ -37,10 +37,11 @@ def cancel_claim(id):
     '''
     claim = __search_claim(id)
     assert(claim is not None), 'No such Claim'
-    claim.status = 'cancel'
+    claim.state = -2
+    db.session.commit()
     return 'cancel Successfully'
 
-def change_state(id, state):
+def change_state(id, state,employee_id):
     '''
 
     :param id:
@@ -49,7 +50,9 @@ def change_state(id, state):
     '''
     claim = __search_claim(id)
     assert claim is not None,'No such Claim'
-    claim.status = state
+    claim.state = state
+    claim.employee_id = employee_id
+    db.session.commit()
     return 'Change successfully'
 
 def all():

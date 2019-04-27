@@ -84,7 +84,7 @@ def customer_update_password():
             verification_code = email_verify(update_password['email'])
             return verification_code
         else:
-            return user.update_password(update_password['username'],update_password['new_password'],update_password['confirm_password'])
+            return user.update_password(update_password['username'],update_password['password'],update_password['confirm_password'])
 
 @app.route('/customer/info/update_avatar',methods=['GET','POST'])
 def customer_update_avatar():
@@ -97,7 +97,7 @@ def customer_update_avatar():
 def luggage_order_create():
     if request.method == 'POST':
         insurance_info = json.loads(request.get_data())
-        print(insurance_info)
+        # print(insurance_info)
         return user.buy_insurance(insurance_info)
 
 
@@ -105,14 +105,16 @@ def luggage_order_create():
 def luggage_order_list():
     if request.method == 'POST':
         claim_info = json.loads(request.get_data())
-        return user.apply_claim(claim_info)
+        if claim_info['check'] == '0':
+            return user.user_all_insurance_order(claim_info['username'])
+        else:
+            return user.apply_claim(claim_info)
 
 
 @app.route('/luggage/order/new_travel', methods=['GET', 'POST'])
 def new_travel():
     if request.method == 'POST':
         supplementary_information = json.loads(request.get_data())
-        # print(supplementary_information)
         return user.supplementary_information(supplementary_information)
 
 @app.route('/list_user_all_insurance_order',methods=['GET','POST'])
@@ -160,7 +162,7 @@ def list_all_claim_page():
         return employee.list_all_claim()
 
 @app.route('/list_insurance_order_info/', methods=['GET', 'POST'])
-def list_all_claim_page():
+def list_insurance_order_info_page():
     if request.method == 'POST':
         insurance_order_id = json.loads(request.get_data())
         return employee.insurance_order_detail(insurance_order_id)

@@ -92,7 +92,7 @@ def user_all_insurance_order(username):
         return_list = []
         for order in order_list:
             order_dict = {}
-            order_list['order_id'] = order.order_id
+            order_list['insurance_order_id'] = order.order_id
             order_list['state'] = order.state
             order_list['username'] = order.username
             order_list['insurance_id'] = order.insurance_id
@@ -104,6 +104,17 @@ def user_all_insurance_order(username):
             order_list['date'] = order.date
             order_list['claim_id'] = order.claim_id
             order_list['remark'] = order.remark
+            order_list['sumPrice'] = order.sumPrice
+            select_img_list = db_ord_opr.select_img(order.order_id)
+            select_img_return_list = []
+            for select_img in select_img_list:
+                select_img_dict = {}
+                select_img_dict['imgUrl'] = select_img.imgUrl
+                select_img_dict['name'] = select_img.name
+                select_img_dict['price'] = select_img.price
+                select_img_dict['remark'] = select_img.remark
+                select_img_return_list.append(select_img_dict)
+            order_list['select_img'] = select_img_return_list
             return_list.append(order_dict)
         return return_list
 
@@ -147,13 +158,13 @@ def verify_register_info(register_info):
 def update_user_info(update_info):
     update_first_name(update_info['old_username'], update_info['first_name'])
     update_last_name(update_info['old_username'], update_info['last_name'])
-    update_name(update_info['old_username'], update_info['username'])
-    # update_password(update_info['old_username'], update_info['password'], update_info['confirm_password'])
     update_email(update_info['old_username'], update_info['email'])
     update_phone(update_info['old_username'], update_info['phone_num'])
     update_passport(update_info['old_username'], update_info['passport_num'])
     update_birthday(update_info['old_username'], update_info['birthday'])
     update_address(update_info['old_username'], update_info['address'])
+    update_name(update_info['old_username'], update_info['username'])
+    # update_password(update_info['old_username'], update_info['password'], update_info['confirm_password'])
     # update_user_image(update_info['old_username'], update_info['image'])
 
     return_value = {'state': '1'}
@@ -162,43 +173,61 @@ def update_user_info(update_info):
 
 def update_first_name(username, first_name):
     if not (first_name is ''):
-        user = db_usr_opr.search_username(username)
-        if not (user is None):
-            user.first_name = first_name
-        else:
-            return_value = {'state': '0', 'error_msg': 'No such user'}
-            return jsonify(return_value)
+        try:
+            db_usr_opr.update_first_name(username,first_name)
+        except AssertionError as ae:
+            return jsonify({'state':'0','error_msg': ae})
+
+        # user = db_usr_opr.search_username(username)
+        # if not (user is None):
+        #     user.first_name = first_name
+        # else:
+        #     return_value = {'state': '0', 'error_msg': 'No such user'}
+        #     return jsonify(return_value)
 
 
 def update_last_name(username, last_name):
     if not (last_name is ''):
-        user = db_usr_opr.search_username(username)
-        if not (user is None):
-            user.last_name = last_name
-        else:
-            return_value = {'state': '0', 'error_msg': 'No such user'}
-            return jsonify(return_value)
+        try:
+            db_usr_opr.update_last_name(username,last_name)
+        except AssertionError as ae:
+            return jsonify({'state':'0','error_msg': ae})
+        # user = db_usr_opr.search_username(username)
+        # if not (user is None):
+        #     user.last_name = last_name
+        # else:
+        #     return_value = {'state': '0', 'error_msg': 'No such user'}
+        #     return jsonify(return_value)
 
 
 def update_birthday(username, birthday):
     if not (birthday is ''):
-        user = db_usr_opr.search_username(username)
-        if not (user is None):
-            birthday_date = datetime.strptime(birthday, "%Y-%m-%d")
-            user.birthday = birthday_date
-        else:
-            return_value = {'state': '0', 'error_msg': 'No such user'}
-            return jsonify(return_value)
+        birthday_date = datetime.strptime(birthday, "%Y-%m-%d")
+        try:
+            db_usr_opr.update_birthday(username,birthday_date)
+        except AssertionError as ae:
+            return jsonify({'state': '0', 'error_msg': ae})
+        # user = db_usr_opr.search_username(username)
+        # if not (user is None):
+        #     birthday_date = datetime.strptime(birthday, "%Y-%m-%d")
+        #     user.birthday = birthday_date
+        # else:
+        #     return_value = {'state': '0', 'error_msg': 'No such user'}
+        #     return jsonify(return_value)
 
 
 def update_address(username, address):
     if not (address is ''):
-        user = db_usr_opr.search_username(username)
-        if not (user is None):
-            user.address = address
-        else:
-            return_value = {'state': '0', 'error_msg': 'No such user'}
-            return jsonify(return_value)
+        try:
+            db_usr_opr.update_address(username, address)
+        except AssertionError as ae:
+            return jsonify({'state': '0', 'error_msg': ae})
+        # user = db_usr_opr.search_username(username)
+        # if not (user is None):
+        #     user.address = address
+        # else:
+        #     return_value = {'state': '0', 'error_msg': 'No such user'}
+        #     return jsonify(return_value)
 
 
 def update_name(old_name, new_name):
@@ -325,7 +354,8 @@ def update_user_image(name, user_image):
 
 
 def buy_insurance(insurance_info):
-    insurance_info['status'] = 0
+    insurance_info['state'] = 0
+    insurance_info['compensated_amount'] = 0
     try:
         insurance_id = db_ins_opr.add_insurance(insurance_info)
         return jsonify({'state': '1', 'insurance_id': insurance_id})
@@ -335,15 +365,14 @@ def buy_insurance(insurance_info):
 
 def apply_claim(claim_info):
     claim_info['employee_id'] = -1  # 表示新的订单，没有员工处理
-    claim_info['status'] = -1
+    claim_info['state'] = -1
+    claim_info['lost_time'] = datetime.strptime(claim_info['lost_time'], "%Y-%m-%d")
 
     if not (len(claim_info['reason']) < 300):
         return jsonify({'state': '0', 'error_msg': 'The length of reason should less than 300 characters'})
     try:
-        # TODO 改state，待测试
-        corresponded_order_id = claim_info['order_id']
-        corresponded_order = db_ord_opr.search_order(corresponded_order_id)
-        corresponded_order.state = 0
+        # 改对应insurance order 的 state
+        db_ord_opr.change_state(claim_info['order_id'],0)
         db_cla_opr.add_claim(claim_info)
         return jsonify({'state': '1'})
     except AssertionError as ae:
@@ -353,10 +382,15 @@ def apply_claim(claim_info):
 # 用户添加保险信息
 def supplementary_information(supplementary_info):
     supplementary_info['state'] = -1
-    # if len(supplementary_info['luggage_image_outside'])>204800 or len(supplementary_info['luggage_image_inside'])>204800:
-    #     return jsonify({"state": '0', "error_msg": "Image size should not bigger than 2 MB"})
     try:
-        db_ord_opr.add_order(supplementary_info)
+        order_id = db_ord_opr.add_order(supplementary_info)
+        select_img_list = supplementary_info['select_img']
+        for select_img in select_img_list:
+            select_img['order_id'] = order_id
+            try:
+                db_ord_opr.add_img(select_img)
+            except AssertionError as iae:
+                return jsonify({'state': '0', 'error_msg': ae})
         return jsonify({'state': '1'})
     except AssertionError as ae:
         return jsonify({'state': '0', 'error_msg': ae})
@@ -375,8 +409,8 @@ def all_users():
             user_dict['phone_num'] = user.phone_num
             user_dict['passport_num'] = user.passport_num
             user_dict['email'] = user.email
-            user_dict['birthday'] = user.birthday
+            birthday_str = datetime.strftime(user.birthday,"%Y-%m-%d")
+            user_dict['birthday'] = birthday_str
             user_dict['address'] = user.first_name
-            # TODO 密码，头像，id，insurance，order没有返回
             return_list.append(user_dict)
         return return_list

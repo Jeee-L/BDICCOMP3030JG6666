@@ -45,7 +45,7 @@ def list_all_insurance():
             insurance_dict['product_id'] = insurance.product_id
             insurance_dict['amount_of_money'] = insurance.amount_of_money
             insurance_dict['compensated_amount '] = insurance.compensated_amount
-            insurance_dict['status'] = insurance.status
+            insurance_dict['state'] = insurance.state
             insurance_dict['date'] = insurance.date
             insurance_dict['remark'] = insurance.remark
             return_list.append(insurance_dict)
@@ -65,7 +65,7 @@ def list_all_claim():
             claim_dict['id'] = claim.id
             claim_dict['employee_id'] = claim.employee_id
             claim_dict['reason'] = claim.reason
-            claim_dict['status'] = claim.status
+            claim_dict['state'] = claim.state
             claim_dict['lost_time'] = claim.lost_time
             claim_dict['lost_place'] = claim.lost_place
             claim_dict['date'] = claim.time
@@ -114,13 +114,22 @@ def insurance_order_detail(insurance_order_id):
         insurance_order_dict['date'] = insurance_order.date
         insurance_order_dict['claim_id'] = insurance_order.claim_id
         insurance_order_dict['remark'] = insurance_order.remark
+        insurance_order_dict['sumPrice'] = insurance_order.sumPrice
+        select_img_list = db_ord_opr.select_img(insurance_order_id)
+        select_img_return_list = []
+        for select_img in select_img_list:
+            select_img_dict = {}
+            select_img_dict['imgUrl'] = select_img.imgUrl
+            select_img_dict['name'] = select_img.name
+            select_img_dict['price'] = select_img.price
+            select_img_dict['remark'] = select_img.remark
+            select_img_return_list.append(select_img_dict)
+        insurance_order_dict['select_img'] = select_img_return_list
     return jsonify(insurance_order_dict)
 
 def address_claim(address_info):
     try:
-        current_claim = db_cla_opr.__search_claim(address_info['claim_id'])
-        current_claim.employee_id = address_info['employee_id']
-        db_cla_opr.change_state(address_info['claim_id'], address_info['state'])
+        db_cla_opr.change_state(address_info['claim_id'], address_info['state'], address_info['employee_id'])
         return jsonify({'state':'1'})
     except AssertionError as ae:
         return jsonify({'state':'0','error_msg':ae})

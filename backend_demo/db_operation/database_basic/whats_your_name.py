@@ -51,8 +51,8 @@ class Users(db.Model):
 
     @password.setter
     def password(self, password):
-        # self.password_hash = generate_password_hash(password)
-        self.password_hash = password
+        self.password_hash = generate_password_hash(password)
+        # self.password_hash = password
 
     def check_password_hash(self, password):
         return check_password_hash(self.password_hash, password)
@@ -91,10 +91,11 @@ class Order(db.Model):
     luggage_image_inside = db.Column(db.Text, nullable=True)
     luggage_height = db.Column(db.Integer, nullable=True)
     luggage_width = db.Column(db.Integer, nullable=True)
+    sumPrice = db.Column(db.Integer, nullable=True)
     date = db.Column(db.DateTime, nullable=True, default=datetime.datetime.now())
     claim_id = db.relationship('Claim', backref='order',
                                lazy='dynamic')
-    remark = db.Column(db.Unicode(32))
+    remark = db.Column(db.Unicode(300))
     def __repr__(self):
         return '''
         order_id = {}
@@ -104,6 +105,7 @@ class Order(db.Model):
         flight_number = {}
         luggage_height = {}
         luggage_width = {}
+        sumPrice = {}
         date = {}
         claim_id = {}
         remark = {}
@@ -114,6 +116,7 @@ class Order(db.Model):
                     self.flight_number,
                     self.luggage_width,
                     self.luggage_height,
+                    self.sumPrice,
                     self.date,
                     self.claim_id.all(),
                     self.remark)
