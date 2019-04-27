@@ -18,7 +18,8 @@ def add_insurance(dict):
     :return: id
     '''
     assert (search_username(dict['username']) is not None), "No such User"
-    f = Insurance(remark=dict['remark'], username=dict['username'], product_id=dict['product_id'], project_id=dict['project_id'], amount_of_money=dict['amount_of_money'],  state=dict['state'], date=datetime.datetime.now(), compensated_amount=dict['compensated_amount'])
+    f = Insurance(remark=dict['remark'], username=dict['username'], product_id=dict['product_id'], project_id=dict['project_id'], amount_of_money=dict['amount_of_money'],  state=dict['state'], date=datetime.datetime.now(), compensated_amount=dict['compensated_amount'],
+                  first_name = dict['first_name'],last_name = dict['last_name'],phone_num = dict['phone_num'],passport_num = dict['passport_num'], email = dict['email'],birthday = dict['birthday'], address = dict['address'])
     db.session.add(f)
     db.session.commit()
     return f.id

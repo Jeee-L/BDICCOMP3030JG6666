@@ -129,6 +129,7 @@ def insurance_order_detail(insurance_order_id):
 
 def address_claim(address_info):
     try:
+        # TODO 这里需要改insurance的已赔付金额
         db_cla_opr.change_state(address_info['claim_id'], address_info['state'], address_info['employee_id'])
         return jsonify({'state':'1'})
     except AssertionError as ae:

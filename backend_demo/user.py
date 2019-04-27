@@ -48,7 +48,7 @@ def user_all_insurance(username):
     else:
         return_list = []
         for insurance in insurance_list:
-            insurance_dict = {}  # TODO 可能会有问题，也许会每次循环都加一遍
+            insurance_dict = {}
             insurance_dict['username'] = insurance.username
             insurance_dict['id'] = insurance.id
             insurance_dict['project_id'] = insurance.project_id
@@ -164,8 +164,6 @@ def update_user_info(update_info):
     update_birthday(update_info['old_username'], update_info['birthday'])
     update_address(update_info['old_username'], update_info['address'])
     update_name(update_info['old_username'], update_info['username'])
-    # update_password(update_info['old_username'], update_info['password'], update_info['confirm_password'])
-    # update_user_image(update_info['old_username'], update_info['image'])
 
     return_value = {'state': '1'}
     return jsonify(return_value)
@@ -178,13 +176,6 @@ def update_first_name(username, first_name):
         except AssertionError as ae:
             return jsonify({'state':'0','error_msg': ae})
 
-        # user = db_usr_opr.search_username(username)
-        # if not (user is None):
-        #     user.first_name = first_name
-        # else:
-        #     return_value = {'state': '0', 'error_msg': 'No such user'}
-        #     return jsonify(return_value)
-
 
 def update_last_name(username, last_name):
     if not (last_name is ''):
@@ -192,12 +183,6 @@ def update_last_name(username, last_name):
             db_usr_opr.update_last_name(username,last_name)
         except AssertionError as ae:
             return jsonify({'state':'0','error_msg': ae})
-        # user = db_usr_opr.search_username(username)
-        # if not (user is None):
-        #     user.last_name = last_name
-        # else:
-        #     return_value = {'state': '0', 'error_msg': 'No such user'}
-        #     return jsonify(return_value)
 
 
 def update_birthday(username, birthday):
@@ -207,13 +192,6 @@ def update_birthday(username, birthday):
             db_usr_opr.update_birthday(username,birthday_date)
         except AssertionError as ae:
             return jsonify({'state': '0', 'error_msg': ae})
-        # user = db_usr_opr.search_username(username)
-        # if not (user is None):
-        #     birthday_date = datetime.strptime(birthday, "%Y-%m-%d")
-        #     user.birthday = birthday_date
-        # else:
-        #     return_value = {'state': '0', 'error_msg': 'No such user'}
-        #     return jsonify(return_value)
 
 
 def update_address(username, address):
@@ -222,12 +200,6 @@ def update_address(username, address):
             db_usr_opr.update_address(username, address)
         except AssertionError as ae:
             return jsonify({'state': '0', 'error_msg': ae})
-        # user = db_usr_opr.search_username(username)
-        # if not (user is None):
-        #     user.address = address
-        # else:
-        #     return_value = {'state': '0', 'error_msg': 'No such user'}
-        #     return jsonify(return_value)
 
 
 def update_name(old_name, new_name):
@@ -298,56 +270,11 @@ def update_passport(name, new_passport):
                 return jsonify(return_value)
 
 
-# 图片允许的后缀名
-# ALLOWED_EXTENSIONS = set(['png', 'jpg', 'JPG', 'PNG', 'bmp'])
-#
-#
-# def allowed_file(filename):
-#     return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
-#
-#
-# def img_stream(img_local_path):
-#     """
-#     工具函数:
-#     获取本地图片流
-#     :param img_local_path:文件单张图片的本地绝对路径
-#     :return: 图片流
-#     """
-#     import base64
-#     img_stream = ''
-#     with open(img_local_path, 'r') as img_f:
-#         img_stream = img_f.read()
-#         img_stream = base64.b64encode(img_stream)
-#     return img_stream
 
 
 def update_user_image(name, user_image):
-    # if not (user_image and allowed_file(user_image.filename)):
-    #     return jsonify({"state": '0', "error_msg": "Illegal image type，limited: png、PNG、jpg、JPG、bmp"})
-    # basepath = os.path.dirname(__file__)  # 当前文件所在路径
-    #
-    # # 注意：没有的文件夹一定要先创建，不然会提示没有该路径
-    # upload_path = os.path.join(basepath, 'static/user_images',
-    #                            secure_filename(user_image.filename))
-    # user_image.save(upload_path)
-    #
-    # byte_size = os.path.getsize(upload_path)
-    # MB_size = float(byte_size / (1024 * 1024))
-    # if not (MB_size < 2):
-    #     return jsonify({"state": '0', "error_msg": "image size should not bigger than 2 MB"})
-    #
-    # # 使用Opencv转换一下图片格式和名称
-    # img = cv2.imread(upload_path)
-    # cv2.imwrite(os.path.join(basepath, 'static/user_images', 'temp_user_avatar.jpg'), img)
-    #
-    # image_stream = img_stream(basepath + 'static/user_images/temp_user_avatar')
-
-    # if len(user_image) > 204800:
-    #     return jsonify({"state": '0', "error_msg": "Image size should not bigger than 2 MB"})
     try:
         db_usr_opr.update_profile(name, user_image)
-        # os.remove(upload_path)
-        # return "头像上传成功"
         return jsonify({"state":"1"})
     except AssertionError as ae:
         return jsonify({"state": '0', "error_msg": ae})
@@ -356,6 +283,7 @@ def update_user_image(name, user_image):
 def buy_insurance(insurance_info):
     insurance_info['state'] = 0
     insurance_info['compensated_amount'] = 0
+    insurance_info['birthday'] = datetime.strptime(insurance_info['birthday'], "%Y-%m-%d")
     try:
         insurance_id = db_ins_opr.add_insurance(insurance_info)
         return jsonify({'state': '1', 'insurance_id': insurance_id})
@@ -370,6 +298,10 @@ def apply_claim(claim_info):
 
     if not (len(claim_info['reason']) < 300):
         return jsonify({'state': '0', 'error_msg': 'The length of reason should less than 300 characters'})
+    if not (len(claim_info['remark']) < 300):
+        return jsonify({'state': '0', 'error_msg': 'The length of remark should less than 300 characters'})
+    if not (len(claim_info['lost_place']) < 100):
+        return jsonify({'state': '0', 'error_msg': 'The length of lost place should less than 100 characters'})
     try:
         # 改对应insurance order 的 state
         db_ord_opr.change_state(claim_info['order_id'],0)
@@ -390,7 +322,7 @@ def supplementary_information(supplementary_info):
             try:
                 db_ord_opr.add_img(select_img)
             except AssertionError as iae:
-                return jsonify({'state': '0', 'error_msg': ae})
+                return jsonify({'state': '0', 'error_msg': iae})
         return jsonify({'state': '1'})
     except AssertionError as ae:
         return jsonify({'state': '0', 'error_msg': ae})

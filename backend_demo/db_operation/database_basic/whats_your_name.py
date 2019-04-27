@@ -134,6 +134,15 @@ class Insurance(db.Model):
     remark = db.Column(db.Unicode(32))
     compensated_amount = db.Column(db.Integer, nullable = True)
     date = db.Column(db.DateTime, default=datetime.datetime.now())
+
+    first_name = db.Column(db.Unicode(32), nullable=True)
+    last_name = db.Column(db.Unicode(32), nullable=True)
+    phone_num = db.Column(db.Unicode(13), nullable=True, unique=False)
+    passport_num = db.Column(db.Unicode(13), nullable=True, unique=True)
+    email = db.Column(db.Unicode(32), nullable=True, unique=True)
+    birthday = db.Column(db.DateTime, nullable=True)
+    address = db.Column(db.Unicode(32), nullable=True)
+
     def __repr__(self):
         return '''
         ***************
@@ -146,8 +155,15 @@ class Insurance(db.Model):
         remark = {}
         compensated_amount = {}
         date = {}
+        first_name = {}
+        last_name = {}
+        phone_num = {}
+        passport_num = {}
+        email = {}
+        birthday = {}
+        address = {}
         ***************
-        '''.format(self.id, self.username,self.project_id,self. product_id,self.amount_of_money, self.state,self.remark,self.compensated_amount, self.date)
+        '''.format(self.id, self.username,self.project_id,self. product_id,self.amount_of_money, self.state,self.remark,self.compensated_amount, self.date, self.first_name,self.last_name,self.phone_num, self.passport_num, self.email, self.birthday, self.address)
 
 
 

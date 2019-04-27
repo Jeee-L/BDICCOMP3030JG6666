@@ -30,16 +30,9 @@ db.init_app(app)
 
 @app.route('/')
 def home():
-    # user.user_all_insurance()
     return render_template('homepage.html')
-    # user = session.get('username')
-    # if user:
-    #     return redirect('/1/')
-    # else:
-    #     return redirect('/0/')
 
-
-# TODO 登陆暂时完成
+# 登陆
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -57,7 +50,7 @@ def login():
             return jsonify(return_value)
 
 
-# TODO 用户注册暂时完成
+# 用户注册
 @app.route('/register/', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -69,13 +62,14 @@ def register():
             return user.register(register_info)
 
 
-# TODO 用户更改信息，头像，密码单独改
+# 用户更改信息，头像，密码单独改
 @app.route('/customer/info/', methods=['GET', 'POST'])
 def customer_info():
     if request.method == 'POST':
         update_info = json.loads(request.get_data())
         return user.update_user_info(update_info)
 
+# 用户更改密码
 @app.route('/customer/info/update_password',methods=['GET','POST'])
 def customer_update_password():
     if request.method == 'POST':
@@ -86,21 +80,21 @@ def customer_update_password():
         else:
             return user.update_password(update_password['username'],update_password['password'],update_password['confirm_password'])
 
+# 用户更改头像
 @app.route('/customer/info/update_avatar',methods=['GET','POST'])
 def customer_update_avatar():
     if request.method == 'POST':
         update_avatar = json.loads(request.get_data())
         return user.update_user_image(update_avatar['username'],update_avatar['image'])
 
-# TODO 待测试
+# 用户购买新保险
 @app.route('/luggage/order/create', methods=['GET', 'POST'])
 def luggage_order_create():
     if request.method == 'POST':
         insurance_info = json.loads(request.get_data())
-        # print(insurance_info)
         return user.buy_insurance(insurance_info)
 
-
+# 用户所有的保险订单以及申请理赔
 @app.route('/luggage/order/list', methods=['GET', 'POST'])
 def luggage_order_list():
     if request.method == 'POST':
@@ -110,38 +104,42 @@ def luggage_order_list():
         else:
             return user.apply_claim(claim_info)
 
-
+# 用户出发前补充信息
 @app.route('/luggage/order/new_travel', methods=['GET', 'POST'])
 def new_travel():
     if request.method == 'POST':
         supplementary_information = json.loads(request.get_data())
         return user.supplementary_information(supplementary_information)
 
+# 用户所有保险订单
 @app.route('/list_user_all_insurance_order',methods=['GET','POST'])
 def list_user_all_insurance_order():
     if request.method == 'POST':
         username = json.loads(request.get_data())
         return user.user_all_insurance_order(username)
 
+# 用户所有申请的理赔
 @app.route('/list_user_all_claim',methods=['GET','POST'])
 def list_user_all_claim():
     if request.method == 'POST':
         username = json.loads(request.get_data())
         return user.user_all_claim(username)
 
+# 未使用
 @app.route('/logout/')
 def logout_page():
     if request.method == 'POST':
         session.clear()  # TODO 用户登出要清cookie和session
         return None
 
+# 所有用户
 @app.route('/all_customers/',methods=['GET','POST'])
 def all_customers():
     if request.method == 'POST':
         return user.all_users()
 
 
-# TODO 员工更改密码暂时完成
+# 员工更改密码
 @app.route('/employee_update_password/', methods=['GET', 'POST'])
 def employee_update_password_page():
     if request.method == 'POST':
@@ -149,18 +147,19 @@ def employee_update_password_page():
         return employee.update_password(employee_update_info)
 
 
-# TODO 员工是否应该看到所有的保险和理赔申请？
+# 所有保险
 @app.route('/check_all_insurance/', methods=['GET', 'POST'])
 def list_all_insurance_page():
     if request.method == 'POST':
         return employee.list_all_insurance()
 
-
+# 所有申请的理赔
 @app.route('/list_all_claim/', methods=['GET', 'POST'])
 def list_all_claim_page():
     if request.method == 'POST':
         return employee.list_all_claim()
 
+# 所有的保险订单
 @app.route('/list_insurance_order_info/', methods=['GET', 'POST'])
 def list_insurance_order_info_page():
     if request.method == 'POST':
@@ -168,25 +167,27 @@ def list_insurance_order_info_page():
         return employee.insurance_order_detail(insurance_order_id)
 
 
-# TODO 员工处理理赔申请暂时完成，需要前端传来员工受理意见(即state)
+# TODO 员工处理理赔申请完成，需要更改insurance中对应项的已赔付金额
 @app.route('/address_claim/', methods=['GET', 'POST'])
 def address_claim_page():
     if request.method == 'POST':
         address_info = json.loads(request.get_data())
         return employee.address_claim(address_info)
 
+# 所有员工
 @app.route('/all_employees/',methods=['GET','POST'])
 def all_employees():
     if request.method == 'POST':
         return employee.all_employees()
 
+# 未使用
 @app.route('/administrator_update_password/', methods=['GET', 'POST'])
 def administrator_update_password():
     if request.method == 'POST':
         administrator_info = json.loads(request.get_data())
         return administrator.update_password(administrator_info)
 
-
+# 未使用
 @app.route('/create_new_administrator/', methods=['GET', 'POST'])
 def create_new_administrator():
     if request.method == 'POST':
@@ -200,41 +201,42 @@ def delete_administrator():
         delete_info = json.loads(request.get_data())
         return administrator.delete_administrator(delete_info)
 
-
+# 未使用
 @app.route('/create_employee/', methods=['GET', 'POST'])
 def create_employee():
     if request.method == 'POST':
         employee_info = json.loads(request.get_data())
         return administrator.create_employee(employee_info)
 
-
+# 未使用
 @app.route('/delete_employee/', methods=['GET', 'POST'])
 def delete_employee():
     if request.method == 'POST':
         delete_employee_id = json.loads(request.get_data())
         return administrator.delete_employee(delete_employee_id)
 
-
+# 未使用
 @app.route('/update_employee_password/', methods=['GET', 'POST'])
 def update_employee_password():
     if request.method == 'POST':
         update_employee_info = json.loads(request.get_data())
         return administrator.update_employee_password(update_employee_info)
 
-
+# 未使用
 @app.route('/create_user/', methods=['GET', 'POST'])
 def create_user():
     if request.method == 'POST':
         create_user_info = json.loads(request.get_data())
         return administrator.create_user(create_user_info)
 
+# 未使用
 @app.route('/delete_user/', methods=['GET', 'POST'])
 def delete_user():
     if request.method == 'POST':
         delete_username = json.loads(request.get_data())
         return administrator.delete_user(delete_username)
 
-
+# 未使用
 @app.route('/update_user_password/', methods=['GET', 'POST'])
 def update_user_password():
     if request.method == 'POST':
