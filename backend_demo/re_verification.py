@@ -47,7 +47,7 @@ def verify_passport(passport):
     # 因公普通的是:P.+7位数；公务的是：S.+7位数 或者 S+8位数,以D开头的是外交护照.D=diplomatic
     # H:香港特区护照和香港公民所持回乡卡H开头,后接10位数字
     # M:澳门特区护照和澳门公民所持回乡卡M开头,后接10位数字
-    valid_passport = r'^[14|15|P|EC]\d{7}$|^[G|D|E](\d{8})$|^S\d{7,8}$|^[H|M]\d{10}$'
+    valid_passport = r'^(1[45]|P|E[A-Z])\d{7}$|^[GDE](\d{8})$|^S\d{7,8}$|^[HM]\d{10}$'
     if re.match(valid_passport, passport):
         return True
     else:
