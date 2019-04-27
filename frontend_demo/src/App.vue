@@ -17,6 +17,7 @@
 	}"
   >
     <Header/>
+    <TopMenu v-if="pageOptions.pageWithTopMenu" />
     <Sidebar v-if="!pageOptions.pageWithoutSidebar"/>
     <div
       id="content"
@@ -37,6 +38,7 @@
 <script>
 import Sidebar from "./components/sidebar/Sidebar.vue";
 import Header from "./components/header/Header.vue";
+import TopMenu from './components/top-menu/TopMenu.vue';
 import Footer from "./components/footer/Footer.vue";
 import PageOptions from "./config/PageOptions.vue";
 
@@ -45,6 +47,7 @@ export default {
   components: {
     Sidebar,
     Header,
+    TopMenu,
     Footer
   },
   data() {

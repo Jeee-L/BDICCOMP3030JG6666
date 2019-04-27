@@ -9,6 +9,7 @@ const pageOptions = {
   pageWithoutSidebar: false,
   pageWithRightSidebar: false,
   pageWithTwoSidebar: false,
+  pageWithTopMenu: false,
   pageWithWideSidebar: false,
   pageWithLightSidebar: false,
   pageWithMegaMenu: false,

@@ -260,7 +260,7 @@
                           name="phone number"
                           placeholder="Mobile Phone Number"
                           class="form-control"
-                          v-validate="{ required: true, regex:/^\d{8,9}$/ }"
+                          v-validate="{ required: true, regex:/^1[34578]\d{9}$/ }"
                           v-bind:class="{'is-invalid': errors.has('phone number')}"
                           v-model="formData.phone_num"
                         >
@@ -352,13 +352,13 @@
                                   type="radio"
                                   name="default_radio"
                                   id="defaultRadio"
-                                  value="1-1-18"
+                                  value="1-1-90"
                                   v-on:click="checkProjectValue"
                                 >
                                 <label
                                   class="form-check-label"
                                   for="defaultRadio"
-                                >Project 1 - (18 EUR)</label>
+                                >Project 1 - ($90)</label>
                               </p>
                             </div>
                             <div class="form-check">
@@ -368,13 +368,13 @@
                                   type="radio"
                                   name="default_radio"
                                   id="defaultRadio"
-                                  value="1-2-36"
+                                  value="1-2-180"
                                   v-on:click="checkProjectValue"
                                 >
                                 <label
                                   class="form-check-label"
                                   for="defaultRadio"
-                                >Project 2 - (36 EUR)</label>
+                                >Project 2 - ($180)</label>
                               </p>
                             </div>
                           </td>
@@ -410,13 +410,13 @@
                                   type="radio"
                                   name="default_radio"
                                   id="defaultRadio"
-                                  value="2-1-54"
+                                  value="2-1-270"
                                   v-on:click="checkProjectValue"
                                 >
                                 <label
                                   class="form-check-label"
                                   for="defaultRadio"
-                                >Project 1 - (54 EUR)</label>
+                                >Project 1 - ($270)</label>
                               </p>
                             </div>
                             <div class="form-check">
@@ -426,13 +426,13 @@
                                   type="radio"
                                   name="default_radio"
                                   id="defaultRadio"
-                                  value="2-2-72"
+                                  value="2-2-360"
                                   v-on:click="checkProjectValue"
                                 >
                                 <label
                                   class="form-check-label"
                                   for="defaultRadio"
-                                >Project 1 - (72 EUR)</label>
+                                >Project 1 - ($360)</label>
                               </p>
                             </div>
                             <div class="form-check">
@@ -442,13 +442,13 @@
                                   type="radio"
                                   name="default_radio"
                                   id="defaultRadio"
-                                  value="2-3-144"
+                                  value="2-3-700"
                                   v-on:click="checkProjectValue"
                                 >
                                 <label
                                   class="form-check-label"
                                   for="defaultRadio"
-                                >Project 3 - (144 EUR)</label>
+                                >Project 3 - ($700)</label>
                               </p>
                             </div>
                           </td>
@@ -485,13 +485,13 @@
                                   type="radio"
                                   name="default_radio"
                                   id="defaultRadio"
-                                  value="3-1-80"
+                                  value="3-1-400"
                                   v-on:click="checkProjectValue"
                                 >
                                 <label
                                   class="form-check-label"
                                   for="defaultRadio"
-                                >Project 1 - (80 EUR)</label>
+                                >Project 1 - ($400)</label>
                               </p>
                             </div>
                             <div class="form-check">
@@ -501,13 +501,13 @@
                                   type="radio"
                                   name="default_radio"
                                   id="defaultRadio"
-                                  value="3-2-150"
+                                  value="3-2-700"
                                   v-on:click="checkProjectValue"
                                 >
                                 <label
                                   class="form-check-label"
                                   for="defaultRadio"
-                                >Project 2 - (150 EUR)</label>
+                                >Project 2 - ($700)</label>
                               </p>
                             </div>
                             <div class="form-check">
@@ -517,13 +517,13 @@
                                   type="radio"
                                   name="default_radio"
                                   id="defaultRadio"
-                                  value="3-3-200"
+                                  value="3-3-1000"
                                   v-on:click="checkProjectValue"
                                 >
                                 <label
                                   class="form-check-label"
                                   for="defaultRadio"
-                                >Project 3 - (200 EUR)</label>
+                                >Project 3 - ($1000)</label>
                               </p>
                             </div>
                           </td>
@@ -560,13 +560,13 @@
                                   type="radio"
                                   name="default_radio"
                                   id="defaultRadio"
-                                  value="4-1-225"
+                                  value="4-1-1100"
                                   v-on:click="checkProjectValue"
                                 >
                                 <label
                                   class="form-check-label"
                                   for="defaultRadio"
-                                >Project 1 - (225 EUR)</label>
+                                >Project 1 - ($1100)</label>
                               </p>
                             </div>
                             <div class="form-check">
@@ -576,13 +576,13 @@
                                   type="radio"
                                   name="default_radio"
                                   id="defaultRadio"
-                                  value="4-2-350"
+                                  value="4-2-1500"
                                   v-on:click="checkProjectValue"
                                 >
                                 <label
                                   class="form-check-label"
                                   for="defaultRadio"
-                                >Project 2 - (350 EUR)</label>
+                                >Project 2 - ($1500)</label>
                               </p>
                             </div>
                             <div class="form-check">
@@ -592,13 +592,13 @@
                                   type="radio"
                                   name="default_radio"
                                   id="defaultRadio"
-                                  value="4-3-500"
+                                  value="4-3-2000"
                                   v-on:click="checkProjectValue"
                                 >
                                 <label
                                   class="form-check-label"
                                   for="defaultRadio"
-                                >Project 3 - (500 EUR)</label>
+                                >Project 3 - ($2000)</label>
                               </p>
                             </div>
                           </td>
@@ -626,7 +626,7 @@
                       ok-variant="white"
                       title="1 Time Insurance"
                     >
-                      <p>For claimed items without original receipts, payment of loss will be calculated based upon 75% of the Actual Cash Value at the time of loss, not to exceed €250.</p>
+                      <p>For claimed items without original receipts, payment of loss will be calculated based upon 75% of the Actual Cash Value at the time of loss, not to exceed $250.</p>
                       <br>
                       <table class="table m-b-0">
                         <thead>
@@ -639,18 +639,18 @@
                         <tbody>
                           <tr>
                             <td>Total Sum Insured</td>
-                            <td>1000 EUR</td>
-                            <td>2000 EUR</td>
+                            <td>$1000</td>
+                            <td>$2000</td>
                           </tr>
                           <tr>
                             <td>Sum Insured Per Time</td>
-                            <td>1000 EUR</td>
-                            <td>2000 EUR</td>
+                            <td>$1000</td>
+                            <td>$2000</td>
                           </tr>
                           <tr>
                             <td>Price</td>
-                            <td>18 EUR</td>
-                            <td>36 EUR</td>
+                            <td>$90</td>
+                            <td>$180</td>
                           </tr>
                         </tbody>
                       </table>
@@ -666,7 +666,7 @@
                       ok-variant="white"
                       title="15 days Insurance"
                     >
-                      <p>For claimed items without original receipts, payment of loss will be calculated based upon 75% of the Actual Cash Value at the time of loss, not to exceed €250.</p>
+                      <p>For claimed items without original receipts, payment of loss will be calculated based upon 75% of the Actual Cash Value at the time of loss, not to exceed $250.</p>
                       <br>
                       <table class="table m-b-0">
                         <thead>
@@ -680,21 +680,21 @@
                         <tbody>
                           <tr>
                             <td>Total Sum Insured</td>
-                            <td>2600 EUR</td>
-                            <td>4000 EUR</td>
-                            <td>8000 EUR</td>
+                            <td>$2600</td>
+                            <td>$4000</td>
+                            <td>$8000</td>
                           </tr>
                           <tr>
                             <td>Sum Insured Per Time</td>
-                            <td>1000 EUR</td>
-                            <td>2000 EUR</td>
-                            <td>4000 EUR</td>
+                            <td>$1000</td>
+                            <td>$2000</td>
+                            <td>$4000</td>
                           </tr>
                           <tr>
                             <td>Price</td>
-                            <td>54 EUR</td>
-                            <td>72 EUR</td>
-                            <td>144 EUR</td>
+                            <td>$270</td>
+                            <td>$360</td>
+                            <td>$700</td>
                           </tr>
                         </tbody>
                       </table>
@@ -710,7 +710,7 @@
                       ok-variant="white"
                       title="30 days Insurance"
                     >
-                      <p>For claimed items without original receipts, payment of loss will be calculated based upon 75% of the Actual Cash Value at the time of loss, not to exceed €250.</p>
+                      <p>For claimed items without original receipts, payment of loss will be calculated based upon 75% of the Actual Cash Value at the time of loss, not to exceed $250.</p>
                       <br>
                       <table class="table m-b-0">
                         <thead>
@@ -724,21 +724,21 @@
                         <tbody>
                           <tr>
                             <td>Total Sum Insured</td>
-                            <td>2600 EUR</td>
-                            <td>4000 EUR</td>
-                            <td>8000 EUR</td>
+                            <td>$2600</td>
+                            <td>$4000</td>
+                            <td>$8000</td>
                           </tr>
                           <tr>
                             <td>Sum Insured Per Time</td>
-                            <td>1000 EUR</td>
-                            <td>2000 EUR</td>
-                            <td>4000 EUR</td>
+                            <td>$1000</td>
+                            <td>$2000</td>
+                            <td>$4000</td>
                           </tr>
                           <tr>
                             <td>Price</td>
-                            <td>80 EUR</td>
-                            <td>150 EUR</td>
-                            <td>200 EUR</td>
+                            <td>$400</td>
+                            <td>$700</td>
+                            <td>$1000</td>
                           </tr>
                         </tbody>
                       </table>
@@ -754,7 +754,7 @@
                       ok-variant="white"
                       title="1 Year Insurance"
                     >
-                      <p>For claimed items without original receipts, payment of loss will be calculated based upon 75% of the Actual Cash Value at the time of loss, not to exceed €250.</p>
+                      <p>For claimed items without original receipts, payment of loss will be calculated based upon 75% of the Actual Cash Value at the time of loss, not to exceed $250.</p>
                       <br>
                       <table class="table m-b-0">
                         <thead>
@@ -768,21 +768,21 @@
                         <tbody>
                           <tr>
                             <td>Total Sum Insured</td>
-                            <td>2600 EUR</td>
-                            <td>4000 EUR</td>
-                            <td>8000 EUR</td>
+                            <td>$2600</td>
+                            <td>$4000</td>
+                            <td>$8000</td>
                           </tr>
                           <tr>
                             <td>Sum Insured Per Time</td>
-                            <td>1000 EUR</td>
-                            <td>2000 EUR</td>
-                            <td>4000 EUR</td>
+                            <td>$1000</td>
+                            <td>$2000</td>
+                            <td>$4000</td>
                           </tr>
                           <tr>
                             <td>Price</td>
-                            <td>225 EUR</td>
-                            <td>350 EUR</td>
-                            <td>500 EUR</td>
+                            <td>$1100</td>
+                            <td>$1500</td>
+                            <td>$2000</td>
                           </tr>
                         </tbody>
                       </table>
@@ -870,6 +870,7 @@ export default {
         address: this.$user.address,
         product_id:  "",
         project_id: "",
+        amount_of_money: "",
         remark: ""
       }
     };
@@ -892,6 +893,7 @@ export default {
       var value = e.target.value.split("-");
       this.formData.product_id = value[0];
       this.formData.project_id = value[1];
+      this.formData.amount_of_money = value[2];
     },
     submitOrderForm() {
       var today = new Date().toISOString().substr(0, 10);

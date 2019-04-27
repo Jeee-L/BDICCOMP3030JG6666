@@ -38,6 +38,7 @@
   </div>
 </template>
 <script>
+import PageOptions from '../config/PageOptions.vue'
 import Vue from "vue";
 import { ClientTable } from "vue-tables-2";
 
@@ -288,12 +289,20 @@ export default {
     };
   },
   created() {
+    PageOptions.pageWithTopMenu = true;
+    PageOptions.pageWithoutSidebar = true;
+    
     // Add IDs for child rows functionality
     this.tableData = tableData.map((item, index) => {
       item["id"] = index;
       return item;
     });
   },
+  beforeRouteLeave (to, from, next) {
+		PageOptions.pageWithTopMenu = false;
+		PageOptions.pageWithoutSidebar = false;
+		next();
+	},
   methods: {
     edit(row) {
       alert(`Editing row id: ${row.id}`);

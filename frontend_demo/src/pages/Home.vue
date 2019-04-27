@@ -55,47 +55,17 @@
 
     <!-- note -->
     <div class="note note-lime note-with-right-icon m-b-15">
-      <div class="note-icon">
-      </div>
-      <div class="row">
-        <!-- Title Two Pictures -->
-        <div class="col-lg-3 col-md-6">
-          <!-- begin row -->
-          <div class="row row-space-2 m-b-5">
-            <!-- begin col-6 -->
-            <div class="col-6">
-              <a href="javascript:;" class="widget-card widget-card-rounded square m-b-2">
-                <div class="widget-card-cover picture-china-home"></div>
-              </a>
-            </div>
-            <!-- end col-6 -->
-            <!-- begin col-6 -->
-            <div class="col-6">
-              <a href="javascript:;" class="widget-card widget-card-rounded square m-b-2">
-                <div class="widget-card-cover picture-ireland-home"></div>
-              </a>
-            </div>
-            <!-- end col-6 -->
-          </div>
-          <!-- end row -->
-        </div>
-
-        <div class="note-content text-right div-right">
-          <!-- Flag China -->
-          <!-- <div class="col-md-1 col-sm-2 col-3 m-b-10 text-center" style="display:inline">
-            <h2 class="flag-icon flag-icon-cn width-full m-r-10 m-t-0 m-b-3" title="cn" id="cn"></h2>
-            <h2 class="flag-icon flag-icon-ie width-full m-r-10 m-t-0 m-b-3" title="ie" id="ie"></h2>
-          </div>-->
-          <h2 style="color: black">Welcome {{$user.username}}!</h2>
-          <br>
-          <h4>
-            <b>Choose the best plan and start your journey!</b>
-          </h4>
-          <p>Travel with peace of mind. Compare the below plans and buy online with our best price guarantee.
-            <br>Our checkout process is 100% safe and secure and you’ll receive your policy within minutes via email.
-          </p>
-        </div>
-      </div>
+      <blockquote class="blockquote text-right">
+        <h2 style="color: black">Welcome {{$user.username}}</h2>
+        <h5 style="color: black !important">{{nowTime}}</h5> <br>
+        <h4>
+          Get ready for the unexpected, for the trivial and mundane to be turned into the profound and insightful. 
+            <br>You’ve been preparing for this journey for so long; you’re ready to thrive.
+        </h4>
+        <footer class="blockquote-footer">
+          Hibernia-Sino Travel Insurance
+        </footer>
+      </blockquote>
     </div>
 
     <div class="card">
@@ -158,26 +128,30 @@
         </div>
       </div>
     </div>
-
   </div>
   <!-- end outer division -->
 </template>
 
 <script>
-import {getCookie, delCookie} from '../assets/js/cookie.js'
+import { getCookie, delCookie } from "../assets/js/cookie.js";
 export default {
   data() {
     return {
       slide: 0,
       sliding: null,
+      nowTime: "",
 
       name: ""
     };
   },
-  mounted(){
-    if (getCookie("username") == ""){
-      this.$router.push({ path: "/login" });
-    }
+  created() {
+    this.nowTimes();
+  },
+  mounted() {
+    // if (getCookie("username") == "") {
+      // this.$router.push({ path: "/login" });
+    // }
+    this.nowTimes();
   },
   methods: {
     onSlideStart() {
@@ -186,9 +160,22 @@ export default {
     onSlideEnd() {
       this.sliding = false;
     },
-    quit(){
-      delCookie("username")
-    }
+    quit() {
+      delCookie("username");
+    },
+    timeFormate(timeStamp) {
+      let year = new Date(timeStamp).getFullYear();
+      let month =new Date(timeStamp).getMonth() + 1 < 10? "0" + (new Date(timeStamp).getMonth() + 1): new Date(timeStamp).getMonth() + 1;
+      let date =new Date(timeStamp).getDate() < 10? "0" + new Date(timeStamp).getDate(): new Date(timeStamp).getDate();
+      let hh =new Date(timeStamp).getHours() < 10? "0" + new Date(timeStamp).getHours(): new Date(timeStamp).getHours();
+      let mm =new Date(timeStamp).getMinutes() < 10? "0" + new Date(timeStamp).getMinutes(): new Date(timeStamp).getMinutes();
+      this.nowTime = year + "-" + month + "-" + date + " " + hh + ":" + mm;
+    },
+    nowTimes(){
+      this.timeFormate(new Date());
+      setInterval(this.nowTimes,30*1000);
+    },
+
   }
 };
 </script>
@@ -211,5 +198,11 @@ export default {
   margin-top: 15px;
   height: 130px;
   width: 100px;
+}
+
+.blockquote {
+  margin-top: 0.1% !important;
+  margin-bottom: 0.1% !important;
+  margin-right: 1% !important;
 }
 </style>

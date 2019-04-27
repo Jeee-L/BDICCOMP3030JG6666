@@ -34,20 +34,9 @@
           <li class="nav-item">
             <a
               href="javascript:;"
-              v-on:click="show('about')"
-              v-bind:class="{ 'active': tab.about }"
-              class="nav-link"
+              class="nav-link active"
               data-toggle="tab"
-            >ABOUT</a>
-          </li>
-          <li class="nav-item">
-            <a
-              href="javascript:;"
-              v-on:click="show('post')"
-              v-bind:class="{ 'active': tab.post }"
-              class="nav-link"
-              data-toggle="tab"
-            >POSTS</a>
+            >User Profile</a>
           </li>
         </ul>
         <!-- END profile-header-tab -->
@@ -58,101 +47,8 @@
     <div class="profile-content">
       <!-- begin tab-content -->
       <div class="tab-content p-0">
-        <!-- begin #profile-post tab -->
-        <div class="tab-pane fade" v-bind:class="{ 'show active': tab.post }">
-          <!-- begin timeline -->
-          <ul class="timeline">
-            <li>
-              <!-- begin timeline-time -->
-              <div class="timeline-time">
-                <span class="date">today</span>
-                <span class="time">04:20</span>
-              </div>
-              <!-- end timeline-time -->
-              <!-- begin timeline-icon -->
-              <div class="timeline-icon">
-                <a href="javascript:;">&nbsp;</a>
-              </div>
-              <!-- end timeline-icon -->
-            </li>
-            <li>
-              <!-- begin timeline-time -->
-              <div class="timeline-time">
-                <span class="date">yesterday</span>
-                <span class="time">20:17</span>
-              </div>
-              <!-- end timeline-time -->
-              <!-- begin timeline-icon -->
-              <div class="timeline-icon">
-                <a href="javascript:;">&nbsp;</a>
-              </div>
-              <!-- end timeline-icon -->
-            </li>
-            <li>
-              <!-- begin timeline-time -->
-              <div class="timeline-time">
-                <span class="date">24 February 2014</span>
-                <span class="time">08:17</span>
-              </div>
-              <!-- end timeline-time -->
-              <!-- begin timeline-icon -->
-              <div class="timeline-icon">
-                <a href="javascript:;">&nbsp;</a>
-              </div>
-              <!-- end timeline-icon -->
-            </li>
-            <li>
-              <!-- begin timeline-time -->
-              <div class="timeline-time">
-                <span class="date">10 January 2014</span>
-                <span class="time">20:43</span>
-              </div>
-              <!-- end timeline-time -->
-              <!-- begin timeline-icon -->
-              <div class="timeline-icon">
-                <a href="javascript:;">&nbsp;</a>
-              </div>
-              <!-- end timeline-icon -->
-              <!-- begin timeline-body -->
-              <div class="timeline-body">
-                <div class="timeline-header">
-                  <span class="userimage">
-                    <!-- <img src="/assets/img/user/user-12.jpg" alt> -->
-                  </span>
-                  <span class="username">Sean Ngu</span>
-                  <span class="pull-right text-muted">1,021,282 Views</span>
-                </div>
-                <div class="timeline-content"></div>
-                <div class="timeline-footer">
-                  <a href="javascript:;" class="m-r-15 text-inverse-lighter">
-                    <i class="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i> Like
-                  </a>
-                  <a href="javascript:;" class="m-r-15 text-inverse-lighter">
-                    <i class="fa fa-comments fa-fw fa-lg m-r-3"></i> Comment
-                  </a>
-                  <a href="javascript:;" class="m-r-15 text-inverse-lighter">
-                    <i class="fa fa-share fa-fw fa-lg m-r-3"></i> Share
-                  </a>
-                </div>
-              </div>
-              <!-- end timeline-body -->
-            </li>
-            <li>
-              <!-- begin timeline-icon -->
-              <div class="timeline-icon">
-                <a href="javascript:;">&nbsp;</a>
-              </div>
-              <!-- end timeline-icon -->
-              <!-- begin timeline-body -->
-              <div class="timeline-body">Loading...</div>
-              <!-- begin timeline-body -->
-            </li>
-          </ul>
-          <!-- end timeline -->
-        </div>
-        <!-- end #profile-post tab -->
         <!-- begin #profile-about tab -->
-        <div class="tab-pane fade" v-bind:class="{ 'show active': tab.about }">
+        <div class="tab-pane fade show active">
           <div class="row">
             <div class="col-lg-4">
               <div class="card card-default">
@@ -181,12 +77,49 @@
                   </label>
                 </div>
               </div>
-              <div class="card card-default d-none d-lg-block">
-                <div class="card-header">
-                  <div class="card-title text-center">Recent Orders</div>
+              <div class="card card-default" v-show="showPasswordCard">
+                <div class="d-lg-block password-title card-title text-center">
+                  <h5>Change Password</h5>Please pass email velidation before changing passord.
                 </div>
                 <div class="card-body">
-                  <!-- TO DO -->
+                  <label class="control-label">
+                    Email
+                    <span class="text-danger">*</span>
+                  </label> <br>
+                  <small>This email should be the email used for registration; otherwise, please update this information first.</small> <br> <br>
+                  <div class="row m-b-15">
+                    <div class="col-md-12">
+                      <input
+                        type="text"
+                        name="email"
+                        placeholder="Email"
+                        v-validate="{ required: true, regex:/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/ }"
+                        class="form-control"
+                        v-bind:class="{'is-invalid': errors.has('email')}"
+                        v-model="email"
+                      >
+                      <span style="color: red !important;">{{ errors.first('email') }}</span>
+                      <br>
+                      <div class="input-group mb-3">
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="Verification Code"
+                          aria-describedby="button-addon2"
+                          v-bind:class="{'is-valid': this.verification_field}"
+                          v-model="verification_input"
+                        >
+                        <div class="input-group-append">
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-white"
+                            :disabled="disabled"
+                            @click="sendCode"
+                          >{{btntxt}}</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -196,42 +129,63 @@
                   <div class="d-flex justify-content-center col">
                     <div class="h4 m-0 text-center">Personal Information</div>
                   </div>
-                  <div class="d-flex justify-content-end">
-                    <b-dropdown id="ddown1" variant="link" no-caret right>
-                      <template slot="button-content">
-                        <em class="fa fa-ellipsis-v fa-lg text-muted"></em>
-                      </template>
-                      <b-dropdown-item>
-                        <a href="javascript:;" v-b-modal.modalDialog1>Change Password</a>
-                      </b-dropdown-item>
-                      <b-dropdown-divider></b-dropdown-divider>
-                      <b-dropdown-item>Delete contact</b-dropdown-item>
-                    </b-dropdown>
-                  </div>
+                  <a href="javascript:;" v-on:click="permitChangePassword">Change Password</a>
                 </div>
 
                 <!-- begin change password modal -->
                 <b-modal
+                  v-model="verification_field"
                   id="modalDialog1"
-                  cancel-title="Update Password"
-                  cancel-variant="info"
-                  ok-title="Cancel"
-                  ok-variant="white"
+                  cancel-title="Cancel"
+                  cancel-variant="white"
+                  @cancel="cancelChange()"
+                  @ok="submitPassword()"
+                  ok-title="Update Password"
+                  ok-variant="info"
                   title="Change Password"
                 >
                   <div class="card-body">
                     <form action="#">
-                      <div class="form-group">
-                        <label>Current password</label>
-                        <input class="form-control" type="password">
+                      <label class="control-label">
+                        Password
+                        <span class="text-danger">*</span>
+                      </label>
+                      <div class="row m-b-15">
+                        <div class="col-md-12">
+                          <input
+                            type="password"
+                            class="form-control"
+                            placeholder="Password"
+                            name="password"
+                            ref="password"
+                            v-validate="{ required: true, regex:/^[_!?,.*#a-zA-Z0-9]{6,20}$/ }"
+                            v-bind:class="{'is-invalid': errors.has('password')}"
+                            v-model="password"
+                          >
+                          <span style="color: red !important;">{{ errors.first('password') }}</span>
+                        </div>
                       </div>
-                      <div class="form-group">
-                        <label>New password</label>
-                        <input class="form-control" type="password">
-                      </div>
-                      <div class="form-group">
-                        <label>Confirm new password</label>
-                        <input class="form-control" type="password">
+                      <label class="control-label">
+                        Password Confirmation
+                        <span class="text-danger">*</span>
+                      </label>
+                      <div class="row m-b-15">
+                        <div class="col-md-12">
+                          <input
+                            v-validate="'required|confirmed:password'"
+                            name="confirm_password"
+                            type="password"
+                            class="form-control"
+                            placeholder="Password, Again"
+                            data-vv-as="password"
+                            v-bind:class="{'is-invalid': errors.has('confirm_password')}"
+                            v-model="confirm_password"
+                          >
+                          <div
+                            v-if="errors.has('confirm_password')"
+                            style="color: red;"
+                          >{{ errors.first('confirm_password') }}</div>
+                        </div>
                       </div>
                       <p>
                         <small
@@ -247,7 +201,8 @@
                     <div class="col-12 col-sm-10">
                       <p
                         class="text-danger"
-                      >* Please click the Edit Profile button to update personal information.</p> <br>
+                      >* Please click the Edit Profile button to update personal information.</p>
+                      <br>
                       <form class="form-horizontal">
                         <div class="form-group row">
                           <label
@@ -259,10 +214,14 @@
                               class="form-control"
                               id="inputContact1"
                               type="text"
-                              placeholder
+                              placeholder="First Name"
+                              name="first name"
+                              v-validate="{ required: true, regex:/^[_a-zA-Z0-9\u4E00-\u9FA5]{2,30}$/ }"
+                              v-bind:class="{'is-invalid': errors.has('first name')}"
                               v-model.lazy="$user.first_name"
                               :disabled="this.update"
                             >
+                            <span style="color: red !important;">{{ errors.first('first name') }}</span>
                           </div>
                         </div>
                         <div class="form-group row">
@@ -297,7 +256,6 @@
                             >
                           </div>
                         </div>
-
                         <div class="form-group row">
                           <label
                             class="text-bold col-xl-2 col-md-3 col-4 col-form-label text-right"
@@ -319,7 +277,7 @@
                             class="text-bold col-xl-2 col-md-3 col-4 col-form-label text-right"
                             for="inputContact8"
                           >Birthday</label>
-                          <div class="col-md-8">
+                          <div class="col-xl-10 col-md-9 col-8">
                             <datepicker
                               placeholder="Select Date"
                               input-class="form-control bg-white"
@@ -402,34 +360,151 @@
 
 <script>
 import PageOptions from "../config/PageOptions.vue";
+import axios from "axios";
 
 export default {
   data() {
     return {
+      // Variables for element control
+      update: true,
+      avatarSRC: require("../components/img/avatar.jpg"),
       tab: {
-        post: false,
         about: true
       },
-      update: true,
-      avatarSRC: require("../components/img/avatar.jpg")
+
+      // Required information 
+      old_username: this.$user.username,
+      password: "",
+      confirm_password: "",
+
+      // Variables for email validation
+      btntxt: "Send Verification Code",
+      showPasswordCard: false,
+      disabled: false,
+      email: "",
+      time: 0,
+      verify: "",
+      verification_code: 1,
+      verification_input: "",
+      verification_field: false
     };
   },
   methods: {
-    show: function(x) {
-      this.tab.post = false;
-      this.tab.about = false;
+    permitChangePassword() {
+      this.showPasswordCard = true;
+    },
+    sendCode() {
+      this.verify = 0;
+      this.verification_input = "";
+      this.verification_field = false;
 
-      switch (x) {
-        case "about":
-          this.tab.about = true;
-          break;
-        default:
-          this.tab.post = true;
-          break;
+      if (this.fields.email.valid) {
+        var params = {
+          username: this.$user.username,
+          email: this.email,
+          verify: this.verify
+        };
+        var obj = JSON.stringify(params);
+
+        axios
+          .post("/customer/info/update_password", obj)
+          .then(res => {
+            if (res.data == 0) {
+              alert("Sorry, sending verification code failed.");
+            } else {
+              this.time = 60;
+              this.disabled = true;
+              this.timer();
+              this.verification_code = res.data;
+              alert(res.data);
+            }
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
       }
+    },
+    timer() {
+      if (this.time > 0) {
+        if (
+          this.verification_input == this.verification_code &&
+          this.verification_input != ""
+        ) {
+          this.verification_field = true;
+        }
+
+        this.time--;
+        this.btntxt = "Resend Code after " + this.time + " Seconds";
+        setTimeout(this.timer, 1000);
+      } else {
+        this.time = 0;
+        this.btntxt = "Send Verification Code";
+        this.disabled = false;
+      }
+    },
+    cancelChange() {
+      this.btntxt = "Send Verification Code";
+      this.showPasswordCard = false;
+      this.disabled = false;
+      this.email = "";
+      this.time = 0;
+      this.verify = "";
+      this.verification_code = 1;
+      this.verification_input = "";
+      this.verification_field = false;
+    },
+    submitPassword(){
+      this.verify = 1;
+
+      if (this.fields.email.valid && this.email == this.$user.email) {
+        var params = {
+          username: this.$user.username,
+          password: this.password,
+          confirm_password: this.confirm_password,
+          verify: this.verify
+        };
+        var obj = JSON.stringify(params);
+
+        axios
+          .post("/customer/info/update_password", obj)
+          .then(res => {
+            if (res.data == 0) {
+              alert("Sorry, sending verification code failed.");
+            } else {
+              this.time = 60;
+              this.disabled = true;
+              this.timer();
+              this.verification_code = res.data;
+              alert(res.data);
+            }
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+      }
+      this.cancelChange();
     },
     startEdit(value) {
       this.update = value;
+      if (value == false) {
+        return;
+      }
+      var newInfo = {
+        old_username: this.old_username,
+        first_name: this.$user.first_name,
+        last_name: this.$user.last_name,
+        username: this.$user.username,
+        email: this.$user.email,
+        phone_num: this.$user.phone_num,
+        passport_num: this.$user.passport_num,
+        birthday: this.$user.birthday.toISOString().substr(0, 10),
+        address: this.$user.address
+      };
+      var obj = JSON.stringify(newInfo);
+      axios.post("/customer/info/", obj).then(res => {
+        var response = JSON.parse(JSON.stringify(res.data));
+      });
+      this.old_username = this.$user.username;
     }
   },
   created() {
@@ -473,5 +548,19 @@ textarea:disabled {
   background-color: #f3faf9a8;
   color: #000000;
   opacity: 1;
+}
+
+.is-invalid {
+  background-color: #facccc7e !important;
+}
+
+.is-valid {
+  background-color: #f2fff0 !important;
+}
+
+.password-title {
+  padding: 20px;
+  font-size: 10px;
+  background-color: #f5f5f3fb;
 }
 </style>

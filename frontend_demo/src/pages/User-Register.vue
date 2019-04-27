@@ -8,7 +8,7 @@
         <h4 class="caption-title">
           <b>Hibernia-Sino</b> Travel Insurance
         </h4>
-        <p>Travel with peace of mind. Compare the below plans and buy online with our best price guarantee. Our checkout process is 100% safe and secure and you’ll receive your policy within minutes via email.</p>
+        <p>Travel with peace of mind. Compare the below plans and buy online with our best price guarantee. Our checkout process is 100% safe and secure and you will receive your policy within minutes via email.</p>
       </div>
     </div>
     <!-- end news-feed -->
@@ -127,7 +127,6 @@
                   type="text"
                   class="form-control"
                   placeholder="Verification Code"
-                  aria-label="Recipient's username"
                   aria-describedby="button-addon2"
                   v-bind:class="{'is-valid': this.verification_field}"
                   v-model="verification_input"
@@ -320,11 +319,11 @@ export default {
 <style scoped>
 .news-feed {
   background-image: url("../assets/img/register.jpg");
-  width: 45% !important;
+  width: 40% !important;
 }
 
 .right-content {
-  width: 55% !important;
+  width: 60% !important;
 }
 
 .text-muted {

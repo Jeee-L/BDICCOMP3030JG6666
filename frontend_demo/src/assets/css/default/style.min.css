@@ -3091,7 +3091,7 @@ legend {
 
 .btn.btn-white, .btn.btn-white.disabled, .btn.btn-white.disabled:focus, .btn.btn-white.disabled:hover, .btn.btn-white[disabled], .btn.btn-white[disabled]:focus, .btn.btn-white[disabled]:hover {
     color: #2d353c;
-    background: rgb(250, 242, 167);
+    background: rgb(252, 249, 227);
     border-color: #f8faf6
 }
 
@@ -3821,7 +3821,7 @@ legend {
 }
 
 .table {
-    border-color: #e2e7eb;
+    border-color: #f7f7f7;
     border-radius: 3px
 }
 
@@ -3832,7 +3832,7 @@ legend {
 }
 
 .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
-    border-color: #e2e7eb;
+    border-color: #f8f8f8;
     padding: 10px 15px
 }
 
@@ -3841,7 +3841,7 @@ legend {
 }
 
 .table-hover>tbody>tr:hover>td, .table-hover>tbody>tr:hover>th {
-    background: #e2e7ec!important
+    background: #ffffff!important
 }
 
 .table-striped>tbody>tr:nth-child(odd)>td, .table-striped>tbody>tr:nth-child(odd)>th {
@@ -9896,7 +9896,7 @@ div+.widget-input.widget-input-rounded {
 }
 
 .login-cover-bg {
-    background: rgba(0, 0, 0, 0.562)
+    background: rgba(0, 0, 0, 0.336)
 }
 
 .login-bg-list {

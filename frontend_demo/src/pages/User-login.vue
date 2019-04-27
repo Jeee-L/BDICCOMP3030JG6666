@@ -46,7 +46,7 @@
         <div class="login-buttons">
           <button v-on:click="login" class="btn btn-success btn-block btn-lg">Sign me in</button>
         </div>
-        <div class="m-t-20">
+        <div class="m-t-20" style="color: black; font-size: 13px">
           Not a member yet? Click
           <a href="javascript:;" v-on:click="toRegister">here</a> to register.
         </div>
@@ -95,6 +95,7 @@ export default {
         var obj = JSON.stringify(this.formData);
         axios.post("http://localhost:5000/login/", obj).then(res => {
           var response = JSON.parse(JSON.stringify(res.data));
+          alert(response.state);
           if (response.state == "-1") {
             this.notification = response.error_msg;
             this.showNotification = true;
@@ -116,20 +117,45 @@ export default {
               "Welcome to the Employee Page, " + this.$employee.username + ".";
             this.showNotification = true;
           } else {
-            this.$user.first_name = response.first_name;
-            this.$user.last_name = response.last_name;
-            this.$user.username = this.formData.username;
-            this.$user.password = this.formData.password;
-            this.$user.phone_num = response.phone_num;
-            this.$user.passport_num = response.passport_num;
-            this.$user.email = response.email;
-            this.$user.birthday = response.birthday;
-            this.$user.address = response.address;
-            this.$user.order_list = response.order_list;
+            this.$user.first_name = response.first_name == null
+              ? ""
+              : response.first_name;
+            this.$user.last_name = response.last_name == null
+              ? ""
+              : response.last_name;
+            this.$user.username = this.formData.username == null
+              ? ""
+              : this.formData.username;
+            this.$user.password = this.formData.password == null
+              ? ""
+              : this.formData.password;
+            this.$user.phone_num = response.phone_num == null
+              ? ""
+              : response.phone_num;
+            this.$user.passport_num = response.passport_num == null
+              ? ""
+              : response.passport_num;
+            this.$user.email = response.email == null
+              ? ""
+              : response.email;
+            this.$user.birthday = response.birthday == null
+              ? new Date()
+              : new Date(response.birthday);
+            alert(this.$user.birthday);
+            this.$user.address = response.address == null
+              ? ""
+              : response.address;
+            this.$user.insurance_list = response.insurance_list == null
+              ? ""
+              : response.insurance_list;
+            this.$user.insurance_order_list = response.insurance_order_list == null
+              ? ""
+              : response.insurance_order_list;
+            this.$user.claim_list = response.claim_list == null
+              ? ""
+              : response.claim_list;
 
-            alert(this.$user.email + this.$user.phone_num);
-
-            setCookie("username", this.username, 1000 * 60);
+            // setCookie("username", this.username, 1000 * 60);
             this.$router.push("/home");
           }
         });
@@ -137,6 +163,29 @@ export default {
     },
     toRegister() {
       this.$router.push("/register");
+    },
+    isEmpty(s) {
+      var v = null;
+      if (typeof s == "object") {
+        if (s == null) {
+          alert("null");
+          return true;
+        }
+        if (typeof s.getValue != "undefined") {
+          alert("undefined");
+          v = s.getValue();
+        } else {
+          alert("else");
+          v = s.value;
+        }
+      } else {
+        v = s;
+      }
+      if (v == null || v == "" || v == "NaN" || v == "undefined") {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 };
@@ -144,6 +193,6 @@ export default {
 
 <style scoped>
 .login-cover-image {
-  background-image: url("../assets/img/china-ireland.jpg");
+  background-image: url("../assets/img/login.jpg");
 }
 </style>
