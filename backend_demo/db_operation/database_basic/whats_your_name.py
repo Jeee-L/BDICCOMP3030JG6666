@@ -1,4 +1,5 @@
 import datetime
+from sqlalchemy.dialects.mysql import LONGTEXT
 from flask_sqlalchemy import SQLAlchemy,event
 from flask import Flask
 from werkzeug.security import generate_password_hash,check_password_hash
@@ -75,7 +76,7 @@ class Select_img(db.Model):
     __tablename__ = 'selectimg'
     id = db.Column(db.Integer, unique = True, primary_key= True, nullable=False, autoincrement=True)
     order_id = db.Column(db.ForeignKey('order.order_id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False)
-    imgUrl = db.Column(db.UnicodeText)
+    imgUrl = db.Column(LONGTEXT)
     name = db.Column(db.Unicode(100))
     price = db.Column(db.Integer)
     remark = db.Column(db.Unicode(300))
@@ -87,8 +88,8 @@ class Order(db.Model):
     username = db.Column(db.ForeignKey('users.username', ondelete='CASCADE',onupdate='CASCADE'))
     insurance_id =db.Column(db.ForeignKey('insurance.id', ondelete='CASCADE',onupdate='CASCADE'))
     flight_number = db.Column(db.Unicode(100), nullable=True)
-    luggage_image_outside = db.Column(db.Text, nullable=True)
-    luggage_image_inside = db.Column(db.Text, nullable=True)
+    luggage_image_outside = db.Column(LONGTEXT, nullable=True)
+    luggage_image_inside = db.Column(LONGTEXT, nullable=True)
     luggage_height = db.Column(db.Integer, nullable=True)
     luggage_width = db.Column(db.Integer, nullable=True)
     sumPrice = db.Column(db.Integer, nullable=True)
