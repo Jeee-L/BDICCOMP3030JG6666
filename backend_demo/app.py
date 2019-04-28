@@ -8,8 +8,6 @@ from re_verification import *
 import user
 import employee
 import administrator
-from flask_mysqldb import MySQL
-from flask_sqlalchemy import SQLAlchemy
 import yaml
 
 from ext import db
@@ -21,8 +19,8 @@ app.secret_key = os.urandom(24)
 app.permanent_session_lifetime = timedelta(days=7)
 app.send_file_max_age_default = timedelta(seconds=10)
 # dbs = yaml.load(open(r'C:\SoftwareProject2\BDICCOMP3030JG6666\backend_demo\db.yaml'),Loader=yaml.FullLoader)
-dbs = yaml.load(open(
-    r'/Users/pro13/Desktop/Study/3Junior/SecondSemester/SEP2/GitRepository/BDICCOMP3030JG6666/backend_demo/db.yaml'))
+# dbs = yaml.load(open(r'/Users/pro13/Desktop/Study/3Junior/SecondSemester/SEP2/GitRepository/BDICCOMP3030JG6666/backend_demo/db.yaml'))
+dbs = yaml.load(open(r'/var/BDICCOMP3030JG6666/backend_demo/db.yaml'))
 app.config['SQLALCHEMY_DATABASE_URI'] = dbs['sqlalchemy_database_uri_local']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db.init_app(app)

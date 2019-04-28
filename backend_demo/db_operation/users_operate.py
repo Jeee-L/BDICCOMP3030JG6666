@@ -1,4 +1,4 @@
-from backend_demo.db_operation.database_basic.whats_your_name import Users,db,Claim
+from db_operation.database_basic.whats_your_name import Users,db,Claim
 
 
 

@@ -1,5 +1,5 @@
 
-from backend_demo.db_operation.database_basic.whats_your_name import db
+from db_operation.database_basic.whats_your_name import db
 
 
 def create_tables():

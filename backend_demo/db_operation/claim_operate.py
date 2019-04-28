@@ -1,5 +1,5 @@
-from backend_demo.db_operation.database_basic.whats_your_name import Claim,db
-from backend_demo.db_operation.order import search_order
+from db_operation.database_basic.whats_your_name import Claim,db
+from db_operation.order import search_order
 
 
 def add_claim(dict):

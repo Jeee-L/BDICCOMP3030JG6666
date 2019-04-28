@@ -1,4 +1,4 @@
-from backend_demo.db_operation.database_basic.whats_your_name import Project,db
+from db_operation.database_basic.whats_your_name import Project,db
 
 
 def insert_project(dict):
