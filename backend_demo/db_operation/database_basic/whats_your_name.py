@@ -266,7 +266,7 @@ class Product(db.Model):
 class Project(db.Model):
     __tablename__ = 'project'
     product_id = db.Column(db.ForeignKey('product.product_id', ondelete='CASCADE',onupdate='CASCADE'),primary_key=True,unique=True )
-    project_id = db.Column(db.Integer,  primary_key = True, unique=True)
+    project_id = db.Column(db.Integer,  primary_key = True)
     coverage = db.Column(db.Integer, nullable=True)
     amount_of_each_shipment_insured = db.Column(db.Integer, nullable = False)
     premium = db.Column(db.Integer, nullable=True)
