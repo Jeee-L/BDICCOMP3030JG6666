@@ -12,8 +12,11 @@ def test_for_insert():
     s = read(r'C:\Users\TED\Documents\GitHub\MySimplePythonCode\BDICCOMP3030JG6666\backend_demo\db_operation\test\user.csv')
     for item in s:
         insert_user(item)
-    insert_product({'product_id':1, 'product_information':''})
-    insert_project({'product_id':1, 'project_id':1, 'coverage':1, 'amount_of_each_shipment_insured':1, 'premium':1})
+    s = read(r'C:\Users\TED\Documents\GitHub\MySimplePythonCode\BDICCOMP3030JG6666\backend_demo\db_operation\test\project.csv')
+    for item in s:
+        insert_product(item)
+        insert_project(item)
+
     s = read(r'C:\Users\TED\Documents\GitHub\MySimplePythonCode\BDICCOMP3030JG6666\backend_demo\db_operation\test\insurance.csv')
     for item in s:
         add_insurance(item)

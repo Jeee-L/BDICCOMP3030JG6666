@@ -37,7 +37,7 @@ class Users(db.Model):
     phone_num = db.Column(db.Unicode(13), nullable=True, unique = False)
     passport_num = db.Column(db.Unicode(13), nullable=True, unique=True)
     email = db.Column(db.Unicode(32), nullable=True, unique=True)
-    profile = db.Column(db.LargeBinary(length=204800))
+    profile = db.Column(LONGTEXT)
     birthday = db.Column(db.DateTime, nullable=True)
     address = db.Column(db.Unicode(32), nullable=True)
     insurance_id = db.relationship('Insurance', backref='users',
@@ -51,8 +51,8 @@ class Users(db.Model):
 
     @password.setter
     def password(self, password):
-        self.password_hash = generate_password_hash(password)
-        # self.password_hash = password
+        # self.password_hash = generate_password_hash(password)
+        self.password_hash = password
 
     def check_password_hash(self, password):
         return check_password_hash(self.password_hash, password)
@@ -127,8 +127,7 @@ class Insurance(db.Model):
     __tablename__ = 'insurance'
     id = db.Column(db.Integer, nullable=True, unique=True, primary_key=True, autoincrement=True)
     username = db.Column(db.ForeignKey('users.username', ondelete='CASCADE',onupdate='CASCADE'))
-    project_id = db.Column(db.ForeignKey('project.project_id', ondelete='CASCADE', onupdate='CASCADE'))
-    product_id = db.Column(db.ForeignKey('product.product_id', ondelete='CASCADE', onupdate='CASCADE'))
+    pro_id = db.Column(db.ForeignKey('project.id', ondelete='CASCADE', onupdate='CASCADE'))
     amount_of_money = db.Column(db.Integer, nullable=True)
     state = db.Column(db.Integer, nullable=True)
     remark = db.Column(db.Unicode(32))
@@ -264,11 +263,15 @@ class Product(db.Model):
 
 class Project(db.Model):
     __tablename__ = 'project'
-    product_id = db.Column(db.ForeignKey('product.product_id', ondelete='CASCADE',onupdate='CASCADE'),primary_key=True,unique=True )
-    project_id = db.Column(db.Integer,  primary_key = True)
+    id = db.Column(db.Integer, nullable=False, unique=True, autoincrement=True,primary_key=True)
+    product_id = db.Column(db.ForeignKey('product.product_id', ondelete='CASCADE',onupdate='CASCADE') )
+    project_id = db.Column(db.Integer)
     coverage = db.Column(db.Integer, nullable=True)
     amount_of_each_shipment_insured = db.Column(db.Integer, nullable = False)
     premium = db.Column(db.Integer, nullable=True)
+    __table_args__ = (
+        db.UniqueConstraint('product_id', 'project_id'),
+    )
     def __repr__(self):
         return '''
         ***************
