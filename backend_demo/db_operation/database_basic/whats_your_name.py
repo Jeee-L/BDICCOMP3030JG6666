@@ -7,7 +7,6 @@ import yaml
 
 
 app =  Flask(__name__)
-# dbs = yaml.load(open('/var/Project/www/db.yaml'), Loader=yaml.FullLoader)
 dbs = yaml.load(open(r'C:\Users\TED\Documents\GitHub\MySimplePythonCode\BDICCOMP3030JG6666\backend_demo\db_operation\test\db.yaml'), Loader=yaml.FullLoader)
 # dbs = yaml.load(open(r'C:\SoftwareProject2\BDICCOMP3030JG6666\backend_demo\db.yaml'),Loader=yaml.FullLoader)
 app.config['SQLALCHEMY_DATABASE_URI'] = dbs['sqlalchemy_database_uri_local']
@@ -18,7 +17,7 @@ db = SQLAlchemy(app)
 '''
 
 
-# from backend_demo.ext import db
+# from ext import db
 '''
 启动服务前，注释取消
 '''
@@ -38,7 +37,7 @@ class Users(db.Model):
     phone_num = db.Column(db.Unicode(13), nullable=True, unique = False)
     passport_num = db.Column(db.Unicode(13), nullable=True, unique=True)
     email = db.Column(db.Unicode(32), nullable=True, unique=True)
-    profile = db.Column(db.LargeBinary(length=204800))
+    profile = db.Column(LONGTEXT)
     birthday = db.Column(db.DateTime, nullable=True)
     address = db.Column(db.Unicode(32), nullable=True)
     insurance_id = db.relationship('Insurance', backref='users',
@@ -52,8 +51,8 @@ class Users(db.Model):
 
     @password.setter
     def password(self, password):
-        self.password_hash = generate_password_hash(password)
-        # self.password_hash = password
+        # self.password_hash = generate_password_hash(password)
+        self.password_hash = password
 
     def check_password_hash(self, password):
         return check_password_hash(self.password_hash, password)
@@ -86,16 +85,15 @@ class Order(db.Model):
     order_id = db.Column(db.Integer, primary_key = True, autoincrement = True, unique = True)
     state = db.Column(db.Integer)
     username = db.Column(db.ForeignKey('users.username', ondelete='CASCADE',onupdate='CASCADE'))
-    insurance_id =db.Column(db.ForeignKey('insurance.id', ondelete='CASCADE',onupdate='CASCADE'))
+    insurance_id = db.Column(db.ForeignKey('insurance.id', ondelete='CASCADE',onupdate='CASCADE'))
     flight_number = db.Column(db.Unicode(100), nullable=True)
     luggage_image_outside = db.Column(LONGTEXT, nullable=True)
     luggage_image_inside = db.Column(LONGTEXT, nullable=True)
     luggage_height = db.Column(db.Integer, nullable=True)
     luggage_width = db.Column(db.Integer, nullable=True)
-    sumPrice = db.Column(db.Integer, nullable=True)
+    sumPrice = db.Column(db.Integer, nullable=True,default=0)
     date = db.Column(db.DateTime, nullable=True, default=datetime.datetime.now())
-    claim_id = db.relationship('Claim', backref='order',
-                               lazy='dynamic')
+    claim_id = db.relationship('Claim', backref='order',lazy='dynamic')
     remark = db.Column(db.Unicode(300))
     def __repr__(self):
         return '''
@@ -128,18 +126,18 @@ class Insurance(db.Model):
     __tablename__ = 'insurance'
     id = db.Column(db.Integer, nullable=True, unique=True, primary_key=True, autoincrement=True)
     username = db.Column(db.ForeignKey('users.username', ondelete='CASCADE',onupdate='CASCADE'))
-    project_id = db.Column(db.ForeignKey('project.project_id', ondelete='CASCADE', onupdate='CASCADE'))
-    product_id = db.Column(db.ForeignKey('product.product_id', ondelete='CASCADE', onupdate='CASCADE'))
+    pro_id = db.Column(db.ForeignKey('project.id', ondelete='CASCADE', onupdate='CASCADE'))
     amount_of_money = db.Column(db.Integer, nullable=True)
     state = db.Column(db.Integer, nullable=True)
     remark = db.Column(db.Unicode(32))
     compensated_amount = db.Column(db.Integer, nullable = True)
     date = db.Column(db.DateTime, default=datetime.datetime.now())
+    duration = db.Column(db.Integer, nullable=True)
 
     first_name = db.Column(db.Unicode(32), nullable=True)
     last_name = db.Column(db.Unicode(32), nullable=True)
     phone_num = db.Column(db.Unicode(13), nullable=True, unique=False)
-    passport_num = db.Column(db.Unicode(13), nullable=True, unique=True)
+    passport_num = db.Column(db.Unicode(13), nullable=True)
     email = db.Column(db.Unicode(32), nullable=True, unique=True)
     birthday = db.Column(db.DateTime, nullable=True)
     address = db.Column(db.Unicode(32), nullable=True)
@@ -149,8 +147,7 @@ class Insurance(db.Model):
         ***************
         id = {}
         username = {}
-        project_id = {}
-        product_id = {}
+        pro_id = {}
         amount_of_money = {}
         state = {}
         remark = {}
@@ -164,7 +161,7 @@ class Insurance(db.Model):
         birthday = {}
         address = {}
         ***************
-        '''.format(self.id, self.username,self.project_id,self. product_id,self.amount_of_money, self.state,self.remark,self.compensated_amount, self.date, self.first_name,self.last_name,self.phone_num, self.passport_num, self.email, self.birthday, self.address)
+        '''.format(self.id, self.username,self.pro_id,self.amount_of_money, self.state,self.remark,self.compensated_amount, self.date, self.first_name,self.last_name,self.phone_num, self.passport_num, self.email, self.birthday, self.address)
 
 
 
@@ -196,12 +193,9 @@ class Claim(db.Model):
 
 
 
-
-
-
 class Employee(db.Model):
     __tablename__='Employee'
-    id = db.Column(db.Integer, nullable=True, primary_key=True, index=True)
+    id = db.Column(db.Unicode(32), nullable=True, primary_key=True, index=True)
     password_hash = db.Column(db.Unicode(32), nullable=True, unique=True)
 
     @property
@@ -252,7 +246,7 @@ class Administrator(db.Model):
 class Product(db.Model):
     __tablename__ = 'product'
     product_id = db.Column(db.Integer, nullable=False, primary_key=True, unique=True)
-    product_information = db.Column(db.Unicode(300))
+    product_information = db.Column(db.Integer)
     def __repr__(self):
         return '''
         ***************
@@ -265,11 +259,15 @@ class Product(db.Model):
 
 class Project(db.Model):
     __tablename__ = 'project'
-    product_id = db.Column(db.ForeignKey('product.product_id', ondelete='CASCADE',onupdate='CASCADE'),primary_key=True,unique=True )
-    project_id = db.Column(db.Integer,  primary_key = True)
+    id = db.Column(db.Integer, nullable=False, unique=True, autoincrement=True,primary_key=True)
+    product_id = db.Column(db.ForeignKey('product.product_id', ondelete='CASCADE',onupdate='CASCADE') )
+    project_id = db.Column(db.Integer)
     coverage = db.Column(db.Integer, nullable=True)
     amount_of_each_shipment_insured = db.Column(db.Integer, nullable = False)
     premium = db.Column(db.Integer, nullable=True)
+    __table_args__ = (
+        db.UniqueConstraint('product_id', 'project_id'),
+    )
     def __repr__(self):
         return '''
         ***************

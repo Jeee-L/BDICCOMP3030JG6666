@@ -1,5 +1,6 @@
-from backend_demo.db_operation.users_operate import search_username
-from backend_demo.db_operation.database_basic.whats_your_name import Insurance,db
+from db_operation.users_operate import search_username
+from db_operation.database_basic.whats_your_name import Insurance,db
+from db_operation.project_operate import search_project
 import datetime
 
 
@@ -18,11 +19,17 @@ def add_insurance(dict):
     :return: id
     '''
     assert (search_username(dict['username']) is not None), "No such User"
-    f = Insurance(remark=dict['remark'], username=dict['username'], product_id=dict['product_id'], project_id=dict['project_id'], amount_of_money=dict['amount_of_money'],  state=dict['state'], date=datetime.datetime.now(), compensated_amount=dict['compensated_amount'],
-                  first_name = dict['first_name'],last_name = dict['last_name'],phone_num = dict['phone_num'],passport_num = dict['passport_num'], email = dict['email'],birthday = dict['birthday'], address = dict['address'])
+    pro_id = search_project(dict['product_id'],dict['project_id'])
+    f = Insurance(remark=dict['remark'], username=dict['username'], pro_id=pro_id,   state=dict['state'], date=datetime.datetime.now(), compensated_amount=dict['compensated_amount'],
+                  duration=dict['duration'], first_name = dict['first_name'],last_name = dict['last_name'],phone_num = dict['phone_num'],passport_num = dict['passport_num'], email = dict['email'], address = dict['address'])
     db.session.add(f)
     db.session.commit()
     return f.id
+
+def change_compensated_amount(ins, new_value):
+    ins.compensated_amount = new_value
+    db.session.commit()
+    return 'Change successfully'
 
 def change_state(id, state):
     '''
@@ -35,6 +42,7 @@ def change_state(id, state):
 
     assert ins is not None,'No such Insurance'
     ins.state = state
+    db.session.commit()
     return 'Change successfully'
 
 def all():

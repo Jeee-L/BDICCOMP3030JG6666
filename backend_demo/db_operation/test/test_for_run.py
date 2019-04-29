@@ -1,10 +1,10 @@
-from backend_demo.db_operation.users_operate import *
-from backend_demo.db_operation.insurance_operate import *
-from backend_demo.db_operation.product_operate import insert_product
-from backend_demo.db_operation.project_operate import *
-from backend_demo.db_operation.order import *
-from backend_demo.db_operation.test.read import read
-from backend_demo.db_operation.database_basic.database_operate import recreate_table
+from db_operation.users_operate import *
+from db_operation.insurance_operate import *
+from db_operation.product_operate import insert_product
+from db_operation.project_operate import *
+from db_operation.order import *
+from db_operation.test.read import read
+from db_operation.database_basic.database_operate import recreate_table
 
 
 def test_for_insert():
@@ -12,8 +12,11 @@ def test_for_insert():
     s = read(r'C:\Users\TED\Documents\GitHub\MySimplePythonCode\BDICCOMP3030JG6666\backend_demo\db_operation\test\user.csv')
     for item in s:
         insert_user(item)
-    insert_product({'product_id':1, 'product_information':''})
-    insert_project({'product_id':1, 'project_id':1, 'coverage':1, 'amount_of_each_shipment_insured':1, 'premium':1})
+    s = read(r'C:\Users\TED\Documents\GitHub\MySimplePythonCode\BDICCOMP3030JG6666\backend_demo\db_operation\test\project.csv')
+    for item in s:
+        insert_product(item)
+        insert_project(item)
+
     s = read(r'C:\Users\TED\Documents\GitHub\MySimplePythonCode\BDICCOMP3030JG6666\backend_demo\db_operation\test\insurance.csv')
     for item in s:
         add_insurance(item)
@@ -31,8 +34,8 @@ def test_for_delete():
     print('delete successfully')
 
 def test_for_search():
-    with open('out_search.txt','w') as f:
-        f.write('{}\n'.format(search_order()))
+    # with open('out_search.txt','w') as f:
+    #     f.write('{}\n'.format(search_order()))
     print('search successfully')
 
 def test_for_user_all_function():
