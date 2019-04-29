@@ -158,6 +158,12 @@ def list_all_claim_page():
         return employee.list_all_claim()
 
 # 所有的保险订单
+@app.route('/list_all_insurance_order',methods=['GET','POST'])
+def list_all_insurance_order():
+    if request.method == 'POST':
+        return employee.list_all_insurance_order()
+
+# 所有的保险订单
 @app.route('/list_insurance_order_info/', methods=['GET', 'POST'])
 def list_insurance_order_info_page():
     if request.method == 'POST':
