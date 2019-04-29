@@ -1,4 +1,4 @@
-username,project_id,product_id,amount_of_money,state,remark
+username,project_id,product_id,compensated_amount,state,remark
 AngelaChristopher,1,1,1,1,hi
 IvyBennett,1,1,1,1,I'm fine
 StewardJoshua,1,1,1,1,thank you
