@@ -26,6 +26,11 @@ def add_insurance(dict):
     db.session.commit()
     return f.id
 
+def change_compensated_amount(ins, new_value):
+    ins.compensated_amount = new_value
+    db.session.commit()
+    return 'Change successfully'
+
 def change_state(id, state):
     '''
 
@@ -37,6 +42,7 @@ def change_state(id, state):
 
     assert ins is not None,'No such Insurance'
     ins.state = state
+    db.session.commit()
     return 'Change successfully'
 
 def all():
