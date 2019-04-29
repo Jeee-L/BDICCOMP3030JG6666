@@ -91,7 +91,7 @@ class Order(db.Model):
     luggage_image_inside = db.Column(LONGTEXT, nullable=True)
     luggage_height = db.Column(db.Integer, nullable=True)
     luggage_width = db.Column(db.Integer, nullable=True)
-    sumPrice = db.Column(db.Integer, nullable=True)
+    sumPrice = db.Column(db.Integer, nullable=True,default=0)
     date = db.Column(db.DateTime, nullable=True, default=datetime.datetime.now())
     claim_id = db.relationship('Claim', backref='order',
                                lazy='dynamic')
@@ -137,7 +137,7 @@ class Insurance(db.Model):
     first_name = db.Column(db.Unicode(32), nullable=True)
     last_name = db.Column(db.Unicode(32), nullable=True)
     phone_num = db.Column(db.Unicode(13), nullable=True, unique=False)
-    passport_num = db.Column(db.Unicode(13), nullable=True, unique=True)
+    passport_num = db.Column(db.Unicode(13), nullable=True)
     email = db.Column(db.Unicode(32), nullable=True, unique=True)
     birthday = db.Column(db.DateTime, nullable=True)
     address = db.Column(db.Unicode(32), nullable=True)
@@ -147,8 +147,7 @@ class Insurance(db.Model):
         ***************
         id = {}
         username = {}
-        project_id = {}
-        product_id = {}
+        pro_id = {}
         amount_of_money = {}
         state = {}
         remark = {}
@@ -162,7 +161,7 @@ class Insurance(db.Model):
         birthday = {}
         address = {}
         ***************
-        '''.format(self.id, self.username,self.project_id,self. product_id,self.amount_of_money, self.state,self.remark,self.compensated_amount, self.date, self.first_name,self.last_name,self.phone_num, self.passport_num, self.email, self.birthday, self.address)
+        '''.format(self.id, self.username,self.pro_id,self.amount_of_money, self.state,self.remark,self.compensated_amount, self.date, self.first_name,self.last_name,self.phone_num, self.passport_num, self.email, self.birthday, self.address)
 
 
 

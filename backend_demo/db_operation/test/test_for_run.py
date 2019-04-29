@@ -34,8 +34,8 @@ def test_for_delete():
     print('delete successfully')
 
 def test_for_search():
-    with open('out_search.txt','w') as f:
-        f.write('{}\n'.format(search_order()))
+    # with open('out_search.txt','w') as f:
+    #     f.write('{}\n'.format(search_order()))
     print('search successfully')
 
 def test_for_user_all_function():

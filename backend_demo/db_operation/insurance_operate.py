@@ -20,8 +20,8 @@ def add_insurance(dict):
     '''
     assert (search_username(dict['username']) is not None), "No such User"
     pro_id = search_project(dict['product_id'],dict['project_id'])
-    f = Insurance(remark=dict['remark'], username=dict['username'], pro_id=pro_id,   state=dict['state'], date=datetime.datetime.now(), compensated_amount=dict['compensated_amount'])
-                  # first_name = dict['first_name'],last_name = dict['last_name'],phone_num = dict['phone_num'],passport_num = dict['passport_num'], email = dict['email'],birthday = dict['birthday'], address = dict['address'])
+    f = Insurance(remark=dict['remark'], username=dict['username'], pro_id=pro_id,   state=dict['state'], date=datetime.datetime.now(), compensated_amount=dict['compensated_amount'],
+                  first_name = dict['first_name'],last_name = dict['last_name'],phone_num = dict['phone_num'],passport_num = dict['passport_num'], email = dict['email'], address = dict['address'])
     db.session.add(f)
     db.session.commit()
     return f.id

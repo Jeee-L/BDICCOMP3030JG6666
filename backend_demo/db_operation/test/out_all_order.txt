@@ -6,7 +6,8 @@
         flight_number = 1
         luggage_height = 100
         luggage_width = 100
-        date = 2019-04-24 09:09:22
+        sumPrice = 0
+        date = 2019-04-29 10:34:31
         claim_id = []
         remark = HI
         
