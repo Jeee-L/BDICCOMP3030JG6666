@@ -193,12 +193,9 @@ class Claim(db.Model):
 
 
 
-
-
-
 class Employee(db.Model):
     __tablename__='Employee'
-    id = db.Column(db.Integer, nullable=True, primary_key=True, index=True)
+    id = db.Column(db.Unicode(32), nullable=True, primary_key=True, index=True)
     password_hash = db.Column(db.Unicode(32), nullable=True, unique=True)
 
     @property
