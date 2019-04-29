@@ -94,9 +94,6 @@
         <li class="dropdown navbar-user">
           <b-dropdown variant="link" menu-class="dropdown-menu-right">
             <template slot="button-content">
-              <div class="image image-icon bg-black text-grey-darker">
-                <i class="fa fa-user"></i>
-              </div>
               <span class="d-none d-md-inline">{{$user.username}}</span>
               <b class="caret"></b>
             </template>

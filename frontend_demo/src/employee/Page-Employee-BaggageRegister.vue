@@ -1,266 +1,128 @@
 <template>
   <div class="card card-default">
     <div class="card-header">
-      <h3>Record for Insurance Orders</h3>
+      <h3>Registered Baggage Record Table</h3>
     </div>
-    <div class="card-body">
+    <div class="card-body" style="font-size: 15px">
+      <div>
+        Please click button "Update Table" once you want to check new data.
+        <br>Once new baggage is registerd, the system will notfify employees at the top-right corner.
+        <br>Requests for data update will be initiated every ten seconds.
+      </div>
+      <div class="btn-update">
+        <b-btn
+          variant="outline-warn"
+          class="mb-1 mr-1 right-button"
+          @click="updateData()"
+        >Update Table</b-btn>
+      </div>
+    </div>
+
+    <div class="card card-body table-part">
       <v-client-table :data="tableData" :columns="columns" :options="options">
-        <template slot="action" slot-scope="props">
+        <template slot="Remark" slot-scope="props">
           <div>
             <b-btn
-              variant="outline-info mr-2"
+              variant="outline-dark"
               class="btn-xs"
-              @click.prevent="edit(props.row)"
-            >check order info</b-btn>
-            <b-btn
-              variant="outline-danger"
-              class="btn-xs"
-              @click.prevent="remove(props.row)"
-            >process</b-btn>
+              v-on:click="showModalData(props.row, 'Remark')"
+            >Check</b-btn>
           </div>
         </template>
-        <template slot="child_row" slot-scope="props">
+        <template slot="Order_Details" slot-scope="props">
           <div>
-            <strong>Platform:</strong>
-            {{props.row.platform}}
-          </div>
-          <div>
-            <strong>Grade:</strong>
-            {{props.row.grade}}
+            <b-btn
+              variant="outline-dark"
+              class="btn-xs"
+              v-on:click="showModalData(props.row, 'baggage')"
+            >Check</b-btn>
           </div>
         </template>
       </v-client-table>
-      <div class="text-right">
-        <b-btn @click="clear()" class="mr-2">Clear Table</b-btn>
-        <b-btn @click="reload()">Reload Table</b-btn>
-      </div>
     </div>
+
+    <b-modal id="modals-default" :title="modalTitle" cancel-only v-model="modalShow">
+      <p>{{modalContent}}</p>
+    </b-modal>
+
+    <b-modal id="modals-default" :title="modalTitle" cancel-only v-model="modalShowBaggage">
+      <div class="col-9">
+        <p class="info-field">
+          <b>Username:</b>
+          {{baggageItem.username}}
+        </p>
+        <p class="info-field">
+          <b>Flight Number:</b>
+          {{baggageItem.flight_number}}
+        </p>
+        <p class="info-field">
+          <b>Baggage Height:</b>
+          {{baggageItem.luggage_height}}
+        </p>
+        <p>
+          <b class="info-field">Baggage Width:</b>
+          {{baggageItem.luggage_width}}
+        </p>
+        <p>
+          <b class="info-field">Sum Price:</b>
+          {{baggageItem.sumPrice}}
+        </p>
+        <p>
+          <b class="info-field">Remark:</b>
+          {{baggageItem.remark}}
+        </p>
+        <!-- START table-responsive-->
+        <div class="table-responsive">
+          <table class="table table-striped table-bordered table-hover card card-body">
+            <thead>
+              <tr>
+                <th>Belonging Picture</th>
+                <th>Name</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="items in baggageItem.select_img_return_list" :key="items.id">
+                <td>
+                  <div class="media align-items-center">
+                    <img
+                      class="img-fluid rounded thumb64"
+                      :src="items.imgUrl"
+                      width="40"
+                      height="auto"
+                      alt
+                    >
+                  </div>
+                </td>
+                <td>
+                  <p>{{items.name}}</p>
+                </td>
+                <td>
+                  <p>{{items.price}}</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- END table-responsive-->
+      </div>
+    </b-modal>
+
+    <!-- bottom right animation example -->
+    <notifications group="bottom-right" position="top right" :speed="500" :duration="2000"/>
   </div>
 </template>
 <script>
-import PageOptions from '../config/PageOptions.vue'
+import PageOptions from "../config/PageOptions.vue";
 import Vue from "vue";
+import axios from "axios";
 import { ClientTable } from "vue-tables-2";
+import { all } from "q";
+import { setTimeout } from "timers";
 
 Vue.use(ClientTable);
 
-const tableData = [
-  {
-    Username: "Trident",
-    Insurance_Code: "7DEFNA458",
-    Purchase_Date: "2019-04-14",
-    Product_ID: "2",
-    Project_ID: "1",
-    browser: "Internet Explorer 4.0",
-    platform: "Win 95+",
-    version: "4",
-    grade: "X"
-  },
-  {
-    Username: "Trident",
-    Insurance_Code: "67GHBIWQ",
-    Purchase_Date: "2019-04-14",
-    Product_ID: "3",
-    Project_ID: "2",
-    browser: "Internet Explorer 5.0",
-    platform: "Win 95+",
-    version: "5",
-    grade: "C"
-  },
-  {
-    Username: "Trident",
-    Insurance_Code: "98UITGHIU",
-    Purchase_Date: "2019-04-13",
-    Product_ID: "2",
-    Project_ID: "1",
-    browser: "Internet Explorer 5.5",
-    platform: "Win 95+",
-    version: "5.5",
-    grade: "A"
-  },
-  {
-    Username: "Trident",
-    Insurance_Code: "OU789UIDC",
-    Purchase_Date: "2019-04-13",
-    Product_ID: "1",
-    Project_ID: "1",
-    browser: "Internet Explorer 6",
-    platform: "Win 98+",
-    version: "6",
-    grade: "A"
-  },
-  {
-    Username: "Trident",
-    Insurance_Code: "IUHJDF5RGH",
-    Purchase_Date: "2019-04-13",
-    Product_ID: "1",
-    Project_ID: "2",
-    browser: "Internet Explorer 7",
-    platform: "Win XP SP2+",
-    version: "7",
-    grade: "A"
-  },
-  {
-    Username: "Trident",
-    Insurance_Code: "8877HJSDIY",
-    Purchase_Date: "2019-04-12",
-    Product_ID: "1",
-    Project_ID: "1",
-    browser: "AOL browser (AOL desktop)",
-    platform: "Win XP",
-    version: "6",
-    grade: "A"
-  },
-  {
-    Username: "Gecko",
-    Insurance_Code: "IUYHJ678DE",
-    Purchase_Date: "2019-04-11",
-    Product_ID: "4",
-    Project_ID: "1",
-    browser: "Firefox 1.0",
-    platform: "Win 98+ / OSX.2+",
-    version: "1.7",
-    grade: "A"
-  },
-  {
-    Username: "Gecko",
-    Insurance_Code: "PJKLDFG34D",
-    Purchase_Date: "2019-04-10",
-    Product_ID: "4",
-    Project_ID: "3",
-    browser: "Firefox 1.5",
-    platform: "Win 98+ / OSX.2+",
-    version: "1.8",
-    grade: "A"
-  },
-  {
-    Username: "Gecko",
-    Insurance_Code: "IUJ980OJKL",
-    Purchase_Date: "2019-04-08",
-    Product_ID: "1",
-    Project_ID: "1",
-    browser: "Firefox 2.0",
-    platform: "Win 98+ / OSX.2+",
-    version: "1.8",
-    grade: "A"
-  },
-  {
-    Username: "Gecko",
-    Insurance_Code: "OIUYHJD45",
-    Purchase_Date: "2019-04-08",
-    Product_ID: "2",
-    Project_ID: "1",
-    browser: "Firefox 3.0",
-    platform: "Win 2k+ / OSX.3+",
-    version: "1.9",
-    grade: "A"
-  },
-  {
-    Username: "Gecko",
-    browser: "Camino 1.0",
-    platform: "OSX.2+",
-    version: "1.8",
-    grade: "A"
-  },
-  {
-    Username: "Gecko",
-    browser: "Camino 1.5",
-    platform: "OSX.3+",
-    version: "1.8",
-    grade: "A"
-  },
-  {
-    Username: "Trident",
-    browser: "Internet Explorer 4.0",
-    platform: "Win 95+",
-    version: "4",
-    grade: "X"
-  },
-  {
-    Username: "Trident",
-    browser: "Internet Explorer 5.0",
-    platform: "Win 95+",
-    version: "5",
-    grade: "C"
-  },
-  {
-    Username: "Trident",
-    browser: "Internet Explorer 5.5",
-    platform: "Win 95+",
-    version: "5.5",
-    grade: "A"
-  },
-  {
-    Username: "Trident",
-    browser: "Internet Explorer 6",
-    platform: "Win 98+",
-    version: "6",
-    grade: "A"
-  },
-  {
-    Username: "Trident",
-    browser: "Internet Explorer 7",
-    platform: "Win XP SP2+",
-    version: "7",
-    grade: "A"
-  },
-  {
-    Username: "Trident",
-    browser: "AOL browser (AOL desktop)",
-    platform: "Win XP",
-    version: "6",
-    grade: "A"
-  },
-  {
-    Username: "Gecko",
-    browser: "Firefox 1.0",
-    platform: "Win 98+ / OSX.2+",
-    version: "1.7",
-    grade: "A"
-  },
-  {
-    Username: "Gecko",
-    browser: "Firefox 1.5",
-    platform: "Win 98+ / OSX.2+",
-    version: "1.8",
-    grade: "A"
-  },
-  {
-    Username: "Gecko",
-    browser: "Firefox 2.0",
-    platform: "Win 98+ / OSX.2+",
-    version: "1.8",
-    grade: "A"
-  },
-  {
-    Username: "Gecko",
-    browser: "Firefox 3.0",
-    platform: "Win 2k+ / OSX.3+",
-    version: "1.9",
-    grade: "A"
-  },
-  {
-    Username: "Gecko",
-    browser: "Camino 1.0",
-    platform: "OSX.2+",
-    version: "1.8",
-    grade: "A"
-  },
-  {
-    Username: "Gecko",
-    browser: "Camino 1.5",
-    platform: "OSX.3+",
-    version: "1.8",
-    grade: "A"
-  },
-  {
-    Username: "Trident",
-    browser: "AOL browser (AOL desktop)",
-    platform: "Win XP",
-    version: "6",
-    grade: "A"
-  }
-];
+var rawData = [];
 
 export default {
   components: {
@@ -268,14 +130,17 @@ export default {
   },
   data() {
     return {
+      employee_id: "",
       tableData: [],
       columns: [
-        "Insurance_Code",
+        "Index",
+        "Baggage_Order_ID",
+        "Insurance_ID",
         "Username",
-        "Purchase_Date",
-        "Product_ID",
-        "Project_ID",
-        "action"
+        "Order_Details",
+        "Claim_ID",
+        "Registerd_Date",
+        "Remark"
       ],
       options: {
         pagination: { chunk: 5 },
@@ -285,37 +150,147 @@ export default {
           up: "fa-sort-up",
           down: "fa-sort-down"
         }
+      },
+      // remark and Order_Details for lost
+      modalShow: false,
+      modalTitle: "",
+      modalContent: "",
+
+      // registerd baggage details
+      modalShowBaggage: false,
+
+      // variables used for displaying baggage info
+      baggageItem: {
+        flight_number: "",
+        usernmae: "",
+        luggage_height: "",
+        luggage_width: "",
+        remark: "",
+        sumPrice: "",
+        select_img_return_list: ""
       }
     };
   },
   created() {
     PageOptions.pageWithTopMenu = true;
     PageOptions.pageWithoutSidebar = true;
-    
-    // Add IDs for child rows functionality
-    this.tableData = tableData.map((item, index) => {
-      item["id"] = index;
-      return item;
-    });
+
+    this.updateData();
+    this.retryData();
   },
-  beforeRouteLeave (to, from, next) {
-		PageOptions.pageWithTopMenu = false;
-		PageOptions.pageWithoutSidebar = false;
-		next();
-	},
+  beforeRouteLeave(to, from, next) {
+    PageOptions.pageWithTopMenu = false;
+    PageOptions.pageWithoutSidebar = false;
+    next();
+  },
   methods: {
-    edit(row) {
-      alert(`Editing row id: ${row.id}`);
+    showModalData(row, tag) {
+      if (tag == "Remark") {
+        this.modalContent = row.Remark;
+        this.modalTitle = "Remark: " + row.Claim_ID;
+        this.modalShow = true;
+      } else {
+        this.checkBaggageDetail(row.insurance_order_id);
+        this.modalTitle = "Registered Baggage Details: " + row.Claim_ID;
+        this.modalShowBaggage = true;
+      }
     },
-    remove(row) {
-      this.tableData = this.tableData.filter(item => row.id !== item.id);
+    checkBaggageDetail(insurance_order_id) {
+      var obj = JSON.stringify(insurance_order_id);
+      axios
+        .post("/list_insurance_order_info/", obj)
+        .then(res => {
+          var response = JSON.parse(JSON.stringify(res.data));
+          if (response != null) {
+            this.baggageItem.username = response.username;
+            this.baggageItem.flight_number = response.flight_number;
+            this.baggageItem.luggage_height = response.luggage_height;
+            this.baggageItem.remark = response.remark;
+            this.baggageItem.sumPrice = response.sumPrice;
+            this.baggageItem.select_img_return_list =
+              response.select_img_return_list;
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     },
-    reload() {
-      this.tableData = tableData;
+    updateData() {
+      rawData = [];
+      axios
+        .post("/list_all_insurance_order")
+        .then(res => {
+          if (res.data != null) {
+            var response = JSON.parse(JSON.stringify(res.data));
+            for (var i = 0; i < response.length; i++) {
+              rawData[rawData.length] = {
+                Baggage_Order_ID: response[i].id,
+                Insurance_ID: response[i].insurance_id,
+                Username: response[i].username,
+                Order_Details: response[i].flight_number,
+                Claim_ID:
+                  response[i].claim_id == null ? "0" : response[i].claim_id,
+                Registerd_Date: response[i].date,
+                Remark: response[i].remark
+              };
+            }
+          }
+          if (rawData != null) {
+            this.tableData = rawData.map((item, index) => {
+              item["Index"] = index;
+              return item;
+            });
+          }
+        })
+        .catch(err => console.log(err));
     },
-    clear() {
-      this.tableData = [];
+    show(group, type = "") {
+      const text = "New claim order awarting for process!";
+      this.$notify({
+        group,
+        text,
+        type,
+        data: {
+          randomNumber: Math.random()
+        }
+      });
+    },
+    retryData() {
+      var timer;
+      axios
+        .post("/list_all_insurance_order")
+        .then(res => {
+          if (res.data != null) {
+            var response = JSON.parse(JSON.stringify(res.data));
+            this.show("bottom-right", "warn");
+            if (response.length != rawData.length) {
+              this.show("bottom-right", "warn");
+            }
+            timer = setInterval(() => {
+              clearInterval(timer);
+              this.retryData();
+            }, 10000);
+          } else {
+            console.log("Periodlically update failed.");
+            return;
+          }
+        })
+        .catch(err => console.log(err));
     }
   }
 };
 </script>
+
+<style scoped>
+.table-part {
+  background-color: rgba(255, 246, 127, 0.096) !important;
+}
+
+.btn-update {
+  margin-top: 20px;
+}
+
+.btn-decision {
+  margin-right: 5px;
+}
+</style>

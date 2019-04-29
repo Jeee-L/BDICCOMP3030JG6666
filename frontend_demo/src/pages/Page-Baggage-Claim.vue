@@ -8,10 +8,15 @@
       <br>
       <br>
     </p>
-    <div class="card card-body row order-whole" v-for="item in order_list" :key="item.id">
+    <div
+      class="card card-body row order-whole"
+      v-for="item in order_list"
+      :key="item.insurance_order_id"
+    >
       <div class="order-card">
-        <div class="card-header" v-if="item.id != null">{{item.id}}</div>
-        <div class="card-header text-success" v-else>Waiting to be Processed</div>
+        <div class="card-header" v-if="(item.claim_id == null) && (item.insurance_order_id != null)">{{item.insurance_order_id}}</div>
+        <div class="card-header text-success" v-else-if="(item.claim_id != null) && (item.insurance_order_id != null)">Claim process has been initiated</div>
+        <div class="card-header text-danger" v-else>Baggage registration is waiting for process</div>
         <div class="row align-items-center" style="margin: 30px">
           <div class="col-5 text-center">
             <img
@@ -39,11 +44,13 @@
                   </tr>
                   <tr>
                     <td>Baggage Height: {{item.luggage_height}}</td>
-                    <td><b class="text-danger">Sum Price: {{item.sum_price}}</b></td>
+                    <td>
+                      <b class="text-danger">Sum Price: {{item.sumPrice}}</b>
+                    </td>
                   </tr>
                   <tr>
                     <td></td>
-                    <td>Flight Number: {{item.flight_num}}</td>
+                    <td>Flight Number: {{item.flight_number}}</td>
                   </tr>
                 </tbody>
               </table>
@@ -56,8 +63,8 @@
             class="mb-1 mr-1 right-button ml-auto"
             variant="outline-primary"
             type="button"
-            v-on:click="showModalData(item.id)"
-            :disabled="item.id == null"
+            v-on:click="showModalData(item.insurance_order_id)"
+            :disabled="(item.claim_id != null) || (item.insurance_order_id == null)"
           >Claim Lost Baggage</b-button>
         </div>
       </div>
@@ -145,6 +152,21 @@ export default {
       modalShow: false
     };
   },
+  created() {
+    requireInfo = {
+      username: this.$user.username,
+    }
+    var obj = JSON.stringify(requireInfo);
+    axios
+      .post("/list_user_all_insurance_order", obj)
+      .then(res => {
+        var response = JSON.parse(JSON.stringify(res.data));
+        this.$user.insurance_order_list = response;
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  },
   mounted() {},
   computed: {
     isFormInvalid() {
@@ -152,8 +174,8 @@ export default {
     }
   },
   methods: {
-    showModalData(id) {
-      this.formData.insurance_order_id = id;
+    showModalData(insurance_order_id) {
+      this.formData.insurance_order_id = insurance_order_id;
       this.modalShow = true;
     },
     submitClaim() {
@@ -163,7 +185,9 @@ export default {
           .post("/luggage/order/list", obj)
           .then(res => {
             var response = JSON.parse(JSON.stringify(res.data));
-            alert(response);
+            if (response.state == "0") {
+              alert(response);
+            }
           })
           .catch(function(error) {
             console.log(error);

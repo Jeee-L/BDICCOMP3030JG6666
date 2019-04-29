@@ -16,16 +16,16 @@
         </ul>
       </div>
     </div>
-    <div class="profile-content">
+    <div class="profile-content claim-body">
       <div class="tab-content p-0">
         <div class="tab-pane fade show active">
           <!-- begin timeline -->
           <ul class="timeline">
-            <li>
+            <li v-for="item in claim_list" :key="item.id">
               <!-- begin timeline-time -->
               <div class="timeline-time">
-                <span class="date">10 January 2014</span>
-                <span class="time">20:43</span>
+                <span class="date">{{item.lost_place}}</span>
+                <span class="time">{{item.lost_time}}</span>
               </div>
               <!-- end timeline-time -->
               <!-- begin timeline-icon -->
@@ -34,23 +34,58 @@
               </div>
               <!-- end timeline-icon -->
               <!-- begin timeline-body -->
-              <div class="timeline-body">
+              <div class="timeline-body" :class="changeBackground(item)">
                 <div class="timeline-header">
-                  <span class="userimage"></span>
-                  <span class="username">Sean Ngu</span>
-                  <span class="pull-right text-muted">1,021,282 Views</span>
+                  <span class="username">Registerd Baggage ID: {{item.insurance_order_id}}</span>
+                  <span class="pull-right text-muted" style="color: black !important">{{item.date}}</span>
                 </div>
-                <div class="timeline-content"></div>
+                <div class="timeline-content">
+                  <div class="col-9">
+                    <div class="row">
+                      <p class="info-field info-field-left">
+                        <b>Insurance ID:</b>
+                        {{item.insurance_id}}
+                      </p>
+                      <p class="info-field">
+                        <b>Username:</b>
+                        {{item.username}}
+                      </p>
+                    </div>
+                    <div class="row">
+                      <p class="info-field info-field-left">
+                        <b>Employee ID:</b>
+                        {{item.employee_id}}
+                      </p>
+                      <p>
+                        <b class="info-field">Remark:</b>
+                        {{item.remark}}
+                      </p>
+                    </div>
+                    <p>
+                      <b>Reason:</b>
+                      {{item.reason}}
+                    </p>
+                  </div>
+                </div>
                 <div class="timeline-footer">
-                  <a href="javascript:;" class="m-r-15 text-inverse-lighter">
-                    <i class="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i> Like
-                  </a>
-                  <a href="javascript:;" class="m-r-15 text-inverse-lighter">
-                    <i class="fa fa-comments fa-fw fa-lg m-r-3"></i> Comment
-                  </a>
-                  <a href="javascript:;" class="m-r-15 text-inverse-lighter">
-                    <i class="fa fa-share fa-fw fa-lg m-r-3"></i> Share
-                  </a>
+                  <div v-if="item.state == '-1'">
+                    <p
+                      class="text-dark"
+                    >Please provide more detailed information and initiate a new claim.</p>
+                    <b-btn
+                      variant="outline-info"
+                      class="btn-xs"
+                      v-on:click="showModalData(item.insurance_order_id)"
+                    >Provide Supplementary Information</b-btn>
+                  </div>
+                  <p
+                    class="text-success"
+                    v-else-if="item.state == '1'"
+                  >Claim completed successfully. Compensation will be sent to your account within two days.</p>
+                  <p
+                    class="text-danger"
+                    v-else
+                  >Sorry, claim process is terminated due to specific reasons.</p>
                 </div>
               </div>
               <!-- end timeline-body -->
@@ -61,6 +96,67 @@
         <!-- end #profile-post tab -->
       </div>
       <!-- end tab-content -->
+      <!-- Modal template -->
+      <b-modal
+        id="modals-default"
+        ok-title="Submit Claim"
+        ok-variant="info"
+        cancel-variant="white"
+        @ok="submitClaim()"
+        v-model="modalShow"
+      >
+        <div slot="modal-title">
+          Baggage-lost
+          <span class="font-weight-light">Claim Form</span>
+          <br>
+          <small class="text-muted">Please fill in this form and initiate your request.</small>
+        </div>
+
+        <b-form-row>
+          <b-form-group label="Lost Time" class="col">
+            <b-input
+              placeholder="YYYY-MM-DD"
+              v-model="formData.lost_time"
+              name="lost_time"
+              v-validate="{ required: true, regex:/^(\d{4})(\-)(\d{2})(\-)(\d{2})$/ }"
+              v-bind:class="{'is-invalid': errors.has('lost_time')}"
+            />
+            <span style="color: red !important;">{{ errors.first('lost_time') }}</span>
+          </b-form-group>
+        </b-form-row>
+        <b-form-row>
+          <b-form-group label="Lost Place" class="col">
+            <b-input
+              placeholder="The place where you lost your baggage"
+              v-model="formData.lost_place"
+              name="lost_place"
+              v-validate="{ required: true}"
+              v-bind:class="{'is-invalid': errors.has('lost_place')}"
+            />
+            <span style="color: red !important;">{{ errors.first('lost_place') }}</span>
+          </b-form-group>
+        </b-form-row>
+        <b-form-row>
+          <b-form-group label="Reason of Lost" class="col">
+            <b-input
+              placeholder="Reason of this lost"
+              v-model="formData.reason"
+              name="reason"
+              v-validate="{ required: true}"
+              v-bind:class="{'is-invalid': errors.has('reason')}"
+            />
+            <span style="color: red !important;">{{ errors.first('reason') }}</span>
+          </b-form-group>
+        </b-form-row>
+        <b-form-row>
+          <b-form-group label="Remark" class="col">
+            <b-input
+              placeholder="Other special requirements or illustration"
+              v-model="formData.remark"
+            />
+          </b-form-group>
+        </b-form-row>
+      </b-modal>
     </div>
     <!-- end profile-content -->
   </div>
@@ -73,168 +169,75 @@ import axios from "axios";
 export default {
   data() {
     return {
-      // Variables for element control
-      update: true,
+      claim_list: this.$user.claim_list,
 
-      // Required information
-      old_username: this.$user.username,
-      password: "",
-      confirm_password: "",
+      formData: {
+        insurance_order_id: "",
+        lost_time: "",
+        lost_place: "",
+        reason: "",
+        remark: ""
+      },
 
-      // Variables for email validation
-      btntxt: "Send Verification Code",
-      showPasswordCard: false,
-      disabled: false,
-      email: "",
-      time: 0,
-      verify: "",
-      verification_code: 1,
-      verification_input: "",
-      verification_field: false
+      // Variables used for control
+      modalShow: false
     };
-  },
-  methods: {
-    permitChangePassword() {
-      this.showPasswordCard = true;
-    },
-    sendCode() {
-      this.verify = 0;
-      this.verification_input = "";
-      this.verification_field = false;
-
-      if (this.fields.email.valid) {
-        var params = {
-          username: this.$user.username,
-          email: this.email,
-          verify: this.verify
-        };
-        var obj = JSON.stringify(params);
-
-        axios
-          .post("/customer/info/update_password", obj)
-          .then(res => {
-            if (res.data == 0) {
-              alert("Sorry, sending verification code failed.");
-            } else {
-              this.time = 60;
-              this.disabled = true;
-              this.timer();
-              this.verification_code = res.data;
-              alert(res.data);
-            }
-          })
-          .catch(function(error) {
-            console.log(error);
-          });
-      }
-    },
-    timer() {
-      if (this.time > 0) {
-        if (
-          this.verification_input == this.verification_code &&
-          this.verification_input != ""
-        ) {
-          this.verification_field = true;
-        }
-
-        this.time--;
-        this.btntxt = "Resend Code after " + this.time + " Seconds";
-        setTimeout(this.timer, 1000);
-      } else {
-        this.time = 0;
-        this.btntxt = "Send Verification Code";
-        this.disabled = false;
-      }
-    },
-    cancelChange() {
-      this.btntxt = "Send Verification Code";
-      this.showPasswordCard = false;
-      this.disabled = false;
-      this.email = "";
-      this.time = 0;
-      this.verify = "";
-      this.verification_code = 1;
-      this.verification_input = "";
-      this.verification_field = false;
-    },
-    submitPassword() {
-      this.verify = 1;
-
-      if (this.fields.email.valid && this.email == this.$user.email) {
-        var params = {
-          username: this.$user.username,
-          new_password: this.password,
-          confirm_password: this.confirm_password,
-          verify: this.verify
-        };
-        var obj = JSON.stringify(params);
-
-        axios
-          .post("/customer/info/update_password", obj)
-          .then(res => {
-            if (res.data == 0) {
-              alert("Sorry, sending verification code failed.");
-            } else {
-              this.time = 60;
-              this.disabled = true;
-              this.timer();
-              this.verification_code = res.data;
-              alert(res.data);
-            }
-          })
-          .catch(function(error) {
-            console.log(error);
-          });
-      }
-      this.cancelChange();
-    },
-    startEdit(value) {
-      this.update = value;
-      if (value == false) {
-        return;
-      }
-      var newInfo = {
-        old_username: this.old_username,
-        first_name: this.$user.first_name,
-        last_name: this.$user.last_name,
-        username: this.$user.username,
-        email: this.$user.email,
-        phone_num: this.$user.phone_num,
-        passport_num: this.$user.passport_num,
-        birthday: this.$user.birthday.toISOString().substr(0, 10),
-        address: this.$user.address
-      };
-      var obj = JSON.stringify(newInfo);
-      axios.post("/customer/info/", obj).then(res => {
-        var response = JSON.parse(JSON.stringify(res.data));
-      });
-      this.old_username = this.$user.username;
-    }
   },
   created() {
     PageOptions.pageContentFullWidth = true;
+
+    // requireInfo = {
+    //   username: this.$user.username
+    // };
+    // var obj = JSON.stringify(requireInfo);
+    // axios
+    //   .post("/list_user_all_claim", obj)
+    //   .then(res => {
+    //     var response = JSON.parse(JSON.stringify(res.data));
+    //     if (response != null){
+    //       this.$user.claim_list = response;
+    //     }
+    //   })
+    //   .catch(function(error) {
+    //     console.log(error);
+    //   });
+  },
+  methods: {
+    changeBackground(item) {
+      if (item.state == "-1") {
+        return "background-moreinfo";
+      } else if (item.state == "1") {
+        return "background-success";
+      } else {
+        return "background-fail";
+      }
+    },
+    showModalData(insurance_order_id) {
+      this.formData.insurance_order_id = insurance_order_id;
+      this.modalShow = true;
+    },
+    submitClaim() {
+      if (!this.isFormInvalid) {
+        var obj = JSON.stringify(this.formData);
+        axios
+          .post("/luggage/order/list", obj)
+          .then(res => {
+            var response = JSON.parse(JSON.stringify(res.data));
+            if (response.state == "0") {
+              alert(response);
+            }
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+      } else {
+        alert("Please enter valid information in all required fields.");
+      }
+    }
   },
   beforeRouteLeave(to, from, next) {
     PageOptions.pageContentFullWidth = false;
     next();
-  },
-  changeImage(e) {
-    let file = e.target.files[0];
-    if (!/\.(gif|jpg|jpeg|png|bmp|GIF|JPG|PNG)$/.test(e.target.value)) {
-      alert("Please one of the following extensions: gif, jpeg, jpg, png, bmp");
-      return false;
-    }
-    let reader = new FileReader();
-    reader.onload = e => {
-      let data;
-      if (typeof e.target.result === "object") {
-        data = window.URL.createObjectURL(new Blob([e.target.result]));
-      } else {
-        data = e.target.result;
-      }
-      this.imageSrc = data;
-    };
-    reader.readAsArrayBuffer(file);
   }
 };
 </script>
@@ -282,5 +285,38 @@ textarea:disabled {
 
 .profile-header-info {
   margin-left: 40px !important;
+}
+
+.timeline-footer {
+  font-size: 14px !important;
+}
+
+.table-responsive {
+  margin-left: 35px !important;
+  width: 90% !important;
+}
+
+.info-field {
+  margin-left: 10px !important;
+}
+
+.info-field-left {
+  margin-right: 80px !important;
+}
+
+.background-moreinfo {
+  background-color: rgb(243, 243, 226) !important;
+}
+
+.background-success {
+  background-color: rgb(227, 243, 227) !important;
+}
+
+.background-fail {
+  background-color: rgb(241, 227, 227) !important;
+}
+
+.claim-body {
+  background-color: rgb(228, 228, 236) !important;
 }
 </style>

@@ -95,7 +95,6 @@ export default {
         var obj = JSON.stringify(this.formData);
         axios.post("http://localhost:5000/login/", obj).then(res => {
           var response = JSON.parse(JSON.stringify(res.data));
-          alert(response.state);
           if (response.state == "-1") {
             this.notification = response.error_msg;
             this.showNotification = true;
@@ -116,6 +115,7 @@ export default {
             this.notification =
               "Welcome to the Employee Page, " + this.$employee.username + ".";
             this.showNotification = true;
+            this.$router.push("/employee/insurance");
           } else {
             this.$user.first_name = response.first_name == null
               ? ""
@@ -141,21 +141,20 @@ export default {
             this.$user.birthday = response.birthday == null
               ? new Date()
               : new Date(response.birthday);
-            alert(this.$user.birthday);
             this.$user.address = response.address == null
               ? ""
               : response.address;
-            this.$user.insurance_list = response.insurance_list == null
-              ? ""
-              : response.insurance_list;
-            this.$user.insurance_order_list = response.insurance_order_list == null
-              ? ""
-              : response.insurance_order_list;
-            this.$user.claim_list = response.claim_list == null
-              ? ""
-              : response.claim_list;
+            // this.$user.insurance_list = response.insurance_list == null
+            //   ? ""
+            //   : response.insurance_list;
+            // this.$user.insurance_order_list = response.insurance_order_list == null
+            //   ? ""
+            //   : response.insurance_order_list;
+            // this.$user.claim_list = response.claim_list == null
+            //   ? ""
+            //   : response.claim_list;
 
-            // setCookie("username", this.username, 1000 * 60);
+            setCookie("user", response, 1000 * 60);
             this.$router.push("/home");
           }
         });

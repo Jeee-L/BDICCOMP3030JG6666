@@ -29,7 +29,7 @@
               <button
                 type="button"
                 class="btn btn-lime"
-                v-on:click="changeFormStatus"
+                v-on:click="changeFormstate"
                 style="margin-left: 130px; margin-top: 30px; font-size: 15px; padding: 15px"
               >Register Baggages Now</button>
             </div>
@@ -118,12 +118,12 @@
                           type="text"
                           class="form-control"
                           placeholder="Flight Number of the Journey"
-                          name="flight_num"
-                          v-model="formData.flight_num"
+                          name="flight_number"
+                          v-model="formData.flight_number"
                           v-validate="{ required: true, regex:/^[\dA-Z][A-Z]{1,2}\d{2,4}$/}"
-                          v-bind:class="{'is-invalid': errors.has('flight_num')}"
+                          v-bind:class="{'is-invalid': errors.has('flight_number')}"
                         >
-                        <span style="color: red !important;">{{ errors.first('flight_num') }}</span>
+                        <span style="color: red !important;">{{ errors.first('flight_number') }}</span>
                       </div>
                     </div>
                     <!-- end form-group -->
@@ -499,7 +499,7 @@
                             <span
                               class="f-w-600"
                               style="font-size: 25px !important"
-                            >{{formData.sum_price}} EUR</span>
+                            >{{formData.sumPrice}} EUR</span>
                           </div>
                         </div>
                         <!-- end invoice-price -->
@@ -583,14 +583,14 @@ export default {
     return {
       formData: {
         username: this.$user.username,
-        flight_num: "",
+        flight_number: "",
         luggage_width: "",
         luggage_height: "",
         luggage_image_outside: null,
         luggage_image_inside: null,
         remark: "",
         select_img: [],
-        sum_price: ""
+        sumPrice: ""
       },
       checkedItems: [false, false, false, false, false],
       pieChart: {
@@ -679,7 +679,7 @@ export default {
     onCardRefresh(card, done) {
       setTimeout(done, 3000);
     },
-    changeFormStatus() {
+    changeFormstate() {
       this.showForm = true;
     },
     checkProjectValue(e) {
@@ -698,6 +698,7 @@ export default {
           .post("/luggage/order/new_travel", obj)
           .then(res => {
             var response = JSON.parse(JSON.stringify(res.data));
+            if (response)
             alert(response);
           })
           .catch(function(error) {
@@ -779,11 +780,11 @@ export default {
       this.showInstruct = false;
     },
     generateOrder() {
-      var sum_price = 0;
+      var sumPrice = 0;
       for (var i = 0; i < this.formData.select_img.length; i++) {
-        sum_price += Number(this.formData.select_img[i].price);
+        sumPrice += Number(this.formData.select_img[i].price);
       }
-      this.formData.sum_price = sum_price;
+      this.formData.sumPrice = sumPrice;
       this.showOrder = true;
     }
   }

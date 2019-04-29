@@ -10,7 +10,7 @@
         <div class="profile-header-content">
           <!-- BEGIN profile-header-img -->
           <div class="profile-header-img">
-            <img :src="avatarSRC">
+            <img :src="avatar">
             <!-- onerror="this.src='../assets/img/china-land1.jpg'" -->
           </div>
           <!-- END profile-header-img -->
@@ -32,11 +32,7 @@
         <!-- BEGIN profile-header-tab -->
         <ul class="profile-header-tab nav nav-tabs">
           <li class="nav-item">
-            <a
-              href="javascript:;"
-              class="nav-link active"
-              data-toggle="tab"
-            >User Profile</a>
+            <a href="javascript:;" class="nav-link active" data-toggle="tab">User Profile</a>
           </li>
         </ul>
         <!-- END profile-header-tab -->
@@ -56,7 +52,7 @@
                   <div class="py-4">
                     <img
                       class="img-fluid rounded-circle img-thumbnail thumb96"
-                      :src="avatarSRC"
+                      :src="avatar"
                       alt="Contact"
                       onload="if (this.width>140 || this.height>226) if (this.width/this.height>140/226) this.width=140; else this.height=226;"
                     >
@@ -85,8 +81,11 @@
                   <label class="control-label">
                     Email
                     <span class="text-danger">*</span>
-                  </label> <br>
-                  <small>This email should be the email used for registration; otherwise, please update this information first.</small> <br> <br>
+                  </label>
+                  <br>
+                  <small>This email should be the email used for registration; otherwise, please update this information first.</small>
+                  <br>
+                  <br>
                   <div class="row m-b-15">
                     <div class="col-md-12">
                       <input
@@ -367,12 +366,13 @@ export default {
     return {
       // Variables for element control
       update: true,
-      avatarSRC: require("../components/img/avatar.jpg"),
       tab: {
         about: true
       },
 
-      // Required information 
+      avatar: this.$user.avatar,
+
+      // Required information
       old_username: this.$user.username,
       password: "",
       confirm_password: "",
@@ -388,6 +388,11 @@ export default {
       verification_input: "",
       verification_field: false
     };
+  },
+  watch: {
+    "$user.avatar"(){
+      this.avatar = this.$user.avatar;
+    }
   },
   methods: {
     permitChangePassword() {
@@ -453,7 +458,7 @@ export default {
       this.verification_input = "";
       this.verification_field = false;
     },
-    submitPassword(){
+    submitPassword() {
       this.verify = 1;
 
       if (this.fields.email.valid && this.email == this.$user.email) {
@@ -505,6 +510,27 @@ export default {
         var response = JSON.parse(JSON.stringify(res.data));
       });
       this.old_username = this.$user.username;
+    },
+    changeImage(e) {
+      let file = e.target.files[0];
+      if (!/\.(gif|jpg|jpeg|png|bmp|GIF|JPG|PNG)$/.test(e.target.value)) {
+        alert(
+          "Please one of the following extensions: gif, jpeg, jpg, png, bmp"
+        );
+        return false;
+      }
+      let reader = new FileReader();
+      reader.onload = e => {
+        let data;
+        if (typeof e.target.result === "object") {
+          data = window.URL.createObjectURL(new Blob([e.target.result]));
+        } else {
+          data = e.target.result;
+        }
+        this.avatar = data;
+        this.$user.avatar = data;
+      };
+      reader.readAsArrayBuffer(file);
     }
   },
   created() {
@@ -513,24 +539,6 @@ export default {
   beforeRouteLeave(to, from, next) {
     PageOptions.pageContentFullWidth = false;
     next();
-  },
-  changeImage(e) {
-    let file = e.target.files[0];
-    if (!/\.(gif|jpg|jpeg|png|bmp|GIF|JPG|PNG)$/.test(e.target.value)) {
-      alert("Please one of the following extensions: gif, jpeg, jpg, png, bmp");
-      return false;
-    }
-    let reader = new FileReader();
-    reader.onload = e => {
-      let data;
-      if (typeof e.target.result === "object") {
-        data = window.URL.createObjectURL(new Blob([e.target.result]));
-      } else {
-        data = e.target.result;
-      }
-      this.imageSrc = data;
-    };
-    reader.readAsArrayBuffer(file);
   }
 };
 </script>

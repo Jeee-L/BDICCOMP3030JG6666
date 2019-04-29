@@ -6,12 +6,12 @@
     <div class="card-body" style="font-size: 15px">
       <div>
         Please click button "Update Table" once you want to check new data.
-        <br>Once new insurance is created, the system will notfify employees at the top-right corner.
+        <br>Once new claim requires process, the system will notfify employees at the top-right corner.
         <br>Requests for data update will be initiated every ten seconds.
       </div>
       <div class="btn-update">
         <b-btn
-          variant="outline-info"
+          variant="outline-success"
           class="mb-1 mr-1 right-button"
           @click="updateData()"
         >Update Table</b-btn>
@@ -27,6 +27,15 @@
               class="btn-xs"
               v-on:click="showModalData(props.row, 'Remark')"
             >Check</b-btn>
+          </div>
+        </template>
+        <template slot="Baggage_ID" slot-scope="props">
+          <div>
+            <b-btn
+              variant="outline-dark"
+              class="btn-xs"
+              v-on:click="showModalData(props.row, 'baggage')"
+            >{{props.row.Baggage_ID}}</b-btn>
           </div>
         </template>
         <template slot="Reason" slot-scope="props">
@@ -62,6 +71,73 @@
       <p>{{modalContent}}</p>
     </b-modal>
 
+    <b-modal id="modals-default" :title="modalTitle" cancel-only v-model="modalShowBaggage">
+      <div class="col-9">
+        <p class="info-field">
+          <b>Username:</b>
+          {{baggageItem.username}}
+        </p>
+        <p class="info-field">
+          <b>Flight Number:</b>
+          {{baggageItem.flight_number}}
+        </p>
+        <p class="info-field">
+          <b>Baggage Height:</b>
+          {{baggageItem.luggage_height}}
+        </p>
+        <p>
+          <b class="info-field">Baggage Width:</b>
+          {{baggageItem.luggage_width}}
+        </p>
+        <p>
+          <b class="info-field">Sum Price:</b>
+          {{baggageItem.sumPrice}}
+        </p>
+        <p>
+          <b class="info-field">Remark:</b>
+          {{baggageItem.remark}}
+        </p>
+        <!-- START table-responsive-->
+        <div class="table-responsive">
+          <table class="table table-striped table-bordered table-hover card card-body">
+            <thead>
+              <tr>
+                <th>Belonging Picture</th>
+                <th>Name</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="items in baggageItem.select_img_return_list" :key="items.id">
+                <td>
+                  <div class="media align-items-center">
+                    <img
+                      class="img-fluid rounded thumb64"
+                      :src="items.imgUrl"
+                      width="40"
+                      height="auto"
+                      alt
+                    >
+                  </div>
+                </td>
+                <td>
+                  <p>
+                    {{items.name}}
+                  </p>
+                </td>
+                <td>
+                  <p>
+                    {{items.price}}
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- END table-responsive-->
+      </div>
+    </b-modal>
+
     <!-- bottom right animation example -->
     <notifications group="bottom-right" position="top right" :speed="500" :duration="2000"/>
   </div>
@@ -89,7 +165,7 @@ export default {
       columns: [
         "Index",
         "Claim_ID",
-        "insurance_order_id",
+        "Baggage_ID",
         "Username",
         "Reason",
         "Lost Time",
@@ -110,7 +186,21 @@ export default {
       // remark and reason for lost
       modalShow: false,
       modalTitle: "",
-      modalContent: ""
+      modalContent: "",
+
+      // registerd baggage details
+      modalShowBaggage: false,
+
+      // variables used for displaying baggage info
+      baggageItem: {
+        flight_number: "",
+        usernmae: "",
+        luggage_height: "",
+        luggage_width: "",
+        remark: "",
+        sumPrice: "",
+        select_img_return_list: ""
+      }
     };
   },
   created() {
@@ -130,14 +220,38 @@ export default {
       if (tag == "Reason") {
         this.modalContent = row.Reason;
         this.modalTitle = "Reason: " + row.Claim_ID;
+        this.modalShow = true;
       } else if (tag == "Remark") {
         this.modalContent = row.Remark;
         this.modalTitle = "Remark: " + row.Claim_ID;
+        this.modalShow = true;
+      } else {
+        this.checkBaggageDetail(row.insurance_order_id);
+        this.modalTitle = "Registered Baggage Details: " + row.Claim_ID;
+        this.modalShowBaggage = true;
       }
-      this.modalShow = true;
+    },
+    checkBaggageDetail(insurance_order_id) {
+      var obj = JSON.stringify(insurance_order_id);
+      axios
+        .post("/list_insurance_order_info/", obj)
+        .then(res => {
+          var response = JSON.parse(JSON.stringify(res.data));
+          if (response != null) {
+            this.baggageItem.username = response.username;
+            this.baggageItem.flight_number = response.flight_number;
+            this.baggageItem.luggage_height = response.luggage_height;
+            this.baggageItem.remark = response.remark;
+            this.baggageItem.sumPrice = response.sumPrice;
+            this.baggageItem.select_img_return_list =
+              response.select_img_return_list;
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     },
     processDecision(data, tag) {
-      alert("process works");
       var decision = {
         claim_id: data.Claim_ID,
         employee_id: this.$employee.username,
@@ -157,15 +271,15 @@ export default {
     updateData() {
       rawData = [];
       axios
-        .get("/list_all_claim/")
+        .post("/list_all_claim/")
         .then(res => {
           if (res.data != null) {
             var response = JSON.parse(JSON.stringify(res.data));
             for (var i = 0; i < response.length; i++) {
-              if (response[i].status == "-1") {
+              if (response[i].state == "-1") {
                 rawData[rawData.length] = {
                   Claim_ID: response[i].id,
-                  insurance_order_id: response[i].insurance_order_id,
+                  Baggage_ID: response[i].insurance_order_id,
                   Username: response[i].username,
                   Reason: response[i].reason,
                   "Lost Time": response[i].lost_time,
@@ -199,13 +313,13 @@ export default {
     retryData() {
       var timer;
       axios
-        .get("/list_all_claim/")
+        .post("/list_all_claim/")
         .then(res => {
           if (res.data != null) {
             var response = JSON.parse(JSON.stringify(res.data));
-            this.show("bottom-right", "danger");
+            this.show("bottom-right", "success");
             if (response.length != rawData.length) {
-              this.show("bottom-right", "danger");
+              this.show("bottom-right", "success");
             }
             timer = setInterval(() => {
               clearInterval(timer);
@@ -222,9 +336,9 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .table-part {
-  background-color: rgba(127, 236, 255, 0.096) !important;
+  background-color: rgba(127, 255, 170, 0.096) !important;
 }
 
 .btn-update {
@@ -233,5 +347,13 @@ export default {
 
 .btn-decision {
   margin-right: 5px;
+}
+
+.info-field {
+  margin-left: 10px !important;
+}
+
+.info-field-left {
+  margin-right: 80px !important;
 }
 </style>

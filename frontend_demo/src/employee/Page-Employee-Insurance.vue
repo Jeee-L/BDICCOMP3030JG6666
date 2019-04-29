@@ -63,7 +63,7 @@ export default {
         "Project ID",
         "Price Total",
         "Date",
-        "Status",
+        "State",
         "Remark"
       ],
       options: {
@@ -93,7 +93,7 @@ export default {
     updateData() {
       rawData = [];
       axios
-        .get("/check_all_insurance/")
+        .post("/check_all_insurance/")
         .then(res => {
           if (res.data != null) {
             var response = JSON.parse(JSON.stringify(res.data));
@@ -105,7 +105,7 @@ export default {
                 "Project ID": response[i].project_id,
                 "Price Total": response[i].amount_of_money,
                 Date: response[i].date,
-                Status: response[i].status,
+                State: response[i].state,
                 Remark: response[i].remark
               };
             }
@@ -120,7 +120,7 @@ export default {
         .catch(err => console.log(err));
     },
     show(group, type = "") {
-      const text = "New insurance order awarting for process!";
+      const text = "New baggage order awarting for process!";
       this.$notify({
         group,
         text,
@@ -137,13 +137,13 @@ export default {
     retryData() {
       var timer;
       axios
-        .get("/check_all_insurance/")
+        .post("/check_all_insurance/")
         .then(res => {
           if (res.data != null) {
             var response = JSON.parse(JSON.stringify(res.data));
-            this.show("bottom-right", "success");
+            this.show("bottom-right", "error");
             if (response.length != rawData.length) {
-              this.show("bottom-right", "success");
+              this.show("bottom-right", "error");
             }
             timer = setInterval(() => {
               clearInterval(timer);
@@ -160,9 +160,9 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .table-part {
-  background-color: rgba(127, 236, 255, 0.096) !important;
+  background-color: rgba(255, 127, 127, 0.096) !important;
 }
 
 .btn-update {

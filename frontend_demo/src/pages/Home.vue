@@ -148,7 +148,7 @@ export default {
     this.nowTimes();
   },
   mounted() {
-    // if (getCookie("username") == "") {
+    // if (getCookie("user") == "") {
       // this.$router.push({ path: "/login" });
     // }
     this.nowTimes();
