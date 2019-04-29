@@ -3,36 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d2264177-d48a-4d6d-a2b4-d0252df70f88" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend_demo/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend_demo/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/assets/css/default/style.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/assets/css/default/style.min.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/assets/img/china-land1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/assets/img/china-land1.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/assets/img/china-land2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/assets/img/china-land2.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/assets/img/ireland-land2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/assets/img/ireland-land2.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/components/header/Header.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/components/header/Header.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/components/sidebar/SidebarMenu.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/components/sidebar/SidebarMenu.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/components/sidebar/SidebarNavProfile.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/components/sidebar/SidebarNavProfile.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/components/vue-chartjs/BarChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/components/vue-chartjs/BarChart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/components/vue-chartjs/BubbleChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/components/vue-chartjs/BubbleChart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/components/vue-chartjs/DoughnutChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/components/vue-chartjs/DoughnutChart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/components/vue-chartjs/HorizontalBarChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/components/vue-chartjs/HorizontalBarChart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/components/vue-chartjs/LineChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/components/vue-chartjs/LineChart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/components/vue-chartjs/PieChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/components/vue-chartjs/PieChart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/components/vue-chartjs/PolarAreaChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/components/vue-chartjs/PolarAreaChart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/components/vue-chartjs/RadarChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/components/vue-chartjs/RadarChart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/components/vue-chartjs/Scatter.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/components/vue-chartjs/Scatter.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/config/PageRoutes.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/config/PageRoutes.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/config/global.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/config/global.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/pages/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/pages/Home.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/pages/Page-Baggage-BuyInsurance.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/pages/Page-Baggage-BuyInsurance.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/pages/Page-Baggage-Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/pages/Page-Baggage-Home.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/pages/Page-Baggage-RegisterBaggage.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/pages/Page-Baggage-RegisterBaggage.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/pages/Profile-Customer-Info.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/pages/Profile-Customer-Info.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/pages/User-Register.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/pages/User-Register.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/pages/User-login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/pages/User-login.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend_demo/src/pages/Welcome.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/src/pages/Welcome.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend_demo/vue.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend_demo/vue.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -62,17 +33,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/db_operation/database_basic/whats_your_name.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1002">
-              <caret line="305" lean-forward="true" selection-start-line="305" selection-end-line="305" />
+            <state relative-caret-position="7224">
+              <caret line="308" selection-start-line="308" selection-end-line="308" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/user.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-4246">
-              <caret line="92" column="12" selection-start-line="92" selection-start-column="12" selection-end-line="92" selection-end-column="12" />
+            <state relative-caret-position="146">
+              <caret line="86" column="4" selection-start-line="86" selection-start-column="4" selection-end-line="86" selection-end-column="4" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
               </folding>
@@ -95,8 +66,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/db_operation/insurance_operate.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
-              <caret line="13" column="4" selection-start-line="13" selection-start-column="4" selection-end-line="13" selection-end-column="4" />
+            <state relative-caret-position="336">
+              <caret line="14" column="4" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="4" />
             </state>
           </provider>
         </entry>
@@ -105,7 +76,7 @@
         <entry file="file://$PROJECT_DIR$/db_operation/claim_operate.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="72">
-              <caret line="4" column="20" lean-forward="true" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="20" />
+              <caret line="4" column="20" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="20" />
             </state>
           </provider>
         </entry>
@@ -119,11 +90,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
-              <caret line="118" column="35" selection-start-line="118" selection-start-column="35" selection-end-line="118" selection-end-column="35" />
+            <state relative-caret-position="488">
+              <caret line="168" column="32" lean-forward="true" selection-start-line="168" selection-start-column="32" selection-end-line="168" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -140,8 +111,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/employee.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3024">
-              <caret line="131" column="35" selection-start-line="131" selection-start-column="35" selection-end-line="131" selection-end-column="35" />
+            <state relative-caret-position="554">
+              <caret line="80" column="9" lean-forward="true" selection-start-line="80" selection-start-column="9" selection-end-line="80" selection-end-column="9" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
               </folding>
@@ -231,11 +202,11 @@
         <option value="$PROJECT_DIR$/db_operation/claim_operate.py" />
         <option value="$PROJECT_DIR$/employee.py" />
         <option value="$PROJECT_DIR$/backup.py" />
-        <option value="$PROJECT_DIR$/app.py" />
         <option value="$PROJECT_DIR$/db_operation/database_basic/whats_your_name.py" />
         <option value="$PROJECT_DIR$/db_operation/insurance_operate.py" />
         <option value="$PROJECT_DIR$/re_verification.py" />
         <option value="$PROJECT_DIR$/user.py" />
+        <option value="$PROJECT_DIR$/app.py" />
       </list>
     </option>
   </component>
@@ -546,12 +517,15 @@
       <workItem from="1556365325214" duration="1516000" />
       <workItem from="1556368085948" duration="731000" />
       <workItem from="1556428137534" duration="131000" />
-      <workItem from="1556428492576" duration="1492000" />
+      <workItem from="1556428492576" duration="2086000" />
+      <workItem from="1556439197419" duration="591000" />
+      <workItem from="1556446172088" duration="410000" />
+      <workItem from="1556503059837" duration="480000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="190655000" />
+    <option name="totallyTimeSpent" value="192730000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -563,10 +537,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="838" extended-state="7" />
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15884718" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16487935" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -817,6 +791,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/db_operation/database_basic/whats_your_name.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7224">
+          <caret line="308" selection-start-line="308" selection-end-line="308" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/db_operation/order.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="48">
@@ -829,8 +810,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/db_operation/insurance_operate.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="13" column="4" selection-start-line="13" selection-start-column="4" selection-end-line="13" selection-end-column="4" />
+        <state relative-caret-position="336">
+          <caret line="14" column="4" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/db_operation/claim_operate.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="4" column="20" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="20" />
         </state>
       </provider>
     </entry>
@@ -848,44 +836,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/employee.py">
+    <entry file="file://$PROJECT_DIR$/user.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3024">
-          <caret line="131" column="35" selection-start-line="131" selection-start-column="35" selection-end-line="131" selection-end-column="35" />
+        <state relative-caret-position="146">
+          <caret line="86" column="4" selection-start-line="86" selection-start-column="4" selection-end-line="86" selection-end-column="4" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db_operation/claim_operate.py">
+    <entry file="file://$PROJECT_DIR$/employee.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="20" lean-forward="true" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="20" />
+        <state relative-caret-position="554">
+          <caret line="80" column="9" lean-forward="true" selection-start-line="80" selection-start-column="9" selection-end-line="80" selection-end-column="9" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="118" column="35" selection-start-line="118" selection-start-column="35" selection-end-line="118" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/db_operation/database_basic/whats_your_name.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1002">
-          <caret line="305" lean-forward="true" selection-start-line="305" selection-end-line="305" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/user.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4246">
-          <caret line="92" column="12" selection-start-line="92" selection-start-column="12" selection-end-line="92" selection-end-column="12" />
-          <folding>
-            <element signature="e#0#29#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="488">
+          <caret line="168" column="32" lean-forward="true" selection-start-line="168" selection-start-column="32" selection-end-line="168" selection-end-column="32" />
         </state>
       </provider>
     </entry>
