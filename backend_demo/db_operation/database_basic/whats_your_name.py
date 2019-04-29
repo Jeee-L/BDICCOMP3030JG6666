@@ -85,7 +85,7 @@ class Order(db.Model):
     order_id = db.Column(db.Integer, primary_key = True, autoincrement = True, unique = True)
     state = db.Column(db.Integer)
     username = db.Column(db.ForeignKey('users.username', ondelete='CASCADE',onupdate='CASCADE'))
-    insurance_id =db.Column(db.ForeignKey('insurance.id', ondelete='CASCADE',onupdate='CASCADE'))
+    insurance_id = db.Column(db.ForeignKey('insurance.id', ondelete='CASCADE',onupdate='CASCADE'))
     flight_number = db.Column(db.Unicode(100), nullable=True)
     luggage_image_outside = db.Column(LONGTEXT, nullable=True)
     luggage_image_inside = db.Column(LONGTEXT, nullable=True)
@@ -93,8 +93,7 @@ class Order(db.Model):
     luggage_width = db.Column(db.Integer, nullable=True)
     sumPrice = db.Column(db.Integer, nullable=True,default=0)
     date = db.Column(db.DateTime, nullable=True, default=datetime.datetime.now())
-    claim_id = db.relationship('Claim', backref='order',
-                               lazy='dynamic')
+    claim_id = db.relationship('Claim', backref='order',lazy='dynamic')
     remark = db.Column(db.Unicode(300))
     def __repr__(self):
         return '''

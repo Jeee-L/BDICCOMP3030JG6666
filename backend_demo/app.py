@@ -127,7 +127,7 @@ def list_user_all_claim():
 @app.route('/logout/')
 def logout_page():
     if request.method == 'POST':
-        session.clear()  # TODO 用户登出要清cookie和session
+        session.clear()
         return None
 
 # 所有用户
@@ -163,7 +163,7 @@ def list_all_insurance_order():
     if request.method == 'POST':
         return employee.list_all_insurance_order()
 
-# 所有的保险订单
+# 保险订单的详细信息
 @app.route('/list_insurance_order_info/', methods=['GET', 'POST'])
 def list_insurance_order_info_page():
     if request.method == 'POST':
@@ -171,7 +171,7 @@ def list_insurance_order_info_page():
         return employee.insurance_order_detail(insurance_order_id)
 
 
-# TODO 员工处理理赔申请完成，需要更改insurance中对应项的已赔付金额
+# 员工处理理赔申请完成
 @app.route('/address_claim/', methods=['GET', 'POST'])
 def address_claim_page():
     if request.method == 'POST':
