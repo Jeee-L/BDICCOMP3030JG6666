@@ -132,6 +132,7 @@ class Insurance(db.Model):
     remark = db.Column(db.Unicode(32))
     compensated_amount = db.Column(db.Integer, nullable = True)
     date = db.Column(db.DateTime, default=datetime.datetime.now())
+    duration = db.Column(db.Integer, nullable=True)
 
     first_name = db.Column(db.Unicode(32), nullable=True)
     last_name = db.Column(db.Unicode(32), nullable=True)
@@ -248,7 +249,7 @@ class Administrator(db.Model):
 class Product(db.Model):
     __tablename__ = 'product'
     product_id = db.Column(db.Integer, nullable=False, primary_key=True, unique=True)
-    product_information = db.Column(db.Unicode(300))
+    product_information = db.Column(db.Integer)
     def __repr__(self):
         return '''
         ***************

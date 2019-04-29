@@ -4,6 +4,8 @@ import db_operation.users_operate as db_usr_opr
 import db_operation.insurance_operate as db_ins_opr
 import db_operation.claim_operate as db_cla_opr
 import db_operation.order as db_ord_opr
+import db_operation.product_operate as db_duct_opr
+import db_operation.project_operate as db_ject_opr
 import os
 import cv2
 from werkzeug.utils import secure_filename
@@ -57,7 +59,7 @@ def user_all_insurance(username):
             insurance_dict['product_id'] = str(insurance.product_id)
             insurance_dict['amount_of_money'] = str(insurance.amount_of_money)
             insurance_dict['compensated_amount'] = str(insurance.compensated_amount)
-            insurance_dict['status'] = str(insurance.state)
+            insurance_dict['state'] = str(insurance.state)
             insurance_dict['date'] = insurance.date.strftime("%Y-%m-%d")
             insurance_dict['remark'] = insurance.remark
             return_list.append(insurance_dict)
@@ -77,7 +79,7 @@ def user_all_claim(username):
             claim_dict['id'] = str(claim.id)
             claim_dict['employee_id'] = str(claim.employee_id)
             claim_dict['reason'] = claim.reason
-            claim_dict['status'] = str(claim.state)
+            claim_dict['state'] = str(claim.state)
             claim_dict['lost_time'] = claim.lost_time
             claim_dict['lost_place'] = claim.lost_place
             claim_dict['date'] = claim.time.strftime("%Y-%m-%d")
@@ -268,6 +270,8 @@ def buy_insurance(insurance_info):
     insurance_info['product_id'] = int(insurance_info['product_id'])
     insurance_info['project_id'] = int(insurance_info['project_id'])
     insurance_info['birthday'] = datetime.strptime(insurance_info['birthday'], "%Y-%m-%d")
+    corresponded_product = db_duct_opr.search_product(insurance_info['product_id'])
+    insurance_info['duration'] = corresponded_product.product_information
     try:
         insurance_id = db_ins_opr.add_insurance(insurance_info)
         return jsonify({'state': '1', 'insurance_id': insurance_id})
@@ -297,15 +301,31 @@ def apply_claim(claim_info):
 
 
 # 用户添加保险信息
-# TODO 需要判断当前insurance是否已经达到赔付上限,这里会传来insurance id吗？
+# 需要判断当前insurance是否已经达到赔付上限或逾期
+# 如果没有，返回余额和剩余时间，如果是则返回错误信息
 def supplementary_information(supplementary_info):
     supplementary_info['state'] = -1
     supplementary_info['luggage_width'] = int(supplementary_info['luggage_width'])
     supplementary_info['luggage_height'] = int(supplementary_info['luggage_height'])
     supplementary_info['sumPrice'] = int(supplementary_info['sumPrice'])
+
+    # 算剩余金额
+    user = db_usr_opr.search_username(supplementary_info['username'])
+    supplementary_info['insurance_id'] = user.insurance_id
     corresponded_insurance = db_ins_opr.__search_insurance(supplementary_info['insurance_id'])
-    if corresponded_insurance.compensated_amount + supplementary_info['sumPrice'] > corresponded_insurance.amount_of_money:
+    remaining_amount = corresponded_insurance.amount_of_money - (corresponded_insurance.compensated_amount + supplementary_info['sumPrice'])
+
+    # 算剩余时间
+    current_date = datetime.now()
+    begin_date = corresponded_insurance.date
+    current_date = datetime(current_date[0],current_date[1],current_date[2])
+    begin_date = datetime(begin_date[0],begin_date[1],begin_date[2])
+    day_gap = (current_date-begin_date).days - corresponded_insurance.duration
+
+    if remaining_amount <= 0:
         return jsonify({'state':'0', 'error_msg':'Cumulative compensation has reached the upper limit of compensation'})
+    elif day_gap <= 0:
+        return jsonify({'state': '0', 'error_msg': 'This insurance is overdue'})
     else:
         try:
             order_id = db_ord_opr.add_order(supplementary_info)
@@ -316,7 +336,7 @@ def supplementary_information(supplementary_info):
                     db_ord_opr.add_img(select_img)
                 except AssertionError as iae:
                     return jsonify({'state': '0', 'error_msg': iae})
-            return jsonify({'state': '1'})
+            return jsonify({'state': '1','remaining_money':remaining_amount,'remaining_time':day_gap})
         except AssertionError as ae:
             return jsonify({'state': '0', 'error_msg': ae})
 

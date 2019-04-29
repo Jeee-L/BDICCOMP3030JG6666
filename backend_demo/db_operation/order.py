@@ -40,9 +40,8 @@ def add_order(dict):
     :return: id
     '''
     assert (search_username(dict['username']) is not None), "No such User"
-    # TODO 为什么这里没有insurance order？claim id是None 吗？
     f = Order(username=dict['username'], flight_number =  dict['flight_number'], luggage_image_inside=dict['luggage_image_inside'],luggage_image_outside=dict['luggage_image_outside'], luggage_width=dict['luggage_width'],
-              luggage_height=dict['luggage_height'],sumPrice=dict['sumPrice'],state=dict['state'], date =datetime.datetime.now() ,remark=dict['remark'])
+              insurance_id=dict['insurance_id'], luggage_height=dict['luggage_height'],sumPrice=dict['sumPrice'],state=dict['state'], date =datetime.datetime.now() ,remark=dict['remark'])
     db.session.add(f)
     db.session.commit()
     return f.order_id
