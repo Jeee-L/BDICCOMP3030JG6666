@@ -3,7 +3,6 @@ module.exports = {
   devServer: {
     proxy: 'http://localhost:5000'
   },
-  baseUrl: './',
-  indexPath:"index.html",
-  publicPath:""
+  baseUrl: '/'
+  
 }

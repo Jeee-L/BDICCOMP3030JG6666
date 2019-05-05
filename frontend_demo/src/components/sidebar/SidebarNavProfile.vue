@@ -9,7 +9,7 @@
         <div class="info">
           <b class="caret pull-right"></b>
           {{$user.username}}
-          <small>Insured Customer</small>
+          <small>{{$t('m.insc')}}</small>
         </div>
       </a>
     </li>
@@ -20,12 +20,12 @@
       >
         <li>
           <router-link to="/customer/info">
-            <i class="fa fa-pencil-alt"></i>User Profile
+            <i class="fa fa-pencil-alt"></i>{{$t('m.usep')}}
           </router-link>
         </li>
         <li>
           <router-link to="/customer/center">
-            <i class="fa fa-question-circle"></i>Customer Service Center
+            <i class="fa fa-question-circle"></i>{{$t('m.csc')}}
           </router-link>
         </li>
       </ul>

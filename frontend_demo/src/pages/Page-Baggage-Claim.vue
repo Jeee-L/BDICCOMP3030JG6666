@@ -1,10 +1,10 @@
 <template>
   <div class="card card-body">
-    <h3 class="page-header">Initiate Baggage-lost Claim</h3>
+    <h3 class="page-header">{{$t('m.iblc')}}</h3>
     <p style="font-size: 15px">
-      This page displays all the baggage registration orders within validity period.
-      <br>According to our terms of service, as our customer, you can claim for compensation once already registered baggages are lost.
-      <br>It is also worth noticing that once insurance balance is not enough to support a new claim, your application will be rejected.
+      {{$t('m.display')}}
+      <br>{{$t('m.according')}}
+      <br>{{$t('m.br')}}
       <br>
       <br>
     </p>
@@ -15,42 +15,42 @@
     >
       <div class="order-card">
         <div class="card-header" v-if="(item.claim_id == null) && (item.insurance_order_id != null)">{{item.insurance_order_id}}</div>
-        <div class="card-header text-success" v-else-if="(item.claim_id != null) && (item.insurance_order_id != null)">Claim process has been initiated</div>
-        <div class="card-header text-danger" v-else>Baggage registration is waiting for process</div>
+        <div class="card-header text-success" v-else-if="(item.claim_id != null) && (item.insurance_order_id != null)">{{$t('m.init')}}</div>
+        <div class="card-header text-danger" v-else>{{$t('m.br')}}</div>
         <div class="row align-items-center" style="margin: 30px">
           <div class="col-5 text-center">
             <img
               class="img-thumbnail circle img-fluid thumb96"
               :src="item.luggage_image_inside"
               onerorr="this.src='../components/img/baggage_interior.png'"
-              alt="Image"
+              :alt="$t('m.altimage')"
             >
           </div>
           <div class="col-7">
             <div class="table-responsive">
-              <h6>Order Detailed Information</h6>
-              <p>Please check the table below before starting your claim.</p>
+              <h6>{{$t('m.odi')}}</h6>
+              <p>{{$t('m.check')}}</p>
               <table class="table m-b-0">
                 <thead>
                   <tr>
-                    <th>Baggage Information</th>
-                    <th>Other Information</th>
+                    <th>{{$t('m.bi')}}</th>
+                    <th>{{$t('m.other')}}</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Baggage Width: {{item.luggage_width}}</td>
-                    <td>Username: {{$user.username}}</td>
+                    <td>{{$t('m.width')}} {{item.luggage_width}}</td>
+                    <td>{{$t('m.usn')}} {{$user.username}}</td>
                   </tr>
                   <tr>
-                    <td>Baggage Height: {{item.luggage_height}}</td>
+                    <td>{{$t('m.height')}} {{item.luggage_height}}</td>
                     <td>
-                      <b class="text-danger">Sum Price: {{item.sumPrice}}</b>
+                      <b class="text-danger">{{$t('m.sp')}} {{item.sumPrice}}</b>
                     </td>
                   </tr>
                   <tr>
                     <td></td>
-                    <td>Flight Number: {{item.flight_number}}</td>
+                    <td>{{$t('m.flight')}} {{item.flight_number}}</td>
                   </tr>
                 </tbody>
               </table>
@@ -65,7 +65,7 @@
             type="button"
             v-on:click="showModalData(item.insurance_order_id)"
             :disabled="(item.claim_id != null) || (item.insurance_order_id == null)"
-          >Claim Lost Baggage</b-button>
+          >{{$t('m.clb')}}</b-button>
         </div>
       </div>
     </div>
@@ -73,20 +73,22 @@
     <!-- Modal template -->
     <b-modal
       id="modals-default"
-      ok-title="Submit Claim"
+      :ok-title="$t('m.tsc')"
       ok-variant="danger"
+      :cancel-title="$t('m.tcancel')"
+      cancel-variant="white"
       @ok="submitClaim()"
       v-model="modalShow"
     >
       <div slot="modal-title">
-        Baggage-lost
-        <span class="font-weight-light">Claim Form</span>
+        {{$t('m.bl1')}}
+        <span class="font-weight-light">{{$t('m.cform')}}</span>
         <br>
-        <small class="text-muted">Please fill in this form and initiate your request.</small>
+        <small class="text-muted">{{$t('m.fill')}}</small>
       </div>
 
       <b-form-row>
-        <b-form-group label="Lost Time" class="col">
+        <b-form-group :label="$t('m.llt')" class="col">
           <b-input
             placeholder="YYYY-MM-DD"
             v-model="formData.lost_time"
@@ -98,9 +100,9 @@
         </b-form-group>
       </b-form-row>
       <b-form-row>
-        <b-form-group label="Lost Place" class="col">
+        <b-form-group :label="$t('m.llp')" class="col">
           <b-input
-            placeholder="The place where you lost your baggage"
+            :placeholder="$t('m.pp')"
             v-model="formData.lost_place"
             name="lost_place"
             v-validate="{ required: true}"
@@ -110,9 +112,9 @@
         </b-form-group>
       </b-form-row>
       <b-form-row>
-        <b-form-group label="Reason of Lost" class="col">
+        <b-form-group :label="$t('m.lrl')" class="col">
           <b-input
-            placeholder="Reason of this lost"
+            :placeholder="$t('m.pr')"
             v-model="formData.reason"
             name="reason"
             v-validate="{ required: true}"
@@ -122,9 +124,9 @@
         </b-form-group>
       </b-form-row>
       <b-form-row>
-        <b-form-group label="Remark" class="col">
+        <b-form-group :label="$t('m.remark')" class="col">
           <b-input
-            placeholder="Other special requirements or illustration"
+            :placeholder="$t('m.pos')"
             v-model="formData.remark"
           />
         </b-form-group>
@@ -193,7 +195,7 @@ export default {
             console.log(error);
           });
       } else {
-        alert("Please enter valid information in all required fields.");
+        alert(this.$t('m.alpe'));
       }
     }
   }

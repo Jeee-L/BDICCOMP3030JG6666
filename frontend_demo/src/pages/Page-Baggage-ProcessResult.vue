@@ -6,12 +6,12 @@
         <div class="profile-header-content">
           <div class="profile-header-info">
             <h4 class="m-t-10 m-b-5">{{$user.username}}</h4>
-            <p class="m-b-10">Please check claim process results and records in this section.</p>
+            <p class="m-b-10">{{$t('m.checkc')}}</p>
           </div>
         </div>
         <ul class="profile-header-tab nav nav-tabs">
           <li class="nav-item">
-            <a href="javascript:;" class="nav-link active" data-toggle="tab">Claim Process Result</a>
+            <a href="javascript:;" class="nav-link active" data-toggle="tab">{{$t('m.cpr')}}</a>
           </li>
         </ul>
       </div>
@@ -36,33 +36,33 @@
               <!-- begin timeline-body -->
               <div class="timeline-body" :class="changeBackground(item)">
                 <div class="timeline-header">
-                  <span class="username">Registerd Baggage ID: {{item.insurance_order_id}}</span>
+                  <span class="username">{{$t('m.rid')}} {{item.insurance_order_id}}</span>
                   <span class="pull-right text-muted" style="color: black !important">{{item.date}}</span>
                 </div>
                 <div class="timeline-content">
                   <div class="col-9">
                     <div class="row">
                       <p class="info-field info-field-left">
-                        <b>Insurance ID:</b>
+                        <b>{{$t('m.iid')}}</b>
                         {{item.insurance_id}}
                       </p>
                       <p class="info-field">
-                        <b>Username:</b>
+                        <b>{{$t('m.usern')}}</b>
                         {{item.username}}
                       </p>
                     </div>
                     <div class="row">
                       <p class="info-field info-field-left">
-                        <b>Employee ID:</b>
+                        <b>{{$t('m.eid')}}</b>
                         {{item.employee_id}}
                       </p>
                       <p>
-                        <b class="info-field">Remark:</b>
+                        <b class="info-field">{{$t('m.re')}}</b>
                         {{item.remark}}
                       </p>
                     </div>
                     <p>
-                      <b>Reason:</b>
+                      <b>{{$t('m.reason')}}</b>
                       {{item.reason}}
                     </p>
                   </div>
@@ -71,21 +71,21 @@
                   <div v-if="item.state == '-1'">
                     <p
                       class="text-dark"
-                    >Please provide more detailed information and initiate a new claim.</p>
+                    >{{$t('m.pmd')}}</p>
                     <b-btn
                       variant="outline-info"
                       class="btn-xs"
                       v-on:click="showModalData(item.insurance_order_id)"
-                    >Provide Supplementary Information</b-btn>
+                    >{{$t('m.psi')}}</b-btn>
                   </div>
                   <p
                     class="text-success"
                     v-else-if="item.state == '1'"
-                  >Claim completed successfully. Compensation will be sent to your account within two days.</p>
+                  >{{$t('m.ccs')}}</p>
                   <p
                     class="text-danger"
                     v-else
-                  >Sorry, claim process is terminated due to specific reasons.</p>
+                  >{{$t('m.sorry')}}</p>
                 </div>
               </div>
               <!-- end timeline-body -->
@@ -99,21 +99,22 @@
       <!-- Modal template -->
       <b-modal
         id="modals-default"
-        ok-title="Submit Claim"
+        :ok-title="$t('m.tsc')"
         ok-variant="info"
+        :cancel-title="$t('m.tcancel')"
         cancel-variant="white"
         @ok="submitClaim()"
         v-model="modalShow"
       >
         <div slot="modal-title">
-          Baggage-lost
-          <span class="font-weight-light">Claim Form</span>
+          {{$t('m.bl1')}}
+          <span class="font-weight-light">{{$t('m.cform')}}</span>
           <br>
-          <small class="text-muted">Please fill in this form and initiate your request.</small>
+          <small class="text-muted">{{$t('m.fill')}}</small>
         </div>
 
         <b-form-row>
-          <b-form-group label="Lost Time" class="col">
+          <b-form-group :label="$t('m.llt')" class="col">
             <b-input
               placeholder="YYYY-MM-DD"
               v-model="formData.lost_time"
@@ -125,9 +126,9 @@
           </b-form-group>
         </b-form-row>
         <b-form-row>
-          <b-form-group label="Lost Place" class="col">
+          <b-form-group :label="$t('m.llp')" class="col">
             <b-input
-              placeholder="The place where you lost your baggage"
+              :placeholder="$t('m.pp')"
               v-model="formData.lost_place"
               name="lost_place"
               v-validate="{ required: true}"
@@ -137,9 +138,9 @@
           </b-form-group>
         </b-form-row>
         <b-form-row>
-          <b-form-group label="Reason of Lost" class="col">
+          <b-form-group :label="$t('m.lrl')" class="col">
             <b-input
-              placeholder="Reason of this lost"
+              :placeholder="$t('m.pr')"
               v-model="formData.reason"
               name="reason"
               v-validate="{ required: true}"
@@ -149,9 +150,9 @@
           </b-form-group>
         </b-form-row>
         <b-form-row>
-          <b-form-group label="Remark" class="col">
+          <b-form-group :label="$t('m.remark')" class="col">
             <b-input
-              placeholder="Other special requirements or illustration"
+              :placeholder="$t('m.pos')"
               v-model="formData.remark"
             />
           </b-form-group>
@@ -231,7 +232,7 @@ export default {
             console.log(error);
           });
       } else {
-        alert("Please enter valid information in all required fields.");
+        alert(this.$t('m.alpe'));
       }
     }
   },

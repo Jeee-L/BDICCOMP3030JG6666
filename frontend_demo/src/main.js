@@ -54,6 +54,19 @@ import App from './App.vue'
 
 import VeeValidate from 'vee-validate';
 
+import VueI18n from 'vue-i18n'
+
+Vue.use(VueI18n) // 通过插件的形式挂载
+
+const i18n = new VueI18n({
+    locale: localStorage.getItem('locale') || 'en',    // 语言标识
+   // this.$i18n.locale // 通过切换locale的值来实现语言切换
+    messages: {
+      'cn': require('./i18n/langs/cn'),   // 中文语言包
+      'en': require('./i18n/langs/en')    // 英文语言包
+    }
+})
+
 Vue.config.productionTip = false
 
 Vue.use(VueX)
@@ -99,6 +112,7 @@ Vue.use(global);
 
 // Vue Cropper for image processing
 import VueCropper from 'vue-cropper'
+import { getCookie } from './assets/js/cookie';
 Vue.use(VueCropper);
 
 
@@ -109,5 +123,6 @@ const router = new VueRouter({
 
 new Vue({
   render: h => h(App),
-  router
+  router,
+  i18n,
 }).$mount('#app')

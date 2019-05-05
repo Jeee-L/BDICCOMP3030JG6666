@@ -1,20 +1,20 @@
 <template>
   <div class="card card-default">
     <div class="card-header">
-      <h3>Registered Baggage Record Table</h3>
+      <h3>{{$t('m.rtable')}}</h3>
     </div>
     <div class="card-body" style="font-size: 15px">
       <div>
-        Please click button "Update Table" once you want to check new data.
-        <br>Once new baggage is registerd, the system will notfify employees at the top-right corner.
-        <br>Requests for data update will be initiated every ten seconds.
+        {{$t('m.upt')}}
+        <br>{{$t('m.tip1')}}
+        <br>{{$t('m.tip2')}}
       </div>
       <div class="btn-update">
         <b-btn
-          variant="outline-warn"
+          variant="outline-success"
           class="mb-1 mr-1 right-button"
           @click="updateData()"
-        >Update Table</b-btn>
+        >{{$t('m.uptable')}}</b-btn>
       </div>
     </div>
 
@@ -26,7 +26,7 @@
               variant="outline-dark"
               class="btn-xs"
               v-on:click="showModalData(props.row, 'Remark')"
-            >Check</b-btn>
+            >{{$t('m.check1')}}</b-btn>
           </div>
         </template>
         <template slot="Order_Details" slot-scope="props">
@@ -35,7 +35,7 @@
               variant="outline-dark"
               class="btn-xs"
               v-on:click="showModalData(props.row, 'baggage')"
-            >Check</b-btn>
+            >{{$t('m.check1')}}</b-btn>
           </div>
         </template>
       </v-client-table>
@@ -48,27 +48,27 @@
     <b-modal id="modals-default" :title="modalTitle" cancel-only v-model="modalShowBaggage">
       <div class="col-9">
         <p class="info-field">
-          <b>Username:</b>
+          <b>{{$t('m.usern')}}</b>
           {{baggageItem.username}}
         </p>
         <p class="info-field">
-          <b>Flight Number:</b>
+          <b>{{$t('m.flight')}}</b>
           {{baggageItem.flight_number}}
         </p>
         <p class="info-field">
-          <b>Baggage Height:</b>
+          <b>{{$t('m.height')}}</b>
           {{baggageItem.luggage_height}}
         </p>
         <p>
-          <b class="info-field">Baggage Width:</b>
+          <b class="info-field">{{$t('m.width')}}</b>
           {{baggageItem.luggage_width}}
         </p>
         <p>
-          <b class="info-field">Sum Price:</b>
+          <b class="info-field">{{$t('m.sp')}}</b>
           {{baggageItem.sumPrice}}
         </p>
         <p>
-          <b class="info-field">Remark:</b>
+          <b class="info-field">{{$t('m.remark')}}:</b>
           {{baggageItem.remark}}
         </p>
         <!-- START table-responsive-->
@@ -76,9 +76,9 @@
           <table class="table table-striped table-bordered table-hover card card-body">
             <thead>
               <tr>
-                <th>Belonging Picture</th>
-                <th>Name</th>
-                <th>Price</th>
+                <th>{{$t('m.bp')}}</th>
+                <th>{{$t('m.n')}}</th>
+                <th>{{$t('m.price')}}</th>
               </tr>
             </thead>
             <tbody>
@@ -133,14 +133,14 @@ export default {
       employee_id: "",
       tableData: [],
       columns: [
-        "Index",
-        "Baggage_Order_ID",
-        "Insurance_ID",
-        "Username",
-        "Order_Details",
-        "Claim_ID",
-        "Registerd_Date",
-        "Remark"
+        this.$t('m.index'),
+        this.$t('m.coid'),
+        this.$t('m.cid'),
+        this.$t('m.cun'),
+        this.$t('m.cod'),
+        this.$t('m.ccid'),
+        this.$t('m.crd'),
+        this.$t('m.remark')
       ],
       options: {
         pagination: { chunk: 5 },
@@ -245,7 +245,7 @@ export default {
         .catch(err => console.log(err));
     },
     show(group, type = "") {
-      const text = "New claim order awarting for process!";
+      const text = "New claim order are waiting for process!";
       this.$notify({
         group,
         text,

@@ -24,7 +24,7 @@
               v-on:click="startEdit(false)"
               class="btn btn-xs btn-yellow"
               data-toggle="tab"
-            >Edit Profile</a>
+            >{{$t('m.ep')}}</a>
           </div>
           <!-- END profile-header-info -->
         </div>
@@ -32,7 +32,7 @@
         <!-- BEGIN profile-header-tab -->
         <ul class="profile-header-tab nav nav-tabs">
           <li class="nav-item">
-            <a href="javascript:;" class="nav-link active" data-toggle="tab">User Profile</a>
+            <a href="javascript:;" class="nav-link active" data-toggle="tab">{{$t('m.usp')}}</a>
           </li>
         </ul>
         <!-- END profile-header-tab -->
@@ -59,7 +59,7 @@
                   </div>
                   <h3 class="m-0 text-bold">{{$user.username}}</h3>
                   <div class="my-3">
-                    <p>Please upload a photo to customize your avatar.</p>
+                    <p>{{$t('m.upl')}}</p>
                   </div>
 
                   <label class="btn btn-primary mb-2 mr-2" for="change-image">
@@ -69,21 +69,21 @@
                       id="change-image"
                       accept="image/png, image/jpeg, image/gif, image/jpg"
                       @change="changeImage($event)"
-                    > Upload Photo
+                    > {{$t('m.upp')}}
                   </label>
                 </div>
               </div>
               <div class="card card-default" v-show="showPasswordCard">
                 <div class="d-lg-block password-title card-title text-center">
-                  <h5>Change Password</h5>Please pass email velidation before changing passord.
+                  <h5>{{$t('m.cp')}}</h5>{{$t('m.val')}}
                 </div>
                 <div class="card-body">
                   <label class="control-label">
-                    Email
+                    {{$t('m.email')}}
                     <span class="text-danger">*</span>
                   </label>
                   <br>
-                  <small>This email should be the email used for registration; otherwise, please update this information first.</small>
+                  <small>{{$t('m.themail')}}</small>
                   <br>
                   <br>
                   <div class="row m-b-15">
@@ -91,7 +91,7 @@
                       <input
                         type="text"
                         name="email"
-                        placeholder="Email"
+                        :placeholder="$t('m.email')"
                         v-validate="{ required: true, regex:/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/ }"
                         class="form-control"
                         v-bind:class="{'is-invalid': errors.has('email')}"
@@ -103,7 +103,7 @@
                         <input
                           type="text"
                           class="form-control"
-                          placeholder="Verification Code"
+                          :placeholder="$t('m.verc')"
                           aria-describedby="button-addon2"
                           v-bind:class="{'is-valid': this.verification_field}"
                           v-model="verification_input"
@@ -126,27 +126,27 @@
               <div class="card card-default">
                 <div class="card-header d-flex align-items-center">
                   <div class="d-flex justify-content-center col">
-                    <div class="h4 m-0 text-center">Personal Information</div>
+                    <div class="h4 m-0 text-center">{{$t('m.person')}}</div>
                   </div>
-                  <a href="javascript:;" v-on:click="permitChangePassword">Change Password</a>
+                  <a href="javascript:;" v-on:click="permitChangePassword">{{$t('m.cp')}}</a>
                 </div>
 
                 <!-- begin change password modal -->
                 <b-modal
                   v-model="verification_field"
                   id="modalDialog1"
-                  cancel-title="Cancel"
+                  :cancel-title="$t('m.tcancel')"
                   cancel-variant="white"
                   @cancel="cancelChange()"
                   @ok="submitPassword()"
-                  ok-title="Update Password"
+                  :ok-title="$t('m.tu')"
                   ok-variant="info"
-                  title="Change Password"
+                  :title="$t('m.cp')"
                 >
                   <div class="card-body">
                     <form action="#">
                       <label class="control-label">
-                        Password
+                        {{$t('m.password')}}
                         <span class="text-danger">*</span>
                       </label>
                       <div class="row m-b-15">
@@ -154,7 +154,7 @@
                           <input
                             type="password"
                             class="form-control"
-                            placeholder="Password"
+                            :placeholder="$t('m.password')"
                             name="password"
                             ref="password"
                             v-validate="{ required: true, regex:/^[_!?,.*#a-zA-Z0-9]{6,20}$/ }"
@@ -165,7 +165,7 @@
                         </div>
                       </div>
                       <label class="control-label">
-                        Password Confirmation
+                        {{$t('m.confirm')}}
                         <span class="text-danger">*</span>
                       </label>
                       <div class="row m-b-15">
@@ -175,7 +175,7 @@
                             name="confirm_password"
                             type="password"
                             class="form-control"
-                            placeholder="Password, Again"
+                            :placeholder="$t('m.ppag')"
                             data-vv-as="password"
                             v-bind:class="{'is-invalid': errors.has('confirm_password')}"
                             v-model="confirm_password"
@@ -189,7 +189,7 @@
                       <p>
                         <small
                           class="text-muted"
-                        >* New password will be requried in the log-in section next time.</small>
+                        >* {{$t('m.newpw')}}</small>
                       </p>
                     </form>
                   </div>
@@ -200,20 +200,20 @@
                     <div class="col-12 col-sm-10">
                       <p
                         class="text-danger"
-                      >* Please click the Edit Profile button to update personal information.</p>
+                      >* {{$t('m.upi')}}</p>
                       <br>
                       <form class="form-horizontal">
                         <div class="form-group row">
                           <label
                             class="text-bold col-xl-2 col-md-3 col-4 col-form-label text-right"
                             for="inputContact1"
-                          >First Name</label>
+                          >{{$t('m.fn')}}</label>
                           <div class="col-xl-10 col-md-9 col-8">
                             <input
                               class="form-control"
                               id="inputContact1"
                               type="text"
-                              placeholder="First Name"
+                              :placeholder="$t('m.fn')"
                               name="first name"
                               v-validate="{ required: true, regex:/^[_a-zA-Z0-9\u4E00-\u9FA5]{2,30}$/ }"
                               v-bind:class="{'is-invalid': errors.has('first name')}"
@@ -227,7 +227,7 @@
                           <label
                             class="text-bold col-xl-2 col-md-3 col-4 col-form-label text-right"
                             for="inputContact1"
-                          >Last Name</label>
+                          >{{$t('m.ln')}}</label>
                           <div class="col-xl-10 col-md-9 col-8">
                             <input
                               class="form-control"
@@ -243,7 +243,7 @@
                           <label
                             class="text-bold col-xl-2 col-md-3 col-4 col-form-label text-right"
                             for="inputContact2"
-                          >User Name</label>
+                          >{{$t('m.un')}}</label>
                           <div class="col-xl-10 col-md-9 col-8">
                             <input
                               class="form-control"
@@ -259,7 +259,7 @@
                           <label
                             class="text-bold col-xl-2 col-md-3 col-4 col-form-label text-right"
                             for="inputContact7"
-                          >Email</label>
+                          >{{$t('m.email')}}</label>
                           <div class="col-xl-10 col-md-9 col-8">
                             <input
                               class="form-control"
@@ -275,7 +275,7 @@
                           <label
                             class="text-bold col-xl-2 col-md-3 col-4 col-form-label text-right"
                             for="inputContact8"
-                          >Birthday</label>
+                          >{{$t('m.birthday')}}</label>
                           <div class="col-xl-10 col-md-9 col-8">
                             <datepicker
                               placeholder="Select Date"
@@ -289,7 +289,7 @@
                           <label
                             class="text-bold col-xl-2 col-md-3 col-4 col-form-label text-right"
                             for="inputContact3"
-                          >Phone Num</label>
+                          >{{$t('m.num')}}</label>
                           <div class="col-xl-10 col-md-9 col-8">
                             <input
                               class="form-control"
@@ -305,7 +305,7 @@
                           <label
                             class="text-bold col-xl-2 col-md-3 col-4 col-form-label text-right"
                             for="inputContact5"
-                          >Passport ID</label>
+                          >{{$t('m.pid')}}</label>
                           <div class="col-xl-10 col-md-9 col-8">
                             <input
                               class="form-control"
@@ -321,7 +321,7 @@
                           <label
                             class="text-bold col-xl-2 col-md-3 col-4 col-form-label text-right"
                             for="inputContact6"
-                          >Address</label>
+                          >{{$t('m.address')}}</label>
                           <div class="col-xl-10 col-md-9 col-8">
                             <textarea
                               class="form-control"
@@ -338,7 +338,7 @@
                               class="btn btn-info"
                               type="button"
                               v-on:click="startEdit(true)"
-                            >Update</button>
+                            >{{$t('m.update1')}}</button>
                           </div>
                         </div>
                       </form>
@@ -378,7 +378,7 @@ export default {
       confirm_password: "",
 
       // Variables for email validation
-      btntxt: "Send Verification Code",
+      btntxt: this.$t('m.bsvc'),
       showPasswordCard: false,
       disabled: false,
       email: "",
@@ -415,7 +415,7 @@ export default {
           .post("/customer/info/update_password", obj)
           .then(res => {
             if (res.data == 0) {
-              alert("Sorry, sending verification code failed.");
+              alert(this.$t('m.als'));
             } else {
               this.time = 60;
               this.disabled = true;
@@ -474,7 +474,7 @@ export default {
           .post("/customer/info/update_password", obj)
           .then(res => {
             if (res.data == 0) {
-              alert("Sorry, sending verification code failed.");
+              alert(this.$t('m.als'));
             } else {
               this.time = 60;
               this.disabled = true;
@@ -515,7 +515,7 @@ export default {
       let file = e.target.files[0];
       if (!/\.(gif|jpg|jpeg|png|bmp|GIF|JPG|PNG)$/.test(e.target.value)) {
         alert(
-          "Please one of the following extensions: gif, jpeg, jpg, png, bmp"
+          this.$t('m.alfe')
         );
         return false;
       }

@@ -56,74 +56,74 @@
     <!-- note -->
     <div class="note note-lime note-with-right-icon m-b-15">
       <blockquote class="blockquote text-right">
-        <h2 style="color: black">Welcome {{$user.username}}</h2>
+        <h2 style="color: black">{{$t('m.welcome')}} {{$user.username}}</h2>
         <h5 style="color: black !important">{{nowTime}}</h5> <br>
         <h4>
-          Get ready for the unexpected, for the trivial and mundane to be turned into the profound and insightful. 
-            <br>You’ve been preparing for this journey for so long; you’re ready to thrive.
+          {{$t('m.get')}} 
+            <br>{{$t('m.ybp')}}
         </h4>
         <footer class="blockquote-footer">
-          Hibernia-Sino Travel Insurance
+          {{$t('m.name')}} {{$t('m.name2')}}
         </footer>
       </blockquote>
     </div>
 
     <div class="card">
       <div class="row row-space-10 card-block">
-        <h3>Insurance Coverage</h3>
-        <p>The Annual Plan was designed to be an industry first by including Trip Cancellation and Trip Interruption coverages with upgradable limits of up to $5,000, Medical & Dental, Emergency Assistance & Transportation (Evacuation), Baggage and Baggage Delay, Accidental Death and Dismemberment coverages, and more.</p>
+        <h3>{{$t('m.ic')}}</h3>
+        <p>{{$t('m.ap')}}</p>
         <div class="col-md-4">
           <div class="alert alert-primary fade show m-b-10">
             <span class="close" data-dismiss="alert">&times;</span>
-            <a href="#" class="alert-link">Trip Cancellation</a>.
+            <a href="#" class="alert-link">{{$t('m.tc')}}</a>.
           </div>
         </div>
         <div class="col-md-4">
           <div class="alert alert-info fade show m-b-10">
             <span class="close" data-dismiss="alert">&times;</span>
-            <a href="#" class="alert-link">Trip Interruption</a>.
+            <a href="#" class="alert-link">{{$t('m.ti')}}</a>.
           </div>
         </div>
         <div class="col-md-4">
           <div class="alert alert-purple fade show m-b-10">
             <span class="close" data-dismiss="alert">&times;</span>
-            <a href="#" class="alert-link">Medical Evacuation</a>.
+            <a href="#" class="alert-link">{{$t('m.me')}}</a>.
           </div>
         </div>
         <div class="col-md-4">
           <div class="alert alert-success fade show m-b-10">
             <span class="close" data-dismiss="alert">&times;</span>
-            <a href="#" class="alert-link">Baggage Loss</a>.
+            <a href="#" class="alert-link">{{$t('m.bl')}}</a>.
           </div>
         </div>
         <div class="col-md-4">
           <div class="alert alert-green fade show m-b-10">
             <span class="close" data-dismiss="alert">&times;</span>
-            <a href="#" class="alert-link">Flight Accident</a>.
+            <a href="#" class="alert-link">{{$t('m.fa')}}</a>.
           </div>
         </div>
         <div class="col-md-4">
           <div class="alert alert-secondary fade show m-b-10">
             <span class="close" data-dismiss="alert">&times;</span>
-            <a href="#" class="alert-link">Accidental Death</a>.
+            <a href="#" class="alert-link">{{$t('m.ad')}}</a>.
           </div>
         </div>
         <div class="col-md-4">
           <div class="alert alert-warning fade show m-b-10">
             <span class="close" data-dismiss="alert">&times;</span>
-            <a href="#" class="alert-link">Inclement Weather</a>.
+            <a href="#" class="alert-link">{{$t('m.iw')}}</a>.
           </div>
         </div>
         <div class="col-md-4">
           <div class="alert alert-yellow fade show m-b-10">
             <span class="close" data-dismiss="alert">&times;</span>
-            <a href="#" class="alert-link">Theft of Passports or Visas</a>.
+            <a href="#" class="alert-link">{{$t('m.tpv')}}</a>.
           </div>
         </div>
         <div class="col-md-4">
           <div class="alert alert-secondary fade show m-b-10">
             <span class="close" data-dismiss="alert">&times;</span>
-            <a href="#" class="alert-link">Mechanical Breakdown of Automobile</a>.
+            <a href="#" class="alert-link">{{$t('m.mba')}}</a>.
           </div>
         </div>
       </div>
