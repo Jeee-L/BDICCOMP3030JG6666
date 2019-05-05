@@ -24,7 +24,7 @@ def create(id, password):
     :return:
     '''
     emp = search_id(id)
-    assert(emp is not None),'Already exist'
+    assert(emp is None),'Already exist'
     db.session.add(Employee(id = id, password = password))
     db.session.commit()
     return 'Create employee Successfully'

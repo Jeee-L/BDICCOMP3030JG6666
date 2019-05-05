@@ -1,8 +1,6 @@
 from re_verification import *
 from flask import jsonify
 import db_operation.users_operate as db_usr_opr
-import db_operation.insurance_operate as db_ins_opr
-import db_operation.claim_operate as db_cla_opr
 import db_operation.administrator_operate as db_adi_opr
 import user
 

@@ -7,8 +7,8 @@ import yaml
 
 
 app =  Flask(__name__)
-dbs = yaml.load(open(r'C:\Users\TED\Documents\GitHub\MySimplePythonCode\BDICCOMP3030JG6666\backend_demo\db_operation\test\db.yaml'), Loader=yaml.FullLoader)
-# dbs = yaml.load(open(r'C:\SoftwareProject2\BDICCOMP3030JG6666\backend_demo\db.yaml'),Loader=yaml.FullLoader)
+# dbs = yaml.load(open(r'C:\Users\TED\Documents\GitHub\MySimplePythonCode\BDICCOMP3030JG6666\backend_demo\db_operation\test\db.yaml'), Loader=yaml.FullLoader)
+dbs = yaml.load(open(r'C:\SoftwareProject2\BDICCOMP3030JG6666\backend_demo\db.yaml'),Loader=yaml.FullLoader)
 app.config['SQLALCHEMY_DATABASE_URI'] = dbs['sqlalchemy_database_uri_local']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
@@ -51,8 +51,8 @@ class Users(db.Model):
 
     @password.setter
     def password(self, password):
-        # self.password_hash = generate_password_hash(password)
-        self.password_hash = password
+        self.password_hash = generate_password_hash(password)
+        # self.password_hash = password
 
     def check_password_hash(self, password):
         return check_password_hash(self.password_hash, password)
@@ -196,7 +196,7 @@ class Claim(db.Model):
 class Employee(db.Model):
     __tablename__='Employee'
     id = db.Column(db.Unicode(32), nullable=True, primary_key=True, index=True)
-    password_hash = db.Column(db.Unicode(32), nullable=True, unique=True)
+    password_hash = db.Column(db.Unicode(300), nullable=True, unique=True)
 
     @property
     def password(self):

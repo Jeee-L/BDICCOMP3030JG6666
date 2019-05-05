@@ -35,8 +35,8 @@ def list_all_insurance():
             insurance_dict = {}
             insurance_dict['username'] = insurance.username
             insurance_dict['id'] = str(insurance.id)
-            insurance_dict['project_id'] = str(insurance.project_id)
-            insurance_dict['product_id'] = str(insurance.product_id)
+            # insurance_dict['project_id'] = str(insurance.project_id)
+            # insurance_dict['product_id'] = str(insurance.product_id)
             insurance_dict['amount_of_money'] = str(insurance.amount_of_money)
             insurance_dict['compensated_amount '] = str(insurance.compensated_amount)
             insurance_dict['state'] = str(insurance.state)
@@ -75,7 +75,7 @@ def list_all_insurance_order():
     else:
         for insurance_order in all_insurance_order:
             insurance_dict = {}
-            insurance_dict['id'] = str(insurance_order.id)
+            insurance_dict['id'] = str(insurance_order.order_id)
             insurance_dict['state'] = str(insurance_order.state)
             insurance_dict['username'] = insurance_order.username
             insurance_dict['insurance_id'] = str(insurance_order.insurance_id)

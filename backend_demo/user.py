@@ -5,14 +5,7 @@ import db_operation.insurance_operate as db_ins_opr
 import db_operation.claim_operate as db_cla_opr
 import db_operation.order as db_ord_opr
 import db_operation.product_operate as db_duct_opr
-import db_operation.project_operate as db_ject_opr
-import os
-import cv2
-from werkzeug.utils import secure_filename
-from datetime import datetime,timedelta
-import time
-
-# TODO 转字符串是f 转date 是 p
+from datetime import datetime
 
 def login(username, password):
     if db_usr_opr.search_username(username) is None:
@@ -27,7 +20,10 @@ def login(username, password):
 
 def user_all_info(username):
     user = db_usr_opr.search_username(username)
-    birthday_date = user.birthday.strftime("%Y-%m-%d")
+    birthday_date = user.birthday
+    if birthday_date is not None:
+        birthday_date = birthday_date.strftime("%Y-%m-%d")
+
     return_value = {
         'state': '1',
         'username':username,
@@ -55,8 +51,8 @@ def user_all_insurance(username):
             insurance_dict = {}
             insurance_dict['username'] = insurance.username
             insurance_dict['id'] = str(insurance.id)
-            insurance_dict['project_id'] = str(insurance.project_id)
-            insurance_dict['product_id'] = str(insurance.product_id)
+            # insurance_dict['project_id'] = str(insurance.project_id)
+            # insurance_dict['product_id'] = str(insurance.product_id)
             insurance_dict['amount_of_money'] = str(insurance.amount_of_money)
             insurance_dict['compensated_amount'] = str(insurance.compensated_amount)
             insurance_dict['state'] = str(insurance.state)
@@ -161,7 +157,7 @@ def update_user_info(update_info):
     update_passport(update_info['old_username'], update_info['passport_num'])
     update_birthday(update_info['old_username'], update_info['birthday'])
     update_address(update_info['old_username'], update_info['address'])
-    update_name(update_info['old_username'], update_info['username'])
+    # update_name(update_info['old_username'], update_info['username'])
 
     return_value = {'state': '1'}
     return jsonify(return_value)
@@ -269,7 +265,7 @@ def buy_insurance(insurance_info):
     insurance_info['compensated_amount'] = 0
     insurance_info['product_id'] = int(insurance_info['product_id'])
     insurance_info['project_id'] = int(insurance_info['project_id'])
-    insurance_info['birthday'] = datetime.strptime(insurance_info['birthday'], "%Y-%m-%d")
+    # insurance_info['birthday'] = datetime.strptime(insurance_info['birthday'], "%Y-%m-%d")
     corresponded_product = db_duct_opr.search_product(insurance_info['product_id'])
     insurance_info['duration'] = corresponded_product.product_information
     try:
@@ -310,24 +306,26 @@ def supplementary_information(supplementary_info):
     supplementary_info['sumPrice'] = int(supplementary_info['sumPrice'])
 
     # 算剩余金额
-    user = db_usr_opr.search_username(supplementary_info['username'])
-    supplementary_info['insurance_id'] = user.insurance_id
-    corresponded_insurance = db_ins_opr.__search_insurance(supplementary_info['insurance_id'])
-    remaining_amount = corresponded_insurance.amount_of_money - (corresponded_insurance.compensated_amount + supplementary_info['sumPrice'])
+    # user = db_usr_opr.search_username(supplementary_info['username'])
+    # supplementary_info['insurance_id'] = user.insurance_id
+    # corresponded_insurance = db_ins_opr.__search_insurance(supplementary_info['insurance_id'])
+    # remaining_amount = corresponded_insurance.amount_of_money - (corresponded_insurance.compensated_amount + supplementary_info['sumPrice'])
 
     # 算剩余时间
-    current_date = datetime.now()
-    begin_date = corresponded_insurance.date
-    current_date = datetime(current_date[0],current_date[1],current_date[2])
-    begin_date = datetime(begin_date[0],begin_date[1],begin_date[2])
-    day_gap = (current_date-begin_date).days - corresponded_insurance.duration
+    # current_date = datetime.now()
+    # begin_date = corresponded_insurance.date
+    # current_date = datetime(current_date[0],current_date[1],current_date[2])
+    # begin_date = datetime(begin_date[0],begin_date[1],begin_date[2])
+    # day_gap = (current_date-begin_date).days - corresponded_insurance.duration
 
-    if remaining_amount <= 0:
-        return jsonify({'state':'0', 'error_msg':'Cumulative compensation has reached the upper limit of compensation'})
-    elif day_gap <= 0:
-        return jsonify({'state': '0', 'error_msg': 'This insurance is overdue'})
-    else:
+    # if remaining_amount <= 0:
+    #     return jsonify({'state':'0', 'error_msg':'Cumulative compensation has reached the upper limit of compensation'})
+    # elif day_gap <= 0:
+    #     return jsonify({'state': '0', 'error_msg': 'This insurance is overdue'})
+    # else:
+    if True:
         try:
+            supplementary_info['insurance_id'] = 3
             order_id = db_ord_opr.add_order(supplementary_info)
             select_img_list = supplementary_info['select_img']
             for select_img in select_img_list:
@@ -336,7 +334,8 @@ def supplementary_information(supplementary_info):
                     db_ord_opr.add_img(select_img)
                 except AssertionError as iae:
                     return jsonify({'state': '0', 'error_msg': iae})
-            return jsonify({'state': '1','remaining_money':remaining_amount,'remaining_time':day_gap})
+            # return jsonify({'state': '1','remaining_money':remaining_amount,'remaining_time':day_gap})
+            return jsonify({'state': '1'})
         except AssertionError as ae:
             return jsonify({'state': '0', 'error_msg': ae})
 
