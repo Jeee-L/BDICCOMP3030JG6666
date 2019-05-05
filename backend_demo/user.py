@@ -5,7 +5,9 @@ import db_operation.insurance_operate as db_ins_opr
 import db_operation.claim_operate as db_cla_opr
 import db_operation.order as db_ord_opr
 import db_operation.product_operate as db_duct_opr
+import db_operation.project_operate as db_ject_opr
 from datetime import datetime
+from email_verificatoin import email_verify
 
 def login(username, password):
     if db_usr_opr.search_username(username) is None:
@@ -34,7 +36,7 @@ def user_all_info(username):
         'email': user.email,
         'birthday': birthday_date,
         'address': user.address,
-        'insurance_list': user_all_insurance(username),
+        # 'insurance_list': user_all_insurance(username),
         # 'insurance_order_list': user_all_insurance_order(username),
         # 'claim_list': user_all_claim(username)
     }
@@ -157,7 +159,7 @@ def update_user_info(update_info):
     update_passport(update_info['old_username'], update_info['passport_num'])
     update_birthday(update_info['old_username'], update_info['birthday'])
     update_address(update_info['old_username'], update_info['address'])
-    # update_name(update_info['old_username'], update_info['username'])
+    update_name(update_info['old_username'], update_info['username'])
 
     return_value = {'state': '1'}
     return jsonify(return_value)
@@ -197,7 +199,7 @@ def update_address(username, address):
 
 
 def update_name(old_name, new_name):
-    if not (new_name is ''):
+    if not ((new_name is '') and (old_name == new_name)):
         if not verify_username(new_name):
             return jsonify({'state': '0', 'error_msg': 'Illegal username'})
         else:
@@ -206,6 +208,12 @@ def update_name(old_name, new_name):
             except AssertionError as ae:
                 return jsonify({'state': '0', 'error_msg': ae})
 
+def send_verification_code(username):
+    user = db_usr_opr.search_username(username)
+    if user is None:
+        return '0'
+    email = user.email
+    return email_verify(email)
 
 def update_password(name, new_password, confirm_password):
     if not verify_password(new_password):
@@ -265,9 +273,11 @@ def buy_insurance(insurance_info):
     insurance_info['compensated_amount'] = 0
     insurance_info['product_id'] = int(insurance_info['product_id'])
     insurance_info['project_id'] = int(insurance_info['project_id'])
-    # insurance_info['birthday'] = datetime.strptime(insurance_info['birthday'], "%Y-%m-%d")
+    insurance_info['birthday'] = datetime.strptime(insurance_info['birthday'], "%Y-%m-%d")
     corresponded_product = db_duct_opr.search_product(insurance_info['product_id'])
     insurance_info['duration'] = corresponded_product.product_information
+    corresponded_project = db_ject_opr.search_project_object(insurance_info['product_id'],insurance_info['project_id'])
+    insurance_info['amount_of_money'] = corresponded_project.coverage
     try:
         insurance_id = db_ins_opr.add_insurance(insurance_info)
         return jsonify({'state': '1', 'insurance_id': insurance_id})
@@ -325,7 +335,8 @@ def supplementary_information(supplementary_info):
     # else:
     if True:
         try:
-            supplementary_info['insurance_id'] = 3
+            supplementary_info['insurance_id'] = 6
+            print(supplementary_info)
             order_id = db_ord_opr.add_order(supplementary_info)
             select_img_list = supplementary_info['select_img']
             for select_img in select_img_list:

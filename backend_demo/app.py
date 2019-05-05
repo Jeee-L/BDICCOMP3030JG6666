@@ -73,7 +73,8 @@ def customer_update_password():
     if request.method == 'POST':
         update_password = json.loads(request.get_data())
         if update_password['verify'] == 0:
-            verification_code = email_verify(update_password['email'])
+            # verification_code = email_verify(update_password['email'])
+            verification_code = user.send_verification_code(update_password['username'])
             return verification_code
         else:
             return user.update_password(update_password['username'],update_password['password'],update_password['confirm_password'])
@@ -167,6 +168,7 @@ def list_all_insurance_order():
 @app.route('/list_insurance_order_info/', methods=['GET', 'POST'])
 def list_insurance_order_info_page():
     if request.method == 'POST':
+        print(request.get_data())
         insurance_order_id = json.loads(request.get_data())
         return employee.insurance_order_detail(insurance_order_id)
 

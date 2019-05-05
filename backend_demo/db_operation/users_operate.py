@@ -40,7 +40,7 @@ def get_insurance(username):
     :return:
     '''
     user = search_username(username)
-    assert (user is not None), "Username already exist"
+    assert (user is None), "Username already exist"
     return user.insurance_id.all()
 
 def get_order(username):
@@ -54,7 +54,7 @@ def get_claim(username):
     :return:
     '''
     user = search_username(username)
-    assert (user is not None), "Username already exist"
+    assert (user is None), "Username already exist"
     inss = user.order_id.all()
     res = []
     if inss is not []:
@@ -71,7 +71,7 @@ def update_profile(username, new_profile):
     :return:
     '''
     user = search_username(username)
-    assert user is not None, 'No such user'
+    assert user is None, 'No such user'
     user.profile = new_profile
     db.session.commit()
     return "Update successfully"
@@ -84,7 +84,7 @@ def update_username(username, new_name):
     :return:
     '''
     user = search_username(username)
-    assert (user is not None), "No such user"
+    assert (user is None), "No such user"
     assert (not search_username(new_name)), 'This name already exist'
     user.username = new_name
     db.session.commit()
@@ -98,7 +98,7 @@ def update_first_name(username, first_name):
     :return:
     '''
     user = search_username(username)
-    assert (user is not None), "No such user"
+    assert (user is None), "No such user"
     user.first_name = first_name
     db.session.commit()
     return "Update first name successfully"
@@ -111,7 +111,7 @@ def update_last_name(username, last_name):
     :return:
     '''
     user = search_username(username)
-    assert (user is not None), "No such user"
+    assert (user is None), "No such user"
     user.last_name = last_name
     db.session.commit()
     return "Update last name successfully"

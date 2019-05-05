@@ -9,3 +9,6 @@ def insert_project(dict):
 
 def search_project(product_id, project_id):
     return Project.query.filter_by(product_id=product_id, project_id = project_id).first().id
+
+def search_project_object(product_id, project_id):
+    return Project.query.filter_by(product_id=product_id, project_id = project_id).first()

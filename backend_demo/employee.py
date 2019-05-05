@@ -38,7 +38,7 @@ def list_all_insurance():
             # insurance_dict['project_id'] = str(insurance.project_id)
             # insurance_dict['product_id'] = str(insurance.product_id)
             insurance_dict['amount_of_money'] = str(insurance.amount_of_money)
-            insurance_dict['compensated_amount '] = str(insurance.compensated_amount)
+            insurance_dict['compensated_amount'] = str(insurance.compensated_amount)
             insurance_dict['state'] = str(insurance.state)
             insurance_dict['date'] = insurance.date.strftime("%Y-%m-%d")
             insurance_dict['remark'] = insurance.remark
@@ -85,12 +85,12 @@ def list_all_insurance_order():
             insurance_dict['luggage_height'] = str(insurance_order.luggage_height)
             insurance_dict['luggage_width'] = str(insurance_order.luggage_width)
             insurance_dict['date'] = insurance_order.date.strftime("%Y-%m-%d")
-            insurance_dict['claim_id'] = str(insurance_order.claim_id)
             insurance_dict['remark'] = insurance_order.remark
             return_list.append(insurance_dict)
         return jsonify(return_list)
 
 def insurance_order_detail(insurance_order_id):
+    insurance_order_id = int(insurance_order_id)
     insurance_order = db_ord_opr.search_order(insurance_order_id)
     if insurance_order is None:
         return jsonify({'state':'-1','error_msg':'No such insurance order'})
@@ -106,7 +106,6 @@ def insurance_order_detail(insurance_order_id):
         insurance_order_dict['luggage_height'] = str(insurance_order.luggage_height)
         insurance_order_dict['luggage_width'] = str(insurance_order.luggage_width)
         insurance_order_dict['date'] = insurance_order.date.strftime("%Y-%m-%d")
-        insurance_order_dict['claim_id'] = str(insurance_order.claim_id)
         insurance_order_dict['remark'] = insurance_order.remark
         insurance_order_dict['sumPrice'] = str(insurance_order.sumPrice)
         select_img_list = db_ord_opr.select_img(insurance_order_id)
