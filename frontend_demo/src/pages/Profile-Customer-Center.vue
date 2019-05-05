@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="card card-block" id="intelligent-system">
-      <h3>Intelligent Consulting System</h3>
-      <p>Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.</p>
+      <h3>{{$t('m.ics')}}</h3>
+      <p>{{$t('m.food')}}</p>
 
       <!-- begin widget-chat -->
       <div
@@ -18,8 +18,8 @@
             ></i>
           </div>
           <div class="widget-chat-header-content">
-            <h4 class="widget-chat-header-title">Hibernia-Sino Intelligent Chatbot</h4>
-            <p class="widget-chat-header-desc">quick answers about insurance services questions</p>
+            <h4 class="widget-chat-header-title">{{$t('m.name')}} {{$t('m.chatbot')}}</h4>
+            <p class="widget-chat-header-desc">{{$t('m.answer')}}</p>
           </div>
         </div>
         <!-- end widget-chat-header -->
@@ -32,8 +32,8 @@
             </div>
             <div class="widget-chat-info">
               <div class="widget-chat-info-container">
-                <div class="widget-chat-name text-indigo">Hudson Mendes</div>
-                <div class="widget-chat-message">Should we plan for a company trip this year?</div>
+                <div class="widget-chat-name text-indigo">{{$t('m.hm')}}</div>
+                <div class="widget-chat-message">{{$t('m.con1')}}</div>
                 <div class="widget-chat-time">6:00PM</div>
               </div>
             </div>
@@ -46,8 +46,8 @@
             </div>
             <div class="widget-chat-info">
               <div class="widget-chat-info-container">
-                <div class="widget-chat-name text-primary">Sam Sugerman</div>
-                <div class="widget-chat-message">ok let's do it</div>
+                <div class="widget-chat-name text-primary">{{$t('m.ss')}}</div>
+                <div class="widget-chat-message">{{$t('m.con2')}}</div>
                 <div class="widget-chat-time">6:01PM</div>
               </div>
             </div>
@@ -57,13 +57,13 @@
           <div class="widget-chat-item right">
             <div class="widget-chat-info">
               <div class="widget-chat-info-container">
-                <div class="widget-chat-message">i'm ok with it</div>
+                <div class="widget-chat-message">{{$t('m.con3')}}</div>
                 <div class="widget-chat-time">6:05PM</div>
               </div>
             </div>
           </div>
           <!-- end widget-chat-item -->
-          <div class="text-center text-muted m-10 f-w-600">Today</div>
+          <div class="text-center text-muted m-10 f-w-600">{{$t('m.t1')}}</div>
           <!-- begin widget-chat-item -->
           <div class="widget-chat-item with-media left">
             <div class="widget-chat-media">
@@ -71,8 +71,8 @@
             </div>
             <div class="widget-chat-info">
               <div class="widget-chat-info-container">
-                <div class="widget-chat-name text-orange">Jaxon Allwood</div>
-                <div class="widget-chat-message">Here is some images for New Zealand
+                <div class="widget-chat-name text-orange">{{$t('m.ja')}}</div>
+                <div class="widget-chat-message">{{$t('m.con4')}}
                   <div class="row row-space-2 m-t-5">
                     <div class="col-md-4">
                       <a href="javascript:;" class="widget-card widget-card-sm square m-b-2">

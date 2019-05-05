@@ -1,20 +1,20 @@
 <template>
   <div class="card card-default">
     <div class="card-header">
-      <h3>Insurance Record Table</h3>
+      <h3>{{$t('m.irtable')}}</h3>
     </div>
     <div class="card-body" style="font-size: 15px">
       <div>
-        Please click button "Update Table" once you want to check new data.
-        <br>Once new insurance is created, the system will notfify employees at the top-right corner.
-        <br>Requests for data update will be initiated every ten seconds.
+        {{$t('m.upt')}}
+        <br>{{$t('m.tip5')}}
+        <br>{{$t('m.tip6')}}
       </div>
       <div class="btn-update">
         <b-btn
           variant="outline-info"
           class="mb-1 mr-1 right-button"
           @click="updateData()"
-        >Update Table</b-btn>
+        >{{$t('m.uptable')}}</b-btn>
       </div>
     </div>
 
@@ -26,7 +26,7 @@
               variant="outline-dark"
               class="btn-xs"
               @click.prevent="checkRemark(props.row)"
-            >Check</b-btn>
+            >{{$t('m.check1')}}</b-btn>
           </div>
         </template>
       </v-client-table>
@@ -56,15 +56,15 @@ export default {
     return {
       tableData: [],
       columns: [
-        "Index",
-        "Insurance ID",
-        "Username",
-        "Product ID",
-        "Project ID",
-        "Price Total",
-        "Date",
-        "State",
-        "Remark"
+        this.$t('m.index'),
+        this.$t('m.cid'),
+        this.$t('m.cun'),
+        this.$t('m.cpid'),
+        this.$t('m.cpid2'),
+        this.$t('m.cpt'),
+        this.$t('m.cdate'),
+        this.$t('m.cstate'),
+        this.$t('m.remark'),
       ],
       options: {
         pagination: { chunk: 5 },
@@ -120,7 +120,7 @@ export default {
         .catch(err => console.log(err));
     },
     show(group, type = "") {
-      const text = "New baggage order awarting for process!";
+      const text = "New baggage order are waiting for process!";
       this.$notify({
         group,
         text,

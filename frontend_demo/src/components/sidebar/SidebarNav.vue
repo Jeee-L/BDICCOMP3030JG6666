@@ -1,7 +1,7 @@
 <template>
 	<!-- begin sidebar nav -->
 	<ul class="nav" v-if="menus">
-		<li class="nav-header">Navigation</li>
+		<li class="nav-header">{{$t('m.navigation')}}</li>
 		<template v-for="menu in menus">
 			<sidebar-nav-list ref="sidebarNavList" v-bind:menu="menu" v-bind:scrollTop="scrollTop" v-bind:key="menu.path" v-bind:status="menu.status" v-on:collapse-other="handleCollapseOther(menu)"></sidebar-nav-list>
 		</template>

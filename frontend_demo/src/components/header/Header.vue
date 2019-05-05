@@ -26,7 +26,7 @@
         </button>
         <router-link to="/dashboard/v2" class="navbar-brand">
           <span class="navbar-logo"></span>
-          <b>Hibernia-Sino</b> Travel Insurance
+          <b>{{$t('m.name')}}</b> {{$t('m.name2')}}
         </router-link>
         <button
           type="button"
@@ -69,7 +69,7 @@
         <li>
           <form class="navbar-form" v-on:submit="checkForm">
             <div class="form-group">
-              <input type="text" class="form-control" placeholder="Enter keyword">
+              <input type="text" class="form-control" :placeholder="$t('m.pek')">
               <button type="submit" class="btn btn-search">
                 <i class="fa fa-search"></i>
               </button>
@@ -83,11 +83,11 @@
               <span class="name">{{language}}</span>
               <b class="caret"></b>
             </template>
-            <b-dropdown-item href="javascript:;" v-on:click="changeLanguage('English')" style="margin-bottom: 10px">
+            <b-dropdown-item href="javascript:;" v-on:click="changeLanguage('English');changeLangEn()" style="margin-bottom: 10px">
               <span class="flag-icon flag-icon-ie" title="us"></span> English
             </b-dropdown-item>
-            <b-dropdown-item href="javascript:;" v-on:click="changeLanguage('Chinese')"  style="margin-bottom: 10px">
-              <span class="flag-icon flag-icon-cn" title="cn"></span> Chinese
+            <b-dropdown-item href="javascript:;" v-on:click="changeLanguage('Chinese');changeLangCn()"  style="margin-bottom: 10px">
+              <span class="flag-icon flag-icon-cn" title="cn"></span> 简体中文
             </b-dropdown-item>
           </b-dropdown>
         </li>
@@ -97,14 +97,9 @@
               <span class="d-none d-md-inline">{{$user.username}}</span>
               <b class="caret"></b>
             </template>
-            <b-dropdown-item href="javascript:;">Edit Profile</b-dropdown-item>
-            <b-dropdown-item href="javascript:;">
-              <span class="badge badge-danger pull-right">2</span> Inbox
-            </b-dropdown-item>
-            <b-dropdown-item href="javascript:;">Calendar</b-dropdown-item>
-            <b-dropdown-item href="javascript:;">Setting</b-dropdown-item>
+            <b-dropdown-item href="javascript:;">{{$t('m.edit')}}</b-dropdown-item>
             <b-dropdown-divider></b-dropdown-divider>
-            <b-dropdown-item href="javascript:;">Log Out</b-dropdown-item>
+            <b-dropdown-item href="javascript:;">{{$t('m.logout')}}</b-dropdown-item>
           </b-dropdown>
         </li>
         <li class="divider d-none d-md-block" v-if="pageOptions.pageWithTwoSidebar"></li>
@@ -139,6 +134,17 @@ export default {
   methods: {
     changeLanguage(value){
       this.language = value
+    },
+    changeLangEn() {
+   
+        localStorage.setItem('locale', 'en')
+        this.$i18n.locale = localStorage.getItem('locale')
+    },
+
+    changeLangCn() {
+        localStorage.setItem('locale', 'cn')
+        this.$i18n.locale = localStorage.getItem('locale')
+      
     },
     toggleMobileSidebar() {
       this.pageOptions.pageMobileSidebarToggled = !this.pageOptions

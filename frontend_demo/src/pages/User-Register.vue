@@ -6,9 +6,9 @@
       <div class="news-image"></div>
       <div class="news-caption">
         <h4 class="caption-title">
-          <b>Hibernia-Sino</b> Travel Insurance
+          <b>{{$t('m.name')}}</b> {{$t('m.name2')}}
         </h4>
-        <p>Travel with peace of mind. Compare the below plans and buy online with our best price guarantee. Our checkout process is 100% safe and secure and you will receive your policy within minutes via email.</p>
+        <p>{{$t('m.peace')}}</p>
       </div>
     </div>
     <!-- end news-feed -->
@@ -16,15 +16,15 @@
     <div class="right-content">
       <!-- begin register-header -->
       <h1 class="register-header">
-        Registration
-        <small>Use the following guidelines for creating a secure Hibernia-Sino Travel Insurance Account.</small>
+        {{$t('m.registration')}}
+        <small>{{$t('m.guide')}}</small>
       </h1>
       <!-- end register-header -->
       <!-- begin register-content -->
       <div class="register-content">
         <form action class="margin-bottom-0" v-on:submit.prevent="submitForm">
           <label class="control-label">
-            User Name
+            {{$t('m.un')}}
             <span class="text-danger">*</span>
           </label>
           <div class="row row-space-10">
@@ -32,7 +32,7 @@
               <input
                 type="text"
                 class="form-control"
-                placeholder="User Name"
+                :placeholder="$t('m.un')"
                 name="user name"
                 v-validate="{ required: true, regex:/^[_a-zA-Z0-9\u4E00-\u9FA5]{2,10}$/ }"
                 v-bind:class="{'is-invalid': errors.has('user name')}"
@@ -40,20 +40,20 @@
               >
               <span style="color: red !important;">{{ errors.first('user name') }}</span>
               <br>
-              <small class="text-muted">· Username should be between 2 and 10 characters long.</small>
+              <small class="text-muted">· {{$t('m.uns1')}}</small>
               <br>
               <small
                 class="text-muted"
-              >· Can contain any Chinese characters, any English letters from a to z (or A to Z).</small>
+              >· {{$t('m.uns2')}}</small>
               <br>
               <small
                 class="text-muted"
-              >· Can contain any numbers from 0 through 9 and _ (underscore) character.</small>
+              >· {{$t('m.uns3')}}</small>
             </div>
           </div>
           <br>
           <label class="control-label">
-            Password
+            {{$t('m.password')}}
             <span class="text-danger">*</span>
           </label>
           <div class="row m-b-15">
@@ -61,7 +61,7 @@
               <input
                 type="password"
                 class="form-control"
-                placeholder="Password"
+                :placeholder="$t('m.password')"
                 name="password"
                 ref="password"
                 v-validate="{ required: true, regex:/^[_!?,.*#a-zA-Z0-9]{6,20}$/ }"
@@ -72,7 +72,7 @@
             </div>
           </div>
           <label class="control-label">
-            Password Confirmation
+            {{$t('m.confirm')}}
             <span class="text-danger">*</span>
           </label>
           <div class="row m-b-15">
@@ -82,7 +82,7 @@
                 name="confirm_password"
                 type="password"
                 class="form-control"
-                placeholder="Password, Again"
+                :placeholder="$t('m.ppag')"
                 data-vv-as="password"
                 v-bind:class="{'is-invalid': errors.has('confirm_password')}"
                 v-model="formData.confirm_password"
@@ -92,21 +92,21 @@
                 style="color: red;"
               >{{ errors.first('confirm_password') }}</div>
               <br>
-              <small class="text-muted">· Password should be between 6 and 20 characters long.</small>
+              <small class="text-muted">· {{$t('m.pws1')}}</small>
               <br>
               <small
                 class="text-muted"
-              >· Can contain any English letters from a to z and any numbers from 0 through 9.</small>
+              >· {{$t('m.pws2')}}</small>
               <br>
               <small
                 class="text-muted"
-              >· Can contain some special characters, including _ (underscore), ! (exclamation mark), ? (question mark), , (comma), . (period), * (asterisk), # (pound sign).</small>
+              >· {{$t('m.pws3')}}</small>
               <br>
             </div>
           </div>
           <br>
           <label class="control-label">
-            Email
+            {{$t('m.email')}}
             <span class="text-danger">*</span>
           </label>
           <div class="row m-b-15">
@@ -114,7 +114,7 @@
               <input
                 type="text"
                 name="email"
-                placeholder="Email"
+                :placeholder="$t('m.email')"
                 v-validate="{ required: true, regex:/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/ }"
                 class="form-control"
                 v-bind:class="{'is-invalid': errors.has('email')}"
@@ -126,7 +126,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="Verification Code"
+                  :placeholder="$t('m.verc')"
                   aria-describedby="button-addon2"
                   v-bind:class="{'is-valid': this.verification_field}"
                   v-model="verification_input"
@@ -144,7 +144,7 @@
           </div>
           <br>
           <label class="control-label">
-            Phone Number
+            {{$t('m.pnum')}}
             <span class="text-danger">*</span>
           </label>
           <div class="row m-b-15">
@@ -152,7 +152,7 @@
               <input
                 type="text"
                 class="form-control"
-                placeholder="Phone Number"
+                :placeholder="$t('m.pnum')"
                 name="phone number"
                 v-validate="{ required: true, regex:/^1[34578]\d{9}$/ }"
                 v-bind:class="{'is-invalid': errors.has('phone number')}"
@@ -163,11 +163,11 @@
           </div>
           <br>
           <div class="register-buttons">
-            <button class="btn btn-primary btn-block btn-lg">Sign Up</button>
+            <button class="btn btn-primary btn-block btn-lg">{{$t('m.signup')}}</button>
           </div>
           <div class="m-t-20 m-b-40 p-b-40 text-inverse">
-            Already a member? Click
-            <a href="/login">here</a> to login.
+            {{$t('m.alr')}}
+            <a href="/login">{{$t('m.here')}}</a> {{$t('m.login2')}}
           </div>
         </form>
       </div>
@@ -187,7 +187,7 @@ export default {
     return {
       disabled: false,
       time: 0,
-      btntxt: "Send Verification Code",
+      btntxt: this.$t('m.bsvc'),
 
       verification_code: "",
       verification_input: "",
@@ -220,7 +220,7 @@ export default {
   methods: {
     submitForm() {
       if (!this.isFormInvalid && this.verification_field) {
-        alert("All fields in form are valid.");
+        alert(this.$t('m.alaf'));
         this.formData.verify = 1;
         var obj = JSON.stringify(this.formData);
         axios
@@ -229,7 +229,7 @@ export default {
             var response = JSON.parse(JSON.stringify(res.data));
             if (response.state == "1") {
               alert(
-                "Welcome to Hibernia-Sino Travel Insurance, dear customer."
+                this.$t('m.alw')
               );
               this.$router.push("/login");
             } else {
@@ -240,9 +240,9 @@ export default {
             console.log(error);
           });
       } else if (!this.isFormInvalid && !this.verification_field) {
-        alert("Please enter valid verification code.");
+        alert(this.$t('m.alp'));
       } else {
-        alert("Please enter valid information in all required fields.");
+        alert(this.$t('m.alpe'));
       }
     },
     sendCode() {
@@ -261,7 +261,7 @@ export default {
           .post("/register/", obj)
           .then(res => {
             if (res.data == 0) {
-              alert("Sorry, sending verification code failed.");
+              alert(this.$t('m.als'));
             } else {
               this.time = 60;
               this.disabled = true;

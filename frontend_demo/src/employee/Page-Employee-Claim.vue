@@ -1,20 +1,20 @@
 <template>
   <div class="card card-default">
     <div class="card-header">
-      <h3>Claim Record Table</h3>
+      <h3>{{$t('m.crtable')}}</h3>
     </div>
     <div class="card-body" style="font-size: 15px">
       <div>
-        Please click button "Update Table" once you want to check new data.
-        <br>Once new claim requires process, the system will notfify employees at the top-right corner.
-        <br>Requests for data update will be initiated every ten seconds.
+        {{$t('m.upt')}}
+        <br>{{$t('m.tip3')}}
+        <br>{{$t('m.tip4')}}
       </div>
       <div class="btn-update">
         <b-btn
           variant="outline-success"
           class="mb-1 mr-1 right-button"
           @click="updateData()"
-        >Update Table</b-btn>
+        >{{$t('m.uptable')}}</b-btn>
       </div>
     </div>
 
@@ -26,7 +26,7 @@
               variant="outline-dark"
               class="btn-xs"
               v-on:click="showModalData(props.row, 'Remark')"
-            >Check</b-btn>
+            >{{$t('m.check1')}}</b-btn>
           </div>
         </template>
         <template slot="Baggage_ID" slot-scope="props">
@@ -44,7 +44,7 @@
               variant="outline-dark"
               class="btn-xs"
               v-on:click="showModalData(props.row, 'Reason')"
-            >Check</b-btn>
+            >{{$t('m.check1')}}</b-btn>
           </div>
         </template>
         <template slot="Process" slot-scope="props">
@@ -52,17 +52,17 @@
             variant="outline-success"
             class="btn-xs btn-decision"
             v-on:click="processDecision(props.row, '1')"
-          >Agree</b-btn>
+          >{{$t('m.agree')}}</b-btn>
           <b-btn
             variant="outline-warning"
             class="btn-xs btn-decision"
             v-on:click="processDecision(props.row, '-1')"
-          >More</b-btn>
+          >{{$t('m.mored')}}</b-btn>
           <b-btn
             variant="outline-danger"
             class="btn-xs btn-decision"
             v-on:click="processDecision(props.row, '0')"
-          >Decline</b-btn>
+          >{{$t('m.decline')}}</b-btn>
         </template>
       </v-client-table>
     </div>
@@ -74,27 +74,27 @@
     <b-modal id="modals-default" :title="modalTitle" cancel-only v-model="modalShowBaggage">
       <div class="col-9">
         <p class="info-field">
-          <b>Username:</b>
+          <b>{{$t('m.usern')}}</b>
           {{baggageItem.username}}
         </p>
         <p class="info-field">
-          <b>Flight Number:</b>
+          <b>{{$t('m.flight')}}</b>
           {{baggageItem.flight_number}}
         </p>
         <p class="info-field">
-          <b>Baggage Height:</b>
+          <b>{{$t('m.height')}}</b>
           {{baggageItem.luggage_height}}
         </p>
         <p>
-          <b class="info-field">Baggage Width:</b>
+          <b class="info-field">{{$t('m.width')}}</b>
           {{baggageItem.luggage_width}}
         </p>
         <p>
-          <b class="info-field">Sum Price:</b>
+          <b class="info-field">{{$t('m.sp')}}</b>
           {{baggageItem.sumPrice}}
         </p>
         <p>
-          <b class="info-field">Remark:</b>
+          <b class="info-field">{{$t('m.remark')}}:</b>
           {{baggageItem.remark}}
         </p>
         <!-- START table-responsive-->
@@ -102,9 +102,9 @@
           <table class="table table-striped table-bordered table-hover card card-body">
             <thead>
               <tr>
-                <th>Belonging Picture</th>
-                <th>Name</th>
-                <th>Price</th>
+                <th>{{$t('m.bp')}}</th>
+                <th>{{$t('m.n')}}</th>
+                <th>{{$t('m.price')}}</th>
               </tr>
             </thead>
             <tbody>
@@ -163,16 +163,16 @@ export default {
       employee_id: "",
       tableData: [],
       columns: [
-        "Index",
-        "Claim_ID",
-        "Baggage_ID",
-        "Username",
-        "Reason",
-        "Lost Time",
-        "Lost Place",
-        "Claim Date",
-        "Remark",
-        "Process"
+        this.$t('m.index'),
+        this.$t('m.ccid'),
+        this.$t('m.cbid'),,
+        this.$t('m.cun'),,
+        this.$t('m.cre'),,
+        this.$t('m.clt'),,
+        this.$t('m.clp'),,
+        this.$t('m.ccd'),,
+        this.$t('m.remark'),,
+        this.$t('m.pro'),
       ],
       options: {
         pagination: { chunk: 5 },
