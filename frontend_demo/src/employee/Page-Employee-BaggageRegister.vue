@@ -190,13 +190,13 @@ export default {
         this.modalTitle = "Remark: " + row.Claim_ID;
         this.modalShow = true;
       } else {
-        this.checkBaggageDetail(row.insurance_order_id);
+        this.checkBaggageDetail(row.Baggage_Order_ID);
         this.modalTitle = "Registered Baggage Details: " + row.Claim_ID;
         this.modalShowBaggage = true;
       }
     },
-    checkBaggageDetail(insurance_order_id) {
-      var obj = JSON.stringify(insurance_order_id);
+    checkBaggageDetail(Baggage_Order_ID) {
+      var obj = JSON.stringify(Baggage_Order_ID);
       axios
         .post("/list_insurance_order_info/", obj)
         .then(res => {

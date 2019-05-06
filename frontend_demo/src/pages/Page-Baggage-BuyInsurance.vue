@@ -154,26 +154,6 @@
                     <!-- begin form-group -->
                     <div class="form-group row m-b-10">
                       <label class="col-md-3 col-form-label text-md-right">
-                        {{$t('m.un')}}
-                        <span class="text-danger">*</span>
-                      </label>
-                      <div class="col-md-6">
-                        <input
-                          type="text"
-                          name="user name"
-                          :placeholder="$t('m.un')"
-                          class="form-control"
-                          v-validate="{ required: true, regex:/^[_a-zA-Z0-9\u4E00-\u9FA5]{2,10}$/ }"
-                          v-bind:class="{'is-invalid': errors.has('user name')}"
-                          v-model="formData.username"
-                        >
-                        <span style="color: red !important;">{{ errors.first('user name') }}</span>
-                      </div>
-                    </div>
-                    <!-- end form-group -->
-                    <!-- begin form-group -->
-                    <div class="form-group row m-b-10">
-                      <label class="col-md-3 col-form-label text-md-right">
                         {{$t('m.email')}}
                         <span class="text-danger">*</span>
                       </label>
@@ -219,7 +199,7 @@
                           name="phone number"
                           :placeholder="$t('m.mobile')"
                           class="form-control"
-                          v-validate="{ required: true, regex:/^1[34578]\d{9}$/ }"
+                          v-validate="{ required: true, regex:/^1[34578]\d{9}$|^\d{8,9}$/ }"
                           v-bind:class="{'is-invalid': errors.has('phone number')}"
                           v-model="formData.phone_num"
                         >
@@ -239,7 +219,7 @@
                           class="form-control"
                           :placeholder="$t('m.passport')"
                           name="passport"
-                          v-validate="{ required: false, regex:/^\d{8,9}$/ }"
+                          v-validate="{ required: false, regex:/^(1[45]|P|E[A-Z])\d{7}$|^[GDE](\d{8})$|^S\d{7,8}$|^[HM]\d{10}$/ }"
                           v-bind:class="{'is-invalid': errors.has('passport')}"
                           v-model="formData.passport_num"
                         >
@@ -819,14 +799,14 @@ export default {
     return {
       showForm: false,
       formData: {
-        first_name: this.$user.first_name,
-        last_name: this.$user.last_name,
-        username: this.$user.username,
-        email: this.$user.email,
-        birthday: this.$user.birthday.toISOString().substr(0, 10),
-        phone_num: this.$user.phone_num,
-        passport_num: this.$user.passport_num,
-        address: this.$user.address,
+        first_name: this.$store.getters.first_name,
+        last_name: this.$store.getters.last_name,
+        username: this.$store.getters.username,
+        email: this.$store.getters.email,
+        birthday: this.$store.getters.birthday,
+        phone_num: this.$store.getters.phone_num,
+        passport_num: this.$store.getters.passport_num,
+        address: this.$store.getters.address,
         product_id:  "",
         project_id: "",
         amount_of_money: "",
@@ -862,6 +842,7 @@ export default {
           .substr(0, 10);
       }
 
+      // this.formData.birthday = this.formData.birthday.toISOString().substr(0, 10);
       if (!this.isFormInvalid && this.formData.project_id != "") {
         var obj = JSON.stringify(this.formData);
         axios
@@ -873,6 +854,7 @@ export default {
           .catch(function(error) {
             console.log(error);
           });
+          alert(this.$t('m.success_create'));
       } else if (!this.isFormInvalid && this.formData.project_id != "") {
         alert(this.$t('m.alop'));
       } else {

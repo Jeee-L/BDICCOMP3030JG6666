@@ -582,7 +582,7 @@ export default {
   data() {
     return {
       formData: {
-        username: this.$user.username,
+        username: this.$store.getters.username,
         flight_number: "",
         luggage_width: "",
         luggage_height: "",
@@ -689,8 +689,8 @@ export default {
     },
     submitOrderForm() {
       if (!this.isFormInvalid) {
-        this.$user.insurance_order_list[
-          this.$user.insurance_order_list.length
+        this.$store.getters.insurance_order_list[
+          this.$store.getters.insurance_order_list.length
         ] = this.formData;
 
         var obj = JSON.stringify(this.formData);

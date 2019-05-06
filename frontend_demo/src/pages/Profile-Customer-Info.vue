@@ -10,13 +10,13 @@
         <div class="profile-header-content">
           <!-- BEGIN profile-header-img -->
           <div class="profile-header-img">
-            <img :src="avatar">
+            <img :src="($store.state.avatar)">
             <!-- onerror="this.src='../assets/img/china-land1.jpg'" -->
           </div>
           <!-- END profile-header-img -->
           <!-- BEGIN profile-header-info -->
           <div class="profile-header-info">
-            <h4 class="m-t-10 m-b-5">{{$user.username}}</h4>
+            <h4 class="m-t-10 m-b-5">{{$store.state.username}}</h4>
             <p class="m-b-10"></p>
             <a
               a
@@ -52,12 +52,12 @@
                   <div class="py-4">
                     <img
                       class="img-fluid rounded-circle img-thumbnail thumb96"
-                      :src="avatar"
+                      :src="($store.state.avatar)"
                       alt="Contact"
                       onload="if (this.width>140 || this.height>226) if (this.width/this.height>140/226) this.width=140; else this.height=226;"
                     >
                   </div>
-                  <h3 class="m-0 text-bold">{{$user.username}}</h3>
+                  <h3 class="m-0 text-bold">{{$store.state.username}}</h3>
                   <div class="my-3">
                     <p>{{$t('m.upl')}}</p>
                   </div>
@@ -69,13 +69,15 @@
                       id="change-image"
                       accept="image/png, image/jpeg, image/gif, image/jpg"
                       @change="changeImage($event)"
-                    > {{$t('m.upp')}}
+                    >
+                    {{$t('m.upp')}}
                   </label>
                 </div>
               </div>
               <div class="card card-default" v-show="showPasswordCard">
                 <div class="d-lg-block password-title card-title text-center">
-                  <h5>{{$t('m.cp')}}</h5>{{$t('m.val')}}
+                  <h5>{{$t('m.cp')}}</h5>
+                  {{$t('m.val')}}
                 </div>
                 <div class="card-body">
                   <label class="control-label">
@@ -144,63 +146,59 @@
                   :title="$t('m.cp')"
                 >
                   <div class="card-body">
-                    <form action="#">
-                      <label class="control-label">
-                        {{$t('m.password')}}
-                        <span class="text-danger">*</span>
-                      </label>
-                      <div class="row m-b-15">
-                        <div class="col-md-12">
-                          <input
-                            type="password"
-                            class="form-control"
-                            :placeholder="$t('m.password')"
-                            name="password"
-                            ref="password"
-                            v-validate="{ required: true, regex:/^[_!?,.*#a-zA-Z0-9]{6,20}$/ }"
-                            v-bind:class="{'is-invalid': errors.has('password')}"
-                            v-model="password"
-                          >
-                          <span style="color: red !important;">{{ errors.first('password') }}</span>
-                        </div>
+                    <!-- <form> -->
+                    <label class="control-label">
+                      {{$t('m.password')}}
+                      <span class="text-danger">*</span>
+                    </label>
+                    <div class="row m-b-15">
+                      <div class="col-md-12">
+                        <input
+                          type="password"
+                          class="form-control"
+                          :placeholder="$t('m.password')"
+                          name="password"
+                          ref="password"
+                          v-validate="{ required: true, regex:/^[_!?,.*#a-zA-Z0-9]{6,20}$/ }"
+                          v-bind:class="{'is-invalid': errors.has('password')}"
+                          v-model="password"
+                        >
+                        <span style="color: red !important;">{{ errors.first('password') }}</span>
                       </div>
-                      <label class="control-label">
-                        {{$t('m.confirm')}}
-                        <span class="text-danger">*</span>
-                      </label>
-                      <div class="row m-b-15">
-                        <div class="col-md-12">
-                          <input
-                            v-validate="'required|confirmed:password'"
-                            name="confirm_password"
-                            type="password"
-                            class="form-control"
-                            :placeholder="$t('m.ppag')"
-                            data-vv-as="password"
-                            v-bind:class="{'is-invalid': errors.has('confirm_password')}"
-                            v-model="confirm_password"
-                          >
-                          <div
-                            v-if="errors.has('confirm_password')"
-                            style="color: red;"
-                          >{{ errors.first('confirm_password') }}</div>
-                        </div>
+                    </div>
+                    <label class="control-label">
+                      {{$t('m.confirm')}}
+                      <span class="text-danger">*</span>
+                    </label>
+                    <div class="row m-b-15">
+                      <div class="col-md-12">
+                        <input
+                          v-validate="'required|confirmed:password'"
+                          name="confirm_password"
+                          type="password"
+                          class="form-control"
+                          :placeholder="$t('m.ppag')"
+                          data-vv-as="password"
+                          v-bind:class="{'is-invalid': errors.has('confirm_password')}"
+                          v-model="confirm_password"
+                        >
+                        <div
+                          v-if="errors.has('confirm_password')"
+                          style="color: red;"
+                        >{{ errors.first('confirm_password') }}</div>
                       </div>
-                      <p>
-                        <small
-                          class="text-muted"
-                        >* {{$t('m.newpw')}}</small>
-                      </p>
-                    </form>
+                    </div>
+                    <p>
+                      <small class="text-muted">* {{$t('m.newpw')}}</small>
+                    </p>
+                    <!-- </form> -->
                   </div>
                 </b-modal>
                 <!-- end change password modal -->
                 <div class="card-body">
                   <div class="row py-4 justify-content-center">
                     <div class="col-12 col-sm-10">
-                      <p
-                        class="text-danger"
-                      >* {{$t('m.upi')}}</p>
+                      <p class="text-danger">* {{$t('m.upi')}}</p>
                       <br>
                       <form class="form-horizontal">
                         <div class="form-group row">
@@ -217,7 +215,7 @@
                               name="first name"
                               v-validate="{ required: true, regex:/^[_a-zA-Z0-9\u4E00-\u9FA5]{2,30}$/ }"
                               v-bind:class="{'is-invalid': errors.has('first name')}"
-                              v-model.lazy="$user.first_name"
+                              v-model.lazy="formData.first_name"
                               :disabled="this.update"
                             >
                             <span style="color: red !important;">{{ errors.first('first name') }}</span>
@@ -233,8 +231,8 @@
                               class="form-control"
                               id="inputContact1"
                               type="text"
-                              placeholder
-                              v-model.lazy="$user.last_name"
+                              :placeholder="$t('m.ln')"
+                              v-model.lazy="formData.last_name"
                               :disabled="this.update"
                             >
                           </div>
@@ -250,7 +248,7 @@
                               id="inputContact2"
                               type="text"
                               placeholder
-                              v-model.lazy="$user.username"
+                              v-model.lazy="formData.username"
                               :disabled="this.update"
                             >
                           </div>
@@ -266,7 +264,7 @@
                               id="inputContact7"
                               type="email"
                               placeholder
-                              v-model.lazy="$user.email"
+                              v-model.lazy="formData.email"
                               :disabled="this.update"
                             >
                           </div>
@@ -280,7 +278,7 @@
                             <datepicker
                               placeholder="Select Date"
                               input-class="form-control bg-white"
-                              v-model.lazy="$user.birthday"
+                              v-model.lazy="formData.birthday"
                               :disabled="this.update"
                             ></datepicker>
                           </div>
@@ -296,7 +294,7 @@
                               id="inputContact3"
                               type="number"
                               placeholder
-                              v-model.lazy="$user.phone_num"
+                              v-model.lazy="formData.phone_num"
                               :disabled="this.update"
                             >
                           </div>
@@ -312,7 +310,7 @@
                               id="inputContact5"
                               type="text"
                               placeholder
-                              v-model.lazy="$user.passport_num"
+                              v-model.lazy="formData.passport_num"
                               :disabled="this.update"
                             >
                           </div>
@@ -327,7 +325,7 @@
                               class="form-control"
                               id="inputContact6"
                               rows="4"
-                              v-model.lazy="$user.address"
+                              v-model.lazy="formData.address"
                               :disabled="this.update"
                             ></textarea>
                           </div>
@@ -364,21 +362,30 @@ import axios from "axios";
 export default {
   data() {
     return {
+      formData: {
+        old_username: this.$store.state.username,
+        first_name: this.$store.getters.first_name,
+        last_name: this.$store.getters.last_name,
+        username: this.$store.getters.username,
+        email: this.$store.getters.email,
+        birthday: this.$store.getters.birthday,
+        phone_num: this.$store.getters.phone_num,
+        passport_num: this.$store.getters.passport_num,
+        address: this.$store.getters.address,
+      },
+
       // Variables for element control
       update: true,
       tab: {
         about: true
       },
 
-      avatar: this.$user.avatar,
-
       // Required information
-      old_username: this.$user.username,
       password: "",
       confirm_password: "",
 
       // Variables for email validation
-      btntxt: this.$t('m.bsvc'),
+      btntxt: this.$t("m.bsvc"),
       showPasswordCard: false,
       disabled: false,
       email: "",
@@ -388,11 +395,6 @@ export default {
       verification_input: "",
       verification_field: false
     };
-  },
-  watch: {
-    "$user.avatar"(){
-      this.avatar = this.$user.avatar;
-    }
   },
   methods: {
     permitChangePassword() {
@@ -405,7 +407,7 @@ export default {
 
       if (this.fields.email.valid) {
         var params = {
-          username: this.$user.username,
+          username: this.$store.state.username,
           email: this.email,
           verify: this.verify
         };
@@ -415,7 +417,7 @@ export default {
           .post("/customer/info/update_password", obj)
           .then(res => {
             if (res.data == 0) {
-              alert(this.$t('m.als'));
+              alert(this.$t("m.als"));
             } else {
               this.time = 60;
               this.disabled = true;
@@ -461,9 +463,9 @@ export default {
     submitPassword() {
       this.verify = 1;
 
-      if (this.fields.email.valid && this.email == this.$user.email) {
+      if (this.fields.email.valid && this.email == this.$store.state.email) {
         var params = {
-          username: this.$user.username,
+          username: this.$store.state.username,
           password: this.password,
           confirm_password: this.confirm_password,
           verify: this.verify
@@ -474,7 +476,7 @@ export default {
           .post("/customer/info/update_password", obj)
           .then(res => {
             if (res.data == 0) {
-              alert(this.$t('m.als'));
+              alert(this.$t("m.als"));
             } else {
               this.time = 60;
               this.disabled = true;
@@ -494,29 +496,25 @@ export default {
       if (value == false) {
         return;
       }
-      var newInfo = {
-        old_username: this.old_username,
-        first_name: this.$user.first_name,
-        last_name: this.$user.last_name,
-        username: this.$user.username,
-        email: this.$user.email,
-        phone_num: this.$user.phone_num,
-        passport_num: this.$user.passport_num,
-        birthday: this.$user.birthday.toISOString().substr(0, 10),
-        address: this.$user.address
-      };
-      var obj = JSON.stringify(newInfo);
+      var today = new Date().toISOString().substr(0, 10);
+      if (this.formData.birthday == today) {
+        this.formData.birthday = new Date("1000-01-01")
+          .toISOString()
+          .substr(0, 10);
+      }
+      this.formData.birthday = this.formData.birthday.toISOString().substr(0, 10);
+      
+      var obj = JSON.stringify(this.formData);
       axios.post("/customer/info/", obj).then(res => {
         var response = JSON.parse(JSON.stringify(res.data));
       });
-      this.old_username = this.$user.username;
+      this.$store.commit("handleCustomerInfo", this.formData);
+      this.old_username = this.$store.state.username;
     },
     changeImage(e) {
       let file = e.target.files[0];
       if (!/\.(gif|jpg|jpeg|png|bmp|GIF|JPG|PNG)$/.test(e.target.value)) {
-        alert(
-          this.$t('m.alfe')
-        );
+        alert(this.$t("m.alfe"));
         return false;
       }
       let reader = new FileReader();
@@ -527,8 +525,7 @@ export default {
         } else {
           data = e.target.result;
         }
-        this.avatar = data;
-        this.$user.avatar = data;
+        this.$store.commit("handleAvatar", data);
       };
       reader.readAsArrayBuffer(file);
     }

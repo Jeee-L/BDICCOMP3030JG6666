@@ -170,7 +170,7 @@ import PageOptions from "../config/PageOptions.vue";
 
 import axios from "axios";
 import { setCookie, getCookie } from "../assets/js/cookie.js";
-// import { setTimeout } from "timers";
+import { setTimeout } from "timers";
 
 export default {
   data() {
@@ -183,7 +183,7 @@ export default {
       },
 
       // Required information
-      old_username: this.$user.username,
+      old_username: this.$store.getters.username,
       password: "",
       confirm_password: "",
 
@@ -219,7 +219,6 @@ export default {
         var obj = JSON.stringify(this.formData);
         axios.post("http://localhost:5000/login/", obj).then(res => {
           var response = JSON.parse(JSON.stringify(res.data));
-          alert(response.state);
           if (response.state == "-1") {
             this.notification = response.error_msg;
             this.showNotification = true;
@@ -242,36 +241,15 @@ export default {
             this.showNotification = true;
             this.$router.push("/employee/insurance");
           } else {
-            this.$user.first_name =
-              response.first_name == null ? "" : response.first_name;
-            this.$user.last_name =
-              response.last_name == null ? "" : response.last_name;
-            this.$user.username =
-              this.formData.username == null ? "" : this.formData.username;
-            this.$user.password =
-              this.formData.password == null ? "" : this.formData.password;
-            this.$user.phone_num =
-              response.phone_num == null ? "" : response.phone_num;
-            this.$user.passport_num =
-              response.passport_num == null ? "" : response.passport_num;
-            this.$user.email = response.email == null ? "" : response.email;
-            this.$user.birthday =
-              response.birthday == null
-                ? new Date()
-                : new Date(response.birthday);
-            this.$user.address =
-              response.address == null ? "" : response.address;
-            this.$user.insurance_list = response.insurance_list == null
-              ? ""
-              : response.insurance_list;
-            // this.$user.insurance_order_list = response.insurance_order_list == null
-            //   ? ""
-            //   : response.insurance_order_list;
-            // this.$user.claim_list = response.claim_list == null
-            //   ? ""
-            //   : response.claim_list;
+            for (var key in response){
+              if (response[key] == 'null'){
+                response[key] = '';
+              }
+            };
+            console.log(response);
+            this.$store.commit("handleCustomerInfo", response);
 
-            setCookie("user", response, 1000 * 60);
+            // setCookie("user", response, 1000 * 60);
             this.$router.push("/home");
           }
         });
@@ -310,7 +288,7 @@ export default {
 
       if (this.fields.email.valid) {
         var params = {
-          username: this.$user.username,
+          username: this.$store.getters.username,
           email: this.email,
           verify: this.verify
         };
@@ -366,9 +344,9 @@ export default {
     submitPassword() {
       this.verify = 1;
 
-      if (this.fields.email.valid && this.email == this.$user.email) {
+      if (this.fields.email.valid && this.email == this.$store.getters.email) {
         var params = {
-          username: this.$user.username,
+          username: this.$store.getters.username,
           password: this.password,
           confirm_password: this.confirm_password,
           verify: this.verify

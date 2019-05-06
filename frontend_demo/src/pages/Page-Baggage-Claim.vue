@@ -40,7 +40,7 @@
                 <tbody>
                   <tr>
                     <td>{{$t('m.width')}} {{item.luggage_width}}</td>
-                    <td>{{$t('m.usn')}} {{$user.username}}</td>
+                    <td>{{$t('m.usn')}} {{$store.state.username}}</td>
                   </tr>
                   <tr>
                     <td>{{$t('m.height')}} {{item.luggage_height}}</td>
@@ -144,26 +144,27 @@ export default {
   data() {
     return {
       formData: {
+        check: "1",
         insurance_order_id: "",
         lost_time: "",
         lost_place: "",
         reason: "",
         remark: ""
       },
-      order_list: this.$user.insurance_order_list,
+      order_list: this.$store.state.insurance_order_list,
       modalShow: false
     };
   },
   created() {
     requireInfo = {
-      username: this.$user.username,
+      username: this.$store.state.username,
     }
     var obj = JSON.stringify(requireInfo);
     axios
       .post("/list_user_all_insurance_order", obj)
       .then(res => {
         var response = JSON.parse(JSON.stringify(res.data));
-        this.$user.insurance_order_list = response;
+        this.$store.state.insurance_order_list = response;
       })
       .catch(function(error) {
         console.log(error);

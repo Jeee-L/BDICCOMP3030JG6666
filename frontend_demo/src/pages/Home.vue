@@ -56,7 +56,7 @@
     <!-- note -->
     <div class="note note-lime note-with-right-icon m-b-15">
       <blockquote class="blockquote text-right">
-        <h2 style="color: black">{{$t('m.welcome')}} {{$user.username}}</h2>
+        <h2 style="color: black">{{$t('m.welcome')}} {{$store.getters.username}}</h2>
         <h5 style="color: black !important">{{nowTime}}</h5> <br>
         <h4>
           {{$t('m.get')}} 
@@ -149,7 +149,7 @@ export default {
   },
   mounted() {
     // if (getCookie("user") == "") {
-      // this.$router.push({ path: "/login" });
+    //   this.$router.push({ path: "/login" });
     // }
     this.nowTimes();
   },
@@ -161,7 +161,7 @@ export default {
       this.sliding = false;
     },
     quit() {
-      delCookie("username");
+      delCookie("user");
     },
     timeFormate(timeStamp) {
       let year = new Date(timeStamp).getFullYear();

@@ -1,4 +1,6 @@
 export const m={
+
+    language: 'English',
    
     //Home
     name:'Hibernia-Sino',
@@ -132,6 +134,7 @@ export const m={
     psp:'Please speficy your personal needs or other feedbacks in this field. If your have any questions, please also let us know.',
 
     alop:'Please select one product.',
+    success_create: "Insurance order created successfully",
 
     //Baggage Claim
     iblc:'Initiate Baggage-lost Claim',
@@ -477,7 +480,8 @@ export const m={
     usep:'User Profile',
     csc:'Customer Service Center',
 
-    
-
-
+    //TopbarMenu
+    ei:'Insurance',
+    ebr:'Baggage Registration',
+    ec:'Claim',
 }

@@ -110,6 +110,10 @@ Vue.component(VueCountdown.name, VueCountdown);
 import global from './config/global';
 Vue.use(global);
 
+// Global variables configuration
+import store from './config/store';
+Vue.use(store);
+
 // Vue Cropper for image processing
 import VueCropper from 'vue-cropper'
 import { getCookie } from './assets/js/cookie';

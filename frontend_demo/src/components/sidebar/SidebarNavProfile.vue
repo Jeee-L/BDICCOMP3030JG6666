@@ -4,11 +4,11 @@
       <a href="javascript:;" v-on:click="expand()">
         <div class="cover with-shadow"></div>
         <div class="image image-icon bg-black text-grey-darker">
-          <img :src="$user.avatar" alt="" />
+          <img :src="$store.state.avatar" alt="" />
         </div>
         <div class="info">
           <b class="caret pull-right"></b>
-          {{$user.username}}
+          {{$store.state.username}}
           <small>{{$t('m.insc')}}</small>
         </div>
       </a>
@@ -17,6 +17,7 @@
       <ul
         class="nav nav-profile"
         v-bind:class="{ 'd-block': this.stat == 'expand', 'd-none': this.stat == 'collapse' }"
+        v-bind:style="{ marginTop: (pageOptions.pageSidebarMinified) ? - (scrollTop + 40) + 'px' : '' }"
       >
         <li>
           <router-link to="/customer/info">
@@ -34,11 +35,15 @@
 </template>
 
 <script>
+import PageOptions from "../../config/PageOptions.vue";
+
 export default {
   name: "SidebarNavProfile",
+  props: ["scrollTop"],
   data() {
     return {
-      stat: ""
+      stat: "expand",
+      pageOptions: PageOptions
     };
   },
   methods: {
