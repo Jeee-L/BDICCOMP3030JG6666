@@ -27,7 +27,7 @@ def test_for_insert():
     #
     # for item in s:
     #     add_order(item)
-    print('insert successfully')
+    print('insert project and product successfully')
 
 def test_for_update():
     print('update successfully')
@@ -50,8 +50,8 @@ def test_for_user_all_function():
     print('test_for_user_all_function successfully')
 
 def test_insert_employee():
-    db_emp_opr.create('e@emp123', '987654')
-    print('insert successfully')
+    db_emp_opr.create('e@emp123', '123456')
+    print('Insert employee successfully')
 
 
 if __name__=='__main__':

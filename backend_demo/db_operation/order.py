@@ -39,7 +39,7 @@ def add_order(dict):
     :param dict:dict for order status are the one of set (Creating, using, out_date)
     :return: id
     '''
-    # assert (search_username(dict['username']) is None), "No such User"
+    assert (search_username(dict['username']) is not None), "No such User"
     f = Order(username=dict['username'], flight_number =  dict['flight_number'], luggage_image_inside=dict['luggage_image_inside'],luggage_image_outside=dict['luggage_image_outside'], luggage_width=dict['luggage_width'],
               insurance_id=dict['insurance_id'], luggage_height=dict['luggage_height'],sumPrice=dict['sumPrice'],state=dict['state'], date =datetime.datetime.now() ,remark=dict['remark'])
     db.session.add(f)

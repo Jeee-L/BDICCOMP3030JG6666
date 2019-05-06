@@ -168,8 +168,10 @@ def list_all_insurance_order():
 @app.route('/list_insurance_order_info/', methods=['GET', 'POST'])
 def list_insurance_order_info_page():
     if request.method == 'POST':
-        print(request.get_data())
-        insurance_order_id = json.loads(request.get_data())
+        frontend_data = request.get_data()
+        print(frontend_data)
+        insurance_order_id = json.loads(frontend_data)
+        print(insurance_order_id)
         return employee.insurance_order_detail(insurance_order_id)
 
 

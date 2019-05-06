@@ -36,7 +36,7 @@ class Users(db.Model):
     password_hash = db.Column(db.Unicode(300), nullable=True)
     phone_num = db.Column(db.Unicode(13), nullable=True, unique = False)
     passport_num = db.Column(db.Unicode(13), nullable=True, unique=True)
-    email = db.Column(db.Unicode(32), nullable=True, unique=True)
+    email = db.Column(db.Unicode(32), nullable=True, unique=False)
     profile = db.Column(LONGTEXT)
     birthday = db.Column(db.DateTime, nullable=True)
     address = db.Column(db.Unicode(32), nullable=True)
