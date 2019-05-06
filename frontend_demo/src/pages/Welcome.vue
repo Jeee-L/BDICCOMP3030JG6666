@@ -6,7 +6,8 @@
       <div class="navbar-header">
         <router-link to="/dashboard/v2" class="navbar-brand">
           <span class="navbar-logo"></span>
-          <b>{{$t('m.name')}}</b> {{$t('m.name2')}}
+          <b>{{$t('m.name')}}</b>
+          {{$t('m.name2')}}
         </router-link>
         <button
           type="button"
@@ -27,7 +28,7 @@
       <!-- begin header-nav -->
       <ul class="navbar-nav navbar-right">
         <li class="nav-item">
-          <a class="nav-link" href="/login">
+          <a class="nav-link" v-on:click="login">
             <i class="fa fa-user-circle fa-lg" aria-hidden="true">{{$t('m.signto')}}</i>
           </a>
         </li>
@@ -47,14 +48,26 @@
         <li class="dropdown navbar-language" v-if="pageOptions.pageWithLanguageBar">
           <b-dropdown variant="link" menu-class="p-b-0">
             <template slot="button-content">
-              <span class="flag-icon" title="language" v-bind:class="{'flag-icon-ie': language == 'English', 'flag-icon-cn': language == 'Chinese'}"></span>
-              <span class="name">{{language}}</span>
+              <span
+                class="flag-icon"
+                title="language"
+                v-bind:class="{'flag-icon-ie': this.$t('m.language') == 'English', 'flag-icon-cn': this.$t('m.language') == '简体中文'}"
+              ></span>
+              <span class="name">{{$t('m.language')}}</span>
               <b class="caret"></b>
             </template>
-            <b-dropdown-item href="javascript:;" v-on:click="changeLanguage('English');changeLangEn()" style="margin-bottom: 10px">
+            <b-dropdown-item
+              href="javascript:;"
+              v-on:click="changeLangEn()"
+              style="margin-bottom: 10px"
+            >
               <span class="flag-icon flag-icon-ie" title="us"></span> English
             </b-dropdown-item>
-            <b-dropdown-item href="javascript:;" v-on:click="changeLanguage('Chinese');changeLangCn()"  style="margin-bottom: 10px">
+            <b-dropdown-item
+              href="javascript:;"
+              v-on:click="changeLangCn()"
+              style="margin-bottom: 10px"
+            >
               <span class="flag-icon flag-icon-cn" title="cn"></span> 简体中文
             </b-dropdown-item>
           </b-dropdown>
@@ -143,9 +156,7 @@
                   rounded
                 ></icon>
                 <h2 class="title" style="margin-top:50px;">{{$t('m.wwa')}}</h2>
-                <p class="description">
-                  {{$t('m.wwa1')}}
-                </p>
+                <p class="description">{{$t('m.wwa1')}}</p>
               </div>
             </div>
           </div>
@@ -421,9 +432,7 @@
             <img class="card-img-top" src="../assets/img/china-land1.jpeg" alt="Card image cap">
             <div class="card-block">
               <h4 class="card-title">{{$t('m.l1')}}</h4>
-              <p
-                class="card-text"
-              >{{$t('m.des1')}}</p>
+              <p class="card-text">{{$t('m.des1')}}</p>
             </div>
           </div>
           <!-- end card -->
@@ -432,9 +441,7 @@
             <img class="card-img-top" src="../assets/img/china-land3.jpg" alt="Card image cap">
             <div class="card-block">
               <h4 class="card-title">{{$t('m.l2')}}</h4>
-              <p
-                class="card-text"
-              >{{$t('m.des2')}}</p>
+              <p class="card-text">{{$t('m.des2')}}</p>
             </div>
           </div>
           <!-- end card -->
@@ -443,9 +450,7 @@
             <img class="card-img-top" src="../assets/img/ireland-land3.jpg" alt="Card image cap">
             <div class="card-block">
               <h4 class="card-title">{{$t('m.l3')}}</h4>
-              <p
-                class="card-text"
-              >{{$t('m.des3')}}</p>
+              <p class="card-text">{{$t('m.des3')}}</p>
             </div>
           </div>
           <!-- end card -->
@@ -454,9 +459,7 @@
             <img class="card-img-top" src="../assets/img/ireland-landn.jpg" alt="Card image cap">
             <div class="card-block">
               <h4 class="card-title">{{$t('m.l4')}}</h4>
-              <p
-                class="card-text"
-              >{{$t('m.des4')}}</p>
+              <p class="card-text">{{$t('m.des4')}}</p>
             </div>
           </div>
           <!-- end card -->
@@ -474,24 +477,22 @@ export default {
   name: "Welcome",
   data() {
     return {
-      pageOptions: PageOptions,
-      language: 'English'
+      pageOptions: PageOptions
     };
   },
   methods: {
-
-    changeLanguage(value){
-      this.language = value
+    login(){
+      // this.$router.push("/home");
+      this.$router.push("/login");
     },
     changeLangEn() {
-        localStorage.setItem('locale', 'en')
-        this.$i18n.locale = localStorage.getItem('locale')
+      localStorage.setItem("locale", "en");
+      this.$i18n.locale = localStorage.getItem("locale");
     },
 
     changeLangCn() {
-        localStorage.setItem('locale', 'cn')
-        this.$i18n.locale = localStorage.getItem('locale')
-      
+      localStorage.setItem("locale", "cn");
+      this.$i18n.locale = localStorage.getItem("locale");
     },
 
     toggleMobileSidebar() {

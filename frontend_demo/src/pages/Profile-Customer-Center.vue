@@ -28,7 +28,7 @@
           <!-- begin widget-chat-item -->
           <div class="widget-chat-item with-media left">
             <div class="widget-chat-media">
-              <img alt src="/assets/img/user/user-1.jpg">
+              <!-- <img alt src="/assets/img/user/user-1.jpg"> -->
             </div>
             <div class="widget-chat-info">
               <div class="widget-chat-info-container">
@@ -42,7 +42,7 @@
           <!-- begin widget-chat-item -->
           <div class="widget-chat-item with-media left">
             <div class="widget-chat-media">
-              <img alt src="/assets/img/user/user-2.jpg">
+              <!-- <img alt src="/assets/img/user/user-2.jpg"> -->
             </div>
             <div class="widget-chat-info">
               <div class="widget-chat-info-container">
@@ -67,38 +67,22 @@
           <!-- begin widget-chat-item -->
           <div class="widget-chat-item with-media left">
             <div class="widget-chat-media">
-              <img alt src="/assets/img/user/user-3.jpg">
+              <!-- <img alt src="/assets/img/user/user-3.jpg"> -->
             </div>
             <div class="widget-chat-info">
               <div class="widget-chat-info-container">
                 <div class="widget-chat-name text-orange">{{$t('m.ja')}}</div>
                 <div class="widget-chat-message">{{$t('m.con4')}}
                   <div class="row row-space-2 m-t-5">
-                    <div class="col-md-4">
+                    <!-- <div class="col-md-4">
                       <a href="javascript:;" class="widget-card widget-card-sm square m-b-2">
                         <div
                           class="widget-card-cover"
-                          style="background-image: url(/assets/img/gallery/gallery-51-thumb.jpg)"
                         ></div>
                       </a>
                       <a href="javascript:;" class="widget-card widget-card-sm square m-b-2">
                         <div
                           class="widget-card-cover"
-                          style="background-image: url(/assets/img/gallery/gallery-52-thumb.jpg)"
-                        ></div>
-                      </a>
-                    </div>
-                    <div class="col-md-4">
-                      <a href="javascript:;" class="widget-card widget-card-sm square m-b-2">
-                        <div
-                          class="widget-card-cover"
-                          style="background-image: url(/assets/img/gallery/gallery-53-thumb.jpg)"
-                        ></div>
-                      </a>
-                      <a href="javascript:;" class="widget-card widget-card-sm square m-b-2">
-                        <div
-                          class="widget-card-cover"
-                          style="background-image: url(/assets/img/gallery/gallery-54-thumb.jpg)"
                         ></div>
                       </a>
                     </div>
@@ -106,16 +90,26 @@
                       <a href="javascript:;" class="widget-card widget-card-sm square m-b-2">
                         <div
                           class="widget-card-cover"
-                          style="background-image: url(/assets/img/gallery/gallery-59-thumb.jpg)"
                         ></div>
                       </a>
                       <a href="javascript:;" class="widget-card widget-card-sm square m-b-2">
                         <div
                           class="widget-card-cover"
-                          style="background-image: url(/assets/img/gallery/gallery-60-thumb.jpg)"
                         ></div>
                       </a>
                     </div>
+                    <div class="col-md-4">
+                      <a href="javascript:;" class="widget-card widget-card-sm square m-b-2">
+                        <div
+                          class="widget-card-cover"
+                        ></div>
+                      </a>
+                      <a href="javascript:;" class="widget-card widget-card-sm square m-b-2">
+                        <div
+                          class="widget-card-cover"
+                        ></div>
+                      </a>
+                    </div> -->
                   </div>
                 </div>
                 <div class="widget-chat-time">6:20PM</div>
@@ -127,7 +121,7 @@
         <!-- end widget-chat-body -->
         <!-- begin widget-input -->
         <div class="widget-input widget-input-rounded">
-          <form action method="POST" name>
+          <form name>
             <div class="widget-input-container">
               <div class="widget-input-icon">
                 <a href="javascript:;" class="text-grey">

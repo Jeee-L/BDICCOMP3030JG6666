@@ -1,4 +1,6 @@
 export const m={
+
+   language: '简体中文',
     
    //Home
    name:'爱尔兰-中国',
@@ -132,6 +134,7 @@ export const m={
     psp:'请在此提供您的个人需求或其他反馈。如果你有任何问题，也请告诉我们。',
 
     alop:'请选择一个产品。',
+    success_create: '创建成功',
   
    //Baggage Claim
    iblc:'发起行李丢失索赔',
@@ -473,4 +476,9 @@ export const m={
    insc:'投保用户',
    usep:'用户信息',
    csc:'用户服务中心',
+
+   //TopbarMenu
+   ei:'保险',
+   ebr:'行李注册',
+   ec:'理赔',
 }

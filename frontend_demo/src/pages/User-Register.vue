@@ -154,7 +154,7 @@
                 class="form-control"
                 :placeholder="$t('m.pnum')"
                 name="phone number"
-                v-validate="{ required: true, regex:/^1[34578]\d{9}$/ }"
+                v-validate="{ required: true, regex:/^1[34578]\d{9}$|^\d{8,9}$/ }"
                 v-bind:class="{'is-invalid': errors.has('phone number')}"
                 v-model="formData.phone_num"
               >

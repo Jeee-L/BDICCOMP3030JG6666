@@ -5,7 +5,7 @@
         <div class="result-header-cover"></div>
         <div class="profile-header-content">
           <div class="profile-header-info">
-            <h4 class="m-t-10 m-b-5">{{$user.username}}</h4>
+            <h4 class="m-t-10 m-b-5">{{$store.getters.username}}</h4>
             <p class="m-b-10">{{$t('m.checkc')}}</p>
           </div>
         </div>
@@ -170,7 +170,7 @@ import axios from "axios";
 export default {
   data() {
     return {
-      claim_list: this.$user.claim_list,
+      claim_list: this.$store.getters.claim_list,
 
       formData: {
         insurance_order_id: "",
@@ -187,21 +187,21 @@ export default {
   created() {
     PageOptions.pageContentFullWidth = true;
 
-    // requireInfo = {
-    //   username: this.$user.username
-    // };
-    // var obj = JSON.stringify(requireInfo);
-    // axios
-    //   .post("/list_user_all_claim", obj)
-    //   .then(res => {
-    //     var response = JSON.parse(JSON.stringify(res.data));
-    //     if (response != null){
-    //       this.$user.claim_list = response;
-    //     }
-    //   })
-    //   .catch(function(error) {
-    //     console.log(error);
-    //   });
+    requireInfo = {
+      username: this.$store.getters.username
+    };
+    var obj = JSON.stringify(requireInfo);
+    axios
+      .post("/list_user_all_claim", obj)
+      .then(res => {
+        var response = JSON.parse(JSON.stringify(res.data));
+        if (response != null){
+          this.$store.getters.claim_list = response;
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
   },
   methods: {
     changeBackground(item) {
