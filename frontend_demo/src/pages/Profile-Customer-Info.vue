@@ -487,8 +487,6 @@ export default {
           .toISOString()
           .substr(0, 10);
       }
-      // this.formData.birthday = this.formData.birthday.toISOString().substr(0, 10);
-      alert(this.formData.birthday);
 
       var obj = JSON.stringify(this.formData);
       axios.post("/customer/info/", obj).then(res => {

@@ -89,11 +89,16 @@
             <div>{{$t('m.c15')}}</div>
             <br>
             <br>
+            <p
+              style="font-size: 15px"
+              class="text-danger"
+              v-show="!buyInsurance"
+            >{{this.$t('m.allow')}}</p>
             <button
               type="button"
               class="btn btn-lime"
               v-on:click="changeFormStatus"
-              :disabled="buyInsurance"
+              :disabled="!buyInsurance"
             >{{$t('m.iaccept')}}</button>
           </div>
         </div>
@@ -799,8 +804,7 @@ export default {
         project_id: "",
         amount_of_money: "",
         remark: ""
-      },
-      buyInsurance: true
+      }
     };
   },
   components: {
@@ -811,6 +815,9 @@ export default {
   computed: {
     isFormInvalid() {
       return Object.keys(this.fields).some(key => this.fields[key].invalid);
+    },
+    buyInsurance() {
+      return this.$store.getters.insurance_list == "";
     }
   },
   methods: {
@@ -841,7 +848,8 @@ export default {
             if (response.state) {
               if (response.state == "1") {
                 this.swalNotification("success", "");
-                this.buyInsurance = false;
+                this.$store.commit("handleInsurance", response.insurance_id);
+                alert(this.$store.getters.insurance_list);
               } else {
                 this.swalNotification("error", response.error_msg);
               }

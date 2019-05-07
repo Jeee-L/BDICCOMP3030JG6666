@@ -5,15 +5,6 @@ Vue.use(Vuex)
 
 const actions = {}
 const mutations = {
-    handleNull: (userInfo) => {
-        alert(userInfo.username);
-        for (var key in userInfo) {
-            if (userInfo[key] == null) {
-                userInfo[key] == '';
-            }
-        }
-        return userInfo;
-    },
     handleCustomerInfo: (state, userInfo) => {
 
         state.username = userInfo.username
@@ -55,6 +46,10 @@ const mutations = {
     handleAvatar: (state, avatar) => {
         state.avatar = avatar;
         localStorage.setItem('avatar', avatar);
+    },
+    handleInsurance: (state, insurance_list) => {
+        state.insurance_list = insurance_list;
+        localStorage.setItem('insurance_list', insurance_list);
     }
 }
 const state = {

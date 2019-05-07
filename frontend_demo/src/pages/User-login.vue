@@ -247,6 +247,7 @@ export default {
             }
             console.log(response);
             this.$store.commit("handleCustomerInfo", response);
+            alert(response.insurance_list);
 
             // setCookie("user", response, 1000 * 60);
             this.$router.push("/home");

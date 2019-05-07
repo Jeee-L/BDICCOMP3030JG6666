@@ -22,6 +22,7 @@ export const m={
    mba:'汽车机械故障险',
 
    //Baggage-BuyInsurance
+   allow: '已购买保险用户不可再创建新的订单，直至保险过期。',
    create:'用人性化的选择创建保险订单',
    please:'* 在创建保险订单之前，请接受下列条款和条件。',
    pds:'保险条款',

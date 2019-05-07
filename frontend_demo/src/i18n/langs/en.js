@@ -22,6 +22,7 @@ export const m={
     mba:'Mechanical Breakdown of Automobile',
 
     //Baggage-BuyInsurance
+    allow: 'New insurance is not allowed. Once account will be attached with only one insurance.',
     create:'Create Insurance Order with Humanized Choices',
     please:'* Please accept terms and condistions listed as follows, before creating insurance orders.',
     pds:'Product Disclosure Statement',
