@@ -318,7 +318,7 @@ export const m={
    upp:'上传图片',
    cp:'修改密码',
    val:'更改密码前，请先通过邮箱验证。',
-   themail:'此邮件为注册邮件;否则，请先更新此信息。',
+   themail:'验证码会被发送至您注册时绑定的邮箱。',
    person:'个人信息',
    password:'密码',
    confirm:'密码确认',
@@ -481,4 +481,25 @@ export const m={
    ei:'保险',
    ebr:'行李注册',
    ec:'理赔',
+
+   // Sweet Alert Notification
+   register_s_title: '注册成功',
+   register_s_text: '您将被引导至登录页面',
+   register_f_title: '注册失败',
+   register_f_text: '请更正您的个人信息',
+
+   insurance_s_title: '成功创建保险订单',
+   insurance_s_text: '保险有效期内您将不能再次投保，该页面将展示您的保险信息。',
+   insurance_f_title: '创建保险订单失败',
+   insurance_f_text: '请您更正输入信息并再次提交。',
+
+   baggage_s_title: '成功创建注册行李订单',
+   baggage_s_text: '若该行李丢失，请您于申请理赔页面发起理赔。管理员将根据您的估价和理赔细则进行审核。',
+   baggage_f_title: '创建注册行李订单失败',
+   baggage_f_text: '请您更正输入信息并再次提交。',
+
+   claim_s_title: '成功创建理赔订单',
+   claim_s_text: '该订单已提交至系统进行审核。请您前往理赔处理结果页面查看管理员审核意见。',
+   claim_f_title: '创建理赔订单失败',
+   claim_f_text: '请您更正输入信息并再次提交。',
 }

@@ -6,7 +6,8 @@
       <div class="news-image"></div>
       <div class="news-caption">
         <h4 class="caption-title">
-          <b>{{$t('m.name')}}</b> {{$t('m.name2')}}
+          <b>{{$t('m.name')}}</b>
+          {{$t('m.name2')}}
         </h4>
         <p>{{$t('m.peace')}}</p>
       </div>
@@ -42,13 +43,9 @@
               <br>
               <small class="text-muted">· {{$t('m.uns1')}}</small>
               <br>
-              <small
-                class="text-muted"
-              >· {{$t('m.uns2')}}</small>
+              <small class="text-muted">· {{$t('m.uns2')}}</small>
               <br>
-              <small
-                class="text-muted"
-              >· {{$t('m.uns3')}}</small>
+              <small class="text-muted">· {{$t('m.uns3')}}</small>
             </div>
           </div>
           <br>
@@ -94,13 +91,9 @@
               <br>
               <small class="text-muted">· {{$t('m.pws1')}}</small>
               <br>
-              <small
-                class="text-muted"
-              >· {{$t('m.pws2')}}</small>
+              <small class="text-muted">· {{$t('m.pws2')}}</small>
               <br>
-              <small
-                class="text-muted"
-              >· {{$t('m.pws3')}}</small>
+              <small class="text-muted">· {{$t('m.pws3')}}</small>
               <br>
             </div>
           </div>
@@ -167,7 +160,8 @@
           </div>
           <div class="m-t-20 m-b-40 p-b-40 text-inverse">
             {{$t('m.alr')}}
-            <a href="/login">{{$t('m.here')}}</a> {{$t('m.login2')}}
+            <a href="/login">{{$t('m.here')}}</a>
+            {{$t('m.login2')}}
           </div>
         </form>
       </div>
@@ -187,7 +181,7 @@ export default {
     return {
       disabled: false,
       time: 0,
-      btntxt: this.$t('m.bsvc'),
+      btntxt: this.$t("m.bsvc"),
 
       verification_code: "",
       verification_input: "",
@@ -219,8 +213,8 @@ export default {
   },
   methods: {
     submitForm() {
+      this.swalNotification("error", this.$t('m.register_f_text'));
       if (!this.isFormInvalid && this.verification_field) {
-        alert(this.$t('m.alaf'));
         this.formData.verify = 1;
         var obj = JSON.stringify(this.formData);
         axios
@@ -228,21 +222,19 @@ export default {
           .then(res => {
             var response = JSON.parse(JSON.stringify(res.data));
             if (response.state == "1") {
-              alert(
-                this.$t('m.alw')
-              );
+              this.swalNotification("success", '');
               this.$router.push("/login");
             } else {
-              this.swalNotification("danger");
+              this.swalNotification("error", response.error_msg);
             }
           })
           .catch(function(error) {
             console.log(error);
           });
       } else if (!this.isFormInvalid && !this.verification_field) {
-        alert(this.$t('m.alp'));
+        alert(this.$t("m.alp"));
       } else {
-        alert(this.$t('m.alpe'));
+        alert(this.$t("m.alpe"));
       }
     },
     sendCode() {
@@ -261,7 +253,7 @@ export default {
           .post("/register/", obj)
           .then(res => {
             if (res.data == 0) {
-              alert(this.$t('m.als'));
+              alert(this.$t("m.als"));
             } else {
               this.time = 60;
               this.disabled = true;
@@ -285,30 +277,26 @@ export default {
         }
 
         this.time--;
-        this.btntxt = "Resend Code after " + this.time + " Seconds";
+        this.btntxt = this.$t("m.r_bsvc") + this.time + this.$t("m.r_other");
         setTimeout(this.timer, 1000);
       } else {
         this.time = 0;
-        this.btntxt = "Send Verification Code";
+        this.btntxt = this.$t("m.bsvc");
         this.disabled = false;
       }
     },
-    swalNotification(swalType) {
+    swalNotification(swalType, error_msg) {
       if (swalType == "success") {
         this.$swal({
-          title: "Successful Registration",
-          text: "Automatically proceed to Login page.",
+          title: this.$t("m.register_s_title"),
+          text: this.$t("m.register_s_text"),
           type: swalType
         });
       } else {
         this.$swal({
-          title: "Registration Failed",
-          text: "Please double check user information and submit again.",
+          title: this.$t("m.register_f_title"),
+          text: error_msg,
           type: swalType,
-          showCancelButton: true,
-          buttonsStyling: false,
-          cancelButtonText: "Cancel",
-          cancelButtonClass: "btn btn-default"
         });
       }
     }

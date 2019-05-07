@@ -6,9 +6,7 @@
       </div>
       <div class="card-body">
         <div id="pds" v-show="!showForm">
-          <p
-            class="text-danger"
-          >{{$t('m.please')}}</p>
+          <p class="text-danger">{{$t('m.please')}}</p>
           <div style="background-color: rgba(213, 223, 219, 0.295) !important; padding: 50px">
             <h4 style="text-align: center !important;">{{$t('m.pds')}}</h4>
             <br>
@@ -17,76 +15,85 @@
             <div>
               {{$t('m.gp1')}}
               <br>
-              <p style="text-indent: 2em">
-                {{$t('m.gp2')}}
-              </p>
+              <p style="text-indent: 2em">{{$t('m.gp2')}}</p>
             </div>
             <h5>{{$t('m.is')}}</h5>
             <div>
               {{$t('m.is2')}}
               <br>
-              <br>{{$t('m.is3')}}
               <br>
-              <br>{{$t('m.is4')}}
-              <br>{{$t('m.is41')}}
-              <br>{{$t('m.is42')}}
-              <br>{{$t('m.is43')}}
+              {{$t('m.is3')}}
+              <br>
+              <br>
+              {{$t('m.is4')}}
+              <br>
+              {{$t('m.is41')}}
+              <br>
+              {{$t('m.is42')}}
+              <br>
+              {{$t('m.is43')}}
             </div>
             <br>
             <h5>{{$t('m.il')}}</h5>
             <div>
               {{$t('m.il5')}}
               <br>
-              <p style="text-indent: 2em">
-                {{$t('m.il51')}}
-              </p>{{$t('m.il6')}}
+              <p style="text-indent: 2em">{{$t('m.il51')}}</p>
+              {{$t('m.il6')}}
             </div>
             <br>
             <h5>{{$t('m.disclaimer')}}</h5>
             <div>
               {{$t('m.d7')}}
-              <br>{{$t('m.d71')}}
-              <br>{{$t('m.d72')}}
-              <br>{{$t('m.d73')}}
-              <br>{{$t('m.d74')}}
-              <br>{{$t('m.d75')}}
-              <br>{{$t('m.d76')}}
+              <br>
+              {{$t('m.d71')}}
+              <br>
+              {{$t('m.d72')}}
+              <br>
+              {{$t('m.d73')}}
+              <br>
+              {{$t('m.d74')}}
+              <br>
+              {{$t('m.d75')}}
+              <br>
+              {{$t('m.d76')}}
             </div>
             <br>
             <h5>{{$t('m.ctc')}}</h5>
-            <div>
-              {{$t('m.ctc8')}}
-            </div>
+            <div>{{$t('m.ctc8')}}</div>
             <br>
             <h5>{{$t('m.oi')}}</h5>
             <div>
               {{$t('m.oi9')}}
               <br>
-              <br>{{$t('m.oi10')}}
               <br>
-              <br>{{$t('m.oi11')}}
+              {{$t('m.oi10')}}
+              <br>
+              <br>
+              {{$t('m.oi11')}}
             </div>
             <br>
             <h5>{{$t('m.oai')}}</h5>
             <div>
               {{$t('m.oai12')}}
               <br>
-              <br>{{$t('m.oai13')}}
               <br>
-              <br>{{$t('m.oai14')}}
+              {{$t('m.oai13')}}
+              <br>
+              <br>
+              {{$t('m.oai14')}}
               <br>
             </div>
             <br>
             <h5>{{$t('m.compensation')}}</h5>
-            <div>
-              {{$t('m.c15')}}
-            </div>
+            <div>{{$t('m.c15')}}</div>
             <br>
             <br>
             <button
               type="button"
               class="btn btn-lime"
               v-on:click="changeFormStatus"
+              :disabled="buyInsurance"
             >{{$t('m.iaccept')}}</button>
           </div>
         </div>
@@ -294,10 +301,7 @@
                                   value="1-1-90"
                                   v-on:click="checkProjectValue"
                                 >
-                                <label
-                                  class="form-check-label"
-                                  for="defaultRadio"
-                                >{{$t('m.p1')}}</label>
+                                <label class="form-check-label" for="defaultRadio">{{$t('m.p1')}}</label>
                               </p>
                             </div>
                             <div class="form-check">
@@ -310,10 +314,7 @@
                                   value="1-2-180"
                                   v-on:click="checkProjectValue"
                                 >
-                                <label
-                                  class="form-check-label"
-                                  for="defaultRadio"
-                                >{{$t('m.p2')}}</label>
+                                <label class="form-check-label" for="defaultRadio">{{$t('m.p2')}}</label>
                               </p>
                             </div>
                           </td>
@@ -321,9 +322,12 @@
                             <p>
                               {{$t('m.pd1')}}
                               <br>
-                              <br>{{$t('m.pd12')}}
-                              <br>{{$t('m.pd13')}}
-                              <br>{{$t('m.pd14')}}
+                              <br>
+                              {{$t('m.pd12')}}
+                              <br>
+                              {{$t('m.pd13')}}
+                              <br>
+                              {{$t('m.pd14')}}
                             </p>
                           </td>
                         </tr>
@@ -352,10 +356,7 @@
                                   value="2-1-270"
                                   v-on:click="checkProjectValue"
                                 >
-                                <label
-                                  class="form-check-label"
-                                  for="defaultRadio"
-                                >{{$t('m.p3')}}</label>
+                                <label class="form-check-label" for="defaultRadio">{{$t('m.p3')}}</label>
                               </p>
                             </div>
                             <div class="form-check">
@@ -368,10 +369,7 @@
                                   value="2-2-360"
                                   v-on:click="checkProjectValue"
                                 >
-                                <label
-                                  class="form-check-label"
-                                  for="defaultRadio"
-                                >{{$t('m.p4')}}</label>
+                                <label class="form-check-label" for="defaultRadio">{{$t('m.p4')}}</label>
                               </p>
                             </div>
                             <div class="form-check">
@@ -384,10 +382,7 @@
                                   value="2-3-700"
                                   v-on:click="checkProjectValue"
                                 >
-                                <label
-                                  class="form-check-label"
-                                  for="defaultRadio"
-                                >{{$t('m.p5')}}</label>
+                                <label class="form-check-label" for="defaultRadio">{{$t('m.p5')}}</label>
                               </p>
                             </div>
                           </td>
@@ -396,9 +391,12 @@
                             <p>
                               {{$t('m.pd21')}}
                               <br>
-                              <br>{{$t('m.pd22')}}
-                              <br>{{$t('m.pd23')}}
-                              <br>{{$t('m.pd24')}}
+                              <br>
+                              {{$t('m.pd22')}}
+                              <br>
+                              {{$t('m.pd23')}}
+                              <br>
+                              {{$t('m.pd24')}}
                             </p>
                           </td>
                         </tr>
@@ -427,10 +425,7 @@
                                   value="3-1-400"
                                   v-on:click="checkProjectValue"
                                 >
-                                <label
-                                  class="form-check-label"
-                                  for="defaultRadio"
-                                >{{$t('m.p6')}}</label>
+                                <label class="form-check-label" for="defaultRadio">{{$t('m.p6')}}</label>
                               </p>
                             </div>
                             <div class="form-check">
@@ -443,10 +438,7 @@
                                   value="3-2-700"
                                   v-on:click="checkProjectValue"
                                 >
-                                <label
-                                  class="form-check-label"
-                                  for="defaultRadio"
-                                >{{$t('m.p7')}}</label>
+                                <label class="form-check-label" for="defaultRadio">{{$t('m.p7')}}</label>
                               </p>
                             </div>
                             <div class="form-check">
@@ -459,10 +451,7 @@
                                   value="3-3-1000"
                                   v-on:click="checkProjectValue"
                                 >
-                                <label
-                                  class="form-check-label"
-                                  for="defaultRadio"
-                                >{{$t('m.p8')}}</label>
+                                <label class="form-check-label" for="defaultRadio">{{$t('m.p8')}}</label>
                               </p>
                             </div>
                           </td>
@@ -471,9 +460,12 @@
                             <p>
                               {{$t('m.pd31')}}
                               <br>
-                              <br>{{$t('m.pd32')}}
-                              <br>{{$t('m.pd33')}}
-                              <br>{{$t('m.pd34')}}
+                              <br>
+                              {{$t('m.pd32')}}
+                              <br>
+                              {{$t('m.pd33')}}
+                              <br>
+                              {{$t('m.pd34')}}
                             </p>
                           </td>
                         </tr>
@@ -502,10 +494,7 @@
                                   value="4-1-1100"
                                   v-on:click="checkProjectValue"
                                 >
-                                <label
-                                  class="form-check-label"
-                                  for="defaultRadio"
-                                >{{$t('m.p9')}}</label>
+                                <label class="form-check-label" for="defaultRadio">{{$t('m.p9')}}</label>
                               </p>
                             </div>
                             <div class="form-check">
@@ -518,10 +507,7 @@
                                   value="4-2-1500"
                                   v-on:click="checkProjectValue"
                                 >
-                                <label
-                                  class="form-check-label"
-                                  for="defaultRadio"
-                                >{{$t('m.p10')}}</label>
+                                <label class="form-check-label" for="defaultRadio">{{$t('m.p10')}}</label>
                               </p>
                             </div>
                             <div class="form-check">
@@ -534,10 +520,7 @@
                                   value="4-3-2000"
                                   v-on:click="checkProjectValue"
                                 >
-                                <label
-                                  class="form-check-label"
-                                  for="defaultRadio"
-                                >{{$t('m.p11')}}</label>
+                                <label class="form-check-label" for="defaultRadio">{{$t('m.p11')}}</label>
                               </p>
                             </div>
                           </td>
@@ -546,9 +529,12 @@
                             <p>
                               {{$t('m.pd41')}}
                               <br>
-                              <br>{{$t('m.pd42')}}
-                              <br>{{$t('m.pd43')}}
-                              <br>{{$t('m.pd44')}}
+                              <br>
+                              {{$t('m.pd42')}}
+                              <br>
+                              {{$t('m.pd43')}}
+                              <br>
+                              {{$t('m.pd44')}}
                             </p>
                           </td>
                         </tr>
@@ -752,8 +738,10 @@
                         class="no-border f-w-700 p-b-0 m-t-0 m-b-20 f-s-16 text-inverse"
                       >{{$t('m.remarks')}}</legend>
                       <p>
-                        <br>{{$t('m.message')}}
-                        <br>{{$t('m.support')}}
+                        <br>
+                        {{$t('m.message')}}
+                        <br>
+                        {{$t('m.support')}}
                       </p>
                       <br>
                       <!-- begin form-group -->
@@ -807,11 +795,12 @@ export default {
         phone_num: this.$store.getters.phone_num,
         passport_num: this.$store.getters.passport_num,
         address: this.$store.getters.address,
-        product_id:  "",
+        product_id: "",
         project_id: "",
         amount_of_money: "",
         remark: ""
-      }
+      },
+      buyInsurance: true
     };
   },
   components: {
@@ -849,16 +838,37 @@ export default {
           .post("/luggage/order/create", obj)
           .then(res => {
             var response = JSON.parse(JSON.stringify(res.data));
-            alert(response);
+            if (response.state) {
+              if (response.state == "1") {
+                this.swalNotification("success", "");
+                this.buyInsurance = false;
+              } else {
+                this.swalNotification("error", response.error_msg);
+              }
+            }
           })
           .catch(function(error) {
             console.log(error);
           });
-          alert(this.$t('m.success_create'));
       } else if (!this.isFormInvalid && this.formData.project_id != "") {
-        alert(this.$t('m.alop'));
+        alert(this.$t("m.alop"));
       } else {
-        alert(this.$t('m.alpe'));
+        alert(this.$t("m.alpe"));
+      }
+    },
+    swalNotification(swalType, error_msg) {
+      if (swalType == "success") {
+        this.$swal({
+          title: this.$t("m.insurance_s_title"),
+          text: this.$t("m.insurance_s_text"),
+          type: swalType
+        });
+      } else {
+        this.$swal({
+          title: this.$t("m.insurance_f_title"),
+          text: error_msg,
+          type: swalType
+        });
       }
     }
   }

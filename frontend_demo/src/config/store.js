@@ -60,7 +60,7 @@ const mutations = {
 const state = {
     username: '' || localStorage.getItem('username'),
     first_name: '' || localStorage.getItem('first_name'),
-    last_name: '' || localStorage.getItem('first_name'),
+    last_name: '' || localStorage.getItem('last_name'),
     avatar: '' || localStorage.getItem('avatar'),
     password: '' || localStorage.getItem('password'),
     phone_num: '' || localStorage.getItem('phone_num'),
@@ -82,6 +82,7 @@ const getters = {
     passport_num: (state) => state.passport_num,
     email: (state) => state.email,
     birthday: (state) => state.birthday,
+    address: (state) => state.address,
     insurance_list: (state) => state.insurance_list,
     insurance_order_list: (state) => state.insurance_order_list,
     claim_list: (state) => state.claim_list,

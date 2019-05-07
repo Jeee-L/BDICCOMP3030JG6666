@@ -84,14 +84,14 @@
           <div class="col-md-12">
             <input
               type="text"
-              name="email"
-              :placeholder="$t('m.email')"
-              v-validate="{ required: true, regex:/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/ }"
               class="form-control"
-              v-bind:class="{'is-invalid': errors.has('email')}"
-              v-model="email"
+              :placeholder="$t('m.un')"
+              name="user name"
+              v-validate="{ required: true, regex:/^[_a-zA-Z0-9\u4E00-\u9FA5]{2,10}$/ }"
+              v-bind:class="{'is-invalid': errors.has('user name')}"
+              v-model="formData.username"
             >
-            <span style="color: red !important;">{{ errors.first('email') }}</span>
+            <span style="color: red !important;">{{ errors.first('user name') }}</span>
             <br>
             <div class="input-group mb-3">
               <input
@@ -191,7 +191,6 @@ export default {
       btntxt: this.$t("m.bsvc"),
       showPasswordCard: false,
       disabled: false,
-      email: "",
       time: 0,
       verify: "",
       verification_code: 1,
@@ -241,11 +240,11 @@ export default {
             this.showNotification = true;
             this.$router.push("/employee/insurance");
           } else {
-            for (var key in response){
-              if (response[key] == 'null'){
-                response[key] = '';
+            for (var key in response) {
+              if (response[key] == "null") {
+                response[key] = "";
               }
-            };
+            }
             console.log(response);
             this.$store.commit("handleCustomerInfo", response);
 
@@ -286,31 +285,28 @@ export default {
       this.verification_input = "";
       this.verification_field = false;
 
-      if (this.fields.email.valid) {
-        var params = {
-          username: this.$store.getters.username,
-          email: this.email,
-          verify: this.verify
-        };
-        var obj = JSON.stringify(params);
+      var params = {
+        username: this.formData.username,
+        verify: this.verify
+      };
+      var obj = JSON.stringify(params);
 
-        axios
-          .post("/customer/info/update_password", obj)
-          .then(res => {
-            if (res.data == 0) {
-              alert(this.$t("m.als"));
-            } else {
-              this.time = 60;
-              this.disabled = true;
-              this.timer();
-              this.verification_code = res.data;
-              alert(res.data);
-            }
-          })
-          .catch(function(error) {
-            console.log(error);
-          });
-      }
+      axios
+        .post("/customer/info/update_password", obj)
+        .then(res => {
+          if (res.data == 0) {
+            alert(this.$t("m.als"));
+          } else {
+            this.time = 60;
+            this.disabled = true;
+            this.timer();
+            this.verification_code = res.data;
+            alert(res.data);
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     },
     timer() {
       if (this.time > 0) {

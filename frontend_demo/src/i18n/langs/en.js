@@ -320,7 +320,7 @@ export const m={
     upp:'Upload Photo',
     cp:'Change Password',
     val:'Please pass email velidation before changing passord.',
-    themail:'This email should be the email used for registration; otherwise, please update this information first.',
+    themail:'Verification code will be sent to your email attached with this account (the email used in registration).',
     person:'Personal Information',
     password:'Password',
     confirm:'Password Confirmation',
@@ -484,4 +484,25 @@ export const m={
     ei:'Insurance',
     ebr:'Baggage Registration',
     ec:'Claim',
+
+    // Sweet Alert Notification
+    register_s_title: 'New Account Created Successfully',
+    register_s_text: 'Dear customer, you will be direct to the Login page.',
+    register_f_title: 'Registration Failed',
+    register_f_text: 'Please check your inputs and register again.',
+
+    insurance_s_title: 'New Insurance Order Created Successfully',
+    insurance_s_text: 'You cannot create new insurance order unless the insurance expires. Insurance Information will be displayed on this page.',
+    insurance_f_title: 'Failed to Create Insurance Order',
+    insurance_f_text: 'Please check your inputs and submit again.',
+
+    baggage_s_title: 'New Baggage Registration Order Created Successfully',
+    baggage_s_text: 'If this baggage is lost, please initate claim order on the Claim Lost Baggage page. Employees will process the claim according to baggage and claim information.',
+    baggage_f_title: 'Failed to Create Baggage Registration Order',
+    baggage_f_text: 'Please check your inputs and submit again.',
+
+    claim_s_title: 'New Claim Order Created Successfully',
+    claim_s_text: 'Please refer to the Claim Process Result page to check processing status.',
+    claim_f_title: 'Failed to Create Claim Order',
+    claim_f_text: 'Please check your inputs and submit again.',
 }

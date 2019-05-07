@@ -188,8 +188,12 @@ export default {
           .post("/luggage/order/list", obj)
           .then(res => {
             var response = JSON.parse(JSON.stringify(res.data));
-            if (response.state == "0") {
-              alert(response);
+            if (response.state) {
+              if (response.state == "1") {
+                this.swalNotification("success", "");
+              } else {
+                this.swalNotification("error", response.error_msg);
+              }
             }
           })
           .catch(function(error) {
@@ -197,6 +201,21 @@ export default {
           });
       } else {
         alert(this.$t('m.alpe'));
+      }
+    },
+    swalNotification(swalType, error_msg) {
+      if (swalType == "success") {
+        this.$swal({
+          title: this.$t("m.claim_s_title"),
+          text: this.$t("m.claim_s_text"),
+          type: swalType
+        });
+      } else {
+        this.$swal({
+          title: this.$t("m.claim_f_title"),
+          text: error_msg,
+          type: swalType
+        });
       }
     }
   }

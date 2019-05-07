@@ -10,13 +10,13 @@
         <div class="profile-header-content">
           <!-- BEGIN profile-header-img -->
           <div class="profile-header-img">
-            <img :src="($store.state.avatar)">
+            <img :src="($store.getters.avatar)">
             <!-- onerror="this.src='../assets/img/china-land1.jpg'" -->
           </div>
           <!-- END profile-header-img -->
           <!-- BEGIN profile-header-info -->
           <div class="profile-header-info">
-            <h4 class="m-t-10 m-b-5">{{$store.state.username}}</h4>
+            <h4 class="m-t-10 m-b-5">{{$store.getters.username}}</h4>
             <p class="m-b-10"></p>
             <a
               a
@@ -52,12 +52,12 @@
                   <div class="py-4">
                     <img
                       class="img-fluid rounded-circle img-thumbnail thumb96"
-                      :src="($store.state.avatar)"
+                      :src="($store.getters.avatar)"
                       alt="Contact"
                       onload="if (this.width>140 || this.height>226) if (this.width/this.height>140/226) this.width=140; else this.height=226;"
                     >
                   </div>
-                  <h3 class="m-0 text-bold">{{$store.state.username}}</h3>
+                  <h3 class="m-0 text-bold">{{$store.getters.username}}</h3>
                   <div class="my-3">
                     <p>{{$t('m.upl')}}</p>
                   </div>
@@ -90,17 +90,6 @@
                   <br>
                   <div class="row m-b-15">
                     <div class="col-md-12">
-                      <input
-                        type="text"
-                        name="email"
-                        :placeholder="$t('m.email')"
-                        v-validate="{ required: true, regex:/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/ }"
-                        class="form-control"
-                        v-bind:class="{'is-invalid': errors.has('email')}"
-                        v-model="email"
-                      >
-                      <span style="color: red !important;">{{ errors.first('email') }}</span>
-                      <br>
                       <div class="input-group mb-3">
                         <input
                           type="text"
@@ -363,7 +352,7 @@ export default {
   data() {
     return {
       formData: {
-        old_username: this.$store.state.username,
+        old_username: this.$store.getters.username,
         first_name: this.$store.getters.first_name,
         last_name: this.$store.getters.last_name,
         username: this.$store.getters.username,
@@ -371,7 +360,7 @@ export default {
         birthday: this.$store.getters.birthday,
         phone_num: this.$store.getters.phone_num,
         passport_num: this.$store.getters.passport_num,
-        address: this.$store.getters.address,
+        address: this.$store.getters.address
       },
 
       // Variables for element control
@@ -388,7 +377,6 @@ export default {
       btntxt: this.$t("m.bsvc"),
       showPasswordCard: false,
       disabled: false,
-      email: "",
       time: 0,
       verify: "",
       verification_code: 1,
@@ -405,31 +393,28 @@ export default {
       this.verification_input = "";
       this.verification_field = false;
 
-      if (this.fields.email.valid) {
-        var params = {
-          username: this.$store.state.username,
-          email: this.email,
-          verify: this.verify
-        };
-        var obj = JSON.stringify(params);
+      var params = {
+        username: this.$store.getters.username,
+        verify: this.verify
+      };
+      var obj = JSON.stringify(params);
 
-        axios
-          .post("/customer/info/update_password", obj)
-          .then(res => {
-            if (res.data == 0) {
-              alert(this.$t("m.als"));
-            } else {
-              this.time = 60;
-              this.disabled = true;
-              this.timer();
-              this.verification_code = res.data;
-              alert(res.data);
-            }
-          })
-          .catch(function(error) {
-            console.log(error);
-          });
-      }
+      axios
+        .post("/customer/info/update_password", obj)
+        .then(res => {
+          if (res.data == 0) {
+            alert(this.$t("m.als"));
+          } else {
+            this.time = 60;
+            this.disabled = true;
+            this.timer();
+            this.verification_code = res.data;
+            alert(res.data);
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     },
     timer() {
       if (this.time > 0) {
@@ -441,11 +426,11 @@ export default {
         }
 
         this.time--;
-        this.btntxt = "Resend Code after " + this.time + " Seconds";
+        this.btntxt = this.$t("m.r_bsvc") + this.time + this.$t("m.r_other");
         setTimeout(this.timer, 1000);
       } else {
         this.time = 0;
-        this.btntxt = "Send Verification Code";
+        this.btntxt = this.$t("m.bsvc");
         this.disabled = false;
       }
     },
@@ -463,9 +448,9 @@ export default {
     submitPassword() {
       this.verify = 1;
 
-      if (this.fields.email.valid && this.email == this.$store.state.email) {
+      if (this.fields.email.valid && this.email == this.$store.getters.email) {
         var params = {
-          username: this.$store.state.username,
+          username: this.$store.getters.username,
           password: this.password,
           confirm_password: this.confirm_password,
           verify: this.verify
@@ -502,14 +487,15 @@ export default {
           .toISOString()
           .substr(0, 10);
       }
-      this.formData.birthday = this.formData.birthday.toISOString().substr(0, 10);
-      
+      // this.formData.birthday = this.formData.birthday.toISOString().substr(0, 10);
+      alert(this.formData.birthday);
+
       var obj = JSON.stringify(this.formData);
       axios.post("/customer/info/", obj).then(res => {
         var response = JSON.parse(JSON.stringify(res.data));
       });
       this.$store.commit("handleCustomerInfo", this.formData);
-      this.old_username = this.$store.state.username;
+      this.old_username = this.$store.getters.username;
     },
     changeImage(e) {
       let file = e.target.files[0];

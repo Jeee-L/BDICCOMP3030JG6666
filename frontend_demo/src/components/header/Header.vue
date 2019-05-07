@@ -116,16 +116,6 @@
           </b-dropdown>
         </li>
         <li class="divider d-none d-md-block" v-if="pageOptions.pageWithTwoSidebar"></li>
-        <li class="d-none d-md-block" v-if="pageOptions.pageWithTwoSidebar">
-          <a
-            href="javascript:;"
-            v-on:click="toggleRightSidebar"
-            data-click="right-sidebar-toggled"
-            class="f-s-14"
-          >
-            <i class="fa fa-th"></i>
-          </a>
-        </li>
       </ul>
       <!-- end header navigation right -->
     </div>
@@ -178,13 +168,13 @@ export default {
       this.$router.push({ path: "/extra/search" });
     },
     logout() {
-      // axios
-      //   .post("/logout/", obj)
-      //   .then(res)
-      //   .catch(function(error) {
-      //     console.log(error);
-      //   });
-      // delCookie("user");
+      axios
+        .post("/logout/", obj)
+        .then(res)
+        .catch(function(error) {
+          console.log(error);
+        });
+      delCookie("user");
       this.$router.push("/");
     }
   }

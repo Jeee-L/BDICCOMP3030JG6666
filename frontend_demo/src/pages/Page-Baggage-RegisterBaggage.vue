@@ -689,17 +689,18 @@ export default {
     },
     submitOrderForm() {
       if (!this.isFormInvalid) {
-        this.$store.getters.insurance_order_list[
-          this.$store.getters.insurance_order_list.length
-        ] = this.formData;
-
         var obj = JSON.stringify(this.formData);
         axios
           .post("/luggage/order/new_travel", obj)
           .then(res => {
             var response = JSON.parse(JSON.stringify(res.data));
-            if (response)
-            alert(response);
+            if (response.state) {
+              if (response.state == "1") {
+                this.swalNotification("success", "");
+              } else {
+                this.swalNotification("error", response.error_msg);
+              }
+            }
           })
           .catch(function(error) {
             console.log(error);
@@ -786,6 +787,21 @@ export default {
       }
       this.formData.sumPrice = sumPrice;
       this.showOrder = true;
+    },
+    swalNotification(swalType, error_msg) {
+      if (swalType == "success") {
+        this.$swal({
+          title: this.$t("m.baggage_s_title"),
+          text: this.$t("m.baggage_s_text"),
+          type: swalType
+        });
+      } else {
+        this.$swal({
+          title: this.$t("m.baggage_f_title"),
+          text: error_msg,
+          type: swalType
+        });
+      }
     }
   }
 };
