@@ -6,8 +6,10 @@
     <div class="card-body" style="font-size: 15px">
       <div>
         {{$t('m.upt')}}
-        <br>{{$t('m.tip3')}}
-        <br>{{$t('m.tip4')}}
+        <br>
+        {{$t('m.tip3')}}
+        <br>
+        {{$t('m.tip4')}}
       </div>
       <div class="btn-update">
         <b-btn
@@ -121,14 +123,10 @@
                   </div>
                 </td>
                 <td>
-                  <p>
-                    {{items.name}}
-                  </p>
+                  <p>{{items.name}}</p>
                 </td>
                 <td>
-                  <p>
-                    {{items.price}}
-                  </p>
+                  <p>{{items.price}}</p>
                 </td>
               </tr>
             </tbody>
@@ -158,22 +156,26 @@ export default {
   components: {
     ClientTable
   },
+  computed: {
+    columns() {
+      return [
+        this.$t("m.index"),
+        this.$t("m.ccid"),
+        this.$t("m.cbid"),
+        this.$t("m.cun"),
+        this.$t("m.cre"),
+        this.$t("m.clt"),
+        this.$t("m.clp"),
+        this.$t("m.ccd"),
+        this.$t("m.remark"),
+        this.$t("m.pro")
+      ];
+    }
+  },
   data() {
     return {
       employee_id: "",
       tableData: [],
-      columns: [
-        this.$t('m.index'),
-        this.$t('m.ccid'),
-        this.$t('m.cbid'),,
-        this.$t('m.cun'),,
-        this.$t('m.cre'),,
-        this.$t('m.clt'),,
-        this.$t('m.clp'),,
-        this.$t('m.ccd'),,
-        this.$t('m.remark'),,
-        this.$t('m.pro'),
-      ],
       options: {
         pagination: { chunk: 5 },
         sortIcon: {

@@ -6,7 +6,8 @@
         <br>
         <p>
           {{$t('m.register1')}}
-          <br>{{$t('m.register2')}}
+          <br>
+          {{$t('m.register2')}}
         </p>
       </div>
       <div class="card-body">
@@ -22,9 +23,12 @@
               <h6 style="margin-left: 50px; width: 100%">
                 {{$t('m.pie')}}
                 <br>
-                <br>{{$t('m.pie1')}}
-                <br>{{$t('m.pie2')}}
-                <br>{{$t('m.pie3')}}
+                <br>
+                {{$t('m.pie1')}}
+                <br>
+                {{$t('m.pie2')}}
+                <br>
+                {{$t('m.pie3')}}
               </h6>
               <button
                 type="button"
@@ -74,7 +78,8 @@
               <h6>
                 {{$t('m.checkt')}}
                 <br>
-                <br>{{$t('m.table')}}
+                <br>
+                {{$t('m.table')}}
               </h6>
               <br>
               <div class="card card-default">
@@ -176,9 +181,7 @@
                         <span class="text-danger">*</span>
                       </label>
                       <div class="col-md-6">
-                        <b-form-group
-                          :description="$t('m.dtp')"
-                        >
+                        <b-form-group :description="$t('m.dtp')">
                           <b-file
                             @change="convertImg($event, 'out')"
                             accept="image/*"
@@ -202,9 +205,7 @@
                         <span class="text-danger">*</span>
                       </label>
                       <div class="col-md-6">
-                        <b-form-group
-                          :description="$t('m.dpp')"
-                        >
+                        <b-form-group :description="$t('m.dpp')">
                           <b-file
                             @change="convertImg($event, 'in')"
                             accept="image/*"
@@ -248,12 +249,18 @@
                           <div class="card card-body instruct-crop">
                             <b>{{$t('m.belong')}}</b>
                             <br>
-                            <br>{{$t('m.b1')}}
-                            <br>{{$t('m.b2')}}
-                            <br>{{$t('m.b3')}}
-                            <br>{{$t('m.b4')}}
-                            <br>{{$t('m.b5')}}
-                            <br>{{$t('m.b6')}}
+                            <br>
+                            {{$t('m.b1')}}
+                            <br>
+                            {{$t('m.b2')}}
+                            <br>
+                            {{$t('m.b3')}}
+                            <br>
+                            {{$t('m.b4')}}
+                            <br>
+                            {{$t('m.b5')}}
+                            <br>
+                            {{$t('m.b6')}}
                           </div>
                           <div
                             class="mb-3"
@@ -280,7 +287,8 @@
                                 id="change-image"
                                 accept="image/png, image/jpeg, image/gif, image/jpg"
                                 @change="changeImage($event)"
-                              > {{$t('m.ci')}}
+                              >
+                              {{$t('m.ci')}}
                             </label>
                             <b-btn
                               class="mr-2 mb-2"
@@ -309,8 +317,10 @@
                         <div class="col-xl-4" v-show="!this.showInstruct">
                           <p class="text-danger">
                             {{$t('m.both')}}
-                            <b>{{$t('m.appraisal')}}</b> {{$t('m.a')}}
-                            <b>"{{$t('m.submitit')}}"</b> {{$t('m.button')}}.
+                            <b>{{$t('m.appraisal')}}</b>
+                            {{$t('m.a')}}
+                            <b>"{{$t('m.submitit')}}"</b>
+                            {{$t('m.button')}}.
                           </p>
                           <b-form-group :label="$t('m.lin')">
                             <b-input
@@ -365,9 +375,12 @@
                       style="margin-left: 20px !important"
                     >{{$t('m.dc')}}</legend>
                     <p style="margin-left: 20px !important" class="step-explain">
-                      <br>{{$t('m.list')}}
-                      <br>{{$t('m.recheck')}}
-                      <br>{{$t('m.finish')}}
+                      <br>
+                      {{$t('m.list')}}
+                      <br>
+                      {{$t('m.recheck')}}
+                      <br>
+                      {{$t('m.finish')}}
                     </p>
                     <!-- START table-responsive-->
                     <div class="table-responsive">
@@ -407,10 +420,7 @@
                                           style="color: red !important;"
                                         >{{ errors.first('itemName') }}</span>
                                       </b-form-group>
-                                      <b-form-group
-                                        :label="$t('m.ip')"
-                                        style="margin-left: 20px"
-                                      >
+                                      <b-form-group :label="$t('m.ip')" style="margin-left: 20px">
                                         <b-input
                                           type="text"
                                           id="itemPrice"
@@ -529,8 +539,10 @@
                         class="no-border f-w-700 p-b-0 m-t-0 m-b-20 f-s-16 text-inverse"
                       >{{$t('m.remarks')}}</legend>
                       <p class="step-explain">
-                        <br>{{$t('m.message')}}
-                        <br>{{$t('m.support')}}
+                        <br>
+                        {{$t('m.message')}}
+                        <br>
+                        {{$t('m.support')}}
                       </p>
                       <br>
                       <!-- begin form-group -->
@@ -595,7 +607,13 @@ export default {
       checkedItems: [false, false, false, false, false],
       pieChart: {
         data: {
-          labels: [this.$t('m.lorder1'), this.$t('m.lorder2'), this.$t('m.lorder3'), this.$t('m.lorder4'), this.$t('m.lre')],
+          labels: [
+            this.$t("m.lorder1"),
+            this.$t("m.lorder2"),
+            this.$t("m.lorder3"),
+            this.$t("m.lorder4"),
+            this.$t("m.lre")
+          ],
           datasets: [
             {
               data: [300, 50, 100, 40, 120],
@@ -623,7 +641,7 @@ export default {
           maintainAspectRatio: false
         }
       },
-      parameters: [this.$t('m.poid'), this.$t('m.pet'), this.$t('m.pc')],
+      parameters: [this.$t("m.poid"), this.$t("m.pet"), this.$t("m.pc")],
       itemsFields: [
         {
           isActive: true,
@@ -706,7 +724,7 @@ export default {
             console.log(error);
           });
       } else {
-        alert(this.$t('m.alpe'));
+        alert(this.$t("m.alpe"));
       }
     },
     startCrop() {
@@ -762,9 +780,7 @@ export default {
       var file = e.target.files[0];
       this.fileName = file.name;
       if (!/\.(gif|jpg|jpeg|png|bmp|GIF|JPG|PNG)$/.test(e.target.value)) {
-        alert(
-          this.$t('m.alfe')
-        );
+        alert(this.$t("m.alfe"));
         return false;
       }
       var reader = new FileReader();
@@ -793,14 +809,22 @@ export default {
         this.$swal({
           title: this.$t("m.baggage_s_title"),
           text: this.$t("m.baggage_s_text"),
+          timer: 2000,
+          showConfirmButton: false,
           type: swalType
-        });
+        }).then(
+          setTimeout(() => {
+            this.$router.push("/baggage/register");
+          }, 2000)
+        );
       } else {
         this.$swal({
           title: this.$t("m.baggage_f_title"),
           text: error_msg,
+          timer: 2000,
+          showConfirmButton: false,
           type: swalType
-        });
+        }).then();
       }
     }
   }

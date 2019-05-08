@@ -213,7 +213,7 @@ export default {
   },
   methods: {
     submitForm() {
-      this.swalNotification("error", this.$t('m.register_f_text'));
+      this.swalNotification("success", "");
       if (!this.isFormInvalid && this.verification_field) {
         this.formData.verify = 1;
         var obj = JSON.stringify(this.formData);
@@ -222,7 +222,7 @@ export default {
           .then(res => {
             var response = JSON.parse(JSON.stringify(res.data));
             if (response.state == "1") {
-              this.swalNotification("success", '');
+              this.swalNotification("success", "");
               this.$router.push("/login");
             } else {
               this.swalNotification("error", response.error_msg);
@@ -290,14 +290,22 @@ export default {
         this.$swal({
           title: this.$t("m.register_s_title"),
           text: this.$t("m.register_s_text"),
+          timer: 2000,
+          showConfirmButton: false,
           type: swalType
-        });
+        }).then(
+          setTimeout(() => {
+            this.$router.push("/login");
+          }, 2000)
+        );
       } else {
         this.$swal({
           title: this.$t("m.register_f_title"),
           text: error_msg,
-          type: swalType,
-        });
+          timer: 2000,
+          showConfirmButton: false,
+          type: swalType
+        }).then();
       }
     }
   }

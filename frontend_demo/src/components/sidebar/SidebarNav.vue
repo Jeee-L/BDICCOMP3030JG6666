@@ -33,9 +33,9 @@ export default {
   components: {
     SidebarNavList
   },
-  data() {
-    return {
-      menus: [
+  computed: {
+    menus() {
+      return [
         { path: "/home", icon: "fa fa-th", title: this.$t("m.home") },
         {
           path: "/baggage",
@@ -49,7 +49,11 @@ export default {
             { path: "/baggage/result", title: this.$t("m.scpr") }
           ]
         }
-      ],
+      ];
+    }
+  },
+  data() {
+    return {
       pageOptions: PageOptions
     };
   },

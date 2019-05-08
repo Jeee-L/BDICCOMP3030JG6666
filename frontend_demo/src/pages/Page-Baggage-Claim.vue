@@ -208,14 +208,18 @@ export default {
         this.$swal({
           title: this.$t("m.claim_s_title"),
           text: this.$t("m.claim_s_text"),
+          timer: 2000,
+          showConfirmButton: false,
           type: swalType
-        });
+        }).then();
       } else {
         this.$swal({
           title: this.$t("m.claim_f_title"),
           text: error_msg,
+          timer: 2000,
+          showConfirmButton: false,
           type: swalType
-        });
+        }).then();
       }
     }
   }

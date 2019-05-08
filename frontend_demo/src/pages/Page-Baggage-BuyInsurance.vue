@@ -191,6 +191,7 @@
                       >{{$t('m.birthday')}}</label>
                       <div class="col-md-6">
                         <datepicker
+                          :language="date_lan"
                           :placeholder="$t('m.psd')"
                           v-model="formData.birthday"
                           input-class="form-control bg-white"
@@ -785,6 +786,7 @@
 <script>
 import { FormWizard, TabContent, WizardStep } from "vue-form-wizard";
 import PageOptions from "../config/PageOptions.vue";
+import { en, zh } from "vuejs-datepicker/dist/locale";
 import axios from "axios";
 
 export default {
@@ -818,6 +820,9 @@ export default {
     },
     buyInsurance() {
       return this.$store.getters.insurance_list == "";
+    },
+    date_lan() {
+      return this.$t("m.date_lan") == "en" ? en : zh;
     }
   },
   methods: {
@@ -838,8 +843,8 @@ export default {
           .substr(0, 10);
       }
 
-      // this.formData.birthday = this.formData.birthday.toISOString().substr(0, 10);
       if (!this.isFormInvalid && this.formData.project_id != "") {
+        this.$store.commit("handleCustomerInfo", this.formData);
         var obj = JSON.stringify(this.formData);
         axios
           .post("/luggage/order/create", obj)
@@ -849,7 +854,6 @@ export default {
               if (response.state == "1") {
                 this.swalNotification("success", "");
                 this.$store.commit("handleInsurance", response.insurance_id);
-                alert(this.$store.getters.insurance_list);
               } else {
                 this.swalNotification("error", response.error_msg);
               }
@@ -869,14 +873,22 @@ export default {
         this.$swal({
           title: this.$t("m.insurance_s_title"),
           text: this.$t("m.insurance_s_text"),
+          timer: 2000,
+          showConfirmButton: false,
           type: swalType
-        });
+        }).then(
+          setTimeout(() => {
+            this.$router.push("/baggage/insurance");
+          }, 2000)
+        );
       } else {
         this.$swal({
           title: this.$t("m.insurance_f_title"),
           text: error_msg,
+          timer: 2000,
+          showConfirmButton: false,
           type: swalType
-        });
+        }).then();
       }
     }
   }

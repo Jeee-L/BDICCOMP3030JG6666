@@ -45,6 +45,23 @@ export default {
   components: {
     TopMenuNavList
   },
+  computed: {
+    menus() {
+      return [
+        {
+          path: "/employee/insurance",
+          icon: "fa fa-hdd",
+          title: this.$t("m.ei")
+        },
+        {
+          path: "/employee/baggage",
+          icon: "fa fa-hdd",
+          title: this.$t("m.ebr")
+        },
+        { path: "/employee/claim", icon: "fa fa-hdd", title: this.$t("m.ec") }
+      ];
+    }
+  },
   mounted() {
     var windowWidth = this.$el.clientWidth - 128;
     var listFullWidth = 0;
@@ -83,15 +100,6 @@ export default {
   },
   data() {
     return {
-      menus: [
-        { path: "/employee/insurance", icon: "fa fa-hdd", title: this.$t("m.ei") },
-        {
-          path: "/employee/baggage",
-          icon: "fa fa-hdd",
-          title: this.$t("m.ebr")
-        },
-        { path: "/employee/claim", icon: "fa fa-hdd", title: this.$t("m.ec") }
-      ],
       pageOptions: PageOptions,
       controls: {
         left: false,

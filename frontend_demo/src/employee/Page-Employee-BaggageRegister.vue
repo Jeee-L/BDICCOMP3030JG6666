@@ -6,8 +6,10 @@
     <div class="card-body" style="font-size: 15px">
       <div>
         {{$t('m.upt')}}
-        <br>{{$t('m.tip1')}}
-        <br>{{$t('m.tip2')}}
+        <br>
+        {{$t('m.tip1')}}
+        <br>
+        {{$t('m.tip2')}}
       </div>
       <div class="btn-update">
         <b-btn
@@ -128,20 +130,24 @@ export default {
   components: {
     ClientTable
   },
+  computed: {
+    columns() {
+      return [
+        this.$t("m.index"),
+        this.$t("m.coid"),
+        this.$t("m.cid"),
+        this.$t("m.cun"),
+        this.$t("m.cod"),
+        this.$t("m.ccid"),
+        this.$t("m.crd"),
+        this.$t("m.remark")
+      ];
+    }
+  },
   data() {
     return {
       employee_id: "",
       tableData: [],
-      columns: [
-        this.$t('m.index'),
-        this.$t('m.coid'),
-        this.$t('m.cid'),
-        this.$t('m.cun'),
-        this.$t('m.cod'),
-        this.$t('m.ccid'),
-        this.$t('m.crd'),
-        this.$t('m.remark')
-      ],
       options: {
         pagination: { chunk: 5 },
         sortIcon: {
@@ -190,13 +196,13 @@ export default {
         this.modalTitle = "Remark: " + row.Claim_ID;
         this.modalShow = true;
       } else {
-        this.checkBaggageDetail(row.Baggage_Order_ID);
+        this.checkBaggageDetail(row.this.$t("m.coid"));
         this.modalTitle = "Registered Baggage Details: " + row.Claim_ID;
         this.modalShowBaggage = true;
       }
     },
-    checkBaggageDetail(Baggage_Order_ID) {
-      var obj = JSON.stringify(Baggage_Order_ID);
+    checkBaggageDetail(baggage_id) {
+      var obj = JSON.stringify(baggage_id);
       axios
         .post("/list_insurance_order_info/", obj)
         .then(res => {
@@ -224,14 +230,14 @@ export default {
             var response = JSON.parse(JSON.stringify(res.data));
             for (var i = 0; i < response.length; i++) {
               rawData[rawData.length] = {
-                Baggage_Order_ID: response[i].id,
-                Insurance_ID: response[i].insurance_id,
-                Username: response[i].username,
-                Order_Details: response[i].flight_number,
-                Claim_ID:
+                [this.$t("m.coid")]: response[i].id,
+                [this.$t("m.cid")]: response[i].insurance_id,
+                [this.$t("m.cun")]: response[i].username,
+                [this.$t("m.cod")]: response[i].flight_number,
+                [this.$t("m.ccid")]:
                   response[i].claim_id == null ? "0" : response[i].claim_id,
-                Registerd_Date: response[i].date,
-                Remark: response[i].remark
+                [this.$t("m.crd")]: response[i].date,
+                [this.$t("m.remark")]: response[i].remark
               };
             }
           }

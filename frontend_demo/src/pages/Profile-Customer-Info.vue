@@ -229,22 +229,6 @@
                         <div class="form-group row">
                           <label
                             class="text-bold col-xl-2 col-md-3 col-4 col-form-label text-right"
-                            for="inputContact2"
-                          >{{$t('m.un')}}</label>
-                          <div class="col-xl-10 col-md-9 col-8">
-                            <input
-                              class="form-control"
-                              id="inputContact2"
-                              type="text"
-                              placeholder
-                              v-model.lazy="formData.username"
-                              :disabled="this.update"
-                            >
-                          </div>
-                        </div>
-                        <div class="form-group row">
-                          <label
-                            class="text-bold col-xl-2 col-md-3 col-4 col-form-label text-right"
                             for="inputContact7"
                           >{{$t('m.email')}}</label>
                           <div class="col-xl-10 col-md-9 col-8">
@@ -265,9 +249,11 @@
                           >{{$t('m.birthday')}}</label>
                           <div class="col-xl-10 col-md-9 col-8">
                             <datepicker
-                              placeholder="Select Date"
+                              :language="date_lan"
+                              :placeholder="$t('m.date_placeholder')"
                               input-class="form-control bg-white"
                               v-model.lazy="formData.birthday"
+                              format="yyyy-MM-dd"
                               :disabled="this.update"
                             ></datepicker>
                           </div>
@@ -346,9 +332,15 @@
 
 <script>
 import PageOptions from "../config/PageOptions.vue";
+import { en, zh } from "vuejs-datepicker/dist/locale";
 import axios from "axios";
 
 export default {
+  computed: {
+    date_lan(){
+      return this.$t("m.date_lan") == "en" ? en : zh;
+    }
+  },
   data() {
     return {
       formData: {
@@ -435,7 +427,7 @@ export default {
       }
     },
     cancelChange() {
-      this.btntxt = "Send Verification Code";
+      this.btntxt = this.$t("m.bsvc");
       this.showPasswordCard = false;
       this.disabled = false;
       this.email = "";
@@ -448,32 +440,30 @@ export default {
     submitPassword() {
       this.verify = 1;
 
-      if (this.fields.email.valid && this.email == this.$store.getters.email) {
-        var params = {
-          username: this.$store.getters.username,
-          password: this.password,
-          confirm_password: this.confirm_password,
-          verify: this.verify
-        };
-        var obj = JSON.stringify(params);
+      var params = {
+        username: this.$store.getters.username,
+        password: this.password,
+        confirm_password: this.confirm_password,
+        verify: this.verify
+      };
+      var obj = JSON.stringify(params);
 
-        axios
-          .post("/customer/info/update_password", obj)
-          .then(res => {
-            if (res.data == 0) {
-              alert(this.$t("m.als"));
-            } else {
-              this.time = 60;
-              this.disabled = true;
-              this.timer();
-              this.verification_code = res.data;
-              alert(res.data);
-            }
-          })
-          .catch(function(error) {
-            console.log(error);
-          });
-      }
+      axios
+        .post("/customer/info/update_password", obj)
+        .then(res => {
+          if (res.data == 0) {
+            alert(this.$t("m.als"));
+          } else {
+            this.time = 60;
+            this.disabled = true;
+            this.timer();
+            this.verification_code = res.data;
+            alert(res.data);
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
       this.cancelChange();
     },
     startEdit(value) {
@@ -493,7 +483,6 @@ export default {
         var response = JSON.parse(JSON.stringify(res.data));
       });
       this.$store.commit("handleCustomerInfo", this.formData);
-      this.old_username = this.$store.getters.username;
     },
     changeImage(e) {
       let file = e.target.files[0];

@@ -6,8 +6,10 @@
     <div class="card-body" style="font-size: 15px">
       <div>
         {{$t('m.upt')}}
-        <br>{{$t('m.tip5')}}
-        <br>{{$t('m.tip6')}}
+        <br>
+        {{$t('m.tip5')}}
+        <br>
+        {{$t('m.tip6')}}
       </div>
       <div class="btn-update">
         <b-btn
@@ -52,20 +54,24 @@ export default {
   components: {
     ClientTable
   },
+  computed: {
+    columns() {
+      return [
+        this.$t("m.index"),
+        this.$t("m.cid"),
+        this.$t("m.cun"),
+        this.$t("m.cpid"),
+        this.$t("m.cpid2"),
+        this.$t("m.cpt"),
+        this.$t("m.cdate"),
+        this.$t("m.cstate"),
+        this.$t("m.remark")
+      ];
+    }
+  },
   data() {
     return {
       tableData: [],
-      columns: [
-        this.$t('m.index'),
-        this.$t('m.cid'),
-        this.$t('m.cun'),
-        this.$t('m.cpid'),
-        this.$t('m.cpid2'),
-        this.$t('m.cpt'),
-        this.$t('m.cdate'),
-        this.$t('m.cstate'),
-        this.$t('m.remark'),
-      ],
       options: {
         pagination: { chunk: 5 },
         sortIcon: {
