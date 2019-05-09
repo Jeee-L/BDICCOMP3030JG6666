@@ -451,14 +451,11 @@ export default {
       axios
         .post("/customer/info/update_password", obj)
         .then(res => {
-          if (res.data == 0) {
-            alert(this.$t("m.als"));
+          var response = JSON.parse(JSON.stringify(res.data));
+          if (response.state == 0) {
+            this.swalNotification('error', response.error_msg);
           } else {
-            this.time = 60;
-            this.disabled = true;
-            this.timer();
-            this.verification_code = res.data;
-            alert(res.data);
+            this.swalNotification('success', '');
           }
         })
         .catch(function(error) {
@@ -501,6 +498,27 @@ export default {
         this.$store.commit("handleAvatar", data);
       };
       reader.readAsArrayBuffer(file);
+    },
+    swalNotification(swalType, error_msg) {
+      if (swalType == "success") {
+        this.$swal({
+          title: this.$t("m.password_s_title"),
+          timer: 2000,
+          showConfirmButton: false,
+          type: swalType
+        }).then(
+          setTimeout(() => {
+          }, 2000)
+        );
+      } else {
+        this.$swal({
+          title: this.$t("m.password_f_title"),
+          text: error_msg,
+          timer: 2000,
+          showConfirmButton: false,
+          type: swalType
+        }).then();
+      }
     }
   },
   created() {

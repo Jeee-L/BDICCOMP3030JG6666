@@ -179,6 +179,14 @@ export default {
       return this.$t('m.date_lan') == 'en';
     }
   },
+  watch: {
+    lanChange: {
+      load: function() {
+        this.updateData();
+      },
+      deep: true
+    }
+  },
   data() {
     return {
       rawData: [],
@@ -247,7 +255,7 @@ export default {
         .then(res => {
           var response = JSON.parse(JSON.stringify(res.data));
           if (response != null) {
-            this.baggageItem.username = response.username;
+            // this.baggageItem.username = response.username;
             this.baggageItem.flight_number = response.flight_number;
             this.baggageItem.luggage_height = response.luggage_height;
             this.baggageItem.luggage_width = response.luggage_width;
@@ -285,7 +293,7 @@ export default {
           if (res.data != null) {
             var response = JSON.parse(JSON.stringify(res.data));
             for (var i = 0; i < response.length; i++) {
-              if (response[i].state == "-1") {
+              if (response[i].state == "-2") {
                 this.rawData[this.rawData.length] = {
                   [this.$t("m.ccid")]: response[i].id,
                   [this.$t("m.cbid")]: response[i].insurance_order_id,

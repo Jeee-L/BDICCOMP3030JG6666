@@ -3,8 +3,10 @@
     <h3 class="page-header">{{$t('m.iblc')}}</h3>
     <p style="font-size: 15px">
       {{$t('m.display')}}
-      <br>{{$t('m.according')}}
-      <br>{{$t('m.br')}}
+      <br>
+      {{$t('m.according')}}
+      <br>
+      {{$t('m.br')}}
       <br>
       <br>
     </p>
@@ -14,8 +16,8 @@
       :key="item.insurance_order_id"
     >
       <div class="order-card">
-        <div class="card-header" v-if="(item.claim_id == null) && (item.insurance_order_id != null)">{{item.insurance_order_id}}</div>
-        <div class="card-header text-success" v-else-if="(item.claim_id != null) && (item.insurance_order_id != null)">{{$t('m.init')}}</div>
+        <div class="card-header" v-if="(item.state == '-1')">{{$t('m.baggage_id')}} {{item.insurance_order_id}}</div>
+        <div class="card-header text-success" v-else-if="(item.state == '0')">{{$t('m.init')}}</div>
         <div class="card-header text-danger" v-else>{{$t('m.br')}}</div>
         <div class="row align-items-center" style="margin: 30px">
           <div class="col-5 text-center">
@@ -64,7 +66,7 @@
             variant="outline-primary"
             type="button"
             v-on:click="showModalData(item.insurance_order_id)"
-            :disabled="(item.claim_id != null) || (item.insurance_order_id == null)"
+            :disabled="(item.state != '-1')"
           >{{$t('m.clb')}}</b-button>
         </div>
       </div>
@@ -125,10 +127,7 @@
       </b-form-row>
       <b-form-row>
         <b-form-group :label="$t('m.remark')" class="col">
-          <b-input
-            :placeholder="$t('m.pos')"
-            v-model="formData.remark"
-          />
+          <b-input :placeholder="$t('m.pos')" v-model="formData.remark"/>
         </b-form-group>
       </b-form-row>
     </b-modal>
@@ -151,21 +150,19 @@ export default {
         reason: "",
         remark: ""
       },
-      order_list: this.$store.state.insurance_order_list,
       modalShow: false
     };
   },
   created() {
     var requireInfo = {
-      username: this.$store.state.username,
-    }
+      username: this.$store.state.username
+    };
     var obj = JSON.stringify(requireInfo);
     axios
       .post("/list_user_all_insurance_order", obj)
       .then(res => {
         var response = JSON.parse(JSON.stringify(res.data));
         this.$store.state.insurance_order_list = response;
-        console.log(this.$store.state.insurance_order_list);
       })
       .catch(function(error) {
         console.log(error);
@@ -175,7 +172,10 @@ export default {
   computed: {
     isFormInvalid() {
       return Object.keys(this.fields).some(key => this.fields[key].invalid);
-    }
+    },
+    order_list() {
+      return this.$store.state.insurance_order_list;
+    },
   },
   methods: {
     showModalData(insurance_order_id) {
@@ -201,7 +201,7 @@ export default {
             console.log(error);
           });
       } else {
-        alert(this.$t('m.alpe'));
+        alert(this.$t("m.alpe"));
       }
     },
     swalNotification(swalType, error_msg) {

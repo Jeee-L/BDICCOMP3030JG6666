@@ -73,11 +73,11 @@
     >
       <div class="card-body">
         <label class="control-label">
-          {{$t('m.email')}}
+          {{$t('m.un')}}
           <span class="text-danger">*</span>
         </label>
         <br>
-        <small>{{$t('m.themail')}}</small>
+        <small>{{$t('m.theun')}}</small>
         <br>
         <br>
         <div class="row m-b-15">
@@ -340,33 +340,49 @@ export default {
     submitPassword() {
       this.verify = 1;
 
-      if (this.fields.email.valid && this.email == this.$store.getters.email) {
-        var params = {
-          username: this.$store.getters.username,
-          password: this.password,
-          confirm_password: this.confirm_password,
-          verify: this.verify
-        };
-        var obj = JSON.stringify(params);
+      var params = {
+        username: this.$store.getters.username,
+        password: this.password,
+        confirm_password: this.confirm_password,
+        verify: this.verify
+      };
+      var obj = JSON.stringify(params);
 
-        axios
-          .post("/customer/info/update_password", obj)
-          .then(res => {
-            if (res.data == 0) {
-              alert(this.$t("m.als"));
-            } else {
-              this.time = 60;
-              this.disabled = true;
-              this.timer();
-              this.verification_code = res.data;
-              alert(res.data);
-            }
-          })
-          .catch(function(error) {
-            console.log(error);
-          });
-      }
+      axios
+        .post("/customer/info/update_password", obj)
+        .then(res => {
+          var response = JSON.parse(JSON.stringify(res.data));
+          if (response.state == 0) {
+            this.swalNotification('error', response.error_msg);
+          } else {
+            this.swalNotification('success', '');
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
       this.cancelChange();
+    },
+    swalNotification(swalType, error_msg) {
+      if (swalType == "success") {
+        this.$swal({
+          title: this.$t("m.password_s_title"),
+          timer: 2000,
+          showConfirmButton: false,
+          type: swalType
+        }).then(
+          setTimeout(() => {
+          }, 2000)
+        );
+      } else {
+        this.$swal({
+          title: this.$t("m.password_f_title"),
+          text: error_msg,
+          timer: 2000,
+          showConfirmButton: false,
+          type: swalType
+        }).then();
+      }
     }
   }
 };

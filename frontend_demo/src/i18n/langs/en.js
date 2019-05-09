@@ -140,6 +140,7 @@ export const m = {
     success_create: "Insurance order created successfully",
 
     //Baggage Claim
+    baggage_id: 'Baggage Order ID: ',
     iblc: 'Initiate Baggage-lost Claim',
     display: 'This page displays all the baggage registration orders within validity period.',
     according: 'According to our terms of service, as our customer, you can claim for compensation once already registered baggages are lost.',
@@ -348,6 +349,7 @@ export const m = {
     reg: 'to register.',
     mem_password: 'Forget password? ',
     here_password: 'Change Password',
+    theun: 'A verificaiton code will be sent to the email address attached with your account.',
 
     alv: 'Please enter valid User Name and Password.',
 
@@ -494,18 +496,21 @@ export const m = {
     register_f_title: 'Registration Failed',
     register_f_text: 'Please check your inputs and register again.',
 
-    insurance_s_title: 'New Insurance Order Created Successfully',
+    insurance_s_title: 'Insurance Order Created Successfully',
     insurance_s_text: 'You cannot create new insurance order unless the insurance expires. ',
     insurance_f_title: 'Failed to Create Insurance Order',
     insurance_f_text: 'Please check your inputs and submit again.',
 
-    baggage_s_title: 'New Baggage Registration Order Created Successfully',
+    baggage_s_title: 'Registration Order Created Successfully',
     baggage_s_text: 'If this baggage is lost, please initate claim order on the Claim Lost Baggage page. ',
     baggage_f_title: 'Failed to Create Baggage Registration Order',
     baggage_f_text: 'Please check your inputs and submit again.',
 
-    claim_s_title: 'New Claim Order Created Successfully',
+    claim_s_title: 'Claim Order Created Successfully',
     claim_s_text: 'Please refer to the Claim Process Result page to check processing status.',
     claim_f_title: 'Failed to Create Claim Order',
     claim_f_text: 'Please check your inputs and submit again.',
+
+    password_s_title: 'Password Update Succeeded',
+    password_f_title: 'Password Update Failed',
 }

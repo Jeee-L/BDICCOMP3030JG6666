@@ -140,6 +140,7 @@ export const m = {
    success_create: '创建成功',
 
    //Baggage Claim
+   baggage_id: '注册行李订单号：',
    iblc: '发起行李丢失索赔',
    display: '此页面显示所有有效期内的行李登记订单。',
    according: '根据我们的服务条款，作为我们的客户，一旦已经登记的行李丢失，您可以要求赔偿。',
@@ -348,6 +349,8 @@ export const m = {
 
    alv: '请输入有效的用户名和密码。',
 
+   theun: '验证码将会发送至与该账号绑定的邮箱进行验证。',
+
    //User Register
    peace: '带着平和的心态旅行。比较以下计划，并在网上以我们最优惠的价格购买。我们的下单过程是100%安全的，您将在几分钟内通过电子邮件收到您的保单。',
    registration: '注册',
@@ -369,7 +372,7 @@ export const m = {
    alpe: '请在所有必需的栏位填写有效信息。',
    als: '对不起，发送验证码失败。',
 
-   bsvc: '发送验证码',
+   asvc: '发送验证码',
    r_bsvc: '',
    r_other: ' 后重新验证',
 
@@ -505,4 +508,7 @@ export const m = {
    claim_s_text: '请您前往理赔处理结果页面查看管理员审核意见。',
    claim_f_title: '创建理赔订单失败',
    claim_f_text: '请您更正输入信息并再次提交。',
+
+   password_s_title: '更改密码成功',
+   password_f_title: '更改密码失败',
 }
