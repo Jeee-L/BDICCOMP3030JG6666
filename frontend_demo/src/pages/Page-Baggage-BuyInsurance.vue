@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="card card-default" style="margin: 30px">
+    <div class="card card-default">
       <div class="card-header">
         <h3>{{$t('m.create')}}</h3>
       </div>

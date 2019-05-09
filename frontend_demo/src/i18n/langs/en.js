@@ -417,7 +417,7 @@ export const m = {
     tip2: 'Requests for data update will be initiated every ten seconds.',
     uptable: 'Update Table',
     check1: 'Check',
-    bp: 'Belonging Picture',
+    bp: 'Item Image',
     n: 'Name',
 
     index: 'Index',

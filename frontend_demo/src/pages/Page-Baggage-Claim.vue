@@ -156,7 +156,7 @@ export default {
     };
   },
   created() {
-    requireInfo = {
+    var requireInfo = {
       username: this.$store.state.username,
     }
     var obj = JSON.stringify(requireInfo);
@@ -165,6 +165,7 @@ export default {
       .then(res => {
         var response = JSON.parse(JSON.stringify(res.data));
         this.$store.state.insurance_order_list = response;
+        console.log(this.$store.state.insurance_order_list);
       })
       .catch(function(error) {
         console.log(error);

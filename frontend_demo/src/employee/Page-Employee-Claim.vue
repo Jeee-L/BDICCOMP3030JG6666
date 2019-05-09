@@ -22,7 +22,7 @@
 
     <div class="card card-body table-part">
       <v-client-table :data="tableData" :columns="columns" :options="options">
-        <template slot="Remark" slot-scope="props">
+        <template :slot='$t("m.remark")' slot-scope="props">
           <div>
             <b-btn
               variant="outline-dark"
@@ -31,7 +31,7 @@
             >{{$t('m.check1')}}</b-btn>
           </div>
         </template>
-        <template slot="Baggage_ID" slot-scope="props">
+        <template :slot='$t("m.cbid")' slot-scope="props">
           <div>
             <b-btn
               variant="outline-dark"
@@ -40,7 +40,7 @@
             >{{props.row.Baggage_ID}}</b-btn>
           </div>
         </template>
-        <template slot="Reason" slot-scope="props">
+        <template :slot='$t("m.cre")' slot-scope="props">
           <div>
             <b-btn
               variant="outline-dark"
@@ -49,7 +49,7 @@
             >{{$t('m.check1')}}</b-btn>
           </div>
         </template>
-        <template slot="Process" slot-scope="props">
+        <template :slot='$t("m.pro")' slot-scope="props">
           <b-btn
             variant="outline-success"
             class="btn-xs btn-decision"
@@ -74,43 +74,45 @@
     </b-modal>
 
     <b-modal id="modals-default" :title="modalTitle" cancel-only v-model="modalShowBaggage">
-      <div class="col-9">
+      <div class="col-12">
         <p class="info-field">
-          <b>{{$t('m.usern')}}</b>
+          <b style="margin-right: 10px">{{$t('m.usern')}}</b>
           {{baggageItem.username}}
         </p>
         <p class="info-field">
-          <b>{{$t('m.flight')}}</b>
+          <b style="margin-right: 10px">{{$t('m.flight')}}</b>
           {{baggageItem.flight_number}}
         </p>
         <p class="info-field">
-          <b>{{$t('m.height')}}</b>
+          <b style="margin-right: 10px">{{$t('m.height')}}</b>
           {{baggageItem.luggage_height}}
         </p>
         <p>
-          <b class="info-field">{{$t('m.width')}}</b>
+          <b class="info-field" style="margin-right: 10px">{{$t('m.width')}}</b>
           {{baggageItem.luggage_width}}
         </p>
         <p>
-          <b class="info-field">{{$t('m.sp')}}</b>
+          <b class="info-field" style="margin-right: 10px">{{$t('m.sp')}}</b>
           {{baggageItem.sumPrice}}
         </p>
         <p>
-          <b class="info-field">{{$t('m.remark')}}:</b>
+          <b class="info-field" style="margin-right: 10px">{{$t('m.remark')}}:</b>
           {{baggageItem.remark}}
         </p>
         <!-- START table-responsive-->
+        <br>
         <div class="table-responsive">
-          <table class="table table-striped table-bordered table-hover card card-body">
+          <table class="table table-striped table-bordered table-hover">
             <thead>
               <tr>
                 <th>{{$t('m.bp')}}</th>
                 <th>{{$t('m.n')}}</th>
                 <th>{{$t('m.price')}}</th>
+                <th>{{$t('m.remark')}}</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="items in baggageItem.select_img_return_list" :key="items.id">
+              <tr v-for="items in baggageItem.select_img" :key="items.id">
                 <td>
                   <div class="media align-items-center">
                     <img
@@ -127,6 +129,9 @@
                 </td>
                 <td>
                   <p>{{items.price}}</p>
+                </td>
+                <td>
+                  <p>{{items.remark}}</p>
                 </td>
               </tr>
             </tbody>
@@ -150,8 +155,6 @@ import { setTimeout } from "timers";
 
 Vue.use(ClientTable);
 
-var rawData = [];
-
 export default {
   components: {
     ClientTable
@@ -170,10 +173,15 @@ export default {
         this.$t("m.remark"),
         this.$t("m.pro")
       ];
+    },
+    lanChange() {
+      this.updateData();
+      return this.$t('m.date_lan') == 'en';
     }
   },
   data() {
     return {
+      rawData: [],
       employee_id: "",
       tableData: [],
       options: {
@@ -209,7 +217,6 @@ export default {
     PageOptions.pageWithTopMenu = true;
     PageOptions.pageWithoutSidebar = true;
 
-    this.updateData();
     this.retryData();
   },
   beforeRouteLeave(to, from, next) {
@@ -220,21 +227,21 @@ export default {
   methods: {
     showModalData(row, tag) {
       if (tag == "Reason") {
-        this.modalContent = row.Reason;
-        this.modalTitle = "Reason: " + row.Claim_ID;
+        this.modalContent = row[this.$t("m.cre")];
+        this.modalTitle = "Reason: " + row[this.$t("m.ccid")];
         this.modalShow = true;
       } else if (tag == "Remark") {
-        this.modalContent = row.Remark;
-        this.modalTitle = "Remark: " + row.Claim_ID;
+        this.modalContent = row[this.$t("m.remark")];
+        this.modalTitle = "Remark: " + row[this.$t("m.ccid")];
         this.modalShow = true;
       } else {
-        this.checkBaggageDetail(row.insurance_order_id);
-        this.modalTitle = "Registered Baggage Details: " + row.Claim_ID;
+        this.checkBaggageDetail(row[this.$t("m.cbid")]);
+        this.modalTitle = "Registered Baggage Details: " + row[this.$t("m.ccid")];
         this.modalShowBaggage = true;
       }
     },
-    checkBaggageDetail(insurance_order_id) {
-      var obj = JSON.stringify(insurance_order_id);
+    checkBaggageDetail(baggage_id) {
+      var obj = JSON.stringify(baggage_id);
       axios
         .post("/list_insurance_order_info/", obj)
         .then(res => {
@@ -243,10 +250,10 @@ export default {
             this.baggageItem.username = response.username;
             this.baggageItem.flight_number = response.flight_number;
             this.baggageItem.luggage_height = response.luggage_height;
+            this.baggageItem.luggage_width = response.luggage_width;
             this.baggageItem.remark = response.remark;
             this.baggageItem.sumPrice = response.sumPrice;
-            this.baggageItem.select_img_return_list =
-              response.select_img_return_list;
+            this.baggageItem.select_img = response.select_img;
           }
         })
         .catch(function(error) {
@@ -271,7 +278,7 @@ export default {
         });
     },
     updateData() {
-      rawData = [];
+      this.rawData = [];
       axios
         .post("/list_all_claim/")
         .then(res => {
@@ -279,22 +286,22 @@ export default {
             var response = JSON.parse(JSON.stringify(res.data));
             for (var i = 0; i < response.length; i++) {
               if (response[i].state == "-1") {
-                rawData[rawData.length] = {
-                  Claim_ID: response[i].id,
-                  Baggage_ID: response[i].insurance_order_id,
-                  Username: response[i].username,
-                  Reason: response[i].reason,
-                  "Lost Time": response[i].lost_time,
-                  "Lost Place": response[i].lost_place,
-                  "Claim Date": response[i].date,
-                  Remark: response[i].remark
+                this.rawData[this.rawData.length] = {
+                  [this.$t("m.ccid")]: response[i].id,
+                  [this.$t("m.cbid")]: response[i].insurance_order_id,
+                  [this.$t("m.cun")]: response[i].username,
+                  [this.$t("m.cre")]: response[i].reason,
+                  [this.$t("m.clt")]: response[i].lost_time,
+                  [this.$t("m.clp")]: response[i].lost_place,
+                  [this.$t("m.ccd")]: response[i].date,
+                  [this.$t("m.remark")]: response[i].remark
                 };
               }
             }
           }
-          if (rawData != null) {
-            this.tableData = rawData.map((item, index) => {
-              item["Index"] = index;
+          if (this.rawData != null) {
+            this.tableData = this.rawData.map((item, index) => {
+              item[this.$t("m.index")] = index;
               return item;
             });
           }
@@ -319,8 +326,7 @@ export default {
         .then(res => {
           if (res.data != null) {
             var response = JSON.parse(JSON.stringify(res.data));
-            this.show("bottom-right", "success");
-            if (response.length != rawData.length) {
+            if (response.length != this.rawData.length) {
               this.show("bottom-right", "success");
             }
             timer = setInterval(() => {
