@@ -237,6 +237,7 @@ export default {
               "Welcome to the Employee Page, " + this.$employee.username + ".";
             this.showNotification = true;
             this.$store.commit("handleEmployee", response);
+            alert(this.$store.state.employee_id);
             this.$router.push("/employee/insurance");
           } else {
             for (var key in response) {

@@ -270,10 +270,13 @@ export default {
     },
     processDecision(data, tag) {
       var decision = {
-        claim_id: data.Claim_ID,
+        claim_id: data[this.$t("m.ccid")],
         employee_id: this.$store.state.employee_id,
         state: tag
       };
+      alert(decision.claim_id);
+      alert(this.$store.state.employee_id);
+      alert(decision.state);
       var obj = JSON.stringify(decision);
       axios
         .post("/address_claim/", obj)
