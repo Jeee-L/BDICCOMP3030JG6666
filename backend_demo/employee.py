@@ -7,11 +7,13 @@ import db_operation.order as db_ord_opr
 
 def login(employeeid,password):
     try:
-        return_message = db_emp_opr.login(employeeid, password)
-        if return_message == "Login successfully":
-            return jsonify({'state': '2'})
+        db_emp_opr.login(employeeid, password)
+        return jsonify({'state': '2'})
     except AssertionError as ae:
-            return jsonify({'state': '-1', 'error_msg': ae})
+        if ae == 'No such id':
+            return jsonify({'state': '-1', 'error_msg': 'No such employee'})
+        elif ae == 'Wrong password':
+            return jsonify({'state': '-1', 'error_msg': 'Password is not correct'})
 
 def update_password(employee_update_info):
     if not verify_password(employee_update_info['new_password']):
@@ -23,7 +25,10 @@ def update_password(employee_update_info):
             db_emp_opr.update_password(employee_update_info['employeeid'], employee_update_info['new_password'])
             return jsonify({'state':'1'})
         except AssertionError as ae:
-            return jsonify({'state':'0','error_msg':ae})
+            if ae == "No such employee":
+                return jsonify({'state': '0', 'error_msg': "No such employee"})
+            elif ae == "New password is same as old Password":
+                return jsonify({'state':'0','error_msg':"New password is same as old one"})
 
 def list_all_insurance():
     all_insurance = db_ins_opr.all()
@@ -35,8 +40,6 @@ def list_all_insurance():
             insurance_dict = {}
             insurance_dict['username'] = insurance.username
             insurance_dict['id'] = str(insurance.id)
-            # insurance_dict['project_id'] = str(insurance.project_id)
-            # insurance_dict['product_id'] = str(insurance.product_id)
             insurance_dict['amount_of_money'] = str(insurance.amount_of_money)
             insurance_dict['compensated_amount'] = str(insurance.compensated_amount)
             insurance_dict['state'] = str(insurance.state)
@@ -53,8 +56,9 @@ def list_all_claim():
     else:
         for claim in all_claim:
             claim_dict = {}
-            # claim 中没有username，先查insurance再通过insurance查username，待测试
-            claim_dict['username'] = (db_ins_opr.__search_insurance(claim.insurance_id)).username
+            # claim 中没有username，先查order再通过order查username，待测试
+            order = db_ord_opr.search_order(claim.order_id)
+            claim_dict['username'] = order.username
             claim_dict['insurance_order_id'] = str(claim.order_id)
             claim_dict['id'] = str(claim.id)
             claim_dict['employee_id'] = claim.employee_id
@@ -125,13 +129,13 @@ def address_claim(address_info):
         if address_info['state'] == '1':
             # TODO 这里改insurance的已赔付金额,待测试
             order_of_claim = db_cla_opr.search_order(int(address_info['claim_id']))
-            current_claim = db_cla_opr.__search_claim(int(address_info['claim_id']))
+            # current_claim = db_cla_opr.__search_claim(int(address_info['claim_id']))
             insurance_of_order = db_ins_opr.__search_insurance(order_of_claim.insurance_id)
-            db_ins_opr.change_compensated_amount(insurance_of_order,insurance_of_order.compensated_amount+int(current_claim.sumPrice))
+            db_ins_opr.change_compensated_amount(insurance_of_order,insurance_of_order.compensated_amount+int(order_of_claim.sumPrice))
         db_cla_opr.change_state(address_info['claim_id'], int(address_info['state']), address_info['employee_id'])
         return jsonify({'state':'1'})
     except AssertionError as ae:
-        return jsonify({'state':'0','error_msg':ae})
+        return jsonify({'state':'0','error_msg':'No such claim'})
 
 def all_employees():
     employee_list = db_emp_opr.all()

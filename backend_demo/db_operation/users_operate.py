@@ -176,7 +176,7 @@ def update_phone_num(username,new_phone_num):
     '''
     user = search_username(username)
     assert (user is not None), "No such user"
-    assert (user.phone_num is not new_phone_num), 'Same phone num'
+    # assert (user.phone_num is not new_phone_num), 'Same phone num'
     user.phone_num = new_phone_num
     db.session.commit()
     return "Update phone number successfully"
@@ -190,7 +190,7 @@ def update_passport_num(username,new_passport_num):
     '''
     user = search_username(username)
     assert (user is not None), "No such user"
-    assert (user.passport_num is not new_passport_num), 'Same passport_num'
+    # assert (user.passport_num is not new_passport_num), 'Same passport_num'
     user.passport_num = new_passport_num
     db.session.commit()
     return "Update passport number successfully"
@@ -204,7 +204,7 @@ def update_email(username, new_email):
     '''
     user = search_username(username)
     assert (user is not None), "No such user"
-    assert (user.email is not new_email), 'Same email'
+    # assert (user.email is not new_email), 'Same email'
     user.email = new_email
     db.session.commit()
     return 'Update email successfully'

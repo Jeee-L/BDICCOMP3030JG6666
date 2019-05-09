@@ -12,11 +12,9 @@ import time
 
 def login(username, password):
     if db_usr_opr.search_username(username) is None:
-        return_value = {'state': '-1', 'error_msg': 'No such user'}
-        return jsonify(return_value)
+        return jsonify({'state': '-1', 'error_msg': 'No such user'})
     elif not (db_usr_opr.password_is_right(username, password)):
-        return_value = {'state': '0', 'error_msg': 'Password is not correct'}
-        return jsonify(return_value)
+        return jsonify({'state': '0', 'error_msg': 'Password is not correct'})
     else:
         return user_all_info(username)
 
@@ -103,7 +101,11 @@ def user_all_insurance_order(username):
             order_dict['luggage_height'] = order.luggage_height
             order_dict['luggage_width'] = order.luggage_width
             order_dict['date'] = order.date.strftime("%Y-%m-%d")
-            order_dict['claim_id'] = str(order.claim_id)
+            corresponded_claims = order.claim_id
+            claim_ids = []
+            for claim in corresponded_claims:
+                claim_ids.append(str(claim.id))
+            order_dict['claim_id'] = claim_ids
             order_dict['remark'] = order.remark
             order_dict['sumPrice'] = str(order.sumPrice)
             select_img_list = db_ord_opr.select_img(order.order_id)
@@ -124,11 +126,8 @@ def register(register_info):
     verify_result = verify_register_info(register_info)
     if verify_result == True:
         try:
-            success_message = 'Create successfully'
-            return_message = db_usr_opr.insert_user(register_info)
-            if success_message == return_message:
-                return_value = {'state': '1'}
-                return jsonify(return_value)
+            db_usr_opr.insert_user(register_info)
+            return jsonify({'state': '1'})
         except AssertionError as ae:
             return jsonify({'state': '0', 'error_msg': 'Username already exist'})
     else:
@@ -160,8 +159,7 @@ def update_user_info(update_info):
     update_address(update_info['old_username'], update_info['address'])
     # update_name(update_info['old_username'], update_info['username'])
 
-    return_value = {'state': '1'}
-    return jsonify(return_value)
+    return jsonify({'state': '1'})
 
 
 def update_first_name(username, first_name):
@@ -183,7 +181,6 @@ def update_last_name(username, last_name):
 def update_birthday(username, birthday):
     if not (birthday is ''):
         birthday_date = datetime.strptime(birthday.split('T')[0], "%Y-%m-%d")
-        # birthday_date = datetime.strptime(birthday, "%Y-%m-%d")
         try:
             db_usr_opr.update_birthday(username,birthday_date)
         except AssertionError as ae:
@@ -195,7 +192,7 @@ def update_address(username, address):
         try:
             db_usr_opr.update_address(username, address)
         except AssertionError as ae:
-            return jsonify({'state': '0', 'error_msg': ae})
+            return jsonify({'state': '0', 'error_msg': 'No such user'})
 
 
 def update_name(old_name, new_name):
@@ -206,7 +203,10 @@ def update_name(old_name, new_name):
             try:
                 db_usr_opr.update_username(old_name, new_name)
             except AssertionError as ae:
-                return jsonify({'state': '0', 'error_msg': 'Username already exist or no such user'})
+                if ae == "No such user":
+                    return jsonify({'state': '0', 'error_msg': 'No such user'})
+                elif ae == 'This name already exist':
+                    return jsonify({'state': '0', 'error_msg': 'Username already exist'})
 
 def send_verification_code(username):
     user = db_usr_opr.search_username(username)
@@ -239,7 +239,7 @@ def update_email(name, new_email):
             try:
                 db_usr_opr.update_email(name, new_email)
             except AssertionError as ae:
-                return jsonify({'state': '0', 'error_msg': ae})
+                return jsonify({'state': '0', 'error_msg': 'No such user'})
 
 
 def update_phone(name, new_phone):
@@ -250,7 +250,7 @@ def update_phone(name, new_phone):
             try:
                 db_usr_opr.update_phone_num(name, new_phone)
             except AssertionError as ae:
-                return jsonify({'state': '0', 'error_msg': ae})
+                return jsonify({'state': '0', 'error_msg': 'No such user'})
 
 
 def update_passport(name, new_passport):
@@ -261,14 +261,14 @@ def update_passport(name, new_passport):
             try:
                 db_usr_opr.update_passport_num(name, new_passport)
             except AssertionError as ae:
-                return jsonify({'state': '0', 'error_msg': ae})
+                return jsonify({'state': '0', 'error_msg': 'No such user'})
 
 def update_user_image(name, user_image):
     try:
         db_usr_opr.update_profile(name, user_image)
         return jsonify({"state":"1"})
     except AssertionError as ae:
-        return jsonify({"state": '0', "error_msg": ae})
+        return jsonify({"state": '0', "error_msg": 'No such user'})
 
 
 def buy_insurance(insurance_info):
@@ -292,7 +292,7 @@ def apply_claim(claim_info):
     claim_info['employee_id'] = -1  # 表示新的订单，没有员工处理
     claim_info['state'] = -2    # 初始状态 -2
     claim_info['lost_time'] = datetime.strptime(claim_info['lost_time'], "%Y-%m-%d")
-    claim_info['order_id'] = int(claim_info['order_id'])
+    claim_info['order_id'] = int(claim_info['insurance_order_id'])
 
     if not (len(claim_info['reason']) < 300):
         return jsonify({'state': '0', 'error_msg': 'The length of reason should less than 300 characters'})
@@ -306,7 +306,7 @@ def apply_claim(claim_info):
         db_cla_opr.add_claim(claim_info)
         return jsonify({'state': '1'})
     except AssertionError as ae:
-        return jsonify({'state': '0', 'error_msg': ae})
+        return jsonify({'state': '0', 'error_msg': 'No such order'})
 
 
 # 用户添加保险信息
@@ -329,11 +329,11 @@ def supplementary_information(supplementary_info):
     begin_date = corresponded_insurance.date
     current_date.strftime("%Y-%m-%d")
     begin_date.strftime("%Y-%m-%d")
-    day_gap = (current_date-begin_date).days - corresponded_insurance.duration
+    day_gap = corresponded_insurance.duration - (current_date-begin_date).days
 
     if remaining_amount <= 0:
         return jsonify({'state':'0', 'error_msg':'Cumulative compensation has reached the upper limit of compensation'})
-    elif day_gap >= 0:
+    elif day_gap <= 0:
         return jsonify({'state': '0', 'error_msg': 'This insurance is overdue'})
     else:
         try:
@@ -344,10 +344,10 @@ def supplementary_information(supplementary_info):
                 try:
                     db_ord_opr.add_img(select_img)
                 except AssertionError as iae:
-                    return jsonify({'state': '0', 'error_msg': 'Error'})
+                    return jsonify({'state': '0', 'error_msg': 'Unknown error'})
             return jsonify({'state': '1','remaining_money':remaining_amount,'remaining_time':day_gap})
         except AssertionError as ae:
-            return jsonify({'state': '0', 'error_msg': ae})
+            return jsonify({'state': '0', 'error_msg': 'No such user'})
 
 def all_users():
     user_list = db_usr_opr.all()
