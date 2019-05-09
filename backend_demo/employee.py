@@ -8,7 +8,7 @@ import db_operation.order as db_ord_opr
 def login(employeeid,password):
     try:
         db_emp_opr.login(employeeid, password)
-        return jsonify({'state': '2'})
+        return jsonify({'state': '2','employee_id':employeeid,'employee_password':password})
     except AssertionError as ae:
         if ae == 'No such id':
             return jsonify({'state': '-1', 'error_msg': 'No such employee'})

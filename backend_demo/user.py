@@ -276,7 +276,7 @@ def buy_insurance(insurance_info):
     insurance_info['compensated_amount'] = 0
     insurance_info['product_id'] = int(insurance_info['product_id'])
     insurance_info['project_id'] = int(insurance_info['project_id'])
-    insurance_info['birthday'] = datetime.strptime(insurance_info['birthday'], "%Y-%m-%d")
+    insurance_info['birthday'] = datetime.strptime(insurance_info['birthday'].split('T')[0], "%Y-%m-%d")
     corresponded_product = db_duct_opr.search_product(insurance_info['product_id'])
     insurance_info['duration'] = corresponded_product.product_information
     corresponded_project = db_ject_opr.search_project_object(insurance_info['product_id'],insurance_info['project_id'])
