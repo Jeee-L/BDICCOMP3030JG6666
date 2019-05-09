@@ -168,12 +168,6 @@ export default {
       this.$router.push({ path: "/extra/search" });
     },
     logout() {
-      axios
-        .post("/logout/", obj)
-        .then(res)
-        .catch(function(error) {
-          console.log(error);
-        });
       delCookie("user");
       this.$router.push("/");
     }

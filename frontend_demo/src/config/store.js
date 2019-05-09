@@ -50,7 +50,14 @@ const mutations = {
     handleInsurance: (state, insurance_list) => {
         state.insurance_list = insurance_list;
         localStorage.setItem('insurance_list', insurance_list);
-    }
+    },
+    handleEmployee: (state, employee) => {
+        state.employee_id = employee.employee_id;
+        localStorage.setItem('employee_id', employee.employee_id);
+
+        state.employee_password = employee.employee_password;
+        localStorage.setItem('employee_password', employee.employee_password);
+    },
 }
 const state = {
     username: '' || localStorage.getItem('username'),
@@ -65,7 +72,10 @@ const state = {
     address: '' || localStorage.getItem('address'),
     insurance_list: '' || localStorage.getItem('insurance_list'),
     insurance_order_list: '' || localStorage.getItem('insurance_order_list'),
-    claim_list: '' || localStorage.getItem('claim_list')
+    claim_list: '' || localStorage.getItem('claim_list'),
+
+    employee_id: '' || localStorage.getItem('employee_id'),
+    employee_password: '' || localStorage.getItem('employee_password'),
 }
 const getters = {
     username: (state) => state.username,
@@ -81,6 +91,9 @@ const getters = {
     insurance_list: (state) => state.insurance_list,
     insurance_order_list: (state) => state.insurance_order_list,
     claim_list: (state) => state.claim_list,
+
+    employee_id: (state) => state.employee_id,
+    employee_password: (state) => state.employee_password,
 }
 
 const store = new Vuex.Store({

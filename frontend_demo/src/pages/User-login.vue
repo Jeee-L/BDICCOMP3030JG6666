@@ -233,11 +233,10 @@ export default {
               ".";
             this.showNotification = true;
           } else if (response.state == "2") {
-            this.$employee.username = this.username;
-            this.$employee.password = this.password;
             this.notification =
               "Welcome to the Employee Page, " + this.$employee.username + ".";
             this.showNotification = true;
+            this.$store.commit("handleEmployee", response);
             this.$router.push("/employee/insurance");
           } else {
             for (var key in response) {
@@ -245,7 +244,6 @@ export default {
                 response[key] = "";
               }
             }
-            console.log(response);
             this.$store.commit("handleCustomerInfo", response);
 
             // setCookie("user", response, 1000 * 60);

@@ -37,7 +37,7 @@
               variant="outline-dark"
               class="btn-xs"
               v-on:click="showModalData(props.row, 'baggage')"
-            >{{props.row.Baggage_ID}}</b-btn>
+            >{{$t('m.check1')}} {{props.row[$t('m.cbid')]}}</b-btn>
           </div>
         </template>
         <template :slot='$t("m.cre")' slot-scope="props">
@@ -255,7 +255,7 @@ export default {
         .then(res => {
           var response = JSON.parse(JSON.stringify(res.data));
           if (response != null) {
-            // this.baggageItem.username = response.username;
+            this.baggageItem.username = response.username;
             this.baggageItem.flight_number = response.flight_number;
             this.baggageItem.luggage_height = response.luggage_height;
             this.baggageItem.luggage_width = response.luggage_width;
@@ -271,7 +271,7 @@ export default {
     processDecision(data, tag) {
       var decision = {
         claim_id: data.Claim_ID,
-        employee_id: this.$employee.username,
+        employee_id: this.$store.state.employee_id,
         state: tag
       };
       var obj = JSON.stringify(decision);
