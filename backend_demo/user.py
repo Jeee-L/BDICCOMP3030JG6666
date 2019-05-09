@@ -37,7 +37,7 @@ def user_all_info(username):
         'email': user.email,
         'birthday': birthday_date,
         'address': user.address,
-        # 'insurance_list': user_all_insurance(username),
+        'insurance_list': user_all_insurance(username),
         # 'insurance_order_list': user_all_insurance_order(username),
         # 'claim_list': user_all_claim(username)
     }
@@ -86,26 +86,26 @@ def user_all_claim(username):
 
 
 def user_all_insurance_order(username):
-    order_list = db_usr_opr.get_order(username)
+    order_list = db_usr_opr.get_order(username['username'])
     if order_list is []:
         return ""
     else:
         return_list = []
         for order in order_list:
             order_dict = {}
-            order_list['insurance_order_id'] = str(order.order_id)
-            order_list['state'] = str(order.state)
-            order_list['username'] = order.username
-            order_list['insurance_id'] = str(order.insurance_id)
-            order_list['flight_number'] = order.flight_number
-            order_list['luggage_image_outside'] = order.luggage_image_outside
-            order_list['luggage_image_inside'] = order.luggage_image_inside
-            order_list['luggage_height'] = order.luggage_height
-            order_list['luggage_width'] = order.luggage_width
-            order_list['date'] = order.date.strftime("%Y-%m-%d")
-            order_list['claim_id'] = str(order.claim_id)
-            order_list['remark'] = order.remark
-            order_list['sumPrice'] = str(order.sumPrice)
+            order_dict['insurance_order_id'] = str(order.order_id)
+            order_dict['state'] = str(order.state)
+            order_dict['username'] = order.username
+            order_dict['insurance_id'] = str(order.insurance_id)
+            order_dict['flight_number'] = order.flight_number
+            order_dict['luggage_image_outside'] = order.luggage_image_outside
+            order_dict['luggage_image_inside'] = order.luggage_image_inside
+            order_dict['luggage_height'] = order.luggage_height
+            order_dict['luggage_width'] = order.luggage_width
+            order_dict['date'] = order.date.strftime("%Y-%m-%d")
+            order_dict['claim_id'] = str(order.claim_id)
+            order_dict['remark'] = order.remark
+            order_dict['sumPrice'] = str(order.sumPrice)
             select_img_list = db_ord_opr.select_img(order.order_id)
             select_img_return_list = []
             for select_img in select_img_list:
@@ -115,7 +115,7 @@ def user_all_insurance_order(username):
                 select_img_dict['price'] = str(select_img.price)
                 select_img_dict['remark'] = select_img.remark
                 select_img_return_list.append(select_img_dict)
-            order_list['select_img'] = select_img_return_list
+            order_dict['select_img'] = select_img_return_list
             return_list.append(order_dict)
         return jsonify(return_list)
 
@@ -182,7 +182,8 @@ def update_last_name(username, last_name):
 
 def update_birthday(username, birthday):
     if not (birthday is ''):
-        birthday_date = datetime.strptime(birthday, "%Y-%m-%d")
+        birthday_date = datetime.strptime(birthday.split('T')[0], "%Y-%m-%d")
+        # birthday_date = datetime.strptime(birthday, "%Y-%m-%d")
         try:
             db_usr_opr.update_birthday(username,birthday_date)
         except AssertionError as ae:
@@ -224,7 +225,10 @@ def update_password(name, new_password, confirm_password):
             db_usr_opr.update_password(name, new_password)
             return jsonify({'state':'1'})
         except AssertionError as ae:
-            return jsonify({'state': '0', 'error_msg': ae})
+            if ae == "No such user":
+                return jsonify({'state': '0', 'error_msg': 'No such user'})
+            elif ae == 'Same password':
+                return jsonify({'state': '0', 'error_msg': 'The new password is same as the old one'})
 
 
 def update_email(name, new_email):

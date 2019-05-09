@@ -96,7 +96,7 @@ def insurance_order_detail(insurance_order_id):
         return jsonify({'state':'-1','error_msg':'No such insurance order'})
     else:
         insurance_order_dict = {}
-        insurance_order_dict['order_id'] = str(insurance_order.id)
+        insurance_order_dict['order_id'] = str(insurance_order.order_id)
         insurance_order_dict['state'] = str(insurance_order.state)
         insurance_order_dict['username'] = insurance_order.username
         insurance_order_dict['insurance_id'] = str(insurance_order.insurance_id)

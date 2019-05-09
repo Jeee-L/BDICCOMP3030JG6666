@@ -28,7 +28,7 @@ def insert_user(dict):
     :return:
     '''
     user = search_username(dict['username'])
-    assert (user is not None), "Username already exist"
+    assert (user is None), "Username already exist"
     db.session.add(Users(username=dict['username'], password=dict['password'],phone_num=dict['phone_num'],email=dict['email']))
     db.session.commit()
     return 'Create successfully'
