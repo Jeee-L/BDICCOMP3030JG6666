@@ -4,12 +4,12 @@
       <a href="javascript:;" v-on:click="expand()">
         <div class="cover with-shadow"></div>
         <div class="image image-icon bg-black text-grey-darker">
-          <img :src="$user.avatar" alt="" />
+          <img :src="$store.state.avatar" alt="" />
         </div>
         <div class="info">
           <b class="caret pull-right"></b>
-          {{$user.username}}
-          <small>Insured Customer</small>
+          {{$store.state.username}}
+          <small>{{$t('m.insc')}}</small>
         </div>
       </a>
     </li>
@@ -17,15 +17,16 @@
       <ul
         class="nav nav-profile"
         v-bind:class="{ 'd-block': this.stat == 'expand', 'd-none': this.stat == 'collapse' }"
+        v-bind:style="{ marginTop: (pageOptions.pageSidebarMinified) ? - (scrollTop + 40) + 'px' : '' }"
       >
         <li>
           <router-link to="/customer/info">
-            <i class="fa fa-pencil-alt"></i>User Profile
+            <i class="fa fa-pencil-alt"></i>{{$t('m.usep')}}
           </router-link>
         </li>
         <li>
           <router-link to="/customer/center">
-            <i class="fa fa-question-circle"></i>Customer Service Center
+            <i class="fa fa-question-circle"></i>{{$t('m.csc')}}
           </router-link>
         </li>
       </ul>
@@ -34,11 +35,15 @@
 </template>
 
 <script>
+import PageOptions from "../../config/PageOptions.vue";
+
 export default {
   name: "SidebarNavProfile",
+  props: ["scrollTop"],
   data() {
     return {
-      stat: ""
+      stat: "expand",
+      pageOptions: PageOptions
     };
   },
   methods: {

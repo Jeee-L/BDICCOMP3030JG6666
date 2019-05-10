@@ -1,41 +1,43 @@
 <template>
   <div class="card card-default">
     <div class="card-header">
-      <h3>Registered Baggage Record Table</h3>
+      <h3>{{$t('m.rtable')}}</h3>
     </div>
     <div class="card-body" style="font-size: 15px">
       <div>
-        Please click button "Update Table" once you want to check new data.
-        <br>Once new baggage is registerd, the system will notfify employees at the top-right corner.
-        <br>Requests for data update will be initiated every ten seconds.
+        {{$t('m.upt')}}
+        <br>
+        {{$t('m.tip1')}}
+        <br>
+        {{$t('m.tip2')}}
       </div>
       <div class="btn-update">
         <b-btn
-          variant="outline-warn"
+          variant="outline-success"
           class="mb-1 mr-1 right-button"
           @click="updateData()"
-        >Update Table</b-btn>
+        >{{$t('m.uptable')}}</b-btn>
       </div>
     </div>
 
     <div class="card card-body table-part">
       <v-client-table :data="tableData" :columns="columns" :options="options">
-        <template slot="Remark" slot-scope="props">
+        <template :slot="$t('m.remark')" slot-scope="props">
           <div>
             <b-btn
               variant="outline-dark"
               class="btn-xs"
               v-on:click="showModalData(props.row, 'Remark')"
-            >Check</b-btn>
+            >{{$t('m.check1')}}</b-btn>
           </div>
         </template>
-        <template slot="Order_Details" slot-scope="props">
+        <template :slot="$t('m.cod')" slot-scope="props">
           <div>
             <b-btn
               variant="outline-dark"
               class="btn-xs"
               v-on:click="showModalData(props.row, 'baggage')"
-            >Check</b-btn>
+            >{{$t('m.check1')}} {{props.row[$t('m.coid')]}}</b-btn>
           </div>
         </template>
       </v-client-table>
@@ -46,43 +48,45 @@
     </b-modal>
 
     <b-modal id="modals-default" :title="modalTitle" cancel-only v-model="modalShowBaggage">
-      <div class="col-9">
+      <div class="col-12">
         <p class="info-field">
-          <b>Username:</b>
+          <b style="margin-right: 10px">{{$t('m.usern')}}</b>
           {{baggageItem.username}}
         </p>
         <p class="info-field">
-          <b>Flight Number:</b>
+          <b style="margin-right: 10px">{{$t('m.flight')}}</b>
           {{baggageItem.flight_number}}
         </p>
         <p class="info-field">
-          <b>Baggage Height:</b>
+          <b style="margin-right: 10px">{{$t('m.height')}}</b>
           {{baggageItem.luggage_height}}
         </p>
         <p>
-          <b class="info-field">Baggage Width:</b>
+          <b class="info-field" style="margin-right: 10px">{{$t('m.width')}}</b>
           {{baggageItem.luggage_width}}
         </p>
         <p>
-          <b class="info-field">Sum Price:</b>
+          <b class="info-field" style="margin-right: 10px">{{$t('m.sp')}}</b>
           {{baggageItem.sumPrice}}
         </p>
         <p>
-          <b class="info-field">Remark:</b>
+          <b class="info-field" style="margin-right: 10px">{{$t('m.remark')}}:</b>
           {{baggageItem.remark}}
         </p>
         <!-- START table-responsive-->
+        <br>
         <div class="table-responsive">
-          <table class="table table-striped table-bordered table-hover card card-body">
+          <table class="table table-striped table-bordered table-hover">
             <thead>
               <tr>
-                <th>Belonging Picture</th>
-                <th>Name</th>
-                <th>Price</th>
+                <th>{{$t('m.bp')}}</th>
+                <th>{{$t('m.n')}}</th>
+                <th>{{$t('m.price')}}</th>
+                <th>{{$t('m.remark')}}</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="items in baggageItem.select_img_return_list" :key="items.id">
+              <tr v-for="items in baggageItem.select_img" :key="items.id">
                 <td>
                   <div class="media align-items-center">
                     <img
@@ -99,6 +103,9 @@
                 </td>
                 <td>
                   <p>{{items.price}}</p>
+                </td>
+                <td>
+                  <p>{{items.remark}}</p>
                 </td>
               </tr>
             </tbody>
@@ -122,26 +129,41 @@ import { setTimeout } from "timers";
 
 Vue.use(ClientTable);
 
-var rawData = [];
-
 export default {
   components: {
     ClientTable
   },
+  computed: {
+    columns() {
+      return [
+        this.$t("m.index"),
+        this.$t("m.coid"),
+        this.$t("m.cid"),
+        this.$t("m.cun"),
+        this.$t("m.cod"),
+        this.$t("m.ccid"),
+        this.$t("m.crd"),
+        this.$t("m.remark")
+      ];
+    },
+    lanChange() {
+      this.updateData();
+      return this.$t("m.date_lan") == "en";
+    }
+  },
+  watch: {
+    lanChange: {
+      load: function() {
+        this.updateData();
+      },
+      deep: true
+    }
+  },
   data() {
     return {
+      rawData: [],
       employee_id: "",
       tableData: [],
-      columns: [
-        "Index",
-        "Baggage_Order_ID",
-        "Insurance_ID",
-        "Username",
-        "Order_Details",
-        "Claim_ID",
-        "Registerd_Date",
-        "Remark"
-      ],
       options: {
         pagination: { chunk: 5 },
         sortIcon: {
@@ -167,7 +189,7 @@ export default {
         luggage_width: "",
         remark: "",
         sumPrice: "",
-        select_img_return_list: ""
+        select_img: ""
       }
     };
   },
@@ -175,7 +197,6 @@ export default {
     PageOptions.pageWithTopMenu = true;
     PageOptions.pageWithoutSidebar = true;
 
-    this.updateData();
     this.retryData();
   },
   beforeRouteLeave(to, from, next) {
@@ -186,17 +207,18 @@ export default {
   methods: {
     showModalData(row, tag) {
       if (tag == "Remark") {
-        this.modalContent = row.Remark;
-        this.modalTitle = "Remark: " + row.Claim_ID;
+        this.modalContent = row[this.$t("m.remark")];
+        this.modalTitle = "Remark: " + row[this.$t("m.coid")];
         this.modalShow = true;
       } else {
-        this.checkBaggageDetail(row.insurance_order_id);
-        this.modalTitle = "Registered Baggage Details: " + row.Claim_ID;
+        this.checkBaggageDetail(row[this.$t("m.coid")]);
+        this.modalTitle =
+          "Registered Baggage Details: " + row[this.$t("m.coid")];
         this.modalShowBaggage = true;
       }
     },
-    checkBaggageDetail(insurance_order_id) {
-      var obj = JSON.stringify(insurance_order_id);
+    checkBaggageDetail(baggage_id) {
+      var obj = JSON.stringify(baggage_id);
       axios
         .post("/list_insurance_order_info/", obj)
         .then(res => {
@@ -205,10 +227,10 @@ export default {
             this.baggageItem.username = response.username;
             this.baggageItem.flight_number = response.flight_number;
             this.baggageItem.luggage_height = response.luggage_height;
+            this.baggageItem.luggage_width = response.luggage_width;
             this.baggageItem.remark = response.remark;
             this.baggageItem.sumPrice = response.sumPrice;
-            this.baggageItem.select_img_return_list =
-              response.select_img_return_list;
+            this.baggageItem.select_img = response.select_img;
           }
         })
         .catch(function(error) {
@@ -216,28 +238,28 @@ export default {
         });
     },
     updateData() {
-      rawData = [];
+      this.rawData = [];
       axios
         .post("/list_all_insurance_order")
         .then(res => {
           if (res.data != null) {
             var response = JSON.parse(JSON.stringify(res.data));
             for (var i = 0; i < response.length; i++) {
-              rawData[rawData.length] = {
-                Baggage_Order_ID: response[i].id,
-                Insurance_ID: response[i].insurance_id,
-                Username: response[i].username,
-                Order_Details: response[i].flight_number,
-                Claim_ID:
+              this.rawData[this.rawData.length] = {
+                [this.$t("m.coid")]: response[i].id,
+                [this.$t("m.cid")]: response[i].insurance_id,
+                [this.$t("m.cun")]: response[i].username,
+                [this.$t("m.cod")]: response[i].flight_number,
+                [this.$t("m.ccid")]:
                   response[i].claim_id == null ? "0" : response[i].claim_id,
-                Registerd_Date: response[i].date,
-                Remark: response[i].remark
+                [this.$t("m.crd")]: response[i].date,
+                [this.$t("m.remark")]: response[i].remark
               };
             }
           }
-          if (rawData != null) {
-            this.tableData = rawData.map((item, index) => {
-              item["Index"] = index;
+          if (this.rawData != null) {
+            this.tableData = this.rawData.map((item, index) => {
+              item[this.$t("m.index")] = index;
               return item;
             });
           }
@@ -245,7 +267,7 @@ export default {
         .catch(err => console.log(err));
     },
     show(group, type = "") {
-      const text = "New claim order awarting for process!";
+      const text = "New claim order are waiting for process!";
       this.$notify({
         group,
         text,
@@ -262,8 +284,7 @@ export default {
         .then(res => {
           if (res.data != null) {
             var response = JSON.parse(JSON.stringify(res.data));
-            this.show("bottom-right", "warn");
-            if (response.length != rawData.length) {
+            if (response.length != this.rawData.length) {
               this.show("bottom-right", "warn");
             }
             timer = setInterval(() => {
@@ -292,5 +313,9 @@ export default {
 
 .btn-decision {
   margin-right: 5px;
+}
+
+.table {
+  width: 400px !important;
 }
 </style>

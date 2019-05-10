@@ -43,6 +43,17 @@ def get_insurance(username):
     assert (user is not None), "Username already exist"
     return user.insurance_id.all()
 
+def get_first_insurance(username):
+    '''
+
+    :param username:
+    :return: id
+    '''
+    user = search_username(username)
+    assert (user is not None), "Username already exist"
+    return user.insurance_id.first().id
+
+
 def get_order(username):
     user=search_username(username)
     return user.order_id.all()
@@ -54,7 +65,7 @@ def get_claim(username):
     :return:
     '''
     user = search_username(username)
-    assert (user is not None), "Username already exist"
+    assert (user is None), "Username already exist"
     inss = user.order_id.all()
     res = []
     if inss is not []:
@@ -71,7 +82,7 @@ def update_profile(username, new_profile):
     :return:
     '''
     user = search_username(username)
-    assert user is not None, 'No such user'
+    assert user is None, 'No such user'
     user.profile = new_profile
     db.session.commit()
     return "Update successfully"
@@ -165,7 +176,7 @@ def update_phone_num(username,new_phone_num):
     '''
     user = search_username(username)
     assert (user is not None), "No such user"
-    assert (user.phone_num is not new_phone_num), 'Same phone num'
+    # assert (user.phone_num is not new_phone_num), 'Same phone num'
     user.phone_num = new_phone_num
     db.session.commit()
     return "Update phone number successfully"
@@ -179,7 +190,7 @@ def update_passport_num(username,new_passport_num):
     '''
     user = search_username(username)
     assert (user is not None), "No such user"
-    assert (user.passport_num is not new_passport_num), 'Same passport_num'
+    # assert (user.passport_num is not new_passport_num), 'Same passport_num'
     user.passport_num = new_passport_num
     db.session.commit()
     return "Update passport number successfully"
@@ -193,7 +204,7 @@ def update_email(username, new_email):
     '''
     user = search_username(username)
     assert (user is not None), "No such user"
-    assert (user.email is not new_email), 'Same email'
+    # assert (user.email is not new_email), 'Same email'
     user.email = new_email
     db.session.commit()
     return 'Update email successfully'

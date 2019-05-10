@@ -6,18 +6,18 @@ from werkzeug.security import generate_password_hash,check_password_hash
 import yaml
 
 
-app =  Flask(__name__)
-dbs = yaml.load(open(r'C:\Users\TED\Documents\GitHub\MySimplePythonCode\BDICCOMP3030JG6666\backend_demo\db_operation\test\db.yaml'), Loader=yaml.FullLoader)
+# app =  Flask(__name__)
+# # dbs = yaml.load(open(r'C:\Users\TED\Documents\GitHub\MySimplePythonCode\BDICCOMP3030JG6666\backend_demo\db_operation\test\db.yaml'), Loader=yaml.FullLoader)
 # dbs = yaml.load(open(r'C:\SoftwareProject2\BDICCOMP3030JG6666\backend_demo\db.yaml'),Loader=yaml.FullLoader)
-app.config['SQLALCHEMY_DATABASE_URI'] = dbs['sqlalchemy_database_uri_local']
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-db = SQLAlchemy(app)
+# app.config['SQLALCHEMY_DATABASE_URI'] = dbs['sqlalchemy_database_uri_local']
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+# db = SQLAlchemy(app)
 '''
 创建库的时候，注释取消
 '''
 
 
-# from ext import db
+from ext import db
 '''
 启动服务前，注释取消
 '''
@@ -36,7 +36,7 @@ class Users(db.Model):
     password_hash = db.Column(db.Unicode(300), nullable=True)
     phone_num = db.Column(db.Unicode(13), nullable=True, unique = False)
     passport_num = db.Column(db.Unicode(13), nullable=True, unique=True)
-    email = db.Column(db.Unicode(32), nullable=True, unique=True)
+    email = db.Column(db.Unicode(32), nullable=True, unique=False)
     profile = db.Column(LONGTEXT)
     birthday = db.Column(db.DateTime, nullable=True)
     address = db.Column(db.Unicode(32), nullable=True)
@@ -51,8 +51,8 @@ class Users(db.Model):
 
     @password.setter
     def password(self, password):
-        # self.password_hash = generate_password_hash(password)
-        self.password_hash = password
+        self.password_hash = generate_password_hash(password)
+        # self.password_hash = password
 
     def check_password_hash(self, password):
         return check_password_hash(self.password_hash, password)
@@ -82,7 +82,7 @@ class Select_img(db.Model):
 
 class Order(db.Model):
     __tablename__ = 'order'
-    order_id = db.Column(db.Integer, primary_key = True, autoincrement = True, unique = True)
+    order_id = db.Column(db.Integer, primary_key = True, autoincrement = True, unique = True, nullable=False)
     state = db.Column(db.Integer)
     username = db.Column(db.ForeignKey('users.username', ondelete='CASCADE',onupdate='CASCADE'))
     insurance_id = db.Column(db.ForeignKey('insurance.id', ondelete='CASCADE',onupdate='CASCADE'))
@@ -138,7 +138,7 @@ class Insurance(db.Model):
     last_name = db.Column(db.Unicode(32), nullable=True)
     phone_num = db.Column(db.Unicode(13), nullable=True, unique=False)
     passport_num = db.Column(db.Unicode(13), nullable=True)
-    email = db.Column(db.Unicode(32), nullable=True, unique=True)
+    email = db.Column(db.Unicode(32), nullable=True, unique=False)
     birthday = db.Column(db.DateTime, nullable=True)
     address = db.Column(db.Unicode(32), nullable=True)
 
@@ -169,7 +169,7 @@ class Claim(db.Model):
     __tablename__='claim'
     order_id = db.Column(db.ForeignKey('order.order_id', ondelete='CASCADE',onupdate='CASCADE'),unique=True)
     id = db.Column(db.Integer, primary_key=True, index=True,autoincrement=True, unique=True)
-    employee_id = db.Column(db.Integer,nullable = False)
+    employee_id = db.Column(db.Unicode(32),nullable = False)
     reason = db.Column(db.Unicode(300), nullable=True)
     state = db.Column(db.Integer, nullable=True)
     lost_time = db.Column(db.DateTime, nullable=True)
@@ -196,7 +196,7 @@ class Claim(db.Model):
 class Employee(db.Model):
     __tablename__='Employee'
     id = db.Column(db.Unicode(32), nullable=True, primary_key=True, index=True)
-    password_hash = db.Column(db.Unicode(32), nullable=True, unique=True)
+    password_hash = db.Column(db.Unicode(300), nullable=True, unique=True)
 
     @property
     def password(self):
@@ -300,5 +300,6 @@ def set_to_log(target, value,oldvalue, initiator):
     logs = log(date=datetime.datetime.now(), previous_money=123, post_money=223)
     db.session.add(logs)
     db.session.commit()
+    db.session.close()
 
 

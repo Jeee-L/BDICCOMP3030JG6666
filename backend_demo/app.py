@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session, jsonify, make_response
+from flask import Flask, render_template, request, session, jsonify
 import os
 import json
 from datetime import timedelta
@@ -18,9 +18,9 @@ CORS(app, support_credentials=True)
 app.secret_key = os.urandom(24)
 app.permanent_session_lifetime = timedelta(days=7)
 app.send_file_max_age_default = timedelta(seconds=10)
-# dbs = yaml.load(open(r'C:\SoftwareProject2\BDICCOMP3030JG6666\backend_demo\db.yaml'),Loader=yaml.FullLoader)
+dbs = yaml.load(open(r'C:\SoftwareProject2\BDICCOMP3030JG6666\backend_demo\db.yaml'),Loader=yaml.FullLoader)
 # dbs = yaml.load(open(r'/Users/pro13/Desktop/Study/3Junior/SecondSemester/SEP2/GitRepository/BDICCOMP3030JG6666/backend_demo/db.yaml'))
-dbs = yaml.load(open(r'/var/BDICCOMP3030JG6666/backend_demo/db.yaml'))
+# dbs = yaml.load(open(r'/var/BDICCOMP3030JG6666/backend_demo/db.yaml'))
 app.config['SQLALCHEMY_DATABASE_URI'] = dbs['sqlalchemy_database_uri_local']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db.init_app(app)
@@ -73,7 +73,8 @@ def customer_update_password():
     if request.method == 'POST':
         update_password = json.loads(request.get_data())
         if update_password['verify'] == 0:
-            verification_code = email_verify(update_password['email'])
+            # verification_code = email_verify(update_password['email'])
+            verification_code = user.send_verification_code(update_password['username'])
             return verification_code
         else:
             return user.update_password(update_password['username'],update_password['password'],update_password['confirm_password'])
@@ -167,7 +168,10 @@ def list_all_insurance_order():
 @app.route('/list_insurance_order_info/', methods=['GET', 'POST'])
 def list_insurance_order_info_page():
     if request.method == 'POST':
-        insurance_order_id = json.loads(request.get_data())
+        frontend_data = request.get_data()
+        print(frontend_data)
+        insurance_order_id = json.loads(frontend_data)
+        print(insurance_order_id)
         return employee.insurance_order_detail(insurance_order_id)
 
 
@@ -249,4 +253,4 @@ def update_user_password():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

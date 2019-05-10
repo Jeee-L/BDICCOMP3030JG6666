@@ -5,13 +5,13 @@ from random_code import random_code_generator
 
 def email_verify(reciever_email):
 
-    # 第三方 SMTP 服务
+    # 第三方 SMTP 服务：163邮箱
     mail_host = "smtp.163.com"  # 设置服务器
     mail_user = "hibernia_sino@163.com"  # 用户名
     mail_pass = "ShouQuan2019"  # 授权码
 
     sender = 'hibernia_sino@163.com'
-    receivers = reciever_email  # 接收邮件，可设置为你的QQ邮箱或者其他邮箱
+    receivers = reciever_email  # 接收邮件
 
     verification_code = random_code_generator()
 

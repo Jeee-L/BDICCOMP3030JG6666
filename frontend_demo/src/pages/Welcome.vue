@@ -6,7 +6,8 @@
       <div class="navbar-header">
         <router-link to="/dashboard/v2" class="navbar-brand">
           <span class="navbar-logo"></span>
-          <b>Hibernia-Sino</b> Travel Insurance
+          <b>{{$t('m.name')}}</b>
+          {{$t('m.name2')}}
         </router-link>
         <button
           type="button"
@@ -27,8 +28,8 @@
       <!-- begin header-nav -->
       <ul class="navbar-nav navbar-right">
         <li class="nav-item">
-          <a class="nav-link" href="/login">
-            <i class="fa fa-user-circle fa-lg" aria-hidden="true">Sign In to Customer Center</i>
+          <a class="nav-link" v-on:click="login">
+            <i class="fa fa-user-circle fa-lg" aria-hidden="true">{{$t('m.signto')}}</i>
           </a>
         </li>
         <li
@@ -47,24 +48,28 @@
         <li class="dropdown navbar-language" v-if="pageOptions.pageWithLanguageBar">
           <b-dropdown variant="link" menu-class="p-b-0">
             <template slot="button-content">
-              <span class="flag-icon flag-icon-us" title="us"></span>
-              <span class="name">EN</span>
+              <span
+                class="flag-icon"
+                title="language"
+                v-bind:class="{'flag-icon-ie': this.$t('m.language') == 'English', 'flag-icon-cn': this.$t('m.language') == '简体中文'}"
+              ></span>
+              <span class="name">{{$t('m.language')}}</span>
               <b class="caret"></b>
             </template>
-            <b-dropdown-item href="javascript:;">
-              <span class="flag-icon flag-icon-us" title="us"></span> English
+            <b-dropdown-item
+              href="javascript:;"
+              v-on:click="changeLangEn()"
+              style="margin-bottom: 10px"
+            >
+              <span class="flag-icon flag-icon-ie" title="us"></span> English
             </b-dropdown-item>
-            <b-dropdown-item href="javascript:;">
-              <span class="flag-icon flag-icon-cn" title="cn"></span> Chinese
+            <b-dropdown-item
+              href="javascript:;"
+              v-on:click="changeLangCn()"
+              style="margin-bottom: 10px"
+            >
+              <span class="flag-icon flag-icon-cn" title="cn"></span> 简体中文
             </b-dropdown-item>
-            <b-dropdown-item href="javascript:;">
-              <span class="flag-icon flag-icon-jp" title="jp"></span> Japanese
-            </b-dropdown-item>
-            <b-dropdown-item href="javascript:;">
-              <span class="flag-icon flag-icon-be" title="be"></span> Belgium
-            </b-dropdown-item>
-            <b-dropdown-divider class="m-b-0"></b-dropdown-divider>
-            <b-dropdown-item href="javascript:;" class="text-center">more options</b-dropdown-item>
           </b-dropdown>
         </li>
       </ul>
@@ -150,12 +155,8 @@
                   shadow
                   rounded
                 ></icon>
-                <h2 class="title" style="margin-top:50px;">Who we are?</h2>
-                <p class="description">
-                  We are Hibernia-Sino Travel Insurance Company, a travel insurance company
-                  who specializes in travel between Ireland and China.Our aim is to provide
-                  comprehensive compensation for your luggage protection!
-                </p>
+                <h2 class="title" style="margin-top:50px;">{{$t('m.wwa')}}</h2>
+                <p class="description">{{$t('m.wwa1')}}</p>
               </div>
             </div>
           </div>
@@ -166,7 +167,7 @@
       <!-- begin pick us -->
       <div class="section section-team text-center">
         <div class="container">
-          <h2 class="title" style="margin-top:50px;">Why pick us?</h2>
+          <h2 class="title" style="margin-top:50px;">{{$t('m.wpu')}}</h2>
           <div class="team">
             <div class="row">
               <div class="col-md-4">
@@ -177,7 +178,7 @@
                     alt="Thumbnail Image"
                     class="rounded-circle img-fluid img-raised"
                   >
-                  <h4 class="title" style="margin-top:20px;">Guaranteed Best Prices</h4>
+                  <h4 class="title" style="margin-top:20px;">{{$t('m.wpu1')}}</h4>
                 </div>
               </div>
               <div class="col-md-4">
@@ -188,7 +189,7 @@
                     alt="Thumbnail Image"
                     class="rounded-circle img-fluid img-raised"
                   >
-                  <h4 class="title" style="margin-top:20px;">Fast and Easy to Buy Online</h4>
+                  <h4 class="title" style="margin-top:20px;">{{$t('m.wpu2')}}</h4>
                 </div>
               </div>
               <div class="col-md-4">
@@ -199,7 +200,7 @@
                     alt="Thumbnail Image"
                     class="rounded-circle img-fluid img-raised"
                   >
-                  <h4 class="title" style="margin-top:20px;">100% Safe and Secure Checkout</h4>
+                  <h4 class="title" style="margin-top:20px;">{{$t('m.wpu3')}}</h4>
                 </div>
               </div>
             </div>
@@ -214,8 +215,8 @@
         <div class="container">
           <div class="row justify-content-center text-center mb-lg">
             <div class="col-lg-8">
-              <h2 class="title" style="margin-top:50px;">Our service process</h2>
-              <p class="lead text" style="margin-top:20px;">Buy insurance</p>
+              <h2 class="title" style="margin-top:50px;">{{$t('m.osp')}}</h2>
+              <p class="lead text" style="margin-top:20px;">{{$t('m.osp1')}}</p>
             </div>
           </div>
           <div class="row">
@@ -228,8 +229,8 @@
                 >
                 <div class="pt-4 text-center">
                   <h4 class="title">
-                    <span class="d-block mb-1">Choose project</span>
-                    <small class="h4 text">Step 1</small>
+                    <span class="d-block mb-1">{{$t('m.osp11')}}</span>
+                    <small class="h4 text">{{$t('m.step')}} 1</small>
                   </h4>
                 </div>
               </div>
@@ -243,8 +244,8 @@
                 >
                 <div class="pt-4 text-center">
                   <h4 class="title">
-                    <span class="d-block mb-1">Fill in information</span>
-                    <small class="h4 text">Step 2</small>
+                    <span class="d-block mb-1">{{$t('m.osp12')}}</span>
+                    <small class="h4 text">{{$t('m.step')}} 2</small>
                   </h4>
                 </div>
               </div>
@@ -258,8 +259,8 @@
                 >
                 <div class="pt-4 text-center">
                   <h4 class="title">
-                    <span class="d-block mb-1">Pay online</span>
-                    <small class="h4 text">Step 3</small>
+                    <span class="d-block mb-1">{{$t('m.osp13')}}</span>
+                    <small class="h4 text">{{$t('m.step')}} 3</small>
                   </h4>
                 </div>
               </div>
@@ -273,8 +274,8 @@
                 >
                 <div class="pt-4 text-center">
                   <h4 class="title">
-                    <span class="d-block mb-1">Look up policy</span>
-                    <small class="h4 text">Step 4</small>
+                    <span class="d-block mb-1">{{$t('m.osp14')}}</span>
+                    <small class="h4 text">{{$t('m.step')}} 4</small>
                   </h4>
                 </div>
               </div>
@@ -287,7 +288,7 @@
         <div class="container">
           <div class="row justify-content-center text-center mb-lg">
             <div class="col-lg-8">
-              <p class="lead text" style="margin-top:20px;">Modify or cancel insurance</p>
+              <p class="lead text" style="margin-top:20px;">{{$t('m.osp2')}}</p>
             </div>
           </div>
           <div class="row">
@@ -300,8 +301,8 @@
                 >
                 <div class="pt-4 text-center">
                   <h4 class="title">
-                    <span class="d-block mb-1">Contact us</span>
-                    <small class="h4 text">Step 1</small>
+                    <span class="d-block mb-1">{{$t('m.osp21')}}</span>
+                    <small class="h4 text">{{$t('m.step')}} 1</small>
                   </h4>
                 </div>
               </div>
@@ -315,8 +316,8 @@
                 >
                 <div class="pt-4 text-center">
                   <h4 class="title">
-                    <span class="d-block mb-1">Check the rules</span>
-                    <small class="h4 text">Step 2</small>
+                    <span class="d-block mb-1">{{$t('m.osp22')}}</span>
+                    <small class="h4 text">{{$t('m.step')}} 2</small>
                   </h4>
                 </div>
               </div>
@@ -330,8 +331,8 @@
                 >
                 <div class="pt-4 text-center">
                   <h4 class="title">
-                    <span class="d-block mb-1">Fill in information</span>
-                    <small class="h4 text">Step 3</small>
+                    <span class="d-block mb-1">{{$t('m.osp23')}}</span>
+                    <small class="h4 text">{{$t('m.step')}} 3</small>
                   </h4>
                 </div>
               </div>
@@ -345,8 +346,8 @@
                 >
                 <div class="pt-4 text-center">
                   <h4 class="title">
-                    <span class="d-block mb-1">Wait for result</span>
-                    <small class="h4 text">Step 4</small>
+                    <span class="d-block mb-1">{{$t('m.osp24')}}</span>
+                    <small class="h4 text">{{$t('m.step')}} 4</small>
                   </h4>
                 </div>
               </div>
@@ -359,7 +360,7 @@
         <div class="container">
           <div class="row justify-content-center text-center mb-lg">
             <div class="col-lg-8">
-              <p class="lead text" style="margin-top:20px;">File claim</p>
+              <p class="lead text" style="margin-top:20px;">{{$t('m.osp3')}}</p>
             </div>
           </div>
           <div class="team">
@@ -374,8 +375,8 @@
                   >
                   <div class="pt-4 text-center">
                     <h4 class="title">
-                      <span class="d-block mb-1">Report to service hotline</span>
-                      <small class="h4 text">Step 1</small>
+                      <span class="d-block mb-1">{{$t('m.osp31')}}</span>
+                      <small class="h4 text">{{$t('m.step')}} 1</small>
                     </h4>
                   </div>
                 </div>
@@ -390,8 +391,8 @@
                   >
                   <div class="pt-4 text-center">
                     <h4 class="title">
-                      <span class="d-block mb-1">Submit information</span>
-                      <small class="h4 text">Step 2</small>
+                      <span class="d-block mb-1">{{$t('m.osp32')}}</span>
+                      <small class="h4 text">{{$t('m.step')}} 2</small>
                     </h4>
                   </div>
                 </div>
@@ -406,8 +407,8 @@
                   >
                   <div class="pt-4 text-center">
                     <h4 class="title">
-                      <span class="d-block mb-1">Wait for result</span>
-                      <small class="h4 text">Step 3</small>
+                      <span class="d-block mb-1">{{$t('m.osp33')}}</span>
+                      <small class="h4 text">{{$t('m.step')}} 3</small>
                     </h4>
                   </div>
                 </div>
@@ -422,7 +423,7 @@
       <!-- begin col-6 -->
       <div class="col-md-12">
         <div class="m-b-10 f-s-10 m-t-5 text-center">
-          <h2 class="text-inverse" style="margin-top:50px;">Famous Landscapes in China and Ireland</h2>
+          <h2 class="text-inverse" style="margin-top:50px;">{{$t('m.landscape')}}</h2>
         </div>
         <!-- begin card-group -->
         <div class="card-group" style="margin-top:30px;">
@@ -430,10 +431,8 @@
           <div class="card">
             <img class="card-img-top" src="../assets/img/china-land1.jpeg" alt="Card image cap">
             <div class="card-block">
-              <h4 class="card-title">The Great Wall</h4>
-              <p
-                class="card-text"
-              >The Great Wall of China is a series of fortifications to protect the Chinese states and empires against the raids and invasions of the various nomadic groups of the Eurasian Steppe with an eye to expansion.</p>
+              <h4 class="card-title">{{$t('m.l1')}}</h4>
+              <p class="card-text">{{$t('m.des1')}}</p>
             </div>
           </div>
           <!-- end card -->
@@ -441,10 +440,8 @@
           <div class="card">
             <img class="card-img-top" src="../assets/img/china-land3.jpg" alt="Card image cap">
             <div class="card-block">
-              <h4 class="card-title">West Lake</h4>
-              <p
-                class="card-text"
-              >West Lake is a freshwater lake in Hangzhou, China. It has influenced poets and painters throughout Chinese history for its natural beauty and historic relics, and it has also been among the most important sources of inspiration for Chinese garden designers.</p>
+              <h4 class="card-title">{{$t('m.l2')}}</h4>
+              <p class="card-text">{{$t('m.des2')}}</p>
             </div>
           </div>
           <!-- end card -->
@@ -452,10 +449,8 @@
           <div class="card">
             <img class="card-img-top" src="../assets/img/ireland-land3.jpg" alt="Card image cap">
             <div class="card-block">
-              <h4 class="card-title">Cliffs of Moher</h4>
-              <p
-                class="card-text"
-              >The Cliffs of Moher are sea cliffs located at the southwestern edge of the Burren region in County Clare, Ireland.From the cliffs, visitors can see the Aran Islands in Galway Bay, the Maumturks and Twelve Pins mountain ranges to the north in County Galway, and Loop Head to the south.</p>
+              <h4 class="card-title">{{$t('m.l3')}}</h4>
+              <p class="card-text">{{$t('m.des3')}}</p>
             </div>
           </div>
           <!-- end card -->
@@ -463,10 +458,8 @@
           <div class="card">
             <img class="card-img-top" src="../assets/img/ireland-landn.jpg" alt="Card image cap">
             <div class="card-block">
-              <h4 class="card-title">Blarney Castle</h4>
-              <p
-                class="card-text"
-              >Blarney Castle is located in the small town of Blarney, Ireland.Built in 1446, it is one of the oldest castles in Ireland and one of the strongest fortresses.The Blarney Stone is among the machicolations of the castle.</p>
+              <h4 class="card-title">{{$t('m.l4')}}</h4>
+              <p class="card-text">{{$t('m.des4')}}</p>
             </div>
           </div>
           <!-- end card -->
@@ -488,6 +481,20 @@ export default {
     };
   },
   methods: {
+    login(){
+      // this.$router.push("/home");
+      this.$router.push("/login");
+    },
+    changeLangEn() {
+      localStorage.setItem("locale", "en");
+      this.$i18n.locale = localStorage.getItem("locale");
+    },
+
+    changeLangCn() {
+      localStorage.setItem("locale", "cn");
+      this.$i18n.locale = localStorage.getItem("locale");
+    },
+
     toggleMobileSidebar() {
       this.pageOptions.pageMobileSidebarToggled = !this.pageOptions
         .pageMobileSidebarToggled;

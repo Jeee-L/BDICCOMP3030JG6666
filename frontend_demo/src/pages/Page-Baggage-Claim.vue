@@ -1,10 +1,12 @@
 <template>
   <div class="card card-body">
-    <h3 class="page-header">Initiate Baggage-lost Claim</h3>
+    <h3 class="page-header">{{$t('m.iblc')}}</h3>
     <p style="font-size: 15px">
-      This page displays all the baggage registration orders within validity period.
-      <br>According to our terms of service, as our customer, you can claim for compensation once already registered baggages are lost.
-      <br>It is also worth noticing that once insurance balance is not enough to support a new claim, your application will be rejected.
+      {{$t('m.display')}}
+      <br>
+      {{$t('m.according')}}
+      <br>
+      {{$t('m.br')}}
       <br>
       <br>
     </p>
@@ -14,43 +16,43 @@
       :key="item.insurance_order_id"
     >
       <div class="order-card">
-        <div class="card-header" v-if="(item.claim_id == null) && (item.insurance_order_id != null)">{{item.insurance_order_id}}</div>
-        <div class="card-header text-success" v-else-if="(item.claim_id != null) && (item.insurance_order_id != null)">Claim process has been initiated</div>
-        <div class="card-header text-danger" v-else>Baggage registration is waiting for process</div>
+        <div class="card-header" v-if="(item.state == '-1')">{{$t('m.baggage_id')}} {{item.insurance_order_id}}</div>
+        <div class="card-header text-success" v-else-if="(item.state == '0')">{{$t('m.init')}}</div>
+        <div class="card-header text-danger" v-else>{{$t('m.br')}}</div>
         <div class="row align-items-center" style="margin: 30px">
           <div class="col-5 text-center">
             <img
               class="img-thumbnail circle img-fluid thumb96"
               :src="item.luggage_image_inside"
               onerorr="this.src='../components/img/baggage_interior.png'"
-              alt="Image"
+              :alt="$t('m.altimage')"
             >
           </div>
           <div class="col-7">
             <div class="table-responsive">
-              <h6>Order Detailed Information</h6>
-              <p>Please check the table below before starting your claim.</p>
+              <h6>{{$t('m.odi')}}</h6>
+              <p>{{$t('m.check')}}</p>
               <table class="table m-b-0">
                 <thead>
                   <tr>
-                    <th>Baggage Information</th>
-                    <th>Other Information</th>
+                    <th>{{$t('m.bi')}}</th>
+                    <th>{{$t('m.other')}}</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Baggage Width: {{item.luggage_width}}</td>
-                    <td>Username: {{$user.username}}</td>
+                    <td>{{$t('m.width')}} {{item.luggage_width}}</td>
+                    <td>{{$t('m.usn')}} {{$store.state.username}}</td>
                   </tr>
                   <tr>
-                    <td>Baggage Height: {{item.luggage_height}}</td>
+                    <td>{{$t('m.height')}} {{item.luggage_height}}</td>
                     <td>
-                      <b class="text-danger">Sum Price: {{item.sumPrice}}</b>
+                      <b class="text-danger">{{$t('m.sp')}} {{item.sumPrice}}</b>
                     </td>
                   </tr>
                   <tr>
                     <td></td>
-                    <td>Flight Number: {{item.flight_number}}</td>
+                    <td>{{$t('m.flight')}} {{item.flight_number}}</td>
                   </tr>
                 </tbody>
               </table>
@@ -64,8 +66,8 @@
             variant="outline-primary"
             type="button"
             v-on:click="showModalData(item.insurance_order_id)"
-            :disabled="(item.claim_id != null) || (item.insurance_order_id == null)"
-          >Claim Lost Baggage</b-button>
+            :disabled="(item.state != '-1')"
+          >{{$t('m.clb')}}</b-button>
         </div>
       </div>
     </div>
@@ -73,20 +75,22 @@
     <!-- Modal template -->
     <b-modal
       id="modals-default"
-      ok-title="Submit Claim"
+      :ok-title="$t('m.tsc')"
       ok-variant="danger"
+      :cancel-title="$t('m.tcancel')"
+      cancel-variant="white"
       @ok="submitClaim()"
       v-model="modalShow"
     >
       <div slot="modal-title">
-        Baggage-lost
-        <span class="font-weight-light">Claim Form</span>
+        {{$t('m.bl1')}}
+        <span class="font-weight-light">{{$t('m.cform')}}</span>
         <br>
-        <small class="text-muted">Please fill in this form and initiate your request.</small>
+        <small class="text-muted">{{$t('m.fill')}}</small>
       </div>
 
       <b-form-row>
-        <b-form-group label="Lost Time" class="col">
+        <b-form-group :label="$t('m.llt')" class="col">
           <b-input
             placeholder="YYYY-MM-DD"
             v-model="formData.lost_time"
@@ -98,9 +102,9 @@
         </b-form-group>
       </b-form-row>
       <b-form-row>
-        <b-form-group label="Lost Place" class="col">
+        <b-form-group :label="$t('m.llp')" class="col">
           <b-input
-            placeholder="The place where you lost your baggage"
+            :placeholder="$t('m.pp')"
             v-model="formData.lost_place"
             name="lost_place"
             v-validate="{ required: true}"
@@ -110,9 +114,9 @@
         </b-form-group>
       </b-form-row>
       <b-form-row>
-        <b-form-group label="Reason of Lost" class="col">
+        <b-form-group :label="$t('m.lrl')" class="col">
           <b-input
-            placeholder="Reason of this lost"
+            :placeholder="$t('m.pr')"
             v-model="formData.reason"
             name="reason"
             v-validate="{ required: true}"
@@ -122,11 +126,8 @@
         </b-form-group>
       </b-form-row>
       <b-form-row>
-        <b-form-group label="Remark" class="col">
-          <b-input
-            placeholder="Other special requirements or illustration"
-            v-model="formData.remark"
-          />
+        <b-form-group :label="$t('m.remark')" class="col">
+          <b-input :placeholder="$t('m.pos')" v-model="formData.remark"/>
         </b-form-group>
       </b-form-row>
     </b-modal>
@@ -142,26 +143,26 @@ export default {
   data() {
     return {
       formData: {
+        check: "1",
         insurance_order_id: "",
         lost_time: "",
         lost_place: "",
         reason: "",
         remark: ""
       },
-      order_list: this.$user.insurance_order_list,
       modalShow: false
     };
   },
   created() {
-    requireInfo = {
-      username: this.$user.username,
-    }
+    var requireInfo = {
+      username: this.$store.state.username
+    };
     var obj = JSON.stringify(requireInfo);
     axios
       .post("/list_user_all_insurance_order", obj)
       .then(res => {
         var response = JSON.parse(JSON.stringify(res.data));
-        this.$user.insurance_order_list = response;
+        this.$store.state.insurance_order_list = response;
       })
       .catch(function(error) {
         console.log(error);
@@ -171,7 +172,10 @@ export default {
   computed: {
     isFormInvalid() {
       return Object.keys(this.fields).some(key => this.fields[key].invalid);
-    }
+    },
+    order_list() {
+      return this.$store.state.insurance_order_list;
+    },
   },
   methods: {
     showModalData(insurance_order_id) {
@@ -185,15 +189,38 @@ export default {
           .post("/luggage/order/list", obj)
           .then(res => {
             var response = JSON.parse(JSON.stringify(res.data));
-            if (response.state == "0") {
-              alert(response);
+            if (response.state) {
+              if (response.state == "1") {
+                this.swalNotification("success", "");
+              } else {
+                this.swalNotification("error", response.error_msg);
+              }
             }
           })
           .catch(function(error) {
             console.log(error);
           });
       } else {
-        alert("Please enter valid information in all required fields.");
+        alert(this.$t("m.alpe"));
+      }
+    },
+    swalNotification(swalType, error_msg) {
+      if (swalType == "success") {
+        this.$swal({
+          title: this.$t("m.claim_s_title"),
+          text: this.$t("m.claim_s_text"),
+          timer: 2000,
+          showConfirmButton: false,
+          type: swalType
+        }).then();
+      } else {
+        this.$swal({
+          title: this.$t("m.claim_f_title"),
+          text: error_msg,
+          timer: 2000,
+          showConfirmButton: false,
+          type: swalType
+        }).then();
       }
     }
   }

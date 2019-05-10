@@ -26,7 +26,8 @@
         </button>
         <router-link to="/dashboard/v2" class="navbar-brand">
           <span class="navbar-logo"></span>
-          <b>Hibernia-Sino</b> Travel Insurance
+          <b>{{$t('m.name')}}</b>
+          {{$t('m.name2')}}
         </router-link>
         <button
           type="button"
@@ -69,7 +70,7 @@
         <li>
           <form class="navbar-form" v-on:submit="checkForm">
             <div class="form-group">
-              <input type="text" class="form-control" placeholder="Enter keyword">
+              <input type="text" class="form-control" :placeholder="$t('m.pek')">
               <button type="submit" class="btn btn-search">
                 <i class="fa fa-search"></i>
               </button>
@@ -79,45 +80,42 @@
         <li class="dropdown navbar-language" v-if="pageOptions.pageWithLanguageBar">
           <b-dropdown variant="link" menu-class="p-b-0">
             <template slot="button-content">
-              <span class="flag-icon" title="language" v-bind:class="{'flag-icon-ie': language == 'English', 'flag-icon-cn': language == 'Chinese'}"></span>
-              <span class="name">{{language}}</span>
+              <span
+                class="flag-icon"
+                title="language"
+                v-bind:class="{'flag-icon-ie': this.$t('m.language') == 'English', 'flag-icon-cn': this.$t('m.language') == '简体中文'}"
+              ></span>
+              <span class="name">{{$t('m.language')}}</span>
               <b class="caret"></b>
             </template>
-            <b-dropdown-item href="javascript:;" v-on:click="changeLanguage('English')" style="margin-bottom: 10px">
+            <b-dropdown-item
+              href="javascript:;"
+              v-on:click="changeLangEn()"
+              style="margin-bottom: 10px"
+            >
               <span class="flag-icon flag-icon-ie" title="us"></span> English
             </b-dropdown-item>
-            <b-dropdown-item href="javascript:;" v-on:click="changeLanguage('Chinese')"  style="margin-bottom: 10px">
-              <span class="flag-icon flag-icon-cn" title="cn"></span> Chinese
+            <b-dropdown-item
+              href="javascript:;"
+              v-on:click="changeLangCn()"
+              style="margin-bottom: 10px"
+            >
+              <span class="flag-icon flag-icon-cn" title="cn"></span> 简体中文
             </b-dropdown-item>
           </b-dropdown>
         </li>
         <li class="dropdown navbar-user">
           <b-dropdown variant="link" menu-class="dropdown-menu-right">
             <template slot="button-content">
-              <span class="d-none d-md-inline">{{$user.username}}</span>
+              <span class="d-none d-md-inline">{{$store.state.username}}</span>
               <b class="caret"></b>
             </template>
-            <b-dropdown-item href="javascript:;">Edit Profile</b-dropdown-item>
-            <b-dropdown-item href="javascript:;">
-              <span class="badge badge-danger pull-right">2</span> Inbox
-            </b-dropdown-item>
-            <b-dropdown-item href="javascript:;">Calendar</b-dropdown-item>
-            <b-dropdown-item href="javascript:;">Setting</b-dropdown-item>
+            <b-dropdown-item href="javascript:;">{{$t('m.edit')}}</b-dropdown-item>
             <b-dropdown-divider></b-dropdown-divider>
-            <b-dropdown-item href="javascript:;">Log Out</b-dropdown-item>
+            <b-dropdown-item href="javascript:;" v-on:click="logout()">{{$t('m.logout')}}</b-dropdown-item>
           </b-dropdown>
         </li>
         <li class="divider d-none d-md-block" v-if="pageOptions.pageWithTwoSidebar"></li>
-        <li class="d-none d-md-block" v-if="pageOptions.pageWithTwoSidebar">
-          <a
-            href="javascript:;"
-            v-on:click="toggleRightSidebar"
-            data-click="right-sidebar-toggled"
-            class="f-s-14"
-          >
-            <i class="fa fa-th"></i>
-          </a>
-        </li>
       </ul>
       <!-- end header navigation right -->
     </div>
@@ -127,18 +125,24 @@
 
 <script>
 import PageOptions from "../../config/PageOptions.vue";
+import { delCookie } from "../../assets/js/cookie.js";
+import axios from "axios";
 
 export default {
   name: "Header",
   data() {
     return {
       pageOptions: PageOptions,
-      language: 'English'
     };
   },
   methods: {
-    changeLanguage(value){
-      this.language = value
+    changeLangEn() {
+      localStorage.setItem("locale", "en");
+      this.$i18n.locale = localStorage.getItem("locale");
+    },
+    changeLangCn() {
+      localStorage.setItem("locale", "cn");
+      this.$i18n.locale = localStorage.getItem("locale");
     },
     toggleMobileSidebar() {
       this.pageOptions.pageMobileSidebarToggled = !this.pageOptions
@@ -162,6 +166,10 @@ export default {
     checkForm: function(e) {
       e.preventDefault();
       this.$router.push({ path: "/extra/search" });
+    },
+    logout() {
+      delCookie("user");
+      this.$router.push("/");
     }
   }
 };

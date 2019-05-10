@@ -2,11 +2,12 @@
   <div>
     <div class="card card-default">
       <div class="card-header">
-        <h3>Register Baggages Before Travelling</h3>
+        <h3>{{$t('m.register')}}</h3>
         <br>
         <p>
-          Please register baggages in need before your trip.
-          <br>Only insured baggages can get due compensation once lost.
+          {{$t('m.register1')}}
+          <br>
+          {{$t('m.register2')}}
         </p>
       </div>
       <div class="card-body">
@@ -20,18 +21,21 @@
                 id="pie"
               ></pie-chart>
               <h6 style="margin-left: 50px; width: 100%">
-                This pie chart shows the proportions of your previous orders.
+                {{$t('m.pie')}}
                 <br>
-                <br>Please note that the black section marks your balance.
-                <br>If your newly registered baggage order exceeds the balance,
-                <br>application will be rejected.
+                <br>
+                {{$t('m.pie1')}}
+                <br>
+                {{$t('m.pie2')}}
+                <br>
+                {{$t('m.pie3')}}
               </h6>
               <button
                 type="button"
                 class="btn btn-lime"
                 v-on:click="changeFormstate"
                 style="margin-left: 130px; margin-top: 30px; font-size: 15px; padding: 15px"
-              >Register Baggages Now</button>
+              >{{$t('m.rbn')}}</button>
             </div>
             <div class="col-xl-6" id="inforTable">
               <div class="row">
@@ -42,12 +46,12 @@
                       <i class="fa fa-archive fa-fw"></i>
                     </div>
                     <div class="stats-content">
-                      <div class="stats-title">Time Remaining</div>
-                      <div class="stats-number">11 Days</div>
+                      <div class="stats-title">{{$t('m.tr')}}</div>
+                      <div class="stats-number">{{$t('m.tr1')}}</div>
                       <div class="stats-progress progress">
                         <div class="progress-bar" style="width: 40.5%;"></div>
                       </div>
-                      <div class="stats-desc">Better than last week (40.5%)</div>
+                      <div class="stats-desc">{{$t('m.per1')}}</div>
                     </div>
                   </div>
                 </div>
@@ -59,12 +63,12 @@
                       <i class="fa fa-dollar-sign fa-fw"></i>
                     </div>
                     <div class="stats-content">
-                      <div class="stats-title">Insurance Balance</div>
+                      <div class="stats-title">{{$t('m.ib')}}</div>
                       <div class="stats-number">900 EUR</div>
                       <div class="stats-progress progress">
                         <div class="progress-bar" style="width: 76.3%;"></div>
                       </div>
-                      <div class="stats-desc">Better than last week (76.3%)</div>
+                      <div class="stats-desc">{{$t('m.per2')}}</div>
                     </div>
                   </div>
                 </div>
@@ -72,13 +76,14 @@
               </div>
               <br>
               <h6>
-                Please check your remaing time and balance before creating new orders.
+                {{$t('m.checkt')}}
                 <br>
-                <br>The table below shows your detailed purchasing records, and helps keep track of your spendings and accounts.
+                <br>
+                {{$t('m.table')}}
               </h6>
               <br>
               <div class="card card-default">
-                <div class="card-header">Baggage Registration Records</div>
+                <div class="card-header">{{$t('m.brr')}}</div>
                 <div class="card-body">
                   <b-table responsive striped hover :items="itemsFields" :fields="parameters"></b-table>
                 </div>
@@ -91,12 +96,12 @@
           @on-complete="submitOrderForm"
           color="#80acdf"
           shape="circle"
-          title="Register Baggages"
-          subtitle="Please compvare required baggage information and provide your appraisal."
+          :title="$t('m.rb')"
+          :subtitle="$t('m.subcom')"
           v-show="showForm"
         >
           <!-- Headers -->
-          <tab-content title="Baggage Information">
+          <tab-content :title="$t('m.tbi')">
             <b-card class="mb-3">
               <!-- begin fieldset -->
               <fieldset>
@@ -106,18 +111,18 @@
                   <div class="col-md-8 offset-md-2">
                     <legend
                       class="no-border f-w-700 p-b-0 m-t-0 m-b-20 f-s-16 text-inverse"
-                    >Please compvare baggage information and upload photos as required</legend>
+                    >{{$t('m.checki')}}</legend>
                     <!-- begin form-group -->
                     <div class="form-group row m-b-10">
                       <label class="col-md-3 col-form-label text-md-right">
-                        Flight Number
+                        {{$t('m.fln')}}
                         <span class="text-danger">*</span>
                       </label>
                       <div class="col-md-6">
                         <input
                           type="text"
                           class="form-control"
-                          placeholder="Flight Number of the Journey"
+                          :placeholder="$t('m.pfn')"
                           name="flight_number"
                           v-model="formData.flight_number"
                           v-validate="{ required: true, regex:/^[\dA-Z][A-Z]{1,2}\d{2,4}$/}"
@@ -130,14 +135,14 @@
                     <!-- begin form-group -->
                     <div class="form-group row m-b-10">
                       <label class="col-md-3 col-form-label text-md-right">
-                        Baggage Width
+                        {{$t('m.bw')}}
                         <span class="text-danger">*</span>
                       </label>
                       <div class="col-md-6">
                         <input
                           type="number"
                           class="form-control"
-                          placeholder="Baggage Width (in centimeter)"
+                          :placeholder="$t('m.pbw')"
                           name="luggage_width"
                           v-model="formData.luggage_width"
                           v-validate="{ required: true}"
@@ -150,14 +155,14 @@
                     <!-- begin form-group -->
                     <div class="form-group row m-b-10">
                       <label class="col-md-3 col-form-label text-md-right">
-                        Baggage Height
+                        {{$t('m.bh')}}
                         <span class="text-danger">*</span>
                       </label>
                       <div class="col-md-6">
                         <input
                           type="number"
                           name="luggage_height"
-                          placeholder="Baggage Height (in centimeter)"
+                          :placeholder="$t('m.pbh')"
                           class="form-control"
                           v-model="formData.luggage_height"
                           v-validate="{ required: true}"
@@ -172,13 +177,11 @@
                     <!-- begin form-group -->
                     <div class="form-group row m-b-10">
                       <label class="col-md-3 col-form-label text-md-right">
-                        Baggage Outside Image
+                        {{$t('m.boi')}}
                         <span class="text-danger">*</span>
                       </label>
                       <div class="col-md-6">
-                        <b-form-group
-                          description="Please take a photo from the outside of your baggage."
-                        >
+                        <b-form-group :description="$t('m.dtp')">
                           <b-file
                             @change="convertImg($event, 'out')"
                             accept="image/*"
@@ -198,13 +201,11 @@
                     <!-- begin form-group -->
                     <div class="form-group row m-b-10">
                       <label class="col-md-3 col-form-label text-md-right">
-                        Baggage Inside Image
+                        {{$t('m.bii')}}
                         <span class="text-danger">*</span>
                       </label>
                       <div class="col-md-6">
-                        <b-form-group
-                          description="Please provide an iterior photo of your baggage."
-                        >
+                        <b-form-group :description="$t('m.dpp')">
                           <b-file
                             @change="convertImg($event, 'in')"
                             accept="image/*"
@@ -229,7 +230,7 @@
               <!-- end fieldset -->
             </b-card>
           </tab-content>
-          <tab-content title="Upload Item Images in Your Baggage">
+          <tab-content :title="$t('m.tup')">
             <b-card class="mb-3">
               <!-- begin step-2 -->
               <div id="step-2">
@@ -240,20 +241,26 @@
                     <!-- begin col-8 -->
                     <legend
                       class="no-border f-w-700 p-b-0 m-t-0 m-b-20 f-s-16 text-inverse"
-                    >Please select one proper project (product)</legend>
+                    >{{$t('m.spp')}}</legend>
 
                     <div class="container-md" style="width: 100% !important">
                       <div class="row">
                         <div class="col-xl-8">
                           <div class="card card-body instruct-crop">
-                            <b>Instructions for selecting individual belongs</b>
+                            <b>{{$t('m.belong')}}</b>
                             <br>
-                            <br>1. Click "Change Image" button to upload an interior photo of your baggage.
-                            <br>2. Adjust image size by rolling your mouse.
-                            <br>3. Click "Start Crop" button to select region of interest.
-                            <br>4. Enter name and price in the input fields aside.
-                            <br>5. Click "Submit Item" button to submit image and information.
-                            <br>6. Click "Stop Crop" button to complete this selection process.
+                            <br>
+                            {{$t('m.b1')}}
+                            <br>
+                            {{$t('m.b2')}}
+                            <br>
+                            {{$t('m.b3')}}
+                            <br>
+                            {{$t('m.b4')}}
+                            <br>
+                            {{$t('m.b5')}}
+                            <br>
+                            {{$t('m.b6')}}
                           </div>
                           <div
                             class="mb-3"
@@ -280,21 +287,22 @@
                                 id="change-image"
                                 accept="image/png, image/jpeg, image/gif, image/jpg"
                                 @change="changeImage($event)"
-                              > Change Image
+                              >
+                              {{$t('m.ci')}}
                             </label>
                             <b-btn
                               class="mr-2 mb-2"
                               @click="startCrop"
                               v-if="!cropImg.crap"
                               :disabled="!cropImg.imageSrc"
-                            >Start Crop</b-btn>
+                            >{{$t('m.sc')}}</b-btn>
                             <b-btn
                               class="mr-2 mb-2"
                               @click="stopCrop"
                               variant="danger"
                               v-else
                               :disabled="!cropImg.imageSrc"
-                            >Stop Crop</b-btn>
+                            >{{$t('m.sc1')}}</b-btn>
                           </div>
                           <br>
                           <br>
@@ -303,34 +311,36 @@
                               class="mr-2 mb-4"
                               @click="storeItemImage('base64')"
                               :disabled="!cropImg.imageSrc"
-                            >Submit Item</b-btn>
+                            >{{$t('m.submitit')}}</b-btn>
                           </div>
                         </div>
                         <div class="col-xl-4" v-show="!this.showInstruct">
                           <p class="text-danger">
-                            Both of the name and your
-                            <b>appraisal</b> are necessary for registration. Please provide these information before clicking
-                            <b>"Submit Item"</b> button.
+                            {{$t('m.both')}}
+                            <b>{{$t('m.appraisal')}}</b>
+                            {{$t('m.a')}}
+                            <b>"{{$t('m.submitit')}}"</b>
+                            {{$t('m.button')}}.
                           </p>
-                          <b-form-group label="Item Name">
+                          <b-form-group :label="$t('m.lin')">
                             <b-input
                               type="text"
                               name="name"
-                              placeholder="Please enter name of this belonging"
+                              :placeholder="$t('m.pen')"
                               v-model="itemName"
                             />
                           </b-form-group>
-                          <b-form-group label="Item Price (EUR)">
+                          <b-form-group :label="$t('m.ip')">
                             <b-input
                               type="text"
                               name="price"
-                              placeholder="Please provide your appraisal of this belonging"
+                              :placeholder="$t('m.ppa')"
                               v-model="itemPrice"
                             />
                           </b-form-group>
                           <br>
                           <br>
-                          <p>Output Preview</p>
+                          <p>{{$t('m.op')}}</p>
                           <div
                             :style="{'width': cropImg.realTimePreviewData.w + 'px', 'height': cropImg.realTimePreviewData.h + 'px', 'overflow': 'hidden', 'margin': '5px'}"
                           >
@@ -352,7 +362,7 @@
               <!-- end step-2 -->
             </b-card>
           </tab-content>
-          <tab-content title="Confirm Item Information">
+          <tab-content :title="$t('m.tcii')">
             <b-card class="mb-3">
               <!-- begin step-3 -->
               <div id="step-3">
@@ -363,18 +373,21 @@
                     <legend
                       class="no-border f-w-700 p-b-0 m-t-0 m-b-20 f-s-16 text-inverse"
                       style="margin-left: 20px !important"
-                    >Please double-check item information and comfirm your order</legend>
+                    >{{$t('m.dc')}}</legend>
                     <p style="margin-left: 20px !important" class="step-explain">
-                      <br>Items listed below are selected from the previous page.
-                      <br>Please recheck relevant information, and extra detailed explanation is appreciated.
-                      <br>Once checking is finished, please click the "Create Order" button to generate your order.
+                      <br>
+                      {{$t('m.list')}}
+                      <br>
+                      {{$t('m.recheck')}}
+                      <br>
+                      {{$t('m.finish')}}
                     </p>
                     <!-- START table-responsive-->
                     <div class="table-responsive">
                       <table class="table table-striped table-bordered table-hover card card-body">
                         <thead>
                           <tr>
-                            <th>Description</th>
+                            <th>{{$t('m.des')}}</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -393,7 +406,7 @@
                                 <div class="media-body d-flex row">
                                   <div>
                                     <div style="margin-left: 30px" class="row">
-                                      <b-form-group label="Item Name" style="margin-left: 20px">
+                                      <b-form-group :label="$t('m.lin')" style="margin-left: 20px">
                                         <b-input
                                           type="text"
                                           id="itemName"
@@ -407,10 +420,7 @@
                                           style="color: red !important;"
                                         >{{ errors.first('itemName') }}</span>
                                       </b-form-group>
-                                      <b-form-group
-                                        label="Item Price (EUR)"
-                                        style="margin-left: 20px"
-                                      >
+                                      <b-form-group :label="$t('m.ip')" style="margin-left: 20px">
                                         <b-input
                                           type="text"
                                           id="itemPrice"
@@ -425,14 +435,14 @@
                                         >{{ errors.first('itemPrice') }}</span>
                                       </b-form-group>
                                       <b-form-group
-                                        label="Remark"
+                                        :label="$t('m.remark')"
                                         style="margin-left: 20px; width: 400px"
                                       >
                                         <b-input
                                           type="text"
                                           id="remark"
                                           name="remark"
-                                          placeholder="Please leave reasons for appraisal or requirements if needed"
+                                          :placeholder="$t('m.plr')"
                                           v-model="items.remark"
                                           class="form-control"
                                         />
@@ -453,13 +463,13 @@
                       variant="outline-primary"
                       type="button"
                       v-on:click="generateOrder"
-                    >Create Order</b-button>
+                    >{{$t('m.co')}}</b-button>
                     <!-- begin invoice -->
                     <div class="invoice" v-show="this.showOrder">
                       <div
                         class="invoice-company text-inverse f-w-600"
                         style="font-size: 15px"
-                      >Registration Order</div>
+                      >{{$t('m.ro')}}</div>
                       <!-- begin invoice-content -->
                       <div class="invoice-content">
                         <!-- begin table-responsive -->
@@ -467,9 +477,9 @@
                           <table class="table table-invoice">
                             <thead>
                               <tr>
-                                <th class="text-left" width="30%">NAME</th>
-                                <th class="text-left" width="30%">PRICE (APPRAISAL)</th>
-                                <th class="text-left" width="40%">REMARK</th>
+                                <th class="text-left" width="30%">{{$t('m.n')}}</th>
+                                <th class="text-left" width="30%">{{$t('m.pa')}}</th>
+                                <th class="text-left" width="40%">{{$t('m.rem')}}</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -495,7 +505,7 @@
                             <div class="invoice-price-row"></div>
                           </div>
                           <div class="invoice-price-right">
-                            <small>TOTAL</small>
+                            <small>{{$t('m.total1')}}</small>
                             <span
                               class="f-w-600"
                               style="font-size: 25px !important"
@@ -515,7 +525,7 @@
               <!-- end step-3 -->
             </b-card>
           </tab-content>
-          <tab-content title="Questions and Remarks">
+          <tab-content :title="$t('m.tqr')">
             <b-card class="mb-3">
               <!-- begin step-3 -->
               <div id="step-4">
@@ -527,20 +537,22 @@
                     <div class="col-md-8 offset-md-2">
                       <legend
                         class="no-border f-w-700 p-b-0 m-t-0 m-b-20 f-s-16 text-inverse"
-                      >Please leave Remarks if your have any questions</legend>
+                      >{{$t('m.remarks')}}</legend>
                       <p class="step-explain">
-                        <br>In this section, please leave messages, if your have any special requirements.
-                        <br>We will provide supports or solutions according to your remarks and questions.
+                        <br>
+                        {{$t('m.message')}}
+                        <br>
+                        {{$t('m.support')}}
                       </p>
                       <br>
                       <!-- begin form-group -->
                       <div class="form-group row m-b-10">
-                        <label>Remark</label>
+                        <label>{{$t('m.remark')}}</label>
                         <div class="col-md-9">
                           <textarea
                             class="form-control m-b-10"
                             rows="9"
-                            placeholder="Please speficy your personal needs or other feedbacks in this field. If your have any questions, please also let us know."
+                            :placeholder="$t('m.psp1')"
                             v-model="formData.remark"
                           ></textarea>
                         </div>
@@ -557,9 +569,9 @@
             </b-card>
           </tab-content>
           <!-- Directions -->
-          <b-btn variant="secondary" slot="prev">Back</b-btn>
-          <b-btn variant="secondary" slot="next">Next</b-btn>
-          <b-btn variant="info" slot="finish">Submit Insurance Order</b-btn>
+          <b-btn variant="secondary" slot="prev">{{$t('m.back')}}</b-btn>
+          <b-btn variant="secondary" slot="next">{{$t('m.next')}}</b-btn>
+          <b-btn variant="info" slot="finish">{{$t('m.submitio')}}</b-btn>
         </form-wizard>
       </div>
     </div>
@@ -582,7 +594,7 @@ export default {
   data() {
     return {
       formData: {
-        username: this.$user.username,
+        username: this.$store.getters.username,
         flight_number: "",
         luggage_width: "",
         luggage_height: "",
@@ -595,7 +607,13 @@ export default {
       checkedItems: [false, false, false, false, false],
       pieChart: {
         data: {
-          labels: ["Order 1", "Order 2", "Order 3", "Order 4", "Remaining"],
+          labels: [
+            this.$t("m.lorder1"),
+            this.$t("m.lorder2"),
+            this.$t("m.lorder3"),
+            this.$t("m.lorder4"),
+            this.$t("m.lre")
+          ],
           datasets: [
             {
               data: [300, 50, 100, 40, 120],
@@ -623,7 +641,7 @@ export default {
           maintainAspectRatio: false
         }
       },
-      parameters: ["Order_ID", "Registration_Time", "Compensation"],
+      parameters: [this.$t("m.poid"), this.$t("m.pet"), this.$t("m.pc")],
       itemsFields: [
         {
           isActive: true,
@@ -689,23 +707,24 @@ export default {
     },
     submitOrderForm() {
       if (!this.isFormInvalid) {
-        this.$user.insurance_order_list[
-          this.$user.insurance_order_list.length
-        ] = this.formData;
-
         var obj = JSON.stringify(this.formData);
         axios
           .post("/luggage/order/new_travel", obj)
           .then(res => {
             var response = JSON.parse(JSON.stringify(res.data));
-            if (response)
-            alert(response);
+            if (response.state) {
+              if (response.state == "1") {
+                this.swalNotification("success", "");
+              } else {
+                this.swalNotification("error", response.error_msg);
+              }
+            }
           })
           .catch(function(error) {
             console.log(error);
           });
       } else {
-        alert("Please enter valid information in all required fields.");
+        alert(this.$t("m.alpe"));
       }
     },
     startCrop() {
@@ -761,9 +780,7 @@ export default {
       var file = e.target.files[0];
       this.fileName = file.name;
       if (!/\.(gif|jpg|jpeg|png|bmp|GIF|JPG|PNG)$/.test(e.target.value)) {
-        alert(
-          "Please one of the following extensions: gif, jpeg, jpg, png, bmp"
-        );
+        alert(this.$t("m.alfe"));
         return false;
       }
       var reader = new FileReader();
@@ -786,6 +803,29 @@ export default {
       }
       this.formData.sumPrice = sumPrice;
       this.showOrder = true;
+    },
+    swalNotification(swalType, error_msg) {
+      if (swalType == "success") {
+        this.$swal({
+          title: this.$t("m.baggage_s_title"),
+          text: this.$t("m.baggage_s_text"),
+          timer: 2000,
+          showConfirmButton: false,
+          type: swalType
+        }).then(
+          setTimeout(() => {
+            this.$router.push("/baggage/register");
+          }, 2000)
+        );
+      } else {
+        this.$swal({
+          title: this.$t("m.baggage_f_title"),
+          text: error_msg,
+          timer: 2000,
+          showConfirmButton: false,
+          type: swalType
+        }).then();
+      }
     }
   }
 };
