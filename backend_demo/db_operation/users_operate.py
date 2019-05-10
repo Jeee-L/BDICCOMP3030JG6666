@@ -65,12 +65,12 @@ def get_claim(username):
     :return:
     '''
     user = search_username(username)
-    assert (user is None), "Username already exist"
-    inss = user.order_id.all()
+    assert (user is not None), "Username already exist"
+    orders = user.order_id.all()
     res = []
-    if inss is not []:
-        for ins in inss:
-            res.append(Claim.query.filter_by(insurance_id = ins.insurance_id).first())
+    if orders is not []:
+        for order in orders:
+            res.append(Claim.query.filter_by(order_id = order.order_id).first())
     return res
 
 

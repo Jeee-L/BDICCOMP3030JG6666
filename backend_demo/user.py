@@ -35,6 +35,7 @@ def user_all_info(username):
         'email': user.email,
         'birthday': birthday_date,
         'address': user.address,
+        'avatar': user.profile,
         'insurance_list': user_all_insurance(username),
         # 'insurance_order_list': user_all_insurance_order(username),
         # 'claim_list': user_all_claim(username)
@@ -69,9 +70,9 @@ def user_all_claim(username):
         return_list = []
         for claim in claim_list:
             claim_dict = {}
-            claim_dict['username'] = username # claim表里没有username，所以这种返回
-            claim_dict['insurance_id'] = str(claim.insurance_id)
+            claim_dict['username'] = username   # claim表里没有username，所以这种返回
             claim_dict['id'] = str(claim.id)
+            claim_dict['order_id'] = str(claim.order_id)
             claim_dict['employee_id'] = str(claim.employee_id)
             claim_dict['reason'] = claim.reason
             claim_dict['state'] = str(claim.state)
@@ -157,6 +158,7 @@ def update_user_info(update_info):
     update_passport(update_info['old_username'], update_info['passport_num'])
     update_birthday(update_info['old_username'], update_info['birthday'])
     update_address(update_info['old_username'], update_info['address'])
+    update_user_image(update_info['old_username'],update_info['avatar'])
     # update_name(update_info['old_username'], update_info['username'])
 
     return jsonify({'state': '1'})
@@ -208,12 +210,14 @@ def update_name(old_name, new_name):
                 elif ae == 'This name already exist':
                     return jsonify({'state': '0', 'error_msg': 'Username already exist'})
 
+
 def send_verification_code(username):
     user = db_usr_opr.search_username(username)
     if user is None:
         return '0'
     email = user.email
     return email_verify(email)
+
 
 def update_password(name, new_password, confirm_password):
     if not verify_password(new_password):
@@ -263,12 +267,14 @@ def update_passport(name, new_passport):
             except AssertionError as ae:
                 return jsonify({'state': '0', 'error_msg': 'No such user'})
 
+
 def update_user_image(name, user_image):
-    try:
-        db_usr_opr.update_profile(name, user_image)
-        return jsonify({"state":"1"})
-    except AssertionError as ae:
-        return jsonify({"state": '0', "error_msg": 'No such user'})
+    if not (user_image is ''):
+        try:
+            db_usr_opr.update_profile(name, user_image)
+            return jsonify({"state":"1"})
+        except AssertionError as ae:
+            return jsonify({"state": '0', "error_msg": 'No such user'})
 
 
 def buy_insurance(insurance_info):

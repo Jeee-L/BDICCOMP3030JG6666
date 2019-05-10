@@ -67,6 +67,7 @@ def customer_info():
         update_info = json.loads(request.get_data())
         return user.update_user_info(update_info)
 
+
 # 用户更改密码
 @app.route('/customer/info/update_password',methods=['GET','POST'])
 def customer_update_password():
@@ -79,12 +80,14 @@ def customer_update_password():
         else:
             return user.update_password(update_password['username'],update_password['password'],update_password['confirm_password'])
 
+
 # 用户更改头像
 @app.route('/customer/info/update_avatar',methods=['GET','POST'])
 def customer_update_avatar():
     if request.method == 'POST':
         update_avatar = json.loads(request.get_data())
-        return user.update_user_image(update_avatar['username'],update_avatar['image'])
+        return user.update_user_image(update_avatar['username'],update_avatar['avatar'])
+
 
 # 用户购买新保险
 @app.route('/luggage/order/create', methods=['GET', 'POST'])
@@ -92,6 +95,7 @@ def luggage_order_create():
     if request.method == 'POST':
         insurance_info = json.loads(request.get_data())
         return user.buy_insurance(insurance_info)
+
 
 # 用户所有的保险订单以及申请理赔
 @app.route('/luggage/order/list', methods=['GET', 'POST'])
@@ -103,12 +107,14 @@ def luggage_order_list():
         else:
             return user.apply_claim(claim_info)
 
+
 # 用户出发前补充信息
 @app.route('/luggage/order/new_travel', methods=['GET', 'POST'])
 def new_travel():
     if request.method == 'POST':
         supplementary_information = json.loads(request.get_data())
         return user.supplementary_information(supplementary_information)
+
 
 # 用户所有保险订单
 @app.route('/list_user_all_insurance_order',methods=['GET','POST'])
@@ -117,12 +123,14 @@ def list_user_all_insurance_order():
         username = json.loads(request.get_data())
         return user.user_all_insurance_order(username)
 
+
 # 用户所有申请的理赔
 @app.route('/list_user_all_claim',methods=['GET','POST'])
 def list_user_all_claim():
     if request.method == 'POST':
         username = json.loads(request.get_data())
-        return user.user_all_claim(username)
+        return user.user_all_claim(username['username'])
+
 
 # 未使用
 @app.route('/logout/')
@@ -130,6 +138,7 @@ def logout_page():
     if request.method == 'POST':
         session.clear()
         return None
+
 
 # 所有用户
 @app.route('/all_customers/',methods=['GET','POST'])
@@ -152,11 +161,13 @@ def list_all_insurance_page():
     if request.method == 'POST':
         return employee.list_all_insurance()
 
+
 # 所有申请的理赔
 @app.route('/list_all_claim/', methods=['GET', 'POST'])
 def list_all_claim_page():
     if request.method == 'POST':
         return employee.list_all_claim()
+
 
 # 所有的保险订单
 @app.route('/list_all_insurance_order',methods=['GET','POST'])
@@ -169,9 +180,7 @@ def list_all_insurance_order():
 def list_insurance_order_info_page():
     if request.method == 'POST':
         frontend_data = request.get_data()
-        print(frontend_data)
         insurance_order_id = json.loads(frontend_data)
-        print(insurance_order_id)
         return employee.insurance_order_detail(insurance_order_id)
 
 
