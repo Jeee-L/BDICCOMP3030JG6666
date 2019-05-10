@@ -878,7 +878,7 @@ export default {
           type: swalType
         }).then(
           setTimeout(() => {
-            this.$router.push("/baggage/insurance");
+            this.showForm = false;
           }, 2000)
         );
       } else {

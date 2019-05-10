@@ -372,7 +372,7 @@ export const m = {
    alpe: '请在所有必需的栏位填写有效信息。',
    als: '对不起，发送验证码失败。',
 
-   asvc: '发送验证码',
+   bsvc: '发送验证码',
    r_bsvc: '',
    r_other: ' 后重新验证',
 
@@ -494,17 +494,17 @@ export const m = {
    register_f_title: '注册失败',
    register_f_text: '请更正您的个人信息',
 
-   insurance_s_title: '成功创建保险订单',
+   insurance_s_title: '创建保险订单',
    insurance_s_text: '保险有效期内您将不能再次投保。',
    insurance_f_title: '创建保险订单失败',
    insurance_f_text: '请您更正输入信息并再次提交。',
 
-   baggage_s_title: '成功创建注册行李订单',
+   baggage_s_title: '创建注册行李订单',
    baggage_s_text: '若该行李丢失，请您于申请理赔页面发起理赔。',
    baggage_f_title: '创建注册行李订单失败',
    baggage_f_text: '请您更正输入信息并再次提交。',
 
-   claim_s_title: '成功创建理赔订单',
+   claim_s_title: '创建理赔订单',
    claim_s_text: '请您前往理赔处理结果页面查看管理员审核意见。',
    claim_f_title: '创建理赔订单失败',
    claim_f_text: '请您更正输入信息并再次提交。',

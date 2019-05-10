@@ -491,26 +491,26 @@ export const m = {
     ec: 'Claim',
 
     // Sweet Alert Notification
-    register_s_title: 'New Account Created Successfully',
+    register_s_title: 'New Account',
     register_s_text: 'You will be direct to the Login page.',
     register_f_title: 'Registration Failed',
     register_f_text: 'Please check your inputs and register again.',
 
-    insurance_s_title: 'Insurance Order Created Successfully',
+    insurance_s_title: 'New Insurance Order',
     insurance_s_text: 'You cannot create new insurance order unless the insurance expires. ',
     insurance_f_title: 'Failed to Create Insurance Order',
     insurance_f_text: 'Please check your inputs and submit again.',
 
-    baggage_s_title: 'Registration Order Created Successfully',
+    baggage_s_title: 'New Registration Order',
     baggage_s_text: 'If this baggage is lost, please initate claim order on the Claim Lost Baggage page. ',
     baggage_f_title: 'Failed to Create Baggage Registration Order',
     baggage_f_text: 'Please check your inputs and submit again.',
 
-    claim_s_title: 'Claim Order Created Successfully',
+    claim_s_title: 'New Claim Order',
     claim_s_text: 'Please refer to the Claim Process Result page to check processing status.',
     claim_f_title: 'Failed to Create Claim Order',
     claim_f_text: 'Please check your inputs and submit again.',
 
-    password_s_title: 'Password Update Succeeded',
+    password_s_title: 'Password Updated',
     password_f_title: 'Password Update Failed',
 }

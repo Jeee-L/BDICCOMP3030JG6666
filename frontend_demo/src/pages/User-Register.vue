@@ -213,7 +213,6 @@ export default {
   },
   methods: {
     submitForm() {
-      this.swalNotification("success", "");
       if (!this.isFormInvalid && this.verification_field) {
         this.formData.verify = 1;
         var obj = JSON.stringify(this.formData);
@@ -223,7 +222,6 @@ export default {
             var response = JSON.parse(JSON.stringify(res.data));
             if (response.state == "1") {
               this.swalNotification("success", "");
-              this.$router.push("/login");
             } else {
               this.swalNotification("error", response.error_msg);
             }

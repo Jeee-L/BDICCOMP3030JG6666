@@ -69,23 +69,15 @@
                 </div>
                 <div class="timeline-footer">
                   <div v-if="item.state == '-1'">
-                    <p
-                      class="text-dark"
-                    >{{$t('m.pmd')}}</p>
+                    <p class="text-dark">{{$t('m.pmd')}}</p>
                     <b-btn
                       variant="outline-info"
                       class="btn-xs"
                       v-on:click="showModalData(item.insurance_order_id)"
                     >{{$t('m.psi')}}</b-btn>
                   </div>
-                  <p
-                    class="text-success"
-                    v-else-if="item.state == '1'"
-                  >{{$t('m.ccs')}}</p>
-                  <p
-                    class="text-danger"
-                    v-else
-                  >{{$t('m.sorry')}}</p>
+                  <p class="text-success" v-else-if="item.state == '1'">{{$t('m.ccs')}}</p>
+                  <p class="text-danger" v-else>{{$t('m.sorry')}}</p>
                 </div>
               </div>
               <!-- end timeline-body -->
@@ -151,10 +143,7 @@
         </b-form-row>
         <b-form-row>
           <b-form-group :label="$t('m.remark')" class="col">
-            <b-input
-              :placeholder="$t('m.pos')"
-              v-model="formData.remark"
-            />
+            <b-input :placeholder="$t('m.pos')" v-model="formData.remark"/>
           </b-form-group>
         </b-form-row>
       </b-modal>
@@ -170,8 +159,6 @@ import axios from "axios";
 export default {
   data() {
     return {
-      claim_list: this.$store.getters.claim_list,
-
       formData: {
         insurance_order_id: "",
         lost_time: "",
@@ -184,10 +171,15 @@ export default {
       modalShow: false
     };
   },
+  computed: {
+    claim_list(){
+      return this.$store.getters.claim_list;
+    }
+  },
   created() {
     PageOptions.pageContentFullWidth = true;
 
-    requireInfo = {
+    var requireInfo = {
       username: this.$store.getters.username
     };
     var obj = JSON.stringify(requireInfo);
@@ -195,8 +187,8 @@ export default {
       .post("/list_user_all_claim", obj)
       .then(res => {
         var response = JSON.parse(JSON.stringify(res.data));
-        if (response != null){
-          this.$store.getters.claim_list = response;
+        if (response != null) {
+          this.claim_list = response;
         }
       })
       .catch(function(error) {
@@ -232,7 +224,7 @@ export default {
             console.log(error);
           });
       } else {
-        alert(this.$t('m.alpe'));
+        alert(this.$t("m.alpe"));
       }
     }
   },
