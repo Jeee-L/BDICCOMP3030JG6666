@@ -126,7 +126,7 @@ def user_all_insurance_order(username):
             # 保险剩余金额
             remaining_amount = corresponded_insurance.amount_of_money - corresponded_insurance.compensated_amount
             order_dict['remaining_money'] = remaining_amount
-            # 剩余时间
+            # 保险剩余时间
             current_date = datetime.now()
             begin_date = corresponded_insurance.date
             current_date.strftime("%Y-%m-%d")
@@ -324,6 +324,27 @@ def apply_claim(claim_info):
     try:
         # 改对应insurance order 的 state
         db_ord_opr.change_state(claim_info['order_id'],0)
+        db_cla_opr.add_claim(claim_info)
+        return jsonify({'state': '1'})
+    except AssertionError as ae:
+        return jsonify({'state': '0', 'error_msg': 'No such order'})
+
+
+def supplementary_claims_information(claim_info):
+    claim_info['employee_id'] = -1  # 表示新的订单，没有员工处理
+    claim_info['state'] = -2  # 初始状态 -2
+    claim_info['lost_time'] = datetime.strptime(claim_info['lost_time'], "%Y-%m-%d")
+    claim_info['order_id'] = int(claim_info['insurance_order_id'])
+
+    if not (len(claim_info['reason']) < 300):
+        return jsonify({'state': '0', 'error_msg': 'The length of reason should less than 300 characters'})
+    if not (len(claim_info['remark']) < 300):
+        return jsonify({'state': '0', 'error_msg': 'The length of remark should less than 300 characters'})
+    if not (len(claim_info['lost_place']) < 100):
+        return jsonify({'state': '0', 'error_msg': 'The length of lost place should less than 100 characters'})
+    try:
+        # 改之前claim的 state
+        db_cla_opr.update_state(claim_info['old_claim_id'],2)
         db_cla_opr.add_claim(claim_info)
         return jsonify({'state': '1'})
     except AssertionError as ae:

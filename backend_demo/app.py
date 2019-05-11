@@ -104,6 +104,8 @@ def luggage_order_list():
         claim_info = json.loads(request.get_data())
         if claim_info['check'] == '0':
             return user.user_all_insurance_order(claim_info['username'])
+        elif claim_info['check'] == '1':
+            return user.supplementary_claims_information(claim_info)
         else:
             return user.apply_claim(claim_info)
 

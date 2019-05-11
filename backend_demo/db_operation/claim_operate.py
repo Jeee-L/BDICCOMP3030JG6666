@@ -55,6 +55,20 @@ def change_state(id, state,employee_id):
     db.session.commit()
     return 'Change successfully'
 
+def update_state(id, state):
+    '''
+
+    :param id:
+    :param state:
+    :return:
+    '''
+    claim = __search_claim(id)
+    assert claim is not None, 'No such Claim'
+    claim.state = state
+    db.session.commit()
+    return 'Change successfully'
+
+
 def all():
     '''
 
