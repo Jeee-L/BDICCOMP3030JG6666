@@ -120,6 +120,20 @@ def user_all_insurance_order(username):
                 select_img_dict['remark'] = select_img.remark
                 select_img_return_list.append(select_img_dict)
             order_dict['select_img'] = select_img_return_list
+            # 保险总金额
+            corresponded_insurance = db_ins_opr.__search_insurance(order.insurance_id)
+            order_dict['amount_of_money'] = corresponded_insurance.amount_of_money
+            # 保险剩余金额
+            remaining_amount = corresponded_insurance.amount_of_money - corresponded_insurance.compensated_amount
+            order_dict['remaining_money'] = remaining_amount
+            # 剩余时间
+            current_date = datetime.now()
+            begin_date = corresponded_insurance.date
+            current_date.strftime("%Y-%m-%d")
+            begin_date.strftime("%Y-%m-%d")
+            remaining_time = corresponded_insurance.duration - (current_date - begin_date).days
+            order_dict['remaining_time'] = remaining_time
+
             return_list.append(order_dict)
         return jsonify(return_list)
 
