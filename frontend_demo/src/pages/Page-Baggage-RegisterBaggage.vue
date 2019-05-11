@@ -715,6 +715,7 @@ export default {
             if (response.state) {
               if (response.state == "1") {
                 this.swalNotification("success", "");
+                this.showForm = false;
               } else {
                 this.swalNotification(
                   "error",

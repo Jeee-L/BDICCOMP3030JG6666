@@ -249,21 +249,8 @@ export default {
     };
   },
   created() {
-    var requireInfo = {
-      username: this.$store.state.username
-    };
-    var obj = JSON.stringify(requireInfo);
-    axios
-      .post("/list_user_all_insurance_order", obj)
-      .then(res => {
-        var response = JSON.parse(JSON.stringify(res.data));
-        this.$store.state.insurance_order_list = response;
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+    this.checkClaims();
   },
-  mounted() {},
   computed: {
     isFormInvalid() {
       return Object.keys(this.fields).some(key => this.fields[key].invalid);
@@ -273,12 +260,27 @@ export default {
     }
   },
   methods: {
+    checkClaims() {
+      var requireInfo = {
+        username: this.$store.state.username
+      };
+      var obj = JSON.stringify(requireInfo);
+      axios
+        .post("/list_user_all_insurance_order", obj)
+        .then(res => {
+          var response = JSON.parse(JSON.stringify(res.data));
+          this.$store.state.insurance_order_list = response;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
     showModalData(insurance_order_id) {
       this.formData.insurance_order_id = insurance_order_id;
       this.modalShow = true;
     },
     checkBaggageDetail(baggage_id) {
-      this.modalTitle = "Registered Baggage Details: " + baggage_id;
+      this.modalTitle = this.$t("m.detail_title") + baggage_id;
       this.modalShowBaggage = true;
 
       var obj = JSON.stringify(baggage_id);
@@ -310,6 +312,7 @@ export default {
             if (response.state) {
               if (response.state == "1") {
                 this.swalNotification("success", "");
+                this.checkClaims();
               } else {
                 this.swalNotification(
                   "error",

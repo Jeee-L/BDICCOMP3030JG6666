@@ -68,7 +68,7 @@
                       type="file"
                       id="change-image"
                       accept="image/png, image/jpeg, image/gif, image/jpg"
-                      @change="changeImage($event)"
+                      @change="convertImg($event)"
                     >
                     {{$t('m.upp')}}
                   </label>
@@ -168,13 +168,10 @@
                             type="password"
                             class="form-control"
                             :placeholder="$t('m.ppag')"
-                            v-bind:class="{'is-invalid': errors.has('confirm_password')}"
+                            v-bind:class="{'is-invalid': errors.has($t('m.confirm'))}"
                             v-model="confirm_password"
                           >
-                          <div
-                            v-if="errors.has($t('m.confirm'))"
-                            style="color: red;"
-                          >{{ errors.first($t('m.confirm')) }}</div>
+                          <span style="color: red !important;">{{ errors.first($t('m.confirm')) }}</span>
                         </div>
                       </div>
                     </div>
@@ -454,9 +451,13 @@ export default {
         .then(res => {
           var response = JSON.parse(JSON.stringify(res.data));
           if (response.state == 0) {
-            this.swalNotification("error", this.showError(response.error_msg));
+            this.swalNotification(
+              "error",
+              this.$t("m.password_f_title"),
+              this.showError(response.error_msg)
+            );
           } else {
-            this.swalNotification("success", "");
+            this.swalNotification("success", this.$t("m.password_s_title"), "");
           }
         })
         .catch(function(error) {
@@ -482,6 +483,14 @@ export default {
       });
       this.$store.commit("handleCustomerInfo", this.formData);
     },
+    convertImg(e, img) {
+      var _this = this;
+      let reader = new FileReader();
+      reader.readAsDataURL(e.target.files[0]);
+      reader.onload = function(e) {
+        _this.updateAvatar(e.target.result);
+      };
+    },
     changeImage(e) {
       let file = e.target.files[0];
       if (!/\.(gif|jpg|jpeg|png|bmp|GIF|JPG|PNG)$/.test(e.target.value)) {
@@ -501,34 +510,52 @@ export default {
       reader.readAsArrayBuffer(file);
     },
     updateAvatar(data) {
-      this.$store.commit("handleAvatar", data);
+      try {
+        this.$store.commit("handleAvatar", data);
+        this.swalNotification("success", this.$t("m.avatar_s_title"), "");
 
-      var obj = JSON.stringify(this.$store.getters.avatar);
+        var params = {
+          username: this.$store.state.username,
+          avatar: this.$store.state.avatar
+        };
 
-      axios
-        .post("/customer/info/update_avatar", obj)
-        .then(res => {
-          var response = JSON.parse(JSON.stringify(res.data));
-          if (response.state == 0) {
-            this.swalNotification("error", response.error_msg);
-          }
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
+        var obj = JSON.stringify(params);
+
+        axios
+          .post("/customer/info/update_avatar", obj)
+          .then(res => {
+            var response = JSON.parse(JSON.stringify(res.data));
+            if (response.state == "0") {
+              this.swalNotification(
+                "error",
+                this.$t("m.password_f_title"),
+                this.showError(response.error_msg)
+              );
+            }
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+      } catch (err) {
+        this.swalNotification(
+          "error",
+          this.$t("m.avatar_f_title"),
+          this.$t("m.avatar_f_text")
+        );
+      }
     },
-    swalNotification(swalType, error_msg) {
+    swalNotification(swalType, title, msg) {
       if (swalType == "success") {
         this.$swal({
-          title: this.$t("m.password_s_title"),
+          title: title,
           timer: 2000,
           showConfirmButton: false,
           type: swalType
         }).then(setTimeout(() => {}, 2000));
       } else {
         this.$swal({
-          title: this.$t("m.password_f_title"),
-          text: error_msg,
+          title: title,
+          text: msg,
           timer: 2000,
           showConfirmButton: false,
           type: swalType

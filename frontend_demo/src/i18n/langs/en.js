@@ -517,6 +517,10 @@ export const m = {
     password_s_title: 'Password Updated',
     password_f_title: 'Password Update Failed',
 
+    avatar_s_title: 'Avatar Updated',
+    avatar_f_title: 'Failed to Update Avatar',
+    avatar_f_text: 'Image size limitation is exceeded.',
+
     // Error messages from the backend
     e_user: 'No such user',
     e_password: 'Password is not correct',
@@ -529,4 +533,11 @@ export const m = {
     e_overdue: 'This insurance is overdue',
     e_unknown: 'Unknown error',
     e_em_password: "Previous password is not correct.",
+
+    // Employee platform notifications
+    note_insurance: 'New insurance orders are waiting for process.',
+    note_baggage: 'New baggage orders are waiting for process.',
+    note_claim: 'New claim orders are waiting for process.',
+
+    detail_title: "Registered Baggage Details: ",
 }

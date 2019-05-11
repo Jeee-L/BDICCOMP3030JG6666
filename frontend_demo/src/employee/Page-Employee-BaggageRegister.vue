@@ -213,7 +213,7 @@ export default {
       } else {
         this.checkBaggageDetail(row[this.$t("m.coid")]);
         this.modalTitle =
-          "Registered Baggage Details: " + row[this.$t("m.coid")];
+        this.$t("m.detail_title") + row[this.$t("m.coid")];
         this.modalShowBaggage = true;
       }
     },
@@ -267,7 +267,7 @@ export default {
         .catch(err => console.log(err));
     },
     show(group, type = "") {
-      const text = "New claim order are waiting for process!";
+      const text = this.$t('m.note_baggage');
       this.$notify({
         group,
         text,

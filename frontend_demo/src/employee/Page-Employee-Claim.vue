@@ -244,7 +244,7 @@ export default {
         this.modalShow = true;
       } else {
         this.checkBaggageDetail(row[this.$t("m.cbid")]);
-        this.modalTitle = "Registered Baggage Details: " + row[this.$t("m.ccid")];
+        this.modalTitle = this.$t("m.detail_title") + row[this.$t("m.ccid")];
         this.modalShowBaggage = true;
       }
     },
@@ -274,9 +274,6 @@ export default {
         employee_id: this.$store.state.employee_id,
         state: tag
       };
-      alert(decision.claim_id);
-      alert(this.$store.state.employee_id);
-      alert(decision.state);
       var obj = JSON.stringify(decision);
       axios
         .post("/address_claim/", obj)
@@ -296,7 +293,7 @@ export default {
           if (res.data != null) {
             var response = JSON.parse(JSON.stringify(res.data));
             for (var i = 0; i < response.length; i++) {
-              if (response[i].state == "-1") {
+              if (response[i].state == "-2") {
                 this.rawData[this.rawData.length] = {
                   [this.$t("m.ccid")]: response[i].id,
                   [this.$t("m.cbid")]: response[i].insurance_order_id,
@@ -320,7 +317,7 @@ export default {
         .catch(err => console.log(err));
     },
     show(group, type = "") {
-      const text = "New claim order awarting for process!";
+      const text = this.$t('m.note_claim');
       this.$notify({
         group,
         text,

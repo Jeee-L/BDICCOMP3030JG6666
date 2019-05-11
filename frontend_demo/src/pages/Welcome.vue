@@ -78,7 +78,7 @@
     <!-- end #header -->
 
     <!-- begin sliding bar -->
-    <div style="margin: 10px 50px;">
+    <div style="margin: 10px 10px;">
       <b-carousel
         id="carousel1"
         style="text-shadow: 1px 1px 2px #333;"
@@ -132,19 +132,11 @@
     </div>
     <!-- end sliding bar -->
 
-    <div class="card card-default" style="margin: 10px 50px">
+    <div class="card card-default" style="margin: 10px 10px">
       <!-- begin about us -->
       <section class="section section-lg">
-        <div class="container">
+        <div class="container-fluid">
           <div class="row row-grid align-items-center">
-            <div class="col-md-6 order-md-2">
-              <img
-                src="../assets/img/china-ireland.jpg"
-                width="550px"
-                height="230px"
-                margin-top="80px"
-              >
-            </div>
             <div class="col-md-6 order-md-1">
               <div class="pr-md-5">
                 <icon
@@ -155,9 +147,22 @@
                   shadow
                   rounded
                 ></icon>
-                <h2 class="title" style="margin-top:50px;">{{$t('m.wwa')}}</h2>
+                <h2
+                  class="title bg-success text-white"
+                  style="margin-top:50px;padding:10px "
+                >{{$t('m.wwa')}}</h2>
                 <p class="description">{{$t('m.wwa1')}}</p>
               </div>
+            </div>
+
+            <div class="col-md-6 order-md-2">
+              <img
+                src="../assets/img/china-ireland.jpg"
+                class="d-block img-fluid rounded w-100"
+                width="550px"
+                height="230px"
+                margin-top="80px"
+              >
             </div>
           </div>
         </div>
@@ -166,11 +171,14 @@
 
       <!-- begin pick us -->
       <div class="section section-team text-center">
-        <div class="container">
-          <h2 class="title" style="margin-top:50px;">{{$t('m.wpu')}}</h2>
+        <div class="container-fluid">
+          <h2
+            class="title bg-success text-white"
+            style="margin-top:50px;padding:10px 50px;"
+          >{{$t('m.wpu')}}</h2>
           <div class="team">
             <div class="row">
-              <div class="col-md-4">
+              <div class="col-md-4 col-sm-4 col-4">
                 <div class="team-player">
                   <img
                     style="margin-top:20px; width:130px; height:130px"
@@ -181,7 +189,7 @@
                   <h4 class="title" style="margin-top:20px;">{{$t('m.wpu1')}}</h4>
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-4 col-sm-4 col-4">
                 <div class="team-player">
                   <img
                     style="margin-top:20px; width:130px; height:130px"
@@ -192,7 +200,7 @@
                   <h4 class="title" style="margin-top:20px;">{{$t('m.wpu2')}}</h4>
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-4 col-sm-4 col-4">
                 <div class="team-player">
                   <img
                     style="margin-top:20px; width:130px; height:130px"
@@ -212,15 +220,18 @@
 
       <!-- begin service process -->
       <section class="section section-lg text-center">
-        <div class="container">
+        <div class="container-fluid">
           <div class="row justify-content-center text-center mb-lg">
             <div class="col-lg-8">
-              <h2 class="title" style="margin-top:50px;">{{$t('m.osp')}}</h2>
+              <h2
+                class="title bg-success text-white"
+                style="margin-top:50px;padding:10px;"
+              >{{$t('m.osp')}}</h2>
               <p class="lead text" style="margin-top:20px;">{{$t('m.osp1')}}</p>
             </div>
           </div>
           <div class="row">
-            <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
+            <div class="col-md-6 col-lg-3 col-sm-6 col-6 mb-5 mb-lg-0">
               <div class="px-4">
                 <img
                   src="../assets/img/p11.jpg"
@@ -235,7 +246,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
+            <div class="col-md-6 col-lg-3 col-sm-6 col-6 mb-5 mb-lg-0">
               <div class="px-4">
                 <img
                   src="../assets/img/p12.jpg"
@@ -250,7 +261,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
+            <div class="col-md-6 col-lg-3 col-sm-6 col-6 mb-5 mb-lg-0">
               <div class="px-4">
                 <img
                   src="../assets/img/p13.jpg"
@@ -265,7 +276,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
+            <div class="col-md-6 col-lg-3 col-sm-6 col-6 mb-5 mb-lg-0">
               <div class="px-4">
                 <img
                   src="../assets/img/p14.jpg"
@@ -285,14 +296,14 @@
       </section>
 
       <section class="section section-lg text-center">
-        <div class="container">
+        <div class="container-fluid">
           <div class="row justify-content-center text-center mb-lg">
             <div class="col-lg-8">
-              <p class="lead text" style="margin-top:20px;">{{$t('m.osp2')}}</p>
+              <p class="lead text" style="margin-top:10px;">{{$t('m.osp2')}}</p>
             </div>
           </div>
           <div class="row">
-            <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
+            <div class="col-md-6 col-lg-3 col-sm-6 col-6 mb-5 mb-lg-0">
               <div class="px-4">
                 <img
                   src="../assets/img/p21.jpg"
@@ -307,7 +318,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
+            <div class="col-md-6 col-lg-3 col-sm-6 col-6 mb-5 mb-lg-0">
               <div class="px-4">
                 <img
                   src="../assets/img/p22.jpg"
@@ -322,7 +333,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
+            <div class="col-md-6 col-lg-3 col-sm-6 col-6 mb-5 mb-lg-0">
               <div class="px-4">
                 <img
                   src="../assets/img/p23.jpg"
@@ -337,7 +348,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-6 col-lg-3 mb-5 mb-lg-0">
+            <div class="col-md-6 col-lg-3 col-sm-6 col-6 mb-5 mb-lg-0">
               <div class="px-4">
                 <img
                   src="../assets/img/p24.jpg"
@@ -357,15 +368,15 @@
       </section>
 
       <div class="section section-team text-center">
-        <div class="container">
+        <div class="container-fluid">
           <div class="row justify-content-center text-center mb-lg">
             <div class="col-lg-8">
-              <p class="lead text" style="margin-top:20px;">{{$t('m.osp3')}}</p>
+              <p class="lead text" style="margin-top:10px;">{{$t('m.osp3')}}</p>
             </div>
           </div>
           <div class="team">
             <div class="row">
-              <div class="col-md-4">
+              <div class="col-md-4 col-sm-4 col-4">
                 <div class="team-player">
                   <img
                     style="width: 130px;height:100px"
@@ -381,7 +392,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-4 col-sm-4 col-4">
                 <div class="team-player">
                   <img
                     style="width: 130px;height:100px"
@@ -397,7 +408,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-4 col-sm-4 col-4">
                 <div class="team-player">
                   <img
                     style="width: 130px;height:100px"
@@ -423,7 +434,10 @@
       <!-- begin col-6 -->
       <div class="col-md-12">
         <div class="m-b-10 f-s-10 m-t-5 text-center">
-          <h2 class="text-inverse" style="margin-top:50px;">{{$t('m.landscape')}}</h2>
+          <h2
+            class="title bg-success text-white"
+            style="margin-top:50px;padding:10px"
+          >{{$t('m.landscape')}}</h2>
         </div>
         <!-- begin card-group -->
         <div class="card-group" style="margin-top:30px;">
@@ -481,7 +495,7 @@ export default {
     };
   },
   methods: {
-    login(){
+    login() {
       // this.$router.push("/home");
       this.$router.push("/login");
     },

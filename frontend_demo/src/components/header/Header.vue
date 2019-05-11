@@ -145,7 +145,7 @@
         <div class="row m-b-15">
           <div class="col-md-12">
             <input
-              type="text"
+              type="password"
               class="form-control"
               :placeholder="$t('m.old_password')"
               :name="$t('m.old_password')"
@@ -189,7 +189,7 @@
                 type="password"
                 class="form-control"
                 :placeholder="$t('m.ppag')"
-                v-bind:class="{'is-invalid': errors.has('confirm_password')}"
+                v-bind:class="{'is-invalid': errors.has($t('m.confirm'))}"
                 v-model="params.confirm_password"
               >
               <div
@@ -222,7 +222,7 @@ export default {
       showModal: false,
 
       params: {
-        employeeid: "",
+        employeeid: this.$store.state.employee_id,
         old_password: "",
         new_password: "",
         confirm_password: ""
@@ -242,7 +242,7 @@ export default {
       if (this.$store.state.username == "e@emp123") {
         this.showModal = true;
       } else {
-        this.$router.push('/customer/info');
+        this.$router.push("/customer/info");
       }
     },
     submitPassword() {
@@ -278,7 +278,7 @@ export default {
           timer: 2000,
           showConfirmButton: false,
           type: swalType
-        }).then(setTimeout(() => {}, 2000));
+        }).then();
       } else {
         this.$swal({
           title: this.$t("m.password_f_title"),
@@ -291,6 +291,10 @@ export default {
     },
     cancelChange() {
       this.showModal = false;
+      this.employeeid = this.$store.state.employee_id;
+      this.params.old_password = '';
+      this.params.new_password = '';
+      this.params.confirm_password = '';
     },
     toggleMobileSidebar() {
       this.pageOptions.pageMobileSidebarToggled = !this.pageOptions

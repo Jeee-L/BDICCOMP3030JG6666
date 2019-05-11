@@ -36,26 +36,33 @@
               <!-- begin timeline-body -->
               <div class="timeline-body" :class="changeBackground(item)">
                 <div class="timeline-header">
-                  <span class="username">{{$t('m.rid')}} {{item.insurance_order_id}}</span>
+                  <span class="username">{{$t('m.rid')}} {{item.order_id}}</span>
                   <span class="pull-right text-muted" style="color: black !important">{{item.date}}</span>
                 </div>
                 <div class="timeline-content">
-                  <div class="col-9">
+                  <div class="col-12">
                     <div class="row">
                       <p class="info-field info-field-left">
                         <b>{{$t('m.iid')}}</b>
-                        {{item.insurance_id}}
+                        {{item.id}}
                       </p>
-                      <p class="info-field">
+                      <p class="info-field info-field-left">
                         <b>{{$t('m.usern')}}</b>
                         {{item.username}}
                       </p>
-                    </div>
-                    <div class="row">
                       <p class="info-field info-field-left">
                         <b>{{$t('m.eid')}}</b>
                         {{item.employee_id}}
                       </p>
+                      <p class="info-field">
+                        <b-btn
+                          variant="outline-dark"
+                          class="btn-xs"
+                          v-on:click="checkBaggageDetail(item.order_id)"
+                        >{{$t('m.check2')}}</b-btn>
+                      </p>
+                    </div>
+                    <div class="row">
                       <p>
                         <b class="info-field">{{$t('m.re')}}</b>
                         {{item.remark}}
@@ -73,7 +80,7 @@
                     <b-btn
                       variant="outline-info"
                       class="btn-xs"
-                      v-on:click="showModalData(item.insurance_order_id)"
+                      v-on:click="showModalData(item.order_id)"
                     >{{$t('m.psi')}}</b-btn>
                   </div>
                   <p class="text-success" v-else-if="item.state == '1'">{{$t('m.ccs')}}</p>
@@ -147,6 +154,75 @@
           </b-form-group>
         </b-form-row>
       </b-modal>
+
+      <!-- Baggage Detail Modal -->
+      <b-modal id="modals-default" :title="modalTitle" cancel-only v-model="modalShowBaggage">
+        <div class="col-12">
+          <p class="info-field">
+            <b style="margin-right: 10px">{{$t('m.usern')}}</b>
+            {{baggageItem.username}}
+          </p>
+          <p class="info-field">
+            <b style="margin-right: 10px">{{$t('m.flight')}}</b>
+            {{baggageItem.flight_number}}
+          </p>
+          <p class="info-field">
+            <b style="margin-right: 10px">{{$t('m.height')}}</b>
+            {{baggageItem.luggage_height}}
+          </p>
+          <p>
+            <b class="info-field" style="margin-right: 10px">{{$t('m.width')}}</b>
+            {{baggageItem.luggage_width}}
+          </p>
+          <p>
+            <b class="info-field" style="margin-right: 10px">{{$t('m.sp')}}</b>
+            {{baggageItem.sumPrice}}
+          </p>
+          <p>
+            <b class="info-field" style="margin-right: 10px">{{$t('m.remark')}}:</b>
+            {{baggageItem.remark}}
+          </p>
+          <!-- START table-responsive-->
+          <br>
+          <div>
+            <table class="table table-striped table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th>{{$t('m.bp')}}</th>
+                  <th>{{$t('m.n')}}</th>
+                  <th>{{$t('m.price')}}</th>
+                  <th>{{$t('m.remark')}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="items in baggageItem.select_img" :key="items.id">
+                  <td>
+                    <div class="media align-items-center">
+                      <img
+                        class="img-fluid rounded thumb64"
+                        :src="items.imgUrl"
+                        width="40"
+                        height="auto"
+                        alt
+                      >
+                    </div>
+                  </td>
+                  <td>
+                    <p>{{items.name}}</p>
+                  </td>
+                  <td>
+                    <p>{{items.price}}</p>
+                  </td>
+                  <td>
+                    <p>{{items.remark}}</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- END table-responsive-->
+        </div>
+      </b-modal>
     </div>
     <!-- end profile-content -->
   </div>
@@ -160,6 +236,7 @@ export default {
   data() {
     return {
       formData: {
+        check: "1",
         insurance_order_id: "",
         lost_time: "",
         lost_place: "",
@@ -168,7 +245,25 @@ export default {
       },
 
       // Variables used for control
-      modalShow: false
+      modalShow: false,
+
+      // remark and reason for lost
+      modalTitle: "",
+      modalContent: "",
+
+      // registerd baggage details
+      modalShowBaggage: false,
+
+      // variables used for displaying baggage info
+      baggageItem: {
+        flight_number: "",
+        username: "",
+        luggage_height: "",
+        luggage_width: "",
+        remark: "",
+        sumPrice: "",
+        select_img_return_list: ""
+      }
     };
   },
   computed: {
@@ -187,7 +282,13 @@ export default {
       .post("/list_user_all_claim", obj)
       .then(res => {
         var response = JSON.parse(JSON.stringify(res.data));
-        this.$store.state.claim_list = response;
+        var claim_list = [];
+        for (var i = 0; i < response.length; i++) {
+          if (response[i].state != "-2") {
+            claim_list[claim_list.length] = response[i];
+          }
+        }
+        this.$store.state.claim_list = claim_list;
       })
       .catch(function(error) {
         console.log(error);
@@ -206,6 +307,29 @@ export default {
     showModalData(insurance_order_id) {
       this.formData.insurance_order_id = insurance_order_id;
       this.modalShow = true;
+    },
+    checkBaggageDetail(baggage_id) {
+      this.modalTitle = this.$t("m.detail_title") + baggage_id;
+      this.modalShowBaggage = true;
+
+      var obj = JSON.stringify(baggage_id);
+      axios
+        .post("/list_insurance_order_info/", obj)
+        .then(res => {
+          var response = JSON.parse(JSON.stringify(res.data));
+          if (response != null) {
+            this.baggageItem.username = response.username;
+            this.baggageItem.flight_number = response.flight_number;
+            this.baggageItem.luggage_height = response.luggage_height;
+            this.baggageItem.luggage_width = response.luggage_width;
+            this.baggageItem.remark = response.remark;
+            this.baggageItem.sumPrice = response.sumPrice;
+            this.baggageItem.select_img = response.select_img;
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     },
     submitClaim() {
       if (!this.isFormInvalid) {
@@ -299,7 +423,7 @@ textarea:disabled {
 }
 
 .info-field-left {
-  margin-right: 80px !important;
+  margin-right: 50px !important;
 }
 
 .background-moreinfo {

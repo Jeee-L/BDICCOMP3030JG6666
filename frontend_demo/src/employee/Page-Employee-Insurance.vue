@@ -151,7 +151,7 @@ export default {
         .catch(err => console.log(err));
     },
     show(group, type = "") {
-      const text = "New baggage order are waiting for process!";
+      const text = this.$t('m.note_insurance');
       this.$notify({
         group,
         text,

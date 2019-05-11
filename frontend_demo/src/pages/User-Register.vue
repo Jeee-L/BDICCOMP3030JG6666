@@ -239,7 +239,7 @@ export default {
       this.verification_input = "";
       this.verification_field = false;
 
-      if (this.fields.email.valid) {
+      if (this.fields[this.$t('m.email')].valid) {
         var params = {
           email: this.formData.email,
           verify: this.formData.verify

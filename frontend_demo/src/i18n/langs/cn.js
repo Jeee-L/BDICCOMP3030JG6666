@@ -515,6 +515,10 @@ export const m = {
    password_s_title: '更改密码成功',
    password_f_title: '更改密码失败',
 
+   avatar_s_title: '更新头像成功',
+   avatar_f_title: '更新头像失败',
+   avatar_f_text: '图片尺寸超限。',
+
    // Error messages from the backend
    e_user: '没有该用户',
    e_password: '密码错误',
@@ -528,4 +532,10 @@ export const m = {
    e_unknown: '未知错误',
    e_em_password: '旧密码错误',
 
+   // Employee platform notifications
+   note_insurance: '新保险订单等待处理',
+   note_baggage: '新行李订单等待处理',
+   note_claim: '新理赔订单等待处理',
+
+   detail_title: "注册行李详细信息：",
 }
