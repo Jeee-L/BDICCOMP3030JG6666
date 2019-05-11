@@ -326,6 +326,7 @@ export const m = {
    person: '个人信息',
    password: '密码',
    confirm: '密码确认',
+   old_password: '旧密码',
    newpw: '新密码将在下次登录时使用。',
    upi: '请按“编辑个人信息”按钮更新个人信息。',
    num: '手机号',
@@ -350,6 +351,7 @@ export const m = {
    alv: '请输入有效的用户名和密码。',
 
    theun: '验证码将会发送至与该账号绑定的邮箱进行验证。',
+   thepassword: '请输入您的旧密码。',
 
    //User Register
    peace: '带着平和的心态旅行。比较以下计划，并在网上以我们最优惠的价格购买。我们的下单过程是100%安全的，您将在几分钟内通过电子邮件收到您的保单。',
@@ -456,7 +458,7 @@ export const m = {
    cstate: '状态',
 
    //Header
-   edit: '编辑个人信息',
+   edit: '更改密码',
    inbox: '收件箱',
    calendar: '日历',
    setting: '设置',
@@ -524,5 +526,6 @@ export const m = {
    e_over_price: '投保总价超额',
    e_overdue: '保险已过期',
    e_unknown: '未知错误',
+   e_em_password: '旧密码错误',
 
 }

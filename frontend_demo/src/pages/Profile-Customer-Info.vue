@@ -161,20 +161,21 @@
                     </label>
                     <div class="row m-b-15">
                       <div class="col-md-12">
-                        <input
-                          v-validate="'required|confirmed:password'"
-                          :name="$t('m.confirm')"
-                          type="password"
-                          class="form-control"
-                          :placeholder="$t('m.ppag')"
-                          data-vv-as="password"
-                          v-bind:class="{'is-invalid': errors.has($t('m.confirm'))}"
-                          v-model="confirm_password"
-                        >
-                        <div
-                          v-if="errors.has($t('m.confirm'))"
-                          style="color: red;"
-                        >{{ errors.first($t('m.confirm')) }}</div>
+                        <div class="col-md-12">
+                          <input
+                            v-validate="{required: true, is: password}"
+                            :name="$t('m.confirm')"
+                            type="password"
+                            class="form-control"
+                            :placeholder="$t('m.ppag')"
+                            v-bind:class="{'is-invalid': errors.has('confirm_password')}"
+                            v-model="confirm_password"
+                          >
+                          <div
+                            v-if="errors.has($t('m.confirm'))"
+                            style="color: red;"
+                          >{{ errors.first($t('m.confirm')) }}</div>
+                        </div>
                       </div>
                     </div>
                     <p>

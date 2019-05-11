@@ -60,6 +60,9 @@ const mutations = {
 
         state.employee_password = employee.employee_password;
         localStorage.setItem('employee_password', employee.employee_password);
+
+        state.username = employee.employee_id;
+        localStorage.setItem('username', employee.employee_id);
     },
 }
 const state = {

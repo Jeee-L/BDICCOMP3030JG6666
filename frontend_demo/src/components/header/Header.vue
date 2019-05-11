@@ -110,7 +110,7 @@
               <span class="d-none d-md-inline">{{$store.state.username}}</span>
               <b class="caret"></b>
             </template>
-            <b-dropdown-item href="javascript:;">{{$t('m.edit')}}</b-dropdown-item>
+            <b-dropdown-item href="javascript:;" v-on:click="updateProfile()">{{$t('m.edit')}}</b-dropdown-item>
             <b-dropdown-divider></b-dropdown-divider>
             <b-dropdown-item href="javascript:;" v-on:click="logout()">{{$t('m.logout')}}</b-dropdown-item>
           </b-dropdown>
@@ -120,6 +120,91 @@
       <!-- end header navigation right -->
     </div>
     <!-- end #header -->
+
+    <!-- begin change password modal -->
+    <b-modal
+      id="modalDialog1"
+      v-model="showModal"
+      :cancel-title="$t('m.tcancel')"
+      cancel-variant="white"
+      @cancel="cancelChange()"
+      @ok="submitPassword()"
+      :ok-title="$t('m.tu')"
+      ok-variant="info"
+      :title="$t('m.cp')"
+    >
+      <div class="card-body">
+        <label class="control-label">
+          {{$t('m.old_password')}}
+          <span class="text-danger">*</span>
+        </label>
+        <br>
+        <small>{{$t('m.thepassword')}}</small>
+        <br>
+        <br>
+        <div class="row m-b-15">
+          <div class="col-md-12">
+            <input
+              type="text"
+              class="form-control"
+              :placeholder="$t('m.old_password')"
+              :name="$t('m.old_password')"
+              v-validate="{ required: true, regex:/^[_!?,.*#a-zA-Z0-9]{6,20}$/ }"
+              v-bind:class="{'is-invalid': errors.has($t('m.old_password'))}"
+              v-model="params.old_password"
+            >
+            <span style="color: red !important;">{{ errors.first($t('m.old_password')) }}</span>
+          </div>
+        </div>
+        <br>
+        <form action="#">
+          <label class="control-label">
+            {{$t('m.password')}}
+            <span class="text-danger">*</span>
+          </label>
+          <div class="row m-b-15">
+            <div class="col-md-12">
+              <input
+                type="password"
+                class="form-control"
+                :placeholder="$t('m.password')"
+                :name="$t('m.password')"
+                ref="password"
+                v-validate="{ required: true, regex:/^[_!?,.*#a-zA-Z0-9]{6,20}$/ }"
+                v-bind:class="{'is-invalid': errors.has($t('m.password'))}"
+                v-model="params.new_password"
+              >
+              <span style="color: red !important;">{{ errors.first($t('m.password')) }}</span>
+            </div>
+          </div>
+          <label class="control-label">
+            {{$t('m.confirm')}}
+            <span class="text-danger">*</span>
+          </label>
+          <div class="row m-b-15">
+            <div class="col-md-12">
+              <input
+                v-validate="{required: true, is: params.new_password}"
+                :name="$t('m.confirm')"
+                type="password"
+                class="form-control"
+                :placeholder="$t('m.ppag')"
+                v-bind:class="{'is-invalid': errors.has('confirm_password')}"
+                v-model="params.confirm_password"
+              >
+              <div
+                v-if="errors.has($t('m.confirm'))"
+                style="color: red;"
+              >{{ errors.first($t('m.confirm')) }}</div>
+            </div>
+          </div>
+          <p>
+            <small class="text-muted">* {{$t('m.newpw')}}</small>
+          </p>
+        </form>
+      </div>
+    </b-modal>
+    <!-- end change password modal -->
   </div>
 </template>
 
@@ -133,6 +218,15 @@ export default {
   data() {
     return {
       pageOptions: PageOptions,
+
+      showModal: false,
+
+      params: {
+        employeeid: "",
+        old_password: "",
+        new_password: "",
+        confirm_password: ""
+      }
     };
   },
   methods: {
@@ -143,6 +237,60 @@ export default {
     changeLangCn() {
       localStorage.setItem("locale", "cn");
       this.$i18n.locale = localStorage.getItem("locale");
+    },
+    updateProfile() {
+      if (this.$store.state.username == "e@emp123") {
+        this.showModal = true;
+      } else {
+        this.$router.push('/customer/info');
+      }
+    },
+    submitPassword() {
+      if (this.params.old_password == this.$store.state.employee_password) {
+        var obj = JSON.stringify(this.params);
+
+        axios
+          .post("/employee_update_password/", obj)
+          .then(res => {
+            var response = JSON.parse(JSON.stringify(res.data));
+            if (response.state == 0) {
+              this.swalNotification(
+                "error",
+                this.showError(response.error_msg)
+              );
+            } else {
+              this.swalNotification("success", "");
+              this.$store.state.employee_password = this.params.new_password;
+            }
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+        this.cancelChange();
+      } else {
+        this.swalNotification("error", this.$t("m.e_em_password"));
+      }
+    },
+    swalNotification(swalType, error_msg) {
+      if (swalType == "success") {
+        this.$swal({
+          title: this.$t("m.password_s_title"),
+          timer: 2000,
+          showConfirmButton: false,
+          type: swalType
+        }).then(setTimeout(() => {}, 2000));
+      } else {
+        this.$swal({
+          title: this.$t("m.password_f_title"),
+          text: error_msg,
+          timer: 2000,
+          showConfirmButton: false,
+          type: swalType
+        }).then();
+      }
+    },
+    cancelChange() {
+      this.showModal = false;
     },
     toggleMobileSidebar() {
       this.pageOptions.pageMobileSidebarToggled = !this.pageOptions

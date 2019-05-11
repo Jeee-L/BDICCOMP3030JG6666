@@ -328,6 +328,7 @@ export const m = {
     person: 'Personal Information',
     password: 'Password',
     confirm: 'Password Confirmation',
+    old_password: 'Previous Password',
     newpw: 'New password will be requried in the log-in section next time.',
     upi: 'Please click the Edit Profile button to update personal information.',
     num: 'Phone Num',
@@ -350,6 +351,7 @@ export const m = {
     mem_password: 'Forget password? ',
     here_password: 'Change Password',
     theun: 'A verificaiton code will be sent to the email address attached with your account.',
+    thepassword: 'Please enter your previous password.',
 
     alv: 'Please enter valid User Name and Password.',
 
@@ -459,7 +461,7 @@ export const m = {
     cstate: 'State',
 
     //Header
-    edit: 'Edit Profile',
+    edit: 'Change Password',
     inbox: 'Inbox',
     calendar: 'Calendar',
     setting: 'Setting',
@@ -526,5 +528,5 @@ export const m = {
     e_over_price: 'Cumulative compensation has reached the upper limit of compensation',
     e_overdue: 'This insurance is overdue',
     e_unknown: 'Unknown error',
-
+    e_em_password: "Previous password is not correct.",
 }

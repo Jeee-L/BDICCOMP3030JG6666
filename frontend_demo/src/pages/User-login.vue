@@ -140,12 +140,11 @@
           <div class="row m-b-15">
             <div class="col-md-12">
               <input
-                v-validate="'required|confirmed:password'"
+                v-validate="{required: true, is: password}"
                 :name="$t('m.confirm')"
                 type="password"
                 class="form-control"
                 :placeholder="$t('m.ppag')"
-                data-vv-as="password"
                 v-bind:class="{'is-invalid': errors.has('confirm_password')}"
                 v-model="confirm_password"
               >
@@ -225,19 +224,19 @@ export default {
             this.notification = this.showError(response.error_msg);
             this.showNotification = true;
           } else if (response.state == "3") {
-            this.$administrator.username = this.username;
-            this.$administrator.password = this.password;
             this.notification =
               "Welcome to the Administration Page, " +
               this.$administrator.username +
               ".";
             this.showNotification = true;
           } else if (response.state == "2") {
+            this.$store.commit("handleEmployee", response);
             this.notification =
-              "Welcome to the Employee Page, " + this.$employee.username + ".";
+              "Welcome to the Employee Page, " +
+              this.$store.state.employee_id +
+              ".";
             this.showNotification = true;
             this.$store.commit("handleEmployee", response);
-            alert(this.$store.state.employee_id);
             this.$router.push("/employee/insurance");
           } else {
             for (var key in response) {
@@ -352,9 +351,9 @@ export default {
         .then(res => {
           var response = JSON.parse(JSON.stringify(res.data));
           if (response.state == 0) {
-            this.swalNotification('error', this.showError(response.error_msg));
+            this.swalNotification("error", this.showError(response.error_msg));
           } else {
-            this.swalNotification('success', '');
+            this.swalNotification("success", "");
           }
         })
         .catch(function(error) {
@@ -369,10 +368,7 @@ export default {
           timer: 2000,
           showConfirmButton: false,
           type: swalType
-        }).then(
-          setTimeout(() => {
-          }, 2000)
-        );
+        }).then(setTimeout(() => {}, 2000));
       } else {
         this.$swal({
           title: this.$t("m.password_f_title"),
