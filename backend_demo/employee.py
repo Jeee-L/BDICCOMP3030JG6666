@@ -5,6 +5,7 @@ import db_operation.insurance_operate as db_ins_opr
 import db_operation.claim_operate as db_cla_opr
 import db_operation.order as db_ord_opr
 
+
 def login(employeeid,password):
     try:
         db_emp_opr.login(employeeid, password)
@@ -14,6 +15,7 @@ def login(employeeid,password):
             return jsonify({'state': '-1', 'error_msg': 'No such employee'})
         elif ae == 'Wrong password':
             return jsonify({'state': '-1', 'error_msg': 'Password is not correct'})
+
 
 def update_password(employee_update_info):
     if not verify_password(employee_update_info['new_password']):
@@ -56,7 +58,6 @@ def list_all_claim():
     else:
         for claim in all_claim:
             claim_dict = {}
-            # claim 中没有username，先查order再通过order查username，待测试
             order = db_ord_opr.search_order(claim.order_id)
             claim_dict['username'] = order.username
             claim_dict['insurance_order_id'] = str(claim.order_id)
@@ -127,9 +128,8 @@ def insurance_order_detail(insurance_order_id):
 def address_claim(address_info):
     try:
         if address_info['state'] == '1':
-            # TODO 这里改insurance的已赔付金额,待测试
-            order_of_claim = db_cla_opr.search_order(int(address_info['claim_id']))
-            # current_claim = db_cla_opr.__search_claim(int(address_info['claim_id']))
+            current_claim = db_cla_opr.__search_claim(int(address_info['claim_id']))
+            order_of_claim = db_ord_opr.search_order(current_claim.order_id)
             insurance_of_order = db_ins_opr.__search_insurance(order_of_claim.insurance_id)
             db_ins_opr.change_compensated_amount(insurance_of_order,insurance_of_order.compensated_amount+int(order_of_claim.sumPrice))
         db_cla_opr.change_state(address_info['claim_id'], int(address_info['state']), address_info['employee_id'])

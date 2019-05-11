@@ -8,7 +8,7 @@ import db_operation.product_operate as db_duct_opr
 import db_operation.project_operate as db_ject_opr
 from datetime import datetime
 from email_verificatoin import email_verify
-import time
+
 
 def login(username, password):
     if db_usr_opr.search_username(username) is None:
@@ -70,17 +70,18 @@ def user_all_claim(username):
         return_list = []
         for claim in claim_list:
             claim_dict = {}
-            claim_dict['username'] = username   # claim表里没有username，所以这种返回
+            claim_dict['username'] = username   # claim表里没有username，所以直接返回
             claim_dict['id'] = str(claim.id)
             claim_dict['order_id'] = str(claim.order_id)
             claim_dict['employee_id'] = str(claim.employee_id)
             claim_dict['reason'] = claim.reason
             claim_dict['state'] = str(claim.state)
-            claim_dict['lost_time'] = claim.lost_time
+            claim_dict['lost_time'] = claim.lost_time.strftime("%Y-%m-%d")
             claim_dict['lost_place'] = claim.lost_place
             claim_dict['date'] = claim.time.strftime("%Y-%m-%d")
             claim_dict['remark'] = claim.remark
             return_list.append(claim_dict)
+        print(return_list)
         return jsonify(return_list)
 
 
@@ -158,7 +159,7 @@ def update_user_info(update_info):
     update_passport(update_info['old_username'], update_info['passport_num'])
     update_birthday(update_info['old_username'], update_info['birthday'])
     update_address(update_info['old_username'], update_info['address'])
-    update_user_image(update_info['old_username'],update_info['avatar'])
+    # update_user_image(update_info['old_username'],update_info['avatar'])
     # update_name(update_info['old_username'], update_info['username'])
 
     return jsonify({'state': '1'})
@@ -325,7 +326,6 @@ def supplementary_information(supplementary_info):
     supplementary_info['sumPrice'] = int(supplementary_info['sumPrice'])
 
     # 算剩余金额
-    # user = db_usr_opr.search_username(supplementary_info['username'])
     supplementary_info['insurance_id'] = db_usr_opr.get_first_insurance(supplementary_info['username'])
     corresponded_insurance = db_ins_opr.__search_insurance(supplementary_info['insurance_id'])
     remaining_amount = corresponded_insurance.amount_of_money - (corresponded_insurance.compensated_amount + supplementary_info['sumPrice'])

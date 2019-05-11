@@ -41,6 +41,7 @@ def update_password(id, new_password):
     assert (emp is not None), "No such employee"
     assert (not emp.check_password_hash(new_password)),"New password is same as old Password"
     emp.password = new_password
+    db.session.commit()
     return 'Update password successfully'
 
 

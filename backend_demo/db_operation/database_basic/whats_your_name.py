@@ -167,7 +167,7 @@ class Insurance(db.Model):
 
 class Claim(db.Model):
     __tablename__='claim'
-    order_id = db.Column(db.ForeignKey('order.order_id', ondelete='CASCADE',onupdate='CASCADE'),unique=True)
+    order_id = db.Column(db.ForeignKey('order.order_id', ondelete='CASCADE',onupdate='CASCADE'),unique=False)
     id = db.Column(db.Integer, primary_key=True, index=True,autoincrement=True, unique=True)
     employee_id = db.Column(db.Unicode(32),nullable = False)
     reason = db.Column(db.Unicode(300), nullable=True)

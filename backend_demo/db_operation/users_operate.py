@@ -58,6 +58,7 @@ def get_order(username):
     user=search_username(username)
     return user.order_id.all()
 
+
 def get_claim(username):
     '''
 
@@ -70,7 +71,9 @@ def get_claim(username):
     res = []
     if orders is not []:
         for order in orders:
-            res.append(Claim.query.filter_by(order_id = order.order_id).first())
+            all_claim = Claim.query.filter_by(order_id = order.order_id).all()
+            for claim in all_claim:
+                res.append(claim)
     return res
 
 
