@@ -85,7 +85,7 @@ def update_profile(username, new_profile):
     :return:
     '''
     user = search_username(username)
-    assert user is None, 'No such user'
+    assert user is not None, 'No such user'
     user.profile = new_profile
     db.session.commit()
     return "Update successfully"
