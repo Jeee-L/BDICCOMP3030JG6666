@@ -16,7 +16,10 @@
       :key="item.insurance_order_id"
     >
       <div class="order-card">
-        <div class="card-header" v-if="(item.state == '-1')">{{$t('m.baggage_id')}} {{item.insurance_order_id}}</div>
+        <div
+          class="card-header"
+          v-if="(item.state == '-1')"
+        >{{$t('m.baggage_id')}} {{item.insurance_order_id}}</div>
         <div class="card-header text-success" v-else-if="(item.state == '0')">{{$t('m.init')}}</div>
         <div class="card-header text-danger" v-else>{{$t('m.br')}}</div>
         <div class="row align-items-center" style="margin: 30px">
@@ -51,7 +54,13 @@
                     </td>
                   </tr>
                   <tr>
-                    <td></td>
+                    <td>
+                      <b-btn
+                        variant="outline-dark"
+                        class="btn-xs"
+                        v-on:click="checkBaggageDetail(item.insurance_order_id)"
+                      >{{$t('m.check2')}}</b-btn>
+                    </td>
                     <td>{{$t('m.flight')}} {{item.flight_number}}</td>
                   </tr>
                 </tbody>
@@ -94,11 +103,11 @@
           <b-input
             placeholder="YYYY-MM-DD"
             v-model="formData.lost_time"
-            name="lost_time"
+            :name="$t('m.llt')"
             v-validate="{ required: true, regex:/^(\d{4})(\-)(\d{2})(\-)(\d{2})$/ }"
-            v-bind:class="{'is-invalid': errors.has('lost_time')}"
+            v-bind:class="{'is-invalid': errors.has($t('m.llt'))}"
           />
-          <span style="color: red !important;">{{ errors.first('lost_time') }}</span>
+          <span style="color: red !important;">{{ errors.first($t('m.llt')) }}</span>
         </b-form-group>
       </b-form-row>
       <b-form-row>
@@ -106,11 +115,11 @@
           <b-input
             :placeholder="$t('m.pp')"
             v-model="formData.lost_place"
-            name="lost_place"
+            :name="$t('m.llp')"
             v-validate="{ required: true}"
-            v-bind:class="{'is-invalid': errors.has('lost_place')}"
+            v-bind:class="{'is-invalid': errors.has($t('m.llp'))}"
           />
-          <span style="color: red !important;">{{ errors.first('lost_place') }}</span>
+          <span style="color: red !important;">{{ errors.first($t('m.llp')) }}</span>
         </b-form-group>
       </b-form-row>
       <b-form-row>
@@ -118,11 +127,11 @@
           <b-input
             :placeholder="$t('m.pr')"
             v-model="formData.reason"
-            name="reason"
+            :name="$t('m.lrl')"
             v-validate="{ required: true}"
-            v-bind:class="{'is-invalid': errors.has('reason')}"
+            v-bind:class="{'is-invalid': errors.has($t('m.lrl'))}"
           />
-          <span style="color: red !important;">{{ errors.first('reason') }}</span>
+          <span style="color: red !important;">{{ errors.first($t('m.lrl')) }}</span>
         </b-form-group>
       </b-form-row>
       <b-form-row>
@@ -130,6 +139,74 @@
           <b-input :placeholder="$t('m.pos')" v-model="formData.remark"/>
         </b-form-group>
       </b-form-row>
+    </b-modal>
+
+    <b-modal id="modals-default" :title="modalTitle" cancel-only v-model="modalShowBaggage">
+      <div class="col-12">
+        <p class="info-field">
+          <b style="margin-right: 10px">{{$t('m.usern')}}</b>
+          {{baggageItem.username}}
+        </p>
+        <p class="info-field">
+          <b style="margin-right: 10px">{{$t('m.flight')}}</b>
+          {{baggageItem.flight_number}}
+        </p>
+        <p class="info-field">
+          <b style="margin-right: 10px">{{$t('m.height')}}</b>
+          {{baggageItem.luggage_height}}
+        </p>
+        <p>
+          <b class="info-field" style="margin-right: 10px">{{$t('m.width')}}</b>
+          {{baggageItem.luggage_width}}
+        </p>
+        <p>
+          <b class="info-field" style="margin-right: 10px">{{$t('m.sp')}}</b>
+          {{baggageItem.sumPrice}}
+        </p>
+        <p>
+          <b class="info-field" style="margin-right: 10px">{{$t('m.remark')}}:</b>
+          {{baggageItem.remark}}
+        </p>
+        <!-- START table-responsive-->
+        <br>
+        <div>
+          <table class="table table-striped table-bordered table-hover">
+            <thead>
+              <tr>
+                <th>{{$t('m.bp')}}</th>
+                <th>{{$t('m.n')}}</th>
+                <th>{{$t('m.price')}}</th>
+                <th>{{$t('m.remark')}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="items in baggageItem.select_img" :key="items.id">
+                <td>
+                  <div class="media align-items-center">
+                    <img
+                      class="img-fluid rounded thumb64"
+                      :src="items.imgUrl"
+                      width="40"
+                      height="auto"
+                      alt
+                    >
+                  </div>
+                </td>
+                <td>
+                  <p>{{items.name}}</p>
+                </td>
+                <td>
+                  <p>{{items.price}}</p>
+                </td>
+                <td>
+                  <p>{{items.remark}}</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- END table-responsive-->
+      </div>
     </b-modal>
     <!-- end order card -->
   </div>
@@ -150,7 +227,25 @@ export default {
         reason: "",
         remark: ""
       },
-      modalShow: false
+      modalShow: false,
+
+      // remark and reason for lost
+      modalTitle: "",
+      modalContent: "",
+
+      // registerd baggage details
+      modalShowBaggage: false,
+
+      // variables used for displaying baggage info
+      baggageItem: {
+        flight_number: "",
+        username: "",
+        luggage_height: "",
+        luggage_width: "",
+        remark: "",
+        sumPrice: "",
+        select_img_return_list: ""
+      }
     };
   },
   created() {
@@ -175,12 +270,35 @@ export default {
     },
     order_list() {
       return this.$store.state.insurance_order_list;
-    },
+    }
   },
   methods: {
     showModalData(insurance_order_id) {
       this.formData.insurance_order_id = insurance_order_id;
       this.modalShow = true;
+    },
+    checkBaggageDetail(baggage_id) {
+      this.modalTitle = "Registered Baggage Details: " + baggage_id;
+      this.modalShowBaggage = true;
+
+      var obj = JSON.stringify(baggage_id);
+      axios
+        .post("/list_insurance_order_info/", obj)
+        .then(res => {
+          var response = JSON.parse(JSON.stringify(res.data));
+          if (response != null) {
+            this.baggageItem.username = response.username;
+            this.baggageItem.flight_number = response.flight_number;
+            this.baggageItem.luggage_height = response.luggage_height;
+            this.baggageItem.luggage_width = response.luggage_width;
+            this.baggageItem.remark = response.remark;
+            this.baggageItem.sumPrice = response.sumPrice;
+            this.baggageItem.select_img = response.select_img;
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     },
     submitClaim() {
       if (!this.isFormInvalid) {
@@ -193,7 +311,10 @@ export default {
               if (response.state == "1") {
                 this.swalNotification("success", "");
               } else {
-                this.swalNotification("error", response.error_msg);
+                this.swalNotification(
+                  "error",
+                  this.showError(response.error_msg)
+                );
               }
             }
           })
@@ -244,8 +365,6 @@ ul {
 }
 
 .group-img {
-  /* margin-left: 10px !important; */
-  /* margin-right: 10px !important; */
   width: 40% !important;
   height: 80% !important;
   max-height: 80% !important;

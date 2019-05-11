@@ -34,12 +34,12 @@
                 type="text"
                 class="form-control"
                 :placeholder="$t('m.un')"
-                name="user name"
+                :name="$t('m.un')"
                 v-validate="{ required: true, regex:/^[_a-zA-Z0-9\u4E00-\u9FA5]{2,10}$/ }"
-                v-bind:class="{'is-invalid': errors.has('user name')}"
+                v-bind:class="{'is-invalid': errors.has($t('m.un'))}"
                 v-model="formData.username"
               >
-              <span style="color: red !important;">{{ errors.first('user name') }}</span>
+              <span style="color: red !important;">{{ errors.first($t('m.un')) }}</span>
               <br>
               <small class="text-muted">· {{$t('m.uns1')}}</small>
               <br>
@@ -59,13 +59,13 @@
                 type="password"
                 class="form-control"
                 :placeholder="$t('m.password')"
-                name="password"
+                :name="$t('m.password')"
                 ref="password"
                 v-validate="{ required: true, regex:/^[_!?,.*#a-zA-Z0-9]{6,20}$/ }"
-                v-bind:class="{'is-invalid': errors.has('password')}"
+                v-bind:class="{'is-invalid': errors.has($t('m.password'))}"
                 v-model="formData.password"
               >
-              <span style="color: red !important;">{{ errors.first('password') }}</span>
+              <span style="color: red !important;">{{ errors.first($t('m.password')) }}</span>
             </div>
           </div>
           <label class="control-label">
@@ -75,19 +75,15 @@
           <div class="row m-b-15">
             <div class="col-md-12">
               <input
-                v-validate="'required|confirmed:password'"
-                name="confirm_password"
+                v-validate="{required: true, is: formData.password}"
+                :name="$t('m.confirm')"
                 type="password"
                 class="form-control"
                 :placeholder="$t('m.ppag')"
-                data-vv-as="password"
-                v-bind:class="{'is-invalid': errors.has('confirm_password')}"
+                v-bind:class="{'is-invalid': errors.has($t('m.confirm'))}"
                 v-model="formData.confirm_password"
               >
-              <div
-                v-if="errors.has('confirm_password')"
-                style="color: red;"
-              >{{ errors.first('confirm_password') }}</div>
+              <span style="color: red !important;">{{ errors.first($t('m.confirm')) }}</span>
               <br>
               <small class="text-muted">· {{$t('m.pws1')}}</small>
               <br>
@@ -106,14 +102,14 @@
             <div class="col-md-12">
               <input
                 type="text"
-                name="email"
+                :name="$t('m.email')"
                 :placeholder="$t('m.email')"
                 v-validate="{ required: true, regex:/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/ }"
                 class="form-control"
-                v-bind:class="{'is-invalid': errors.has('email')}"
+                v-bind:class="{'is-invalid': errors.has($t('m.email'))}"
                 v-model="formData.email"
               >
-              <span style="color: red !important;">{{ errors.first('email') }}</span>
+              <span style="color: red !important;">{{ errors.first($t('m.email')) }}</span>
               <br>
               <div class="input-group mb-3">
                 <input
@@ -146,12 +142,12 @@
                 type="text"
                 class="form-control"
                 :placeholder="$t('m.pnum')"
-                name="phone number"
+                :name="$t('m.pnum')"
                 v-validate="{ required: true, regex:/^1[34578]\d{9}$|^\d{8,9}$/ }"
-                v-bind:class="{'is-invalid': errors.has('phone number')}"
+                v-bind:class="{'is-invalid': errors.has($t('m.pnum'))}"
                 v-model="formData.phone_num"
               >
-              <span style="color: red !important;">{{ errors.first('phone number') }}</span>
+              <span style="color: red !important;">{{ errors.first($t('m.pnum')) }}</span>
             </div>
           </div>
           <br>
@@ -223,7 +219,10 @@ export default {
             if (response.state == "1") {
               this.swalNotification("success", "");
             } else {
-              this.swalNotification("error", response.error_msg);
+              this.swalNotification(
+                "error",
+                this.showError(response.error_msg)
+              );
             }
           })
           .catch(function(error) {

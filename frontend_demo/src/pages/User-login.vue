@@ -86,12 +86,12 @@
               type="text"
               class="form-control"
               :placeholder="$t('m.un')"
-              name="user name"
+              :name="$t('m.un')"
               v-validate="{ required: true, regex:/^[_a-zA-Z0-9\u4E00-\u9FA5]{2,10}$/ }"
-              v-bind:class="{'is-invalid': errors.has('user name')}"
+              v-bind:class="{'is-invalid': errors.has($t('m.un'))}"
               v-model="formData.username"
             >
-            <span style="color: red !important;">{{ errors.first('user name') }}</span>
+            <span style="color: red !important;">{{ errors.first($t('m.un')) }}</span>
             <br>
             <div class="input-group mb-3">
               <input
@@ -124,13 +124,13 @@
                 type="password"
                 class="form-control"
                 :placeholder="$t('m.password')"
-                name="password"
+                :name="$t('m.password')"
                 ref="password"
                 v-validate="{ required: true, regex:/^[_!?,.*#a-zA-Z0-9]{6,20}$/ }"
-                v-bind:class="{'is-invalid': errors.has('password')}"
+                v-bind:class="{'is-invalid': errors.has($t('m.password'))}"
                 v-model="password"
               >
-              <span style="color: red !important;">{{ errors.first('password') }}</span>
+              <span style="color: red !important;">{{ errors.first($t('m.password')) }}</span>
             </div>
           </div>
           <label class="control-label">
@@ -141,7 +141,7 @@
             <div class="col-md-12">
               <input
                 v-validate="'required|confirmed:password'"
-                name="confirm_password"
+                :name="$t('m.confirm')"
                 type="password"
                 class="form-control"
                 :placeholder="$t('m.ppag')"
@@ -150,9 +150,9 @@
                 v-model="confirm_password"
               >
               <div
-                v-if="errors.has('confirm_password')"
+                v-if="errors.has($t('m.confirm'))"
                 style="color: red;"
-              >{{ errors.first('confirm_password') }}</div>
+              >{{ errors.first($t('m.confirm')) }}</div>
             </div>
           </div>
           <p>
@@ -219,10 +219,10 @@ export default {
         axios.post("http://localhost:5000/login/", obj).then(res => {
           var response = JSON.parse(JSON.stringify(res.data));
           if (response.state == "-1") {
-            this.notification = response.error_msg;
+            this.notification = this.showError(response.error_msg);
             this.showNotification = true;
           } else if (response.state == "0") {
-            this.notification = response.error_msg;
+            this.notification = this.showError(response.error_msg);
             this.showNotification = true;
           } else if (response.state == "3") {
             this.$administrator.username = this.username;
@@ -352,7 +352,7 @@ export default {
         .then(res => {
           var response = JSON.parse(JSON.stringify(res.data));
           if (response.state == 0) {
-            this.swalNotification('error', response.error_msg);
+            this.swalNotification('error', this.showError(response.error_msg));
           } else {
             this.swalNotification('success', '');
           }

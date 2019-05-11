@@ -123,12 +123,12 @@
                           type="text"
                           class="form-control"
                           :placeholder="$t('m.pfn')"
-                          name="flight_number"
+                          :name="$t('m.fln')"
                           v-model="formData.flight_number"
                           v-validate="{ required: true, regex:/^[\dA-Z][A-Z]{1,2}\d{2,4}$/}"
-                          v-bind:class="{'is-invalid': errors.has('flight_number')}"
+                          v-bind:class="{'is-invalid': errors.has($t('m.fln'))}"
                         >
-                        <span style="color: red !important;">{{ errors.first('flight_number') }}</span>
+                        <span style="color: red !important;">{{ errors.first($t('m.fln')) }}</span>
                       </div>
                     </div>
                     <!-- end form-group -->
@@ -143,12 +143,12 @@
                           type="number"
                           class="form-control"
                           :placeholder="$t('m.pbw')"
-                          name="luggage_width"
+                          :name="$t('m.bw')"
                           v-model="formData.luggage_width"
                           v-validate="{ required: true}"
-                          v-bind:class="{'is-invalid': errors.has('luggage_width')}"
+                          v-bind:class="{'is-invalid': errors.has($t('m.bw'))}"
                         >
-                        <span style="color: red !important;">{{ errors.first('luggage_width') }}</span>
+                        <span style="color: red !important;">{{ errors.first($t('m.bw')) }}</span>
                       </div>
                     </div>
                     <!-- end form-group -->
@@ -161,14 +161,14 @@
                       <div class="col-md-6">
                         <input
                           type="number"
-                          name="luggage_height"
+                          :name="$t('m.bh')"
                           :placeholder="$t('m.pbh')"
                           class="form-control"
                           v-model="formData.luggage_height"
                           v-validate="{ required: true}"
-                          v-bind:class="{'is-invalid': errors.has('luggage_height')}"
+                          v-bind:class="{'is-invalid': errors.has($t('m.bh'))}"
                         >
-                        <span style="color: red !important;">{{ errors.first('luggage_height') }}</span>
+                        <span style="color: red !important;">{{ errors.first($t('m.bh')) }}</span>
                       </div>
                     </div>
                     <!-- end form-group -->
@@ -186,13 +186,13 @@
                             @change="convertImg($event, 'out')"
                             accept="image/*"
                             :state="'valid'"
-                            name="baggage_inside_image"
+                            :name="$t('m.boi')"
                             v-validate="{ required: true}"
-                            v-bind:class="{'is-invalid': errors.has('baggage_inside_image')}"
+                            v-bind:class="{'is-invalid': errors.has($t('m.boi'))}"
                           >
                             <span
                               style="color: red !important;"
-                            >{{ errors.first('baggage_inside_image') }}</span>
+                            >{{ errors.first($t('m.boi')) }}</span>
                           </b-file>
                         </b-form-group>
                       </div>
@@ -210,13 +210,13 @@
                             @change="convertImg($event, 'in')"
                             accept="image/*"
                             :state="'valid'"
-                            name="baggage_outside_image"
+                            :name="$t('m.bii')"
                             v-validate="{ required: true}"
-                            v-bind:class="{'is-invalid': errors.has('baggage_outside_image')}"
+                            v-bind:class="{'is-invalid': errors.has($t('m.bii'))}"
                           >
                             <span
                               style="color: red !important;"
-                            >{{ errors.first('baggage_outside_image') }}</span>
+                            >{{ errors.first($t('m.bii')) }}</span>
                           </b-file>
                         </b-form-group>
                       </div>
@@ -410,29 +410,29 @@
                                         <b-input
                                           type="text"
                                           id="itemName"
-                                          name="itemName"
-                                          v-validate="'required'"
-                                          v-bind:class="{'is-invalid': errors.has('itemName')}"
+                                          :name="$t('m.lin')"
+                                          v-validate="{ required: true}"
+                                          v-bind:class="{'is-invalid': errors.has($t('m.lin'))}"
                                           v-model="items.name"
                                           class="form-control"
                                         />
                                         <span
                                           style="color: red !important;"
-                                        >{{ errors.first('itemName') }}</span>
+                                        >{{ errors.first($t('m.lin')) }}</span>
                                       </b-form-group>
                                       <b-form-group :label="$t('m.ip')" style="margin-left: 20px">
                                         <b-input
                                           type="text"
                                           id="itemPrice"
-                                          name="itemPrice"
+                                          :name="$t('m.ip')"
                                           v-validate="'required'"
-                                          v-bind:class="{'is-invalid': errors.has('itemPrice')}"
+                                          v-bind:class="{'is-invalid': errors.has($t('m.ip'))}"
                                           v-model="items.price"
                                           class="form-control"
                                         />
                                         <span
                                           style="color: red !important;"
-                                        >{{ errors.first('itemPrice') }}</span>
+                                        >{{ errors.first($t('m.ip')) }}</span>
                                       </b-form-group>
                                       <b-form-group
                                         :label="$t('m.remark')"
@@ -441,7 +441,7 @@
                                         <b-input
                                           type="text"
                                           id="remark"
-                                          name="remark"
+                                          :name="$t('m.remark')"
                                           :placeholder="$t('m.plr')"
                                           v-model="items.remark"
                                           class="form-control"
@@ -716,7 +716,10 @@ export default {
               if (response.state == "1") {
                 this.swalNotification("success", "");
               } else {
-                this.swalNotification("error", response.error_msg);
+                this.swalNotification(
+                  "error",
+                  this.showError(response.error_msg)
+                );
               }
             }
           })

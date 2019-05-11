@@ -101,7 +101,7 @@
         </p>
         <!-- START table-responsive-->
         <br>
-        <div class="table-responsive">
+        <div>
           <table class="table table-striped table-bordered table-hover">
             <thead>
               <tr>
@@ -212,7 +212,7 @@ export default {
       // variables used for displaying baggage info
       baggageItem: {
         flight_number: "",
-        usernmae: "",
+        username: "",
         luggage_height: "",
         luggage_width: "",
         remark: "",
@@ -296,7 +296,7 @@ export default {
           if (res.data != null) {
             var response = JSON.parse(JSON.stringify(res.data));
             for (var i = 0; i < response.length; i++) {
-              if (response[i].state == "-2") {
+              if (response[i].state == "-1") {
                 this.rawData[this.rawData.length] = {
                   [this.$t("m.ccid")]: response[i].id,
                   [this.$t("m.cbid")]: response[i].insurance_order_id,

@@ -146,13 +146,13 @@
                           type="password"
                           class="form-control"
                           :placeholder="$t('m.password')"
-                          name="password"
+                          :name="$t('m.password')"
                           ref="password"
                           v-validate="{ required: true, regex:/^[_!?,.*#a-zA-Z0-9]{6,20}$/ }"
-                          v-bind:class="{'is-invalid': errors.has('password')}"
+                          v-bind:class="{'is-invalid': errors.has($t('m.password'))}"
                           v-model="password"
                         >
-                        <span style="color: red !important;">{{ errors.first('password') }}</span>
+                        <span style="color: red !important;">{{ errors.first($t('m.password')) }}</span>
                       </div>
                     </div>
                     <label class="control-label">
@@ -163,18 +163,18 @@
                       <div class="col-md-12">
                         <input
                           v-validate="'required|confirmed:password'"
-                          name="confirm_password"
+                          :name="$t('m.confirm')"
                           type="password"
                           class="form-control"
                           :placeholder="$t('m.ppag')"
                           data-vv-as="password"
-                          v-bind:class="{'is-invalid': errors.has('confirm_password')}"
+                          v-bind:class="{'is-invalid': errors.has($t('m.confirm'))}"
                           v-model="confirm_password"
                         >
                         <div
-                          v-if="errors.has('confirm_password')"
+                          v-if="errors.has($t('m.confirm'))"
                           style="color: red;"
-                        >{{ errors.first('confirm_password') }}</div>
+                        >{{ errors.first($t('m.confirm')) }}</div>
                       </div>
                     </div>
                     <p>
@@ -201,13 +201,13 @@
                               id="inputContact1"
                               type="text"
                               :placeholder="$t('m.fn')"
-                              name="first name"
+                              :name="$t('m.fn')"
                               v-validate="{ required: true, regex:/^[_a-zA-Z0-9\u4E00-\u9FA5]{2,30}$/ }"
-                              v-bind:class="{'is-invalid': errors.has('first name')}"
+                              v-bind:class="{'is-invalid': errors.has($t('m.fn'))}"
                               v-model.lazy="formData.first_name"
                               :disabled="this.update"
                             >
-                            <span style="color: red !important;">{{ errors.first('first name') }}</span>
+                            <span style="color: red !important;">{{ errors.first($t('m.fn')) }}</span>
                           </div>
                         </div>
                         <div class="form-group row">
@@ -337,7 +337,7 @@ import axios from "axios";
 
 export default {
   computed: {
-    date_lan(){
+    date_lan() {
       return this.$t("m.date_lan") == "en" ? en : zh;
     }
   },
@@ -453,9 +453,9 @@ export default {
         .then(res => {
           var response = JSON.parse(JSON.stringify(res.data));
           if (response.state == 0) {
-            this.swalNotification('error', response.error_msg);
+            this.swalNotification("error", this.showError(response.error_msg));
           } else {
-            this.swalNotification('success', '');
+            this.swalNotification("success", "");
           }
         })
         .catch(function(error) {
@@ -495,9 +495,26 @@ export default {
         } else {
           data = e.target.result;
         }
-        this.$store.commit("handleAvatar", data);
+        this.updateAvatar(data);
       };
       reader.readAsArrayBuffer(file);
+    },
+    updateAvatar(data) {
+      this.$store.commit("handleAvatar", data);
+
+      var obj = JSON.stringify(this.$store.getters.avatar);
+
+      axios
+        .post("/customer/info/update_avatar", obj)
+        .then(res => {
+          var response = JSON.parse(JSON.stringify(res.data));
+          if (response.state == 0) {
+            this.swalNotification("error", response.error_msg);
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     },
     swalNotification(swalType, error_msg) {
       if (swalType == "success") {
@@ -506,10 +523,7 @@ export default {
           timer: 2000,
           showConfirmButton: false,
           type: swalType
-        }).then(
-          setTimeout(() => {
-          }, 2000)
-        );
+        }).then(setTimeout(() => {}, 2000));
       } else {
         this.$swal({
           title: this.$t("m.password_f_title"),

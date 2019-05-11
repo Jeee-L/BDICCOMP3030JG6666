@@ -16,6 +16,9 @@ const mutations = {
         state.last_name = userInfo.last_name
         localStorage.setItem('last_name', userInfo.last_name)
 
+        state.avatar = userInfo.avatar
+        localStorage.setItem('avatar', userInfo.avatar)
+
         state.password = userInfo.password
         localStorage.setItem('password', userInfo.password)
 
@@ -105,5 +108,31 @@ const store = new Vuex.Store({
 export default {
     install(Vue, options) {
         Vue.prototype.$store = store;
+        Vue.prototype.showError = function (error_msg) {
+            switch (error_msg) {
+                case 'No such user':
+                    return this.$t('m.e_user');
+                case 'Password is not correct':
+                    return this.$t('m.e_password');
+                case 'Username already exist':
+                    return this.$t('m.e_d_user');
+                case 'The new password is same as the old one':
+                    return this.$t('m.e_d_password');
+                case 'The length of reason should less than 300 characters':
+                    return this.$t('m.e_reason');
+                case 'The length of remark should less than 300 characters':
+                    return this.$t('m.e_remark');
+                case 'The length of lost place should less than 100 characters':
+                    return this.$t('m.e_place');
+                case 'Cumulative compensation has reached the upper limit of compensation':
+                    return this.$t('m.e_over_price');
+                case 'This insurance is overdue':
+                    return this.$t('m.e_overdue');
+                case 'Unknown error':
+                    return this.$t('m.e_unknown');
+                default:
+                    return;
+            }
+        }
     }
 }

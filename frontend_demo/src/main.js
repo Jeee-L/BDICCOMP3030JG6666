@@ -26,6 +26,8 @@ import VueFullCalendar from 'vue-full-calendar'
 import VueCountdown from '@xkeshi/vue-countdown';
 import VueColorpicker from 'vue-pop-colorpicker';
 import VueChartJs from 'vue-chartjs';
+import validationMessagesEn from 'vee-validate/dist/locale/en';
+import validationMessagesCn from 'vee-validate/dist/locale/zh_CN';
 
 // plugins css
 import 'bootstrap/dist/css/bootstrap.css'
@@ -59,12 +61,12 @@ import VueI18n from 'vue-i18n'
 Vue.use(VueI18n) // 通过插件的形式挂载
 
 const i18n = new VueI18n({
-    locale: localStorage.getItem('locale') || 'en',    // 语言标识
-   // this.$i18n.locale // 通过切换locale的值来实现语言切换
-    messages: {
-      'cn': require('./i18n/langs/cn'),   // 中文语言包
-      'en': require('./i18n/langs/en')    // 英文语言包
-    }
+  locale: localStorage.getItem('locale') || 'en',    // 语言标识
+  // this.$i18n.locale // 通过切换locale的值来实现语言切换
+  messages: {
+    'cn': require('./i18n/langs/cn'),   // 中文语言包
+    'en': require('./i18n/langs/en')    // 英文语言包
+  }
 })
 
 Vue.config.productionTip = false
@@ -96,7 +98,14 @@ Vue.use(VueInsProgressBar, {
   height: '3px'
 })
 Vue.use(VueAxios, axios);
-Vue.use(VeeValidate);
+Vue.use(VeeValidate, {
+  i18n,
+  i18nRootKey: 'validation',
+  dictionary: {
+    en: validationMessagesEn,
+    cn: validationMessagesCn
+  }
+});
 
 
 Vue.component('v-select', VueSelect);
@@ -107,16 +116,11 @@ Vue.component('vue-slider', VueSlider);
 Vue.component(VueCountdown.name, VueCountdown);
 
 // Global variables configuration
-import global from './config/global';
-Vue.use(global);
-
-// Global variables configuration
 import store from './config/store';
 Vue.use(store);
 
 // Vue Cropper for image processing
 import VueCropper from 'vue-cropper'
-import { getCookie } from './assets/js/cookie';
 Vue.use(VueCropper);
 
 

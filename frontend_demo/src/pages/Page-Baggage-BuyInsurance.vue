@@ -134,12 +134,12 @@
                           type="text"
                           class="form-control"
                           :placeholder="$t('m.fn')"
-                          name="first name"
+                          :name="$t('m.fn')"
                           v-validate="{ required: true, regex:/^[_a-zA-Z0-9\u4E00-\u9FA5]{2,30}$/ }"
-                          v-bind:class="{'is-invalid': errors.has('first name')}"
+                          v-bind:class="{'is-invalid': errors.has($t('m.fn'))}"
                           v-model="formData.first_name"
                         >
-                        <span style="color: red !important;">{{ errors.first('first name') }}</span>
+                        <span style="color: red !important;">{{ errors.first($t('m.fn')) }}</span>
                       </div>
                     </div>
                     <!-- end form-group -->
@@ -152,14 +152,14 @@
                       <div class="col-md-6">
                         <input
                           type="text"
-                          name="last name"
+                          :name="$t('m.ln')"
                           :placeholder="$t('m.ln')"
                           class="form-control"
                           v-validate="{ required: true, regex:/^[_a-zA-Z0-9\u4E00-\u9FA5]{2,30}$/ }"
-                          v-bind:class="{'is-invalid': errors.has('last name')}"
+                          v-bind:class="{'is-invalid': errors.has($t('m.ln'))}"
                           v-model="formData.last_name"
                         >
-                        <span style="color: red !important;">{{ errors.first('last name') }}</span>
+                        <span style="color: red !important;">{{ errors.first($t('m.ln')) }}</span>
                       </div>
                     </div>
                     <!-- end form-group -->
@@ -172,14 +172,14 @@
                       <div class="col-md-6">
                         <input
                           type="text"
-                          name="email"
+                          :name="$t('m.email')"
                           :placeholder="$t('m.email')"
                           class="form-control"
                           v-validate="{ required: true, regex:/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/ }"
-                          v-bind:class="{'is-invalid': errors.has('email')}"
+                          v-bind:class="{'is-invalid': errors.has($t('m.email'))}"
                           v-model="formData.email"
                         >
-                        <span style="color: red !important;">{{ errors.first('email') }}</span>
+                        <span style="color: red !important;">{{ errors.first($t('m.fn')) }}</span>
                       </div>
                     </div>
                     <!-- end form-group -->
@@ -194,7 +194,9 @@
                           :language="date_lan"
                           :placeholder="$t('m.psd')"
                           v-model="formData.birthday"
+                          :name="$t('m.birthday')"
                           input-class="form-control bg-white"
+                          v-bind:class="{'is-invalid': errors.has($t('m.birthday'))}"
                           format="yyyy-MM-dd"
                         ></datepicker>
                       </div>
@@ -209,14 +211,14 @@
                       <div class="col-md-6">
                         <input
                           type="text"
-                          name="phone number"
+                          :name="$t('m.mobile')"
                           :placeholder="$t('m.mobile')"
                           class="form-control"
                           v-validate="{ required: true, regex:/^1[34578]\d{9}$|^\d{8,9}$/ }"
-                          v-bind:class="{'is-invalid': errors.has('phone number')}"
+                          v-bind:class="{'is-invalid': errors.has($t('m.mobile'))}"
                           v-model="formData.phone_num"
                         >
-                        <span style="color: red !important;">{{ errors.first('phone number') }}</span>
+                        <span style="color: red !important;">{{ errors.first($t('m.mobile')) }}</span>
                       </div>
                     </div>
                     <!-- end form-group -->
@@ -231,12 +233,12 @@
                           type="text"
                           class="form-control"
                           :placeholder="$t('m.passport')"
-                          name="passport"
+                          :name="$t('m.passport')"
                           v-validate="{ required: false, regex:/^(1[45]|P|E[A-Z])\d{7}$|^[GDE](\d{8})$|^S\d{7,8}$|^[HM]\d{10}$/ }"
-                          v-bind:class="{'is-invalid': errors.has('passport')}"
+                          v-bind:class="{'is-invalid': errors.has($t('m.passport'))}"
                           v-model="formData.passport_num"
                         >
-                        <span style="color: red !important;">{{ errors.first('passport') }}</span>
+                        <span style="color: red !important;">{{ errors.first($t('m.passport')) }}</span>
                       </div>
                     </div>
                     <!-- begin form-group -->
@@ -855,7 +857,10 @@ export default {
                 this.swalNotification("success", "");
                 this.$store.commit("handleInsurance", response.insurance_id);
               } else {
-                this.swalNotification("error", response.error_msg);
+                this.swalNotification(
+                  "error",
+                  this.showError(response.error_msg)
+                );
               }
             }
           })

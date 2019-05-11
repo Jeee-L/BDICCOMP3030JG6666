@@ -417,6 +417,7 @@ export const m = {
    tip2: '数据更新请求将每10秒启动一次。',
    uptable: '更新表格',
    check1: '查看',
+   check2: '查看行李详情',
    bp: '物品照片',
    n: '姓名',
 
@@ -511,4 +512,17 @@ export const m = {
 
    password_s_title: '更改密码成功',
    password_f_title: '更改密码失败',
+
+   // Error messages from the backend
+   e_user: '没有该用户',
+   e_password: '密码错误',
+   e_d_user: '已存在该用户',
+   e_d_password: '密码与旧密码重复',
+   e_reason: '理由须在300字以内',
+   e_remark: '备注须在300字以内',
+   e_place: '丢失地点须在100字以内',
+   e_over_price: '投保总价超额',
+   e_overdue: '保险已过期',
+   e_unknown: '未知错误',
+
 }

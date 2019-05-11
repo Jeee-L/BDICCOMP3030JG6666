@@ -112,9 +112,9 @@
               v-model="formData.lost_time"
               name="lost_time"
               v-validate="{ required: true, regex:/^(\d{4})(\-)(\d{2})(\-)(\d{2})$/ }"
-              v-bind:class="{'is-invalid': errors.has('lost_time')}"
+              v-bind:class="{'is-invalid': errors.has($t('m.llt'))}"
             />
-            <span style="color: red !important;">{{ errors.first('lost_time') }}</span>
+            <span style="color: red !important;">{{ errors.first($t('m.llt')) }}</span>
           </b-form-group>
         </b-form-row>
         <b-form-row>
@@ -124,9 +124,9 @@
               v-model="formData.lost_place"
               name="lost_place"
               v-validate="{ required: true}"
-              v-bind:class="{'is-invalid': errors.has('lost_place')}"
+              v-bind:class="{'is-invalid': errors.has($t('m.llp'))}"
             />
-            <span style="color: red !important;">{{ errors.first('lost_place') }}</span>
+            <span style="color: red !important;">{{ errors.first($t('m.llp')) }}</span>
           </b-form-group>
         </b-form-row>
         <b-form-row>
@@ -136,9 +136,9 @@
               v-model="formData.reason"
               name="reason"
               v-validate="{ required: true}"
-              v-bind:class="{'is-invalid': errors.has('reason')}"
+              v-bind:class="{'is-invalid': errors.has($t('m.lrl'))}"
             />
-            <span style="color: red !important;">{{ errors.first('reason') }}</span>
+            <span style="color: red !important;">{{ errors.first($t('m.lrl')) }}</span>
           </b-form-group>
         </b-form-row>
         <b-form-row>
@@ -172,7 +172,7 @@ export default {
     };
   },
   computed: {
-    claim_list(){
+    claim_list() {
       return this.$store.getters.claim_list;
     }
   },
@@ -187,9 +187,7 @@ export default {
       .post("/list_user_all_claim", obj)
       .then(res => {
         var response = JSON.parse(JSON.stringify(res.data));
-        if (response != null) {
-          this.claim_list = response;
-        }
+        this.$store.state.claim_list = response;
       })
       .catch(function(error) {
         console.log(error);
@@ -216,8 +214,15 @@ export default {
           .post("/luggage/order/list", obj)
           .then(res => {
             var response = JSON.parse(JSON.stringify(res.data));
-            if (response.state == "0") {
-              alert(response);
+            if (response.state) {
+              if (response.state == "1") {
+                this.swalNotification("success", "");
+              } else {
+                this.swalNotification(
+                  "error",
+                  this.showError(response.error_msg)
+                );
+              }
             }
           })
           .catch(function(error) {

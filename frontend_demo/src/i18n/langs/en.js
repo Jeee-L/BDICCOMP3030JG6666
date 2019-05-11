@@ -419,6 +419,7 @@ export const m = {
     tip2: 'Requests for data update will be initiated every ten seconds.',
     uptable: 'Update Table',
     check1: 'Check',
+    check2: 'Check Baggage Details',
     bp: 'Item Image',
     n: 'Name',
 
@@ -513,4 +514,17 @@ export const m = {
 
     password_s_title: 'Password Updated',
     password_f_title: 'Password Update Failed',
+
+    // Error messages from the backend
+    e_user: 'No such user',
+    e_password: 'Password is not correct',
+    e_d_user: 'Username already exist',
+    e_d_password: 'The new password is same as the old one',
+    e_reason: 'The length of reason should less than 300 characters',
+    e_remark: 'The length of remark should less than 300 characters',
+    e_place: 'The length of lost place should less than 100 characters',
+    e_over_price: 'Cumulative compensation has reached the upper limit of compensation',
+    e_overdue: 'This insurance is overdue',
+    e_unknown: 'Unknown error',
+
 }
