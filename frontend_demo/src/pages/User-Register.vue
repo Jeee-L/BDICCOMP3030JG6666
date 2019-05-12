@@ -239,7 +239,7 @@ export default {
       this.verification_input = "";
       this.verification_field = false;
 
-      if (this.fields[this.$t('m.email')].valid) {
+      if (this.fields[this.$t("m.email")].valid) {
         var params = {
           email: this.formData.email,
           verify: this.formData.verify
@@ -250,7 +250,11 @@ export default {
           .post("/register/", obj)
           .then(res => {
             if (res.data == 0) {
-              alert(this.$t("m.als"));
+              this.swalNotification(
+                "error",
+                this.$t("m.email_f_title"),
+                this.showError(response.error_msg)
+              );
             } else {
               this.time = 60;
               this.disabled = true;

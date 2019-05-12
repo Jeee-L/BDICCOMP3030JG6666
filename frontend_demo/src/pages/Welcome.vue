@@ -4,11 +4,11 @@
     <div id="header" class="header navbar-default">
       <!-- begin navbar-header -->
       <div class="navbar-header">
-        <router-link to="/dashboard/v2" class="navbar-brand">
+        <div class="navbar-brand">
           <span class="navbar-logo"></span>
           <b>{{$t('m.name')}}</b>
           {{$t('m.name2')}}
-        </router-link>
+        </div>
         <button
           type="button"
           class="navbar-toggle p-0 m-r-0"
@@ -181,7 +181,7 @@
               <div class="col-md-4 col-sm-4 col-4">
                 <div class="team-player">
                   <img
-                    style="margin-top:20px; width:130px; height:130px"
+                    style="margin-top:20px; width:130px; height:110px"
                     src="../assets/img/pick1.jpg"
                     alt="Thumbnail Image"
                     class="rounded-circle img-fluid img-raised"
@@ -192,7 +192,7 @@
               <div class="col-md-4 col-sm-4 col-4">
                 <div class="team-player">
                   <img
-                    style="margin-top:20px; width:130px; height:130px"
+                    style="margin-top:20px; width:130px; height:110px"
                     src="../assets/img/pick2.jpg"
                     alt="Thumbnail Image"
                     class="rounded-circle img-fluid img-raised"
@@ -203,7 +203,7 @@
               <div class="col-md-4 col-sm-4 col-4">
                 <div class="team-player">
                   <img
-                    style="margin-top:20px; width:130px; height:130px"
+                    style="margin-top:20px; width:130px; height:110px"
                     src="../assets/img/pick3.jpg"
                     alt="Thumbnail Image"
                     class="rounded-circle img-fluid img-raised"
@@ -236,7 +236,7 @@
                 <img
                   src="../assets/img/p11.jpg"
                   class="img-fluid rounded shadow-lg"
-                  style="width: 130px;height:100px;"
+                  style="width: 120px;height:100px;"
                 >
                 <div class="pt-4 text-center">
                   <h4 class="title">
@@ -251,7 +251,7 @@
                 <img
                   src="../assets/img/p12.jpg"
                   class="img-fluid rounded shadow-lg"
-                  style="width: 130px;height:100px"
+                  style="width: 110px;height:100px"
                 >
                 <div class="pt-4 text-center">
                   <h4 class="title">
@@ -266,7 +266,7 @@
                 <img
                   src="../assets/img/p13.jpg"
                   class="img-fluid rounded shadow-lg"
-                  style="width: 130px;height:100px"
+                  style="width: 120px;height:100px"
                 >
                 <div class="pt-4 text-center">
                   <h4 class="title">
@@ -281,7 +281,7 @@
                 <img
                   src="../assets/img/p14.jpg"
                   class="img-fluid rounded shadow-lg"
-                  style="width: 130px;height:100px"
+                  style="width: 120px;height:100px"
                 >
                 <div class="pt-4 text-center">
                   <h4 class="title">
@@ -308,7 +308,7 @@
                 <img
                   src="../assets/img/p21.jpg"
                   class="img-fluid rounded shadow-lg"
-                  style="width: 130px;height:100px;"
+                  style="width: 120px;height:100px;"
                 >
                 <div class="pt-4 text-center">
                   <h4 class="title">
@@ -323,7 +323,7 @@
                 <img
                   src="../assets/img/p22.jpg"
                   class="img-fluid rounded shadow-lg"
-                  style="width: 130px;height:100px"
+                  style="width: 110px;height:100px"
                 >
                 <div class="pt-4 text-center">
                   <h4 class="title">
@@ -338,7 +338,7 @@
                 <img
                   src="../assets/img/p23.jpg"
                   class="img-fluid rounded shadow-lg"
-                  style="width: 130px;height:100px"
+                  style="width: 90px;height:100px"
                 >
                 <div class="pt-4 text-center">
                   <h4 class="title">
@@ -353,7 +353,7 @@
                 <img
                   src="../assets/img/p24.jpg"
                   class="img-fluid rounded shadow-lg"
-                  style="width: 130px;height:100px"
+                  style="width: 110px;height:100px"
                 >
                 <div class="pt-4 text-center">
                   <h4 class="title">
@@ -379,7 +379,7 @@
               <div class="col-md-4 col-sm-4 col-4">
                 <div class="team-player">
                   <img
-                    style="width: 130px;height:100px"
+                    style="width: 125px;height:100px"
                     src="../assets/img/p31.jpg"
                     alt="Thumbnail Image"
                     class="img-fluid rounded shadow-lg"
@@ -395,7 +395,7 @@
               <div class="col-md-4 col-sm-4 col-4">
                 <div class="team-player">
                   <img
-                    style="width: 130px;height:100px"
+                    style="width: 110px;height:100px"
                     src="../assets/img/p32.jpg"
                     alt="Thumbnail Image"
                     class="img-fluid rounded shadow-lg"
@@ -411,7 +411,7 @@
               <div class="col-md-4 col-sm-4 col-4">
                 <div class="team-player">
                   <img
-                    style="width: 130px;height:100px"
+                    style="width: 105px;height:100px"
                     src="../assets/img/p33.jpg"
                     alt="Thumbnail Image"
                     class="img-fluid rounded shadow-lg"

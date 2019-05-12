@@ -3,8 +3,11 @@
     <li class="nav-profile">
       <a href="javascript:;" v-on:click="expand()">
         <div class="cover with-shadow"></div>
-        <div class="image image-icon bg-black text-grey-darker">
-          <img :src="$store.state.avatar" alt="" />
+        <div
+          class="image image-icon bg-black text-grey-darker"
+          style="width: 80px !important; height: 80px !important"
+        >
+          <img class="img-fluid" :src="$store.state.avatar" width="auto" height="80" alt>
         </div>
         <div class="info">
           <b class="caret pull-right"></b>
@@ -21,12 +24,14 @@
       >
         <li>
           <router-link to="/customer/info">
-            <i class="fa fa-pencil-alt"></i>{{$t('m.usep')}}
+            <i class="fa fa-pencil-alt"></i>
+            {{$t('m.usep')}}
           </router-link>
         </li>
         <li>
           <router-link to="/customer/center">
-            <i class="fa fa-question-circle"></i>{{$t('m.csc')}}
+            <i class="fa fa-question-circle"></i>
+            {{$t('m.csc')}}
           </router-link>
         </li>
       </ul>

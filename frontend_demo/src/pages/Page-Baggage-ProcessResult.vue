@@ -75,12 +75,18 @@
                   </div>
                 </div>
                 <div class="timeline-footer">
-                  <div v-if="item.state == '-1'">
-                    <p class="text-dark">{{$t('m.pmd')}}</p>
+                  <div v-if="(item.state == '-1' || item.state == '2')">
+                    <p class="text-dark" v-show="(item.state == '-1')">{{$t('m.pmd')}}</p>
+                    <p
+                      class="text-dark"
+                      v-show="(item.state == '2')"
+                      style="color: #834600 !important"
+                    >{{$t('m.pmd2')}}</p>
                     <b-btn
-                      variant="outline-info"
+                      variant="outline-warning"
                       class="btn-xs"
-                      v-on:click="showModalData(item.order_id)"
+                      v-on:click="showModalData(item)"
+                      :disabled="(item.state == '2')"
                     >{{$t('m.psi')}}</b-btn>
                   </div>
                   <p class="text-success" v-else-if="item.state == '1'">{{$t('m.ccs')}}</p>
@@ -238,6 +244,7 @@ export default {
       formData: {
         check: "1",
         insurance_order_id: "",
+        old_claim_id: "-1",
         lost_time: "",
         lost_place: "",
         reason: "",
@@ -273,30 +280,32 @@ export default {
   },
   created() {
     PageOptions.pageContentFullWidth = true;
-
-    var requireInfo = {
-      username: this.$store.getters.username
-    };
-    var obj = JSON.stringify(requireInfo);
-    axios
-      .post("/list_user_all_claim", obj)
-      .then(res => {
-        var response = JSON.parse(JSON.stringify(res.data));
-        var claim_list = [];
-        for (var i = 0; i < response.length; i++) {
-          if (response[i].state != "-2") {
-            claim_list[claim_list.length] = response[i];
-          }
-        }
-        this.$store.state.claim_list = claim_list;
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+    this.checkClaim();
   },
   methods: {
+    checkClaim() {
+      var requireInfo = {
+        username: this.$store.getters.username
+      };
+      var obj = JSON.stringify(requireInfo);
+      axios
+        .post("/list_user_all_claim", obj)
+        .then(res => {
+          var response = JSON.parse(JSON.stringify(res.data));
+          var claim_list = [];
+          for (var i = 0; i < response.length; i++) {
+            if (response[i].state != "-2") {
+              claim_list[claim_list.length] = response[i];
+            }
+          }
+          this.$store.state.claim_list = claim_list;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
     changeBackground(item) {
-      if (item.state == "-1") {
+      if (item.state == "-1" || item.state == "2") {
         return "background-moreinfo";
       } else if (item.state == "1") {
         return "background-success";
@@ -304,8 +313,9 @@ export default {
         return "background-fail";
       }
     },
-    showModalData(insurance_order_id) {
-      this.formData.insurance_order_id = insurance_order_id;
+    showModalData(item) {
+      this.formData.insurance_order_id = item.order_id;
+      this.formData.old_claim_id = item.id;
       this.modalShow = true;
     },
     checkBaggageDetail(baggage_id) {
@@ -341,6 +351,7 @@ export default {
             if (response.state) {
               if (response.state == "1") {
                 this.swalNotification("success", "");
+                this.checkClaim();
               } else {
                 this.swalNotification(
                   "error",
@@ -352,6 +363,7 @@ export default {
           .catch(function(error) {
             console.log(error);
           });
+        this.requestData();
       } else {
         alert(this.$t("m.alpe"));
       }

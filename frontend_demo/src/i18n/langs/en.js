@@ -220,6 +220,7 @@ export const m = {
     re: 'Remark:',
     reason: 'Reason:',
     pmd: 'Please provide more detailed information and initiate a new claim.',
+    pmd2: 'New claim order with supplementary information is created successfully.',
     psi: 'Provide Supplementary Information',
     ccs: 'Claim completed successfully. Compensation will be sent to your account within two days.',
     sorry: 'Sorry, claim process is terminated due to specific reasons.',
@@ -234,6 +235,7 @@ export const m = {
     pie3: 'application will be rejected.',
     rbn: 'Register Baggages Now',
     tr: 'Time Remaining',
+    days: ' Days',
     tr1: '11 Days',
     per1: 'Better than last week (40.5%)',
     ib: 'Insurance Balance',
@@ -294,10 +296,7 @@ export const m = {
     tqr: 'Questions and Remarks',
     psp1: 'Please speficy your personal needs or other feedbacks in this field. If your have any questions, please also let us know.',
 
-    lorder1: 'Order 1',
-    lorder2: 'Order 2',
-    lorder3: 'Order 3',
-    lorder4: 'Order 4',
+    lorder: 'Order ',
     lre: 'Remaining',
     poid: 'Order_ID',
     pet: 'Registration_Time',
@@ -517,9 +516,14 @@ export const m = {
     password_s_title: 'Password Updated',
     password_f_title: 'Password Update Failed',
 
+    email_f_title: 'Failed to Send Code',
+
     avatar_s_title: 'Avatar Updated',
     avatar_f_title: 'Failed to Update Avatar',
     avatar_f_text: 'Image size limitation is exceeded.',
+
+    profile_s_title: 'Personal Information Updated',
+    profile_f_title: 'Failed to Update Personal Information',
 
     // Error messages from the backend
     e_user: 'No such user',
@@ -532,7 +536,8 @@ export const m = {
     e_over_price: 'Cumulative compensation has reached the upper limit of compensation',
     e_overdue: 'This insurance is overdue',
     e_unknown: 'Unknown error',
-    e_em_password: "Previous password is not correct.",
+    e_em_password: "Previous password is not correct",
+    e_order: 'No such order',
 
     // Employee platform notifications
     note_insurance: 'New insurance orders are waiting for process.',

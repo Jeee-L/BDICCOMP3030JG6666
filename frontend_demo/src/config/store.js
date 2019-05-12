@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from "axios";
 
 Vue.use(Vuex)
 
@@ -16,8 +17,13 @@ const mutations = {
         state.last_name = userInfo.last_name
         localStorage.setItem('last_name', userInfo.last_name)
 
-        state.avatar = userInfo.avatar
-        localStorage.setItem('avatar', userInfo.avatar)
+        if (userInfo.avatar != "") {
+            state.avatar = userInfo.avatar
+            localStorage.setItem('avatar', userInfo.avatar)
+        } else {
+            state.avatar = "../config/avatar.jpg"
+            localStorage.setItem('avatar', "../config/avatar.jpg")
+        }
 
         state.password = userInfo.password
         localStorage.setItem('password', userInfo.password)
@@ -64,6 +70,52 @@ const mutations = {
         state.username = employee.employee_id;
         localStorage.setItem('username', employee.employee_id);
     },
+    handleInsuranceInfo: (state, insurance_order_list) => {
+        var time = [];
+        var amount = [];
+        var label = [];
+        var price = [];
+        var date = [];
+
+        if (insurance_order_list.amount_of_money) {
+            alert("this is new");
+            amount.push(insurance_order_list.remaining_money);
+            time.push(insurance_order_list.remaining_time);
+        } else {
+            alert("this is old");
+            state.insurance_order_list = insurance_order_list;
+            localStorage.setItem('insurance_order_list', insurance_order_list);
+
+            for (var i = 0; i < insurance_order_list.length; i++) {
+                if (insurance_order_list[i].state != '-1') {
+                    time.push(insurance_order_list[i].remaining_time);
+                    amount.push(insurance_order_list[i].remaining_money);
+                    label.push(insurance_order_list[i].insurance_order_id);
+                    price.push(insurance_order_list[i].sumPrice);
+                    date.push(insurance_order_list[i].date);
+                }
+            }
+        }
+
+
+        label.push('RM');
+        price.push(amount[0]);
+
+        state.insurance_time = time
+        localStorage.setItem('insurance_time', time)
+
+        state.insurance_amount = amount
+        localStorage.setItem('insurance_amount', amount)
+
+        state.insurance_order_labels = label
+        localStorage.setItem('insurance_order_labels', label)
+
+        state.insurance_order_prices = price
+        localStorage.setItem('insurance_order_prices', price)
+
+        state.insurance_order_dates = date
+        localStorage.setItem('insurance_order_dates', date)
+    },
 }
 const state = {
     username: '' || localStorage.getItem('username'),
@@ -76,8 +128,16 @@ const state = {
     email: '' || localStorage.getItem('email'),
     birthday: '' || localStorage.getItem('birthday'),
     address: '' || localStorage.getItem('address'),
+
     insurance_list: '' || localStorage.getItem('insurance_list'),
+    insurance_time: '' || localStorage.getItem('insurance_time'),
+    insurance_amount: '' || localStorage.getItem('insurance_amount'),
+
     insurance_order_list: '' || localStorage.getItem('insurance_order_list'),
+    insurance_order_labels: '' || localStorage.getItem('insurance_order_labels'),
+    insurance_order_prices: '' || localStorage.getItem('insurance_order_prices'),
+    insurance_order_dates: '' || localStorage.getItem('insurance_order_dates'),
+
     claim_list: '' || localStorage.getItem('claim_list'),
 
     employee_id: '' || localStorage.getItem('employee_id'),
@@ -94,8 +154,16 @@ const getters = {
     email: (state) => state.email,
     birthday: (state) => state.birthday,
     address: (state) => state.address,
+
     insurance_list: (state) => state.insurance_list,
+    insurance_time: (state) => state.insurance_time,
+    insurance_amount: (state) => state.insurance_amount,
+
     insurance_order_list: (state) => state.insurance_order_list,
+    insurance_order_labels: (state) => state.insurance_order_labels,
+    insurance_order_prices: (state) => state.insurance_order_prices,
+    insurance_order_dates: (state) => state.insurance_order_dates,
+
     claim_list: (state) => state.claim_list,
 
     employee_id: (state) => state.employee_id,
@@ -133,9 +201,25 @@ export default {
                     return this.$t('m.e_overdue');
                 case 'Unknown error':
                     return this.$t('m.e_unknown');
+                case 'No such order':
+                    return this.$t('m.e_order');
                 default:
                     return;
             }
+        };
+        Vue.prototype.requestData = function () {
+            var requireInfo = {
+                username: this.$store.getters.username
+            };
+            axios
+                .post("/list_user_all_insurance_order", requireInfo)
+                .then(res => {
+                    var response = JSON.parse(JSON.stringify(res.data));
+                    this.$store.commit("handleInsuranceInfo", response);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
         }
     }
 }

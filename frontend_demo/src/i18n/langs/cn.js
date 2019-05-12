@@ -218,6 +218,7 @@ export const m = {
    re: '备注:',
    reason: '理由:',
    pmd: '请提供更详细的信息，并重新发起理赔。',
+   pmd2: '成功创建包含补充信息的新理赔订单。',
    psi: '提供补充信息',
    ccs: '理赔成功。赔偿将在两天内送到您的账户。',
    sorry: '对不起，由于特殊原因，理赔过程终止。',
@@ -232,6 +233,7 @@ export const m = {
    pie3: '申请将被拒绝。',
    rbn: '开始登记行李',
    tr: '剩余时间',
+   days: ' 天',
    tr1: '11天',
    per1: '超出上周 (40.5%)',
    ib: '保险余额',
@@ -292,10 +294,7 @@ export const m = {
    tqr: '问题及评论',
    psp1: '请在此提供您的个人需求或其他反馈。如果你有任何问题，也请告诉我们。',
 
-   lorder1: '订单 1',
-   lorder2: '订单 2',
-   lorder3: '订单 3',
-   lorder4: '订单 4',
+   lorder: '订单 ',
    lre: '剩余',
    poid: '订单号',
    pet: '登记时间',
@@ -515,6 +514,8 @@ export const m = {
    password_s_title: '更改密码成功',
    password_f_title: '更改密码失败',
 
+   email_f_title: '发送验证码失败',
+
    avatar_s_title: '更新头像成功',
    avatar_f_title: '更新头像失败',
    avatar_f_text: '图片尺寸超限。',
@@ -531,6 +532,7 @@ export const m = {
    e_overdue: '保险已过期',
    e_unknown: '未知错误',
    e_em_password: '旧密码错误',
+   e_order: '没有该订单',
 
    // Employee platform notifications
    note_insurance: '新保险订单等待处理',

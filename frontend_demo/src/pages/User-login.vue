@@ -245,6 +245,7 @@ export default {
               }
             }
             this.$store.commit("handleCustomerInfo", response);
+            this.requestData();
 
             // setCookie("user", response, 1000 * 60);
             this.$router.push("/home");
@@ -259,14 +260,11 @@ export default {
       var v = null;
       if (typeof s == "object") {
         if (s == null) {
-          alert("null");
           return true;
         }
         if (typeof s.getValue != "undefined") {
-          alert("undefined");
           v = s.getValue();
         } else {
-          alert("else");
           v = s.value;
         }
       } else {
@@ -293,7 +291,11 @@ export default {
         .post("/customer/info/update_password", obj)
         .then(res => {
           if (res.data == 0) {
-            alert(this.$t("m.als"));
+            this.swalNotification(
+              "error",
+              this.$t("m.email_f_title"),
+              this.showError(response.error_msg)
+            );
           } else {
             this.time = 60;
             this.disabled = true;

@@ -393,7 +393,11 @@ export default {
         .post("/customer/info/update_password", obj)
         .then(res => {
           if (res.data == 0) {
-            alert(this.$t("m.als"));
+            this.swalNotification(
+              "error",
+              this.$t("m.email_f_title"),
+              this.showError(response.error_msg)
+            );
           } else {
             this.time = 60;
             this.disabled = true;
@@ -480,6 +484,12 @@ export default {
       var obj = JSON.stringify(this.formData);
       axios.post("/customer/info/", obj).then(res => {
         var response = JSON.parse(JSON.stringify(res.data));
+        if (response.state == "1"){
+          this.swalNotification("success", this.$t("m.profile_s_title"), "");
+        } else {
+          this.swalNotification("error", this.$t("m.profile_f_title"), response.error_msg);
+        }
+        
       });
       this.$store.commit("handleCustomerInfo", this.formData);
     },
@@ -528,7 +538,7 @@ export default {
             if (response.state == "0") {
               this.swalNotification(
                 "error",
-                this.$t("m.password_f_title"),
+                this.$t("m.avatar_f_title"),
                 this.showError(response.error_msg)
               );
             }

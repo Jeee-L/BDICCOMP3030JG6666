@@ -24,11 +24,11 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <router-link to="/dashboard/v2" class="navbar-brand">
+        <div class="navbar-brand">
           <span class="navbar-logo"></span>
           <b>{{$t('m.name')}}</b>
           {{$t('m.name2')}}
-        </router-link>
+        </div>
         <button
           type="button"
           class="navbar-toggle"

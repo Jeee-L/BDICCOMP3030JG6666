@@ -220,8 +220,9 @@ export default {
   data() {
     return {
       formData: {
-        check: "1",
+        check: "2",
         insurance_order_id: "",
+        old_claim_id: "-1",
         lost_time: "",
         lost_place: "",
         reason: "",
@@ -318,12 +319,14 @@ export default {
                   "error",
                   this.showError(response.error_msg)
                 );
+                alert(response.error_msg);
               }
             }
           })
           .catch(function(error) {
             console.log(error);
           });
+        this.requestData();
       } else {
         alert(this.$t("m.alpe"));
       }

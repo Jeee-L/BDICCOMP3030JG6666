@@ -169,4 +169,3 @@ export default {
     background-color: #c1f8ec9c;
 }
 </style>
-

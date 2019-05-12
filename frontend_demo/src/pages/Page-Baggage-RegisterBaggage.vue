@@ -24,8 +24,6 @@
                 {{$t('m.pie')}}
                 <br>
                 <br>
-                {{$t('m.pie1')}}
-                <br>
                 {{$t('m.pie2')}}
                 <br>
                 {{$t('m.pie3')}}
@@ -34,7 +32,7 @@
                 type="button"
                 class="btn btn-lime"
                 v-on:click="changeFormstate"
-                style="margin-left: 130px; margin-top: 30px; font-size: 15px; padding: 15px"
+                style="margin-left: 160px; margin-top: 30px; font-size: 15px; padding: 15px"
               >{{$t('m.rbn')}}</button>
             </div>
             <div class="col-xl-6" id="inforTable">
@@ -46,12 +44,8 @@
                       <i class="fa fa-archive fa-fw"></i>
                     </div>
                     <div class="stats-content">
-                      <div class="stats-title">{{$t('m.tr')}}</div>
-                      <div class="stats-number">{{$t('m.tr1')}}</div>
-                      <div class="stats-progress progress">
-                        <div class="progress-bar" style="width: 40.5%;"></div>
-                      </div>
-                      <div class="stats-desc">{{$t('m.per1')}}</div>
+                      <div class="stats-title">{{$t('m.tr')}}</div> <br>
+                      <div class="stats-number" style="font-size: 30px">{{$store.state.insurance_time[0]}} {{$t('m.days')}}</div>
                     </div>
                   </div>
                 </div>
@@ -63,12 +57,8 @@
                       <i class="fa fa-dollar-sign fa-fw"></i>
                     </div>
                     <div class="stats-content">
-                      <div class="stats-title">{{$t('m.ib')}}</div>
-                      <div class="stats-number">900 EUR</div>
-                      <div class="stats-progress progress">
-                        <div class="progress-bar" style="width: 76.3%;"></div>
-                      </div>
-                      <div class="stats-desc">{{$t('m.per2')}}</div>
+                      <div class="stats-title">{{$t('m.ib')}}</div> <br>
+                      <div class="stats-number" style="font-size: 30px">$ {{$store.state.insurance_amount[0]}}</div>
                     </div>
                   </div>
                 </div>
@@ -82,7 +72,7 @@
                 {{$t('m.table')}}
               </h6>
               <br>
-              <div class="card card-default">
+              <div class="card card-default" v-show="showTable">
                 <div class="card-header">{{$t('m.brr')}}</div>
                 <div class="card-body">
                   <b-table responsive striped hover :items="itemsFields" :fields="parameters"></b-table>
@@ -190,9 +180,7 @@
                             v-validate="{ required: true}"
                             v-bind:class="{'is-invalid': errors.has($t('m.boi'))}"
                           >
-                            <span
-                              style="color: red !important;"
-                            >{{ errors.first($t('m.boi')) }}</span>
+                            <span style="color: red !important;">{{ errors.first($t('m.boi')) }}</span>
                           </b-file>
                         </b-form-group>
                       </div>
@@ -214,9 +202,7 @@
                             v-validate="{ required: true}"
                             v-bind:class="{'is-invalid': errors.has($t('m.bii'))}"
                           >
-                            <span
-                              style="color: red !important;"
-                            >{{ errors.first($t('m.bii')) }}</span>
+                            <span style="color: red !important;">{{ errors.first($t('m.bii')) }}</span>
                           </b-file>
                         </b-form-group>
                       </div>
@@ -583,7 +569,6 @@ import PieChart from "../components/vue-chartjs/PieChart";
 import { FormWizard, TabContent, WizardStep } from "vue-form-wizard";
 import axios from "axios";
 import { constants } from "crypto";
-
 export default {
   components: {
     PieChart,
@@ -605,18 +590,45 @@ export default {
         sumPrice: ""
       },
       checkedItems: [false, false, false, false, false],
-      pieChart: {
+
+      cropImg: {
+        imageSrc: "",
+        full: true,
+        outputSize: 1,
+        outputType: "jpeg",
+        realTimePreviewData: {},
+        crap: false,
+        previewImage: null,
+        autoCropWidth: 200,
+        autoCropHeight: 200,
+        fileName: ""
+      },
+      // global variables in this vue file
+      showForm: false,
+      showTable: this.$store.state.insurance_order_labels.length != 1,
+      showInstruct: true,
+      itemName: "",
+      itemPrice: "",
+      showOrder: false
+    };
+  },
+  computed: {
+    isFormInvalid() {
+      return Object.keys(this.fields).some(key => this.fields[key].invalid);
+    },
+    lanChange() {
+      return this.$t("m.date_lan") == "en";
+    },
+    parameters(){
+      return [this.$t("m.poid"), this.$t("m.pet"), this.$t("m.pc")];
+    },
+    pieChart() {
+      return {
         data: {
-          labels: [
-            this.$t("m.lorder1"),
-            this.$t("m.lorder2"),
-            this.$t("m.lorder3"),
-            this.$t("m.lorder4"),
-            this.$t("m.lre")
-          ],
+          labels: this.$store.state.insurance_order_labels,
           datasets: [
             {
-              data: [300, 50, 100, 40, 120],
+              data: this.$store.state.insurance_order_prices,
               backgroundColor: [
                 "rgba(255, 91, 87, 0.7)",
                 "rgba(245, 156, 26, 0.7)",
@@ -640,60 +652,33 @@ export default {
           responsive: true,
           maintainAspectRatio: false
         }
-      },
-      parameters: [this.$t("m.poid"), this.$t("m.pet"), this.$t("m.pc")],
-      itemsFields: [
-        {
-          isActive: true,
-          Order_ID: 1,
-          Registration_Time: "2019-01-08",
-          Compensation: "800"
-        },
-        {
-          isActive: false,
-          Order_ID: 2,
-          Registration_Time: "2019-02-16",
-          Compensation: "1000"
-        },
-        {
-          isActive: false,
-          Order_ID: 3,
-          Registration_Time: "2019-02-24",
-          Compensation: "1000"
-        },
-        {
-          isActive: true,
-          Order_ID: 4,
-          Registration_Time: "2019-04-13",
-          Compensation: "200"
-        }
-      ],
-      cropImg: {
-        imageSrc: "",
-        full: true,
-        outputSize: 1,
-        outputType: "jpeg",
-        realTimePreviewData: {},
-        crap: false,
-        previewImage: null,
-        autoCropWidth: 200,
-        autoCropHeight: 200,
-        fileName: ""
-      },
-      // global variables in this vue file
-      showForm: false,
-      showInstruct: true,
-      itemName: "",
-      itemPrice: "",
-      showOrder: false
-    };
-  },
-  computed: {
-    isFormInvalid() {
-      return Object.keys(this.fields).some(key => this.fields[key].invalid);
+      };
+    },
+    itemsFields() {
+      return this.loadDataTable();
     }
   },
   methods: {
+    loadDataTable() {
+      var order_label = this.$store.state.insurance_order_labels;
+      var order_date = this.$store.state.insurance_order_dates;
+      var order_price = this.$store.state.insurance_order_prices;
+      var table_dict = [];
+
+      for (var i = 0; i < order_label.length; i++) {
+        if (order_label[i] == "RM") {
+          break;
+        }
+        table_dict.push({
+          isActive: true,
+          [this.$t("m.poid")]: order_label[i],
+          [this.$t("m.pet")]: order_date[i],
+          [this.$t("m.pc")]: order_price[i]
+        });
+      }
+
+      return table_dict;
+    },
     onCardRefresh(card, done) {
       setTimeout(done, 3000);
     },
@@ -841,15 +826,12 @@ export default {
   margin-left: 40px;
   margin-bottom: 40px;
 }
-
 #inforTable {
   margin: 40px;
 }
-
 #info {
   background: #edfaa225;
 }
-
 .mb-3 {
   background-color: #80acdf11 !important;
 }
@@ -857,14 +839,12 @@ export default {
   margin: 10px;
   margin-right: 20px;
 }
-
 .instruct-crop {
   margin: 5px;
   margin-bottom: 40px;
   font-size: 15px;
   background-color: #f5e8bf52 !important;
 }
-
 .itemUpdateButton {
   margin: 10px;
   margin-left: 30px;
@@ -873,43 +853,34 @@ export default {
 .bt-save {
   background-color: rgba(255, 127, 127, 0.274) !important;
 }
-
 .bt-update {
   background-color: rgba(127, 255, 206, 0.267) !important;
 }
-
 .bt-remark {
   background-color: rgba(127, 178, 255, 0.267) !important;
 }
-
 .media {
   background-color: rgba(226, 224, 224, 0.171) !important;
 }
-
 input:disabled {
   border: 1px solid #ddd;
   background-color: #ffffffb6;
   color: #000000;
   opacity: 1;
 }
-
 .table-responsive {
   margin: 20px !important;
 }
-
 .table-invoice {
   font-size: 13px;
 }
-
 .step-explain {
   font-size: 15px;
 }
-
 .right-button {
   margin-top: 5px;
   margin-left: 85%;
 }
-
 .invoice {
   width: 100% !important;
   margin: 20px;
