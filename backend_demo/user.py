@@ -81,14 +81,28 @@ def user_all_claim(username):
             claim_dict['date'] = claim.time.strftime("%Y-%m-%d")
             claim_dict['remark'] = claim.remark
             return_list.append(claim_dict)
-        print(return_list)
         return jsonify(return_list)
 
 
 def user_all_insurance_order(username):
     order_list = db_usr_opr.get_order(username['username'])
     if order_list is []:
-        return ""
+        insurance_dict = {}
+        insurance_id = db_usr_opr.get_first_insurance(username['username'])
+        insurance = db_ins_opr.__search_insurance(insurance_id)
+        # 保险总金额
+        insurance_dict['amount_of_money'] = insurance.amount_of_money
+        # 保险剩余金额
+        remaining_amount = insurance.amount_of_money - insurance.compensated_amount
+        insurance_dict['remaining_money'] = remaining_amount
+        # 保险剩余时间
+        current_date = datetime.now()
+        begin_date = insurance.date
+        current_date.strftime("%Y-%m-%d")
+        begin_date.strftime("%Y-%m-%d")
+        remaining_time = insurance.duration - (current_date - begin_date).days
+        insurance_dict['remaining_time'] = remaining_time
+        return jsonify(insurance_dict)
     else:
         return_list = []
         for order in order_list:
@@ -344,6 +358,7 @@ def supplementary_claims_information(claim_info):
         return jsonify({'state': '0', 'error_msg': 'The length of lost place should less than 100 characters'})
     try:
         # 改之前claim的 state
+        # if claim_info['old_claim_id'] != '-1':
         db_cla_opr.update_state(claim_info['old_claim_id'],2)
         db_cla_opr.add_claim(claim_info)
         return jsonify({'state': '1'})

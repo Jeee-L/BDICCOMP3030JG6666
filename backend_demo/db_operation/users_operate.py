@@ -40,7 +40,7 @@ def get_insurance(username):
     :return:
     '''
     user = search_username(username)
-    assert (user is not None), "Username already exist"
+    assert (user is not None), "No such user"
     return user.insurance_id.all()
 
 def get_first_insurance(username):
@@ -50,7 +50,7 @@ def get_first_insurance(username):
     :return: id
     '''
     user = search_username(username)
-    assert (user is not None), "Username already exist"
+    assert (user is not None), "No such user"
     return user.insurance_id.first().id
 
 
