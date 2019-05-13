@@ -36,7 +36,7 @@ def user_all_info(username):
         'birthday': birthday_date,
         'address': user.address,
         'avatar': user.profile,
-        'insurance_list': user_all_insurance(username),
+        # 'insurance_list': user_all_insurance(username),
         # 'insurance_order_list': user_all_insurance_order(username),
         # 'claim_list': user_all_claim(username)
     }
@@ -59,7 +59,7 @@ def user_all_insurance(username):
             insurance_dict['date'] = insurance.date.strftime("%Y-%m-%d")
             insurance_dict['remark'] = insurance.remark
             return_list.append(insurance_dict)
-        return return_list
+        return jsonify(return_list)
 
 
 def user_all_claim(username):
@@ -366,7 +366,7 @@ def supplementary_claims_information(claim_info):
         return jsonify({'state': '0', 'error_msg': 'No such order'})
 
 
-# 用户添加保险信息
+# 用户添加保险信息 order
 # 需要判断当前insurance是否已经达到赔付上限或逾期
 # 如果没有，返回余额和剩余时间，如果是则返回错误信息
 def supplementary_information(supplementary_info):

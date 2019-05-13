@@ -127,11 +127,18 @@ def insurance_order_detail(insurance_order_id):
 
 def address_claim(address_info):
     try:
+        # 接收 1-同意，0-不同意，-1-更多信息
+        # 更新对应order状态 同意-1，不同意-2，更多信息-3
+        current_claim = db_cla_opr.__search_claim(int(address_info['claim_id']))
+        order_of_claim = db_ord_opr.search_order(current_claim.order_id)
         if address_info['state'] == '1':
-            current_claim = db_cla_opr.__search_claim(int(address_info['claim_id']))
-            order_of_claim = db_ord_opr.search_order(current_claim.order_id)
+            db_ord_opr.change_state(order_of_claim.order_id,1)
             insurance_of_order = db_ins_opr.__search_insurance(order_of_claim.insurance_id)
             db_ins_opr.change_compensated_amount(insurance_of_order,insurance_of_order.compensated_amount+int(order_of_claim.sumPrice))
+        elif address_info['state'] == '0':
+            db_ord_opr.change_state(order_of_claim.order_id, 2)
+        elif address_info['state'] == '-1':
+            db_ord_opr.change_state(order_of_claim.order_id, 3)
         db_cla_opr.change_state(address_info['claim_id'], int(address_info['state']), address_info['employee_id'])
         return jsonify({'state':'1'})
     except AssertionError as ae:
