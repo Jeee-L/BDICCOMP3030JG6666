@@ -86,7 +86,7 @@ def user_all_claim(username):
 
 def user_all_insurance_order(username):
     order_list = db_usr_opr.get_order(username['username'])
-    if order_list is []:
+    if not len(order_list):
         insurance_dict = {}
         insurance_id = db_usr_opr.get_first_insurance(username['username'])
         insurance = db_ins_opr.__search_insurance(insurance_id)
