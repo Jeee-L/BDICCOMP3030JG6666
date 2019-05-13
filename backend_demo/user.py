@@ -45,7 +45,7 @@ def user_all_info(username):
 
 def user_all_insurance(username):
     insurance_list = db_usr_opr.get_insurance(username)
-    if insurance_list is []:
+    if not len(insurance_list):
         return ""
     else:
         return_list = []
@@ -64,7 +64,7 @@ def user_all_insurance(username):
 
 def user_all_claim(username):
     claim_list = db_usr_opr.get_claim(username)
-    if claim_list is []:
+    if not len(claim_list):
         return ""
     else:
         return_list = []

@@ -97,6 +97,14 @@ def luggage_order_create():
         return user.buy_insurance(insurance_info)
 
 
+# 用户所有的保险
+@app.route('/list_all_user_insurances',methods=['GET', 'POST'])
+def list_all_user_insurances():
+    if request.method == 'POST':
+        user_info = json.loads(request.get_data())
+        return user.user_all_insurance(user_info['username'])
+
+
 # 用户所有的保险订单以及申请理赔
 @app.route('/luggage/order/list', methods=['GET', 'POST'])
 def luggage_order_list():
