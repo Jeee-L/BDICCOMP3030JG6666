@@ -15,8 +15,8 @@ def email_verify(reciever_email):
 
     verification_code = random_code_generator()
 
-    content = "亲爱的客户：\n这是您的验证码："+ str(verification_code)+"，请妥善保管\n感谢您的支持\n爱尔兰-中国保险公司\n\n"\
-              + "Dear customer,\nThis is your verifiecation code:"+ str(verification_code)+" please keep it well.\n Thank you for your registration,\nHibernia-Sino Insurance Company "
+    content = "亲爱的客户：\n\n\t这是您的验证码："+ str(verification_code)+"，请妥善保管\n\n感谢您的支持\n爱尔兰-中国保险公司\n\n"\
+              + "Dear customer,\n\nThis is your verifiecation code:"+ str(verification_code)+", please keep it well.\n\nThank you for your registration,\nHibernia-Sino Insurance Company "
 
     # content = """
     #     <h1>这是标题</h1>
