@@ -34,6 +34,7 @@
           id="modalDialog"
           :cancel-title="$t('m.tbn')"
           cancel-variant="danger"
+          @cancel="buyInsurance()"
           :ok-title="$t('m.tcancel')"
           ok-variant="white"
           :title="$t('m.tt1')"
@@ -92,6 +93,7 @@
           id="modalDialog2"
           :cancel-title="$t('m.tbn')"
           cancel-variant="warning"
+          @cancel="buyInsurance()"
           :ok-title="$t('m.tcancel')"
           ok-variant="white"
           :title="$t('m.tt2')"
@@ -154,6 +156,7 @@
           id="modalDialog3"
           :cancel-title="$t('m.tbn')"
           cancel-variant="grey"
+          @cancel="buyInsurance()"
           :ok-title="$t('m.tcancel')"
           ok-variant="white"
           :title="$t('m.tt3')"
@@ -216,6 +219,7 @@
           id="modalDialog4"
           :cancel-title="$t('m.tbn')"
           cancel-variant="info"
+          @cancel="buyInsurance()"
           :ok-title="$t('m.tcancel')"
           ok-variant="white"
           :title="$t('m.tt4')"
@@ -398,3 +402,13 @@
     <!-- end nav-tabs-pills -->
   </div>
 </template>
+
+<script>
+export default {
+  methods:{
+    buyInsurance(){
+      this.$router.push("/baggage/insurance");
+    }
+  }
+}
+</script>

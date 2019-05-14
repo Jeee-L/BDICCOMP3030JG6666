@@ -290,7 +290,7 @@ export default {
             timer = setInterval(() => {
               clearInterval(timer);
               this.retryData();
-            }, 10000);
+            }, 20000);
           } else {
             console.log("Periodlically update failed.");
             return;

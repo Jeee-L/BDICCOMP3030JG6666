@@ -10,7 +10,7 @@
         <div class="profile-header-content">
           <!-- BEGIN profile-header-img -->
           <div class="profile-header-img">
-            <img :src="($store.getters.avatar)">
+            <img :src="($store.getters.avatar)" :onerror="this.default">
             <!-- onerror="this.src='../assets/img/china-land1.jpg'" -->
           </div>
           <!-- END profile-header-img -->
@@ -54,6 +54,7 @@
                       class="img-fluid rounded-circle img-thumbnail thumb96"
                       :src="($store.getters.avatar)"
                       alt="Contact"
+                      :onerror="this.default"
                       onload="if (this.width>140 || this.height>226) if (this.width/this.height>140/226) this.width=140; else this.height=226;"
                     >
                   </div>
@@ -161,18 +162,16 @@
                     </label>
                     <div class="row m-b-15">
                       <div class="col-md-12">
-                        <div class="col-md-12">
-                          <input
-                            v-validate="{required: true, is: password}"
-                            :name="$t('m.confirm')"
-                            type="password"
-                            class="form-control"
-                            :placeholder="$t('m.ppag')"
-                            v-bind:class="{'is-invalid': errors.has($t('m.confirm'))}"
-                            v-model="confirm_password"
-                          >
-                          <span style="color: red !important;">{{ errors.first($t('m.confirm')) }}</span>
-                        </div>
+                        <input
+                          v-validate="{required: true, is: password}"
+                          :name="$t('m.confirm')"
+                          type="password"
+                          class="form-control"
+                          :placeholder="$t('m.ppag')"
+                          v-bind:class="{'is-invalid': errors.has($t('m.confirm'))}"
+                          v-model="confirm_password"
+                        >
+                        <span style="color: red !important;">{{ errors.first($t('m.confirm')) }}</span>
                       </div>
                     </div>
                     <p>
@@ -353,6 +352,8 @@ export default {
         address: this.$store.getters.address
       },
 
+      default: 'this.src="' + require("./avatar.jpg") + '"',
+
       // Variables for element control
       update: true,
       tab: {
@@ -403,7 +404,6 @@ export default {
             this.disabled = true;
             this.timer();
             this.verification_code = res.data;
-            alert(res.data);
           }
         })
         .catch(function(error) {
@@ -479,17 +479,22 @@ export default {
         this.formData.birthday = new Date("1000-01-01")
           .toISOString()
           .substr(0, 10);
+      } else if (this.formData.birthday == null){
+        this.formData.birthday = new Date();
       }
 
       var obj = JSON.stringify(this.formData);
       axios.post("/customer/info/", obj).then(res => {
         var response = JSON.parse(JSON.stringify(res.data));
-        if (response.state == "1"){
+        if (response.state == "1") {
           this.swalNotification("success", this.$t("m.profile_s_title"), "");
         } else {
-          this.swalNotification("error", this.$t("m.profile_f_title"), response.error_msg);
+          this.swalNotification(
+            "error",
+            this.$t("m.profile_f_title"),
+            response.error_msg
+          );
         }
-        
       });
       this.$store.commit("handleCustomerInfo", this.formData);
     },

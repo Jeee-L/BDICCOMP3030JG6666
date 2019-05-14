@@ -13,39 +13,49 @@
       <div class="card-body">
         <div id="info" v-show="!showForm">
           <div class="row">
-            <div>
+            <div style="text-align:center;">
               <pie-chart
                 :data="pieChart.data"
                 :options="pieChart.options"
                 class="height-sm"
                 id="pie"
+                style="margin-left: -20px !important"
               ></pie-chart>
-              <h6 style="margin-left: 50px; width: 100%">
+              <div class="card card-default noti-chart col-xl-11">
                 {{$t('m.pie')}}
                 <br>
                 <br>
                 {{$t('m.pie2')}}
                 <br>
                 {{$t('m.pie3')}}
-              </h6>
-              <button
-                type="button"
-                class="btn btn-lime"
-                v-on:click="changeFormstate"
-                style="margin-left: 160px; margin-top: 30px; font-size: 15px; padding: 15px"
-              >{{$t('m.rbn')}}</button>
+                <br>
+                <button
+                  type="button"
+                  class="btn btn-lime"
+                  v-on:click="changeFormstate"
+                  style="margin-left: 210px; margin-top: 30px; font-size: 14px; padding: 15px"
+                >{{$t('m.rbn')}}</button>
+              </div>
             </div>
-            <div class="col-xl-6" id="inforTable">
+            <div
+              class="col-xl-6 card card-default"
+              id="inforTable"
+              style="padding: 10px !important"
+            >
               <div class="row">
                 <!-- begin col-3 -->
-                <div style="margin-left: 20px; width: 45% !important">
+                <div style="margin-left: 10px; width: 45% !important">
                   <div class="widget widget-stats bg-gradient-blue">
                     <div class="stats-icon stats-icon-lg">
                       <i class="fa fa-archive fa-fw"></i>
                     </div>
                     <div class="stats-content">
-                      <div class="stats-title">{{$t('m.tr')}}</div> <br>
-                      <div class="stats-number" style="font-size: 30px">{{$store.state.insurance_time[0]}} {{$t('m.days')}}</div>
+                      <div class="stats-title">{{$t('m.tr')}}</div>
+                      <br>
+                      <div
+                        class="stats-number"
+                        style="font-size: 30px"
+                      >{{$store.state.insurance_time[0]}} {{$t('m.days')}}</div>
                     </div>
                   </div>
                 </div>
@@ -57,13 +67,18 @@
                       <i class="fa fa-dollar-sign fa-fw"></i>
                     </div>
                     <div class="stats-content">
-                      <div class="stats-title">{{$t('m.ib')}}</div> <br>
-                      <div class="stats-number" style="font-size: 30px">$ {{$store.state.insurance_amount[0]}}</div>
+                      <div class="stats-title">{{$t('m.ib')}}</div>
+                      <br>
+                      <div
+                        class="stats-number"
+                        style="font-size: 30px"
+                      >$ {{$store.state.insurance_amount[0]}}</div>
                     </div>
                   </div>
                 </div>
                 <!-- end col-3 -->
               </div>
+              <br>
               <br>
               <h6>
                 {{$t('m.checkt')}}
@@ -72,7 +87,8 @@
                 {{$t('m.table')}}
               </h6>
               <br>
-              <div class="card card-default" v-show="showTable">
+              <br>
+              <div class="card card-default">
                 <div class="card-header">{{$t('m.brr')}}</div>
                 <div class="card-body">
                   <b-table responsive striped hover :items="itemsFields" :fields="parameters"></b-table>
@@ -457,7 +473,7 @@
                         style="font-size: 15px"
                       >{{$t('m.ro')}}</div>
                       <!-- begin invoice-content -->
-                      <div class="invoice-content">
+                      <div class="invoice-content card card-body">
                         <!-- begin table-responsive -->
                         <div class="table-responsive">
                           <table class="table table-invoice">
@@ -494,8 +510,8 @@
                             <small>{{$t('m.total1')}}</small>
                             <span
                               class="f-w-600"
-                              style="font-size: 25px !important"
-                            >{{formData.sumPrice}} EUR</span>
+                              style="font-size: 20px !important"
+                            >$ {{formData.sumPrice}}</span>
                           </div>
                         </div>
                         <!-- end invoice-price -->
@@ -569,6 +585,7 @@ import PieChart from "../components/vue-chartjs/PieChart";
 import { FormWizard, TabContent, WizardStep } from "vue-form-wizard";
 import axios from "axios";
 import { constants } from "crypto";
+
 export default {
   components: {
     PieChart,
@@ -604,14 +621,23 @@ export default {
         fileName: ""
       },
       // global variables in this vue file
-      showForm: false,
-      showTable: this.$store.state.insurance_order_labels.length != 1,
+      showForm: this.$store.state.insurance_list == "",
+      noOrder: this.$store.state.insurance_list == "",
       showInstruct: true,
       itemName: "",
       itemPrice: "",
       showOrder: false
     };
   },
+  created() {
+    window.addEventListener("beforeunload", this.handler);
+    if (this.$store.state.insurance_list == "") {
+      this.swalNotification("warning", "");
+      this.$router.push("/baggage/insurance");
+    }
+    this.requestData();
+  },
+  // mounted
   computed: {
     isFormInvalid() {
       return Object.keys(this.fields).some(key => this.fields[key].invalid);
@@ -619,7 +645,7 @@ export default {
     lanChange() {
       return this.$t("m.date_lan") == "en";
     },
-    parameters(){
+    parameters() {
       return [this.$t("m.poid"), this.$t("m.pet"), this.$t("m.pc")];
     },
     pieChart() {
@@ -659,6 +685,10 @@ export default {
     }
   },
   methods: {
+    handler: function handler(event) {
+      alert("refresh");
+      this.requestData();
+    },
     loadDataTable() {
       var order_label = this.$store.state.insurance_order_labels;
       var order_date = this.$store.state.insurance_order_dates;
@@ -666,9 +696,6 @@ export default {
       var table_dict = [];
 
       for (var i = 0; i < order_label.length; i++) {
-        if (order_label[i] == "RM") {
-          break;
-        }
         table_dict.push({
           isActive: true,
           [this.$t("m.poid")]: order_label[i],
@@ -806,9 +833,17 @@ export default {
             this.$router.push("/baggage/register");
           }, 2000)
         );
-      } else {
+      } else if (swalType == "error") {
         this.$swal({
           title: this.$t("m.baggage_f_title"),
+          text: error_msg,
+          timer: 2000,
+          showConfirmButton: false,
+          type: swalType
+        }).then();
+      } else {
+        this.$swal({
+          title: this.$t("m.insurance_w_title"),
           text: error_msg,
           timer: 2000,
           showConfirmButton: false,
@@ -827,7 +862,9 @@ export default {
   margin-bottom: 40px;
 }
 #inforTable {
-  margin: 40px;
+  margin-top: 30px;
+  margin-right: 10px;
+  margin-left: 10px;
 }
 #info {
   background: #edfaa225;
@@ -884,5 +921,12 @@ input:disabled {
 .invoice {
   width: 100% !important;
   margin: 20px;
+}
+
+.noti-chart {
+  margin: 20px !important;
+  font-size: 13px;
+  width: 430px;
+  font-weight: bold;
 }
 </style>

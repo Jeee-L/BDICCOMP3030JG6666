@@ -16,6 +16,16 @@
         </ul>
       </div>
     </div>
+    <div class="card card-default" style="margin: 90px" v-show="no_claim">
+      <div class="d-lg-block password-title card-title text-center">
+        <h5>{{$t('m.empty_claim_title')}}</h5>
+      </div>
+      <div class="card-body">
+       <p>
+         {{$t('m.empty_claim_text')}}
+       </p>
+      </div>
+    </div>
     <div class="profile-content claim-body">
       <div class="tab-content p-0">
         <div class="tab-pane fade show active">
@@ -276,29 +286,34 @@ export default {
   computed: {
     claim_list() {
       return this.$store.getters.claim_list;
+    },
+    no_claim(){
+      return this.$store.getters.claim_list.length == 0;
     }
   },
   created() {
     PageOptions.pageContentFullWidth = true;
+    // this.checkInsurance();
     this.checkClaim();
+    if (this.$store.state.insurance_list == "") {
+      this.swalNotification("warning", "");
+      this.$router.push("/baggage/insurance");
+    } else if (this.$store.state.insurance_order_list == '') {
+      this.swalNotification("warning2", "");
+      this.$router.push("/baggage/register");
+    }
   },
   methods: {
-    checkClaim() {
+    checkInsurance() {
       var requireInfo = {
-        username: this.$store.getters.username
+        username: this.$store.state.username
       };
       var obj = JSON.stringify(requireInfo);
       axios
-        .post("/list_user_all_claim", obj)
+        .post("/list_user_all_insurance_order", obj)
         .then(res => {
           var response = JSON.parse(JSON.stringify(res.data));
-          var claim_list = [];
-          for (var i = 0; i < response.length; i++) {
-            if (response[i].state != "-2") {
-              claim_list[claim_list.length] = response[i];
-            }
-          }
-          this.$store.state.claim_list = claim_list;
+          this.$store.commit("handleInsuranceInfoAll", response);
         })
         .catch(function(error) {
           console.log(error);
@@ -366,6 +381,41 @@ export default {
         this.requestData();
       } else {
         alert(this.$t("m.alpe"));
+      }
+    },
+    swalNotification(swalType, error_msg) {
+      if (swalType == "success") {
+        this.$swal({
+          title: this.$t("m.claim_s_title"),
+          text: this.$t("m.claim_s_text"),
+          timer: 2000,
+          showConfirmButton: false,
+          type: swalType
+        }).then();
+      } else if (swalType == "error") {
+        this.$swal({
+          title: this.$t("m.claim_f_title"),
+          text: error_msg,
+          timer: 2000,
+          showConfirmButton: false,
+          type: swalType
+        }).then();
+      } else if (swalType == "warning1") {
+        this.$swal({
+          title: this.$t("m.insurance_w_title"),
+          text: error_msg,
+          timer: 2000,
+          showConfirmButton: false,
+          type: "warning"
+        }).then();
+      } else {
+        this.$swal({
+          title: this.$t("m.baggage_w_title"),
+          text: error_msg,
+          timer: 2000,
+          showConfirmButton: false,
+          type: "warning"
+        }).then();
       }
     }
   },

@@ -260,7 +260,6 @@ export default {
               this.disabled = true;
               this.timer();
               this.verification_code = res.data;
-              alert(res.data);
             }
           })
           .catch(function(error) {
@@ -316,11 +315,14 @@ export default {
 <style scoped>
 .news-feed {
   background-image: url("../assets/img/register.jpg");
-  width: 40% !important;
+  background-repeat: no-repeat;
+  background-size: auto 100%;
+  /* width: 600px; */
 }
 
 .right-content {
-  width: 60% !important;
+  float: right;
+  width: 500px;
 }
 
 .text-muted {

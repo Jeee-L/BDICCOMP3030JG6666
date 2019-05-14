@@ -7,7 +7,7 @@
           class="image image-icon bg-black text-grey-darker"
           style="width: 80px !important; height: 80px !important"
         >
-          <img class="img-fluid" :src="$store.state.avatar" width="auto" height="80" alt>
+          <img class="img-fluid" :src="$store.state.avatar" width="auto" height="80" alt :onerror="this.default">
         </div>
         <div class="info">
           <b class="caret pull-right"></b>
@@ -28,12 +28,12 @@
             {{$t('m.usep')}}
           </router-link>
         </li>
-        <li>
+        <!-- <li>
           <router-link to="/customer/center">
             <i class="fa fa-question-circle"></i>
             {{$t('m.csc')}}
           </router-link>
-        </li>
+        </li> -->
       </ul>
     </li>
   </ul>
@@ -48,7 +48,8 @@ export default {
   data() {
     return {
       stat: "expand",
-      pageOptions: PageOptions
+      pageOptions: PageOptions,
+      default: 'this.src="' + require('./avatar.jpg') + '"'
     };
   },
   methods: {

@@ -17,9 +17,9 @@ import EmployeeClaim from "../employee/Page-Employee-Claim.vue";
 
 const routes = [
   {path: "/", component: Welcome},
-  { path: "/home", component: Home },
-  { path: "/baggage/home", component: BaggageHome },
-  { path: "/baggage/insurance", component: BaggageOrder },
+  { path: "/home", component: Home},
+  { path: "/baggage/home", component: BaggageHome},
+  { path: "/baggage/insurance", component: BaggageOrder},
   { path: "/baggage/register", component: BaggageRegister },
   { path: "/baggage/claim", component: Claim },
   { path: "/baggage/result", component: ProcessResult },

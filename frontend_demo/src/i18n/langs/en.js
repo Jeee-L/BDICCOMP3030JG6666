@@ -231,7 +231,7 @@ export const m = {
     register2: 'Only insured baggages can get due compensation once lost.',
     pie: 'This pie chart shows the proportions of your previous orders.',
     pie1: 'Please note that the black section marks your balance.',
-    pie2: 'If your newly registered baggage order exceeds the balance,',
+    pie2: 'If the total appraisal of new baggage exceeds the balance,',
     pie3: 'application will be rejected.',
     rbn: 'Register Baggages Now',
     tr: 'Time Remaining',
@@ -520,10 +520,13 @@ export const m = {
 
     avatar_s_title: 'Avatar Updated',
     avatar_f_title: 'Failed to Update Avatar',
-    avatar_f_text: 'Image size limitation is exceeded.',
+    avatar_f_text: 'Image size Limitation is exceeded.',
 
     profile_s_title: 'Personal Information Updated',
     profile_f_title: 'Failed to Update Personal Information',
+
+    insurance_w_title: 'Please Buy Baggage Insurance',
+    baggage_w_title: 'Please Register Baggage',
 
     // Error messages from the backend
     e_user: 'No such user',
@@ -545,4 +548,16 @@ export const m = {
     note_claim: 'New claim orders are waiting for process.',
 
     detail_title: "Registered Baggage Details: ",
+
+    // page titles
+    t_welcome: 'Hibernia-Sino Travel Insurance - Welcome',
+
+    welcome1: 'We can insure baggage in all sizes and types.',
+    welcome2: 'Select an ideal product and start your journey.',
+    welcome22: 'We can claim for lost baggage due to non-personal reasons.',
+    welcome_text: 'Hibernia-Sino Travel Insurance',
+
+    double_passport: "Please enter passport name again for double check.",
+    empty_claim_title: "Empty Claim List Notification",
+    empty_claim_text: "No claim order is identified. Please refer to the Claim Lost Baggage page to initiate claim request. Once new claim order is initiated, processing results will be displayed on this page. Please check respective information as needed.",
 }

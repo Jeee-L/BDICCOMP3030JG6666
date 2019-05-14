@@ -67,7 +67,7 @@
 
       <!-- begin header-nav -->
       <ul class="navbar-nav navbar-right">
-        <li>
+        <!-- <li>
           <form class="navbar-form" v-on:submit="checkForm">
             <div class="form-group">
               <input type="text" class="form-control" :placeholder="$t('m.pek')">
@@ -76,7 +76,7 @@
               </button>
             </div>
           </form>
-        </li>
+        </li> -->
         <li class="dropdown navbar-language" v-if="pageOptions.pageWithLanguageBar">
           <b-dropdown variant="link" menu-class="p-b-0">
             <template slot="button-content">
@@ -326,3 +326,11 @@ export default {
   }
 };
 </script>
+
+<style>
+.navbar-logo{
+  background-image: url("../../assets/img/china-ireland.jpg") !important;
+  background-size: 100% 100%;
+}
+</style>
+

@@ -279,7 +279,9 @@ export default {
         .post("/address_claim/", obj)
         .then(res => {
           var response = JSON.parse(JSON.stringify(res.data));
-          alert(response);
+          if (response.state == '1'){
+            this.updateData();
+          }
         })
         .catch(function(error) {
           console.log(error);
@@ -340,7 +342,7 @@ export default {
             timer = setInterval(() => {
               clearInterval(timer);
               this.retryData();
-            }, 10000);
+            }, 20000);
           } else {
             console.log("Periodlically update failed.");
             return;

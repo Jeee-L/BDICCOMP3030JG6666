@@ -245,7 +245,7 @@ export default {
               }
             }
             this.$store.commit("handleCustomerInfo", response);
-            this.requestData();
+            this.requestInsurance();
 
             // setCookie("user", response, 1000 * 60);
             this.$router.push("/home");
@@ -301,7 +301,6 @@ export default {
             this.disabled = true;
             this.timer();
             this.verification_code = res.data;
-            alert(res.data);
           }
         })
         .catch(function(error) {
@@ -392,5 +391,9 @@ export default {
 
 .is-valid {
   background-color: #f2fff0 !important;
+}
+.logo{
+  background-image: url("../assets/img/china-ireland.jpg") !important;
+  background-size: 100% 100%;
 }
 </style>

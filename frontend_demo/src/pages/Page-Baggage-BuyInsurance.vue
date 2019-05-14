@@ -239,6 +239,7 @@
                           v-model="formData.passport_num"
                         >
                         <span style="color: red !important;">{{ errors.first($t('m.passport')) }}</span>
+                        <small style="color: red" v-if="formData.passport_num == ''"> {{$t('m.double_passport')}}</small>
                       </div>
                     </div>
                     <!-- begin form-group -->
@@ -556,6 +557,7 @@
                       :cancel-title="$t('m.tbn')"
                       cancel-variant="danger"
                       :ok-title="$t('m.tcancel')"
+                      ok-only="true"
                       ok-variant="white"
                       :title="$t('m.tt1')"
                     >
@@ -597,6 +599,7 @@
                       cancel-variant="warning"
                       :ok-title="$t('m.tcancel')"
                       ok-variant="white"
+                      ok-only="true"
                       :title="$t('m.tt2')"
                     >
                       <p>{{$t('m.for')}}</p>
@@ -641,6 +644,7 @@
                       cancel-variant="grey"
                       :ok-title="$t('m.tcancel')"
                       ok-variant="white"
+                      ok-only="true"
                       :title="$t('m.tt3')"
                     >
                       <p>{{$t('m.for')}}</p>
@@ -685,6 +689,7 @@
                       cancel-variant="info"
                       :ok-title="$t('m.tcancel')"
                       ok-variant="white"
+                      ok-only="true"
                       :title="$t('m.tt4')"
                     >
                       <p>{{$t('m.for')}}</p>
@@ -790,6 +795,7 @@ import { FormWizard, TabContent, WizardStep } from "vue-form-wizard";
 import PageOptions from "../config/PageOptions.vue";
 import { en, zh } from "vuejs-datepicker/dist/locale";
 import axios from "axios";
+import { setInterval, setTimeout } from "timers";
 
 export default {
   data() {
@@ -802,7 +808,7 @@ export default {
         email: this.$store.getters.email,
         birthday: this.$store.getters.birthday,
         phone_num: this.$store.getters.phone_num,
-        passport_num: this.$store.getters.passport_num,
+        passport_num: "",
         address: this.$store.getters.address,
         product_id: "",
         project_id: "",
@@ -846,7 +852,7 @@ export default {
       }
 
       if (!this.isFormInvalid && this.formData.project_id != "") {
-        this.$store.commit("handleCustomerInfo", this.formData);
+        this.$store.commit("handleCustomerInfoNoAv", this.formData);
         var obj = JSON.stringify(this.formData);
         axios
           .post("/luggage/order/create", obj)
@@ -855,7 +861,7 @@ export default {
             if (response.state) {
               if (response.state == "1") {
                 this.swalNotification("success", "");
-                this.$store.commit("handleInsurance", response.insurance_id);
+                this.requestInsurance();
               } else {
                 this.swalNotification(
                   "error",

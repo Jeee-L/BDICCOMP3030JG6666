@@ -229,8 +229,8 @@ export const m = {
    register2: '只有投保过的行李遗失后，才能得到应有的赔偿。',
    pie: '这张饼状图显示了您所有订单的比例。',
    pie1: '请注意黑色部分表示您的余额。',
-   pie2: '如果您新登记的行李数量超过余额，',
-   pie3: '申请将被拒绝。',
+   pie2: '若新行李总价超过余额，',
+   pie3: '行李注册申请将被拒绝。',
    rbn: '开始登记行李',
    tr: '剩余时间',
    days: ' 天',
@@ -520,6 +520,12 @@ export const m = {
    avatar_f_title: '更新头像失败',
    avatar_f_text: '图片尺寸超限。',
 
+   profile_s_title: '更新用户信息成功',
+   profile_f_title: '更新用户信息失败',
+
+   insurance_w_title: '请先购买行李保险',
+   baggage_w_title: '请先注册行李',
+
    // Error messages from the backend
    e_user: '没有该用户',
    e_password: '密码错误',
@@ -540,4 +546,8 @@ export const m = {
    note_claim: '新理赔订单等待处理',
 
    detail_title: "注册行李详细信息：",
+
+   double_passport: "请二次输入护照号",
+   empty_claim_title: "空理赔列表提示",
+   empty_claim_text: "您目前没有进入申请流程的理赔订单。请前往申请理赔页发起需求。申请后，理赔进度会及时更新至该页面。敬请查询。",
 }

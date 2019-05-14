@@ -99,7 +99,7 @@
             class="d-block img-fluid w-100"
             width="1024"
             height="480"
-            src="../assets/img/china-land1.jpg"
+            :src="welcome1"
             alt="image slot"
           >
         </b-carousel-slide>
@@ -111,7 +111,7 @@
             class="d-block img-fluid w-100"
             width="1024"
             height="480"
-            src="../assets/img/ireland-land2.jpg"
+            :src="welcome2"
             alt="image slot"
           >
         </b-carousel-slide>
@@ -124,7 +124,7 @@
             class="d-block img-fluid w-100"
             width="1024"
             height="480"
-            src="../assets/img/china-land2.jpg"
+            :src="welcome3"
             alt="image slot"
           >
         </b-carousel-slide>
@@ -148,19 +148,22 @@
                   rounded
                 ></icon>
                 <h2
-                  class="title bg-success text-white"
-                  style="margin-top:50px;padding:10px "
+                  class="title title-bar text-white"
+                  style="margin-top:50px;padding:10px;"
                 >{{$t('m.wwa')}}</h2>
-                <p class="description">{{$t('m.wwa1')}}</p>
+                <p
+                  class="description"
+                  style="margin-top:50px;padding:10px; margin: 30px"
+                >{{$t('m.wwa1')}}</p>
               </div>
             </div>
 
             <div class="col-md-6 order-md-2">
               <img
                 src="../assets/img/china-ireland.jpg"
-                class="d-block img-fluid rounded w-100"
-                width="550px"
-                height="230px"
+                class="img-fluid rounded"
+                width="660px"
+                height="auto"
                 margin-top="80px"
               >
             </div>
@@ -173,7 +176,7 @@
       <div class="section section-team text-center">
         <div class="container-fluid">
           <h2
-            class="title bg-success text-white"
+            class="title title-bar text-white"
             style="margin-top:50px;padding:10px 50px;"
           >{{$t('m.wpu')}}</h2>
           <div class="team">
@@ -181,7 +184,7 @@
               <div class="col-md-4 col-sm-4 col-4">
                 <div class="team-player">
                   <img
-                    style="margin-top:20px; width:130px; height:110px"
+                    style="margin-top:20px; width:120px; height:110px"
                     src="../assets/img/pick1.jpg"
                     alt="Thumbnail Image"
                     class="rounded-circle img-fluid img-raised"
@@ -192,7 +195,7 @@
               <div class="col-md-4 col-sm-4 col-4">
                 <div class="team-player">
                   <img
-                    style="margin-top:20px; width:130px; height:110px"
+                    style="margin-top:20px; width:120px; height:110px"
                     src="../assets/img/pick2.jpg"
                     alt="Thumbnail Image"
                     class="rounded-circle img-fluid img-raised"
@@ -203,7 +206,7 @@
               <div class="col-md-4 col-sm-4 col-4">
                 <div class="team-player">
                   <img
-                    style="margin-top:20px; width:130px; height:110px"
+                    style="margin-top:20px; width:120px; height:110px"
                     src="../assets/img/pick3.jpg"
                     alt="Thumbnail Image"
                     class="rounded-circle img-fluid img-raised"
@@ -224,7 +227,7 @@
           <div class="row justify-content-center text-center mb-lg">
             <div class="col-lg-8">
               <h2
-                class="title bg-success text-white"
+                class="title title-bar text-white"
                 style="margin-top:50px;padding:10px;"
               >{{$t('m.osp')}}</h2>
               <p class="lead text" style="margin-top:20px;">{{$t('m.osp1')}}</p>
@@ -435,7 +438,7 @@
       <div class="col-md-12">
         <div class="m-b-10 f-s-10 m-t-5 text-center">
           <h2
-            class="title bg-success text-white"
+            class="title title-bar text-white"
             style="margin-top:50px;padding:10px"
           >{{$t('m.landscape')}}</h2>
         </div>
@@ -491,8 +494,39 @@ export default {
   name: "Welcome",
   data() {
     return {
-      pageOptions: PageOptions
+      pageOptions: PageOptions,
+
+      welcome1:
+        this.$t("m.date_lan") == "en"
+          ? require("../assets/img/welcome1.jpg")
+          : require("../assets/img/welcome1_cn.jpg"),
+      welcome2:
+        this.$t("m.date_lan") == "en"
+          ? require("../assets/img/welcome2.jpg")
+          : require("../assets/img/welcome2_cn.jpg"),
+      welcome3:
+        this.$t("m.date_lan") == "en"
+          ? require("../assets/img/welcome3.jpeg")
+          : require("../assets/img/welcome3_cn.jpeg")
     };
+  },
+  computed: {
+    lanChange() {
+      return this.$t("m.date_lan") == "en";
+    }
+  },
+  watch: {
+    lanChange() {
+      if (this.lanChange == true) {
+        this.welcome1 = require("../assets/img/welcome1.jpg");
+        this.welcome2 = require("../assets/img/welcome2.jpg");
+        this.welcome3 = require("../assets/img/welcome3.jpeg");
+      } else {
+        this.welcome1 = require("../assets/img/welcome1_cn.jpg");
+        this.welcome2 = require("../assets/img/welcome2_cn.jpg");
+        this.welcome3 = require("../assets/img/welcome3_cn.jpeg");
+      }
+    }
   },
   methods: {
     login() {
@@ -545,6 +579,48 @@ export default {
 
 <style scoped>
 .description {
-  font-size: 20px;
+  font-size: 18px;
+  margin-top: -30px !important; 
+}
+
+.welcome1 {
+  font-size: 1rem;
+  margin-top: -150px !important;
+  margin-left: -400px !important;
+  background-color: rgba(125, 248, 232, 0.219);
+  padding-top: 30px !important;
+  padding-bottom: 30px !important;
+}
+
+.welcome2 {
+  font-size: 1rem;
+  color: rgb(0, 0, 0);
+  margin-top: -500px !important;
+  /* margin-left: 100px !important; */
+  /* background-color: rgba(240, 248, 255, 0.452); */
+  padding-top: 30px !important;
+  padding-bottom: 30px !important;
+}
+
+.welcome-text {
+  margin-left: 600px !important;
+  font-size: 20px !important;
+}
+
+.title-bar {
+  background-color: rgba(134, 230, 218, 0.39);
+  color: rgb(17, 88, 83) !important;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 50px !important;
+  margin-bottom: 50px !important;
+  padding: 20px !important;
+  font-size: 25px;
+  text-align: center;
+}
+
+.navbar-logo{
+  background-image: url("../assets/img/china-ireland.jpg") !important;
+  background-size: 100% 100%;
 }
 </style>

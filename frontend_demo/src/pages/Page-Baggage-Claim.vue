@@ -250,7 +250,15 @@ export default {
     };
   },
   created() {
-    this.checkClaims();
+    this.requestData();
+    this.checkInsurance();
+    if (this.$store.state.insurance_list == "") {
+      this.swalNotification("warning1", "");
+      this.$router.push("/baggage/insurance");
+    } else if (this.$store.state.insurance_order_list == '') {
+      this.swalNotification("warning2", "");
+      this.$router.push("/baggage/register");
+    }
   },
   computed: {
     isFormInvalid() {
@@ -261,7 +269,7 @@ export default {
     }
   },
   methods: {
-    checkClaims() {
+    checkInsurance() {
       var requireInfo = {
         username: this.$store.state.username
       };
@@ -270,7 +278,7 @@ export default {
         .post("/list_user_all_insurance_order", obj)
         .then(res => {
           var response = JSON.parse(JSON.stringify(res.data));
-          this.$store.state.insurance_order_list = response;
+          this.$store.commit("handleInsuranceInfoAll", response);
         })
         .catch(function(error) {
           console.log(error);
@@ -313,7 +321,8 @@ export default {
             if (response.state) {
               if (response.state == "1") {
                 this.swalNotification("success", "");
-                this.checkClaims();
+                this.checkInsurance();
+                this.checkClaim();
               } else {
                 this.swalNotification(
                   "error",
@@ -340,13 +349,29 @@ export default {
           showConfirmButton: false,
           type: swalType
         }).then();
-      } else {
+      } else if (swalType == "error") {
         this.$swal({
           title: this.$t("m.claim_f_title"),
           text: error_msg,
           timer: 2000,
           showConfirmButton: false,
           type: swalType
+        }).then();
+      } else if (swalType == "warning1") {
+        this.$swal({
+          title: this.$t("m.insurance_w_title"),
+          text: error_msg,
+          timer: 2000,
+          showConfirmButton: false,
+          type: "warning"
+        }).then();
+      } else {
+        this.$swal({
+          title: this.$t("m.baggage_w_title"),
+          text: error_msg,
+          timer: 2000,
+          showConfirmButton: false,
+          type: "warning"
         }).then();
       }
     }

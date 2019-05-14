@@ -9255,8 +9255,8 @@ div+.widget-input.widget-input-rounded {
 
 .invoice-price .invoice-price-right {
     width: 25%;
-    background: #2d353c;
-    color: #fff;
+    background: #c8e6ffcb;
+    color: rgb(0, 0, 0);
     font-size: 28px;
     text-align: right;
     vertical-align: bottom;
@@ -10304,7 +10304,7 @@ div+.widget-input.widget-input-rounded {
 .login.login-with-news-feed .news-feed, .register.register-with-news-feed .news-feed {
     position: fixed;
     left: 0;
-    right: 500px;
+    right: 850px;
     top: 0;
     bottom: 0;
     -webkit-transform: translateZ(0);
@@ -10358,7 +10358,7 @@ div+.widget-input.widget-input-rounded {
 
 .login.login-with-news-feed .right-content, .register.register-with-news-feed .right-content {
     float: right;
-    width: 500px
+    width: 850px
 }
 
 .login.login-with-news-feed .login-content, .register.register-with-news-feed .register-content {
@@ -13879,7 +13879,7 @@ a.text-green:focus, a.text-green:hover {
 }
 
 .height-sm {
-    height: 300px!important
+    height: 280px!important
 }
 
 .height-md {
